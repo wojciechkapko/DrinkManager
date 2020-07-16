@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseManagerConsole", "CourseManagerConsole\CourseManagerConsole.csproj", "{F7922A4C-6EBC-4A72-91D8-A9BEE710A832}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinkManagerConsole", "DrinkManagerConsole\DrinkManagerConsole.csproj", "{F7922A4C-6EBC-4A72-91D8-A9BEE710A832}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{14FF32FF-79CF-4ED0-9BB6-0599ACB7FE5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{14FF32FF-79CF-4ED0-9BB6-0599ACB7FE5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
