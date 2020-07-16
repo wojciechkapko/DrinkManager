@@ -11,8 +11,6 @@ namespace BLL
 
         public bool IsAlcoholic { get; set; }
 
-        public string GlassType { get; set; }
-
         public string Instructions { get; set; }
         public List<Ingredient> Ingredients { get; set; }
     }

@@ -1,21 +1,23 @@
 ﻿using System;
-using BLL.Enums;
+using System.Collections.Generic;
+using BLL;
 
-namespace CourseManagerConsole
+namespace DrinkManagerConsole
 {
     internal static class Utility
     {
-        public static bool GetPaidInfo()
+        public static bool GetAlcoholicInfo()
         {
-            Console.WriteLine("Is this a paid course?: ");
+            Console.WriteLine();
+            Console.WriteLine("Is this an Alcoholic drink?: ");
             Console.WriteLine();
             Console.WriteLine("1. Yes");
             Console.WriteLine("2. No");
 
-            return GetPaidInfoChoice();
+            return GetAlcoholicInfoChoice();
         }
 
-        private static bool GetPaidInfoChoice()
+        private static bool GetAlcoholicInfoChoice()
         {
             var choice = new ConsoleKeyInfo();
 
@@ -39,66 +41,41 @@ namespace CourseManagerConsole
             return false;
         }
 
-        public static TimeSpan GetCourseDuration(string courseDurationHhMmSs)
-        {
-            string value;
-            TimeSpan time;
-
-            Console.WriteLine("\nEnter course duration [hh:mm:ss]\n");
-            do
-            {
-                value = Console.ReadLine();
-            } while (!ValidateTimeValue(value, out time));
-
-            return time;
-        }
-
-        private static bool ValidateTimeValue(string value, out TimeSpan time)
-        {
-            var values = value.Split(':');
-            var convertedValues = new int[3];
-
-            if (values.Length != 3)
-            {
-                Console.WriteLine("\nFormat error, all 3 values are required [hh:mm:ss], try again...\n");
-                time = new TimeSpan();
-                return false;
-            }
-
-            for (var i = 0; i < 3; i++)
-            {
-                if (!int.TryParse(values[i], out convertedValues[i]) || convertedValues[i] < 0)
-                {
-                    Console.WriteLine("\nValue error, one of the values provided was not a positive integer number [hh:mm:ss], try again...\n");
-                    time = new TimeSpan();
-                    return false;
-                }
-            }
-
-            time = new TimeSpan(convertedValues[0], convertedValues[1], convertedValues[2]);
-            return true;
-        }
-
-        public static Level GetDifficulty()
-        {
-            Console.WriteLine("Choose course difficulty level:");
-            Console.WriteLine();
-            Console.WriteLine("1. Beginner");
-            Console.WriteLine("2. Intermediate");
-            Console.WriteLine("3. Advanced");
-            Console.WriteLine();
-
-            return (Level)int.Parse(Console.ReadKey(true).KeyChar.ToString());
-        }
-
         public static string GetGenericData(string message = null)
         {
             if (message != null)
             {
+                Console.WriteLine();
                 Console.Write(message);
             }
 
             return Console.ReadLine();
+        }
+
+        public static List<Ingredient> GetIngredients()
+        {
+            var ingredients = new List<Ingredient>();
+
+            Console.WriteLine();
+            Console.Write("Number of ingredients: ");
+            var numberOfIngredients = Convert.ToInt32(Console.ReadLine());
+
+            for (int i = 0; i < numberOfIngredients; i++)
+            {
+                Console.WriteLine();
+                Console.Write("Name: ");
+                var name = Console.ReadLine();
+                Console.Write("Amount: ");
+                var amount = Console.ReadLine();
+
+                ingredients.Add(new Ingredient()
+                {
+                    Name = name,
+                    Amount = amount
+                });
+            }
+
+            return ingredients;
         }
     }
 }
