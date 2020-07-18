@@ -8,8 +8,6 @@ namespace DrinkManagerConsole
     {
         private static void Main(string[] args)
         {
-            var drinkManager = new DrinkManager();
-            drinkManager.Run();
         }
     }
 }
