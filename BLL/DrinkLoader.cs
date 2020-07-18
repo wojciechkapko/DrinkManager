@@ -17,6 +17,7 @@ namespace BLL
         public void AddDrinksFromFile(string path = null)
         {
             var newDrinks = new List<Drink>();
+
             try
             {
                 newDrinks = LoadFromFile(path);
@@ -43,14 +44,20 @@ namespace BLL
         {
             if (path == null)
             {
-                Console.WriteLine("Please provide full path to the file with new drinks");
-                path = Console.ReadLine();
+                path = GetPath();
             }
 
             var drinksString = File.ReadAllText(path);
             var newDrinks = JsonConvert.DeserializeObject<List<Drink>>(drinksString);
 
             return newDrinks;
+        }
+
+        private static string GetPath()
+        {
+            Console.WriteLine("Please provide full path to the file with new drinks");
+            var path = Console.ReadLine();
+            return path;
         }
     }
 }
