@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace BLL
 {
     public class Drink
     {
+        private List<Ingredient> _ingredients;
+
         [JsonProperty("idDrink")]
         public string Id { get; set; }
 
@@ -16,7 +17,7 @@ namespace BLL
         public string Category { get; set; }
 
         [JsonProperty("strAlcoholic")]
-        public string AlcoholicAsString { get; set; }
+        public string AlcoholicInfo { get; set; }
 
         [JsonProperty("strGlass")]
         public string GlassType { get; set; }
@@ -88,68 +89,68 @@ namespace BLL
         {
             get
             {
-                return new List<Ingredient>
+                if (_ingredients == null)
                 {
-                    new Ingredient
+                    return new List<Ingredient>
                     {
-                        Name = IngredientName1,
-                        Amount = IngredientMeasure1
-                    },
-                    new Ingredient
-                    {
-                    Name = IngredientName2,
-                    Amount = IngredientMeasure2
-                    },
-                    new Ingredient
-                    {
-                        Name = IngredientName3,
-                        Amount = IngredientMeasure3
-                    },
-                    new Ingredient
-                    {
-                        Name = IngredientName4,
-                        Amount = IngredientMeasure4
-                    },
-                    new Ingredient
-                    {
-                        Name = IngredientName5,
-                        Amount = IngredientMeasure5
-                    },
-                    new Ingredient
-                    {
-                        Name = IngredientName6,
-                        Amount = IngredientMeasure6
-                    },
-                    new Ingredient
-                    {
-                        Name = IngredientName7,
-                        Amount = IngredientMeasure7
-                    },
-                    new Ingredient
-                    {
-                        Name = IngredientName8,
-                        Amount = IngredientMeasure8
-                    },
-                    new Ingredient
-                    {
-                        Name = IngredientName9,
-                        Amount = IngredientMeasure9
-                    },
-                    new Ingredient
-                    {
-                        Name = IngredientName10,
-                        Amount = IngredientMeasure10
-                    }
-                };
+                        new Ingredient
+                        {
+                            Name = IngredientName1,
+                            Amount = IngredientMeasure1
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName2,
+                            Amount = IngredientMeasure2
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName3,
+                            Amount = IngredientMeasure3
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName4,
+                            Amount = IngredientMeasure4
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName5,
+                            Amount = IngredientMeasure5
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName6,
+                            Amount = IngredientMeasure6
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName7,
+                            Amount = IngredientMeasure7
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName8,
+                            Amount = IngredientMeasure8
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName9,
+                            Amount = IngredientMeasure9
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName10,
+                            Amount = IngredientMeasure10
+                        }
+                    };
+                }
+                else
+                {
+                    return _ingredients;
+                }
             }
-        }
-
-        public bool IsAlcoholic
-        {
-            get
-            {
-                return AlcoholicAsString.ToLower().Equals("alcoholic") ? true : false;
-            }
+            set => _ingredients = value;
         }
     }
 }
