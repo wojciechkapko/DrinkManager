@@ -6,4 +6,8 @@
     <AssemblyName>DrinkManagerConsole</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj" />
+  </ItemGroup>
+
 </Project>

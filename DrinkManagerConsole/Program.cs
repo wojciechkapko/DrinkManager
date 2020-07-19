@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using BLL;
 
 namespace DrinkManagerConsole
 {
@@ -6,7 +8,6 @@ namespace DrinkManagerConsole
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
         }
     }
 }
