@@ -6,4 +6,18 @@
     <AssemblyName>DrinkManagerConsole</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="drinks_source.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="drinks_source.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj" />
+  </ItemGroup>
+
 </Project>
