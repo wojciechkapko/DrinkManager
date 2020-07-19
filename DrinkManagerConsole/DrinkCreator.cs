@@ -25,7 +25,7 @@ namespace DrinkManagerConsole
             return new Drink()
             {
                 Name = Utility.GetGenericData("Drink name: "),
-                IsAlcoholic = Utility.GetAlcoholicInfo(),
+                AlcoholicInfo = Utility.GetAlcoholicInfo(),
                 Category = Utility.GetGenericData("Category name: "),
                 Ingredients = Utility.GetIngredients(),
                 Instructions = Utility.GetGenericData("Instructions: ")

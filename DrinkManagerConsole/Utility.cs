@@ -6,18 +6,19 @@ namespace DrinkManagerConsole
 {
     internal static class Utility
     {
-        public static bool GetAlcoholicInfo()
+        public static string GetAlcoholicInfo()
         {
             Console.WriteLine();
             Console.WriteLine("Is this an Alcoholic drink?: ");
             Console.WriteLine();
-            Console.WriteLine("1. Yes");
-            Console.WriteLine("2. No");
+            Console.WriteLine("1. Alcoholic");
+            Console.WriteLine("2. Non Alcoholic");
+            Console.WriteLine("3. Optional Alcoholic");
 
             return GetAlcoholicInfoChoice();
         }
 
-        private static bool GetAlcoholicInfoChoice()
+        private static string GetAlcoholicInfoChoice()
         {
             var choice = new ConsoleKeyInfo();
 
@@ -27,10 +28,13 @@ namespace DrinkManagerConsole
                 switch (choice.Key)
                 {
                     case ConsoleKey.D1:
-                        return true;
+                        return "Alcoholic";
 
                     case ConsoleKey.D2:
-                        return false;
+                        return "Non alcoholic";
+
+                    case ConsoleKey.D3:
+                        return "Optional alcohol";
 
                     default:
                         Console.WriteLine("\nUnsupported input, try again...\n");
@@ -38,7 +42,7 @@ namespace DrinkManagerConsole
                 }
             } while (choice.Key != ConsoleKey.D1 || choice.Key != ConsoleKey.D2);
 
-            return false;
+            return "";
         }
 
         public static string GetGenericData(string message = null)
