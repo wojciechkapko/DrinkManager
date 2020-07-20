@@ -6,21 +6,18 @@ using Newtonsoft.Json.Linq;
 
 namespace BLL
 {
-    public class DrinkLoader
+    public static class DrinkLoader
     {
-        private List<Drink> _drinks;
-
-        public DrinkLoader(List<Drink> drinks)
+        public static List<Drink> AddDrinksFromFile(List<Drink> drinks = null)
         {
-            _drinks = drinks;
-        }
+            List<Drink> newDrinks;
+            string path;
 
-        public void AddDrinksFromFile()
-        {
-            var newDrinks = new List<Drink>();
-            var path = Environment.CurrentDirectory + "/" + "drinks_source.json";
-
-            if (File.Exists(path) == false)
+            if (drinks == null)
+            {
+                path = Environment.CurrentDirectory + "/" + "drinks_source.json";
+            }
+            else
             {
                 path = GetPath();
             }
@@ -31,23 +28,22 @@ namespace BLL
             }
             catch (Exception e)
             {
-                Console.WriteLine();
-                Console.WriteLine(e.Message);
-                Console.WriteLine();
-                return;
+                Console.WriteLine($"\n{e.Message}\n");
+                return null;
             }
 
-            if (_drinks != null)
+            if (drinks == null)
             {
-                _drinks.AddRange(newDrinks);
+                return newDrinks;
             }
             else
             {
-                _drinks = newDrinks;
+                drinks.AddRange(newDrinks);
+                return drinks;
             }
         }
 
-        private List<Drink> LoadFromFile(string path)
+        private static List<Drink> LoadFromFile(string path)
         {
             var drinksString = File.ReadAllText(path);
             var jo = JObject.Parse(drinksString);
