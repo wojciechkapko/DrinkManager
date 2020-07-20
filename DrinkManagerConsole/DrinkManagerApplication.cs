@@ -1,10 +1,8 @@
-﻿using System;
+﻿using BLL;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using BLL;
-using Newtonsoft.Json;
-
 
 namespace DrinkManagerConsole
 {
@@ -47,6 +45,18 @@ namespace DrinkManagerConsole
         private string GetCurrentDirectoryPath()
         {
             return Directory.GetCurrentDirectory() + "\\drinks_source.json";
+        }
+
+        internal void Start()
+        {
+            bool isAppRunning = true;
+            do
+            {
+                // Menu();
+                // Other
+                var searchDrinkByName = new SearchDrinkByName(drinksListGlobal);
+
+            } while (isAppRunning);
         }
     }
 }

@@ -6,15 +6,11 @@ namespace DrinkManagerConsole
     {
         private static void Main(string[] args)
         {
-            //test code block - to be deleted
-            var drinkManagerApplication = new DrinkManagerApplication();
-            drinkManagerApplication.Start();
-            
-            var search = new SearchDrinkByName();
-            search.SearchByName();
+            var drinkManagerApplication = new DrinkManagerApplication(); // parameter-less constructor loads drinks data from file to internal variable: drinksListGlobal
+            drinkManagerApplication.Start();  // start of application
+           
             Console.WriteLine("Press anu key.");
             Console.ReadKey();
-            //end of test code block
         }
     }
 }

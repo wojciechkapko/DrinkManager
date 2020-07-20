@@ -1,19 +1,17 @@
 ﻿using BLL;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace DrinkManagerConsole
 {
     internal class SearchDrinkByName
     {
-        //private readonly List<Drink> drinksList;
+        private readonly List<Drink> drinksListToSearch;
 
-        //public SearchDrinkByName()
-        //{
-        //    drinksList = LoadFromFile();
-        //}
+        public SearchDrinkByName(List<Drink> drinksList)
+        {
+            drinksListToSearch = drinksList;
+        }
 
         internal void SearchByName()
         {
@@ -29,7 +27,7 @@ namespace DrinkManagerConsole
                 textToSearch = Console.ReadLine();
             } while (textToSearch == null);
 
-            foreach (var drink in drinksList)
+            foreach (var drink in drinksListToSearch)
             {
                 if (drink.Name.ToLower().Contains(textToSearch.ToLower()))
                 {
@@ -54,7 +52,5 @@ namespace DrinkManagerConsole
                 Console.WriteLine("No matching drinks in our database.");
             }
         }
-
-        
     }
 }
