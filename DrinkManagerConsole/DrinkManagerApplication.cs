@@ -19,7 +19,7 @@ namespace DrinkManagerConsole
         {
             if (path == null)
             {
-                path = GetCurrentDirectoryPath();
+                path = Directory.GetCurrentDirectory() + "\\drinks_source.json";
             }
 
             string drinksString = null;
@@ -40,11 +40,6 @@ namespace DrinkManagerConsole
             } while (!isFileRead);
 
             return JsonConvert.DeserializeObject<List<Drink>>(drinksString);
-        }
-
-        private string GetCurrentDirectoryPath()
-        {
-            return Directory.GetCurrentDirectory() + "\\drinks_source.json";
         }
 
         public void Start()
