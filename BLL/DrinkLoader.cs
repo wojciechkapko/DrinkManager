@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace BLL
 {
@@ -14,9 +15,15 @@ namespace BLL
             _drinks = drinks;
         }
 
-        public void AddDrinksFromFile(string path = null)
+        public void AddDrinksFromFile()
         {
             var newDrinks = new List<Drink>();
+            var path = Environment.CurrentDirectory + "/" + "drinks_source.json";
+
+            if (File.Exists(path) == false)
+            {
+                path = GetPath();
+            }
 
             try
             {
@@ -40,15 +47,11 @@ namespace BLL
             }
         }
 
-        private List<Drink> LoadFromFile(string path = null)
+        private List<Drink> LoadFromFile(string path)
         {
-            if (path == null)
-            {
-                path = GetPath();
-            }
-
             var drinksString = File.ReadAllText(path);
-            var newDrinks = JsonConvert.DeserializeObject<List<Drink>>(drinksString);
+            var jo = JObject.Parse(drinksString);
+            var newDrinks = jo.SelectToken("drinks", false).ToObject<List<Drink>>();
 
             return newDrinks;
         }
