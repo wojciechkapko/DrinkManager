@@ -55,7 +55,13 @@ namespace DrinkManagerConsole
                 // Menu();
                 // Other
                 var searchDrinkByName = new SearchDrinkByName(drinksListGlobal);
+                searchDrinkByName.SearchByName();
 
+                Console.Write("Continue (y/n)? ");
+                if (Console.ReadLine().ToLower() == "n")
+                {
+                    isAppRunning = false;
+                }
             } while (isAppRunning);
         }
     }
