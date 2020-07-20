@@ -6,13 +6,13 @@ using System.IO;
 
 namespace DrinkManagerConsole
 {
-    internal class DrinkManagerApplication
+    public class DrinkManagerApplication
     {
-        internal readonly List<Drink> drinksListGlobal;
+        public readonly List<Drink> DrinksListGlobal;
 
         public DrinkManagerApplication()
         {
-            drinksListGlobal = LoadFromFile();
+            DrinksListGlobal = LoadFromFile();
         }
 
         private List<Drink> LoadFromFile(string path = null)
@@ -47,14 +47,14 @@ namespace DrinkManagerConsole
             return Directory.GetCurrentDirectory() + "\\drinks_source.json";
         }
 
-        internal void Start()
+        public void Start()
         {
             bool isAppRunning = true;
             do
             {
                 // Menu();
                 // Other
-                var searchDrinkByName = new SearchDrinkByName(drinksListGlobal);
+                var searchDrinkByName = new SearchDrinkByName(DrinksListGlobal);
                 searchDrinkByName.SearchByName();
 
                 Console.Write("Continue (y/n)? ");
