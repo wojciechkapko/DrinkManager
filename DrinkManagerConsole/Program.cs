@@ -7,6 +7,9 @@ namespace DrinkManagerConsole
         private static void Main(string[] args)
         {
             //test code block - to be deleted
+            var drinkManagerApplication = new DrinkManagerApplication();
+            drinkManagerApplication.Start();
+            
             var search = new SearchDrinkByName();
             search.SearchByName();
             Console.WriteLine("Press anu key.");

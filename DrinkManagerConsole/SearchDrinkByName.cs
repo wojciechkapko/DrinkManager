@@ -8,12 +8,12 @@ namespace DrinkManagerConsole
 {
     internal class SearchDrinkByName
     {
-        private readonly List<Drink> drinksList;
+        //private readonly List<Drink> drinksList;
 
-        public SearchDrinkByName()
-        {
-            drinksList = LoadFromFile();
-        }
+        //public SearchDrinkByName()
+        //{
+        //    drinksList = LoadFromFile();
+        //}
 
         internal void SearchByName()
         {
@@ -55,36 +55,6 @@ namespace DrinkManagerConsole
             }
         }
 
-        private List<Drink> LoadFromFile(string path = null)
-        {
-            if (path == null)
-            {
-                path = GetCurrentDirectoryPath();
-            }
-
-            string drinksString = null;
-            var isFileRead = false;
-
-            do
-            {
-                try
-                {
-                    drinksString = File.ReadAllText(path);
-                    isFileRead = true;
-                }
-                catch (FileNotFoundException)
-                {
-                    Console.WriteLine("Drinks list was not found in default location. Please provide correct path to the file: ");
-                    path = Console.ReadLine();
-                }
-            } while (!isFileRead);
-
-            return JsonConvert.DeserializeObject<List<Drink>>(drinksString);
-        }
-
-        private string GetCurrentDirectoryPath()
-        {
-            return Directory.GetCurrentDirectory() + "\\drinks_source.json";
-        }
+        
     }
 }
