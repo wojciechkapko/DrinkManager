@@ -24,22 +24,29 @@ namespace DrinkManagerConsole
 
             string drinksString = null;
             var isFileRead = false;
+            List<Drink> drinksListDeserialized = null;
 
             do
             {
                 try
                 {
                     drinksString = File.ReadAllText(path);
+                    drinksListDeserialized = JsonConvert.DeserializeObject<List<Drink>>(drinksString);
                     isFileRead = true;
                 }
                 catch (FileNotFoundException)
                 {
-                    Console.WriteLine("Drinks list was not found in default location. Please provide correct path to the file: ");
+                    Console.WriteLine(
+                        "Drinks list was not found in default location. Please provide correct path to the file: ");
                     path = Console.ReadLine();
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Problem with input file - please check if the input data file in the application main directory is not corrupted.");
                 }
             } while (!isFileRead);
 
-            return JsonConvert.DeserializeObject<List<Drink>>(drinksString);
+            return drinksListDeserialized;
         }
 
         public void Start()
