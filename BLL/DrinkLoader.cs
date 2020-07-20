@@ -24,9 +24,7 @@ namespace BLL
             }
             catch (Exception e)
             {
-                Console.WriteLine();
-                Console.WriteLine(e.Message);
-                Console.WriteLine();
+                Console.WriteLine($"\n{e.Message}\n");
                 return;
             }
 
