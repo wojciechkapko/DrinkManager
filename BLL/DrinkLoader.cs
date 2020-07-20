@@ -16,7 +16,7 @@ namespace BLL
 
         public void AddDrinksFromFile(string path = null)
         {
-            var newDrinks = new List<Drink>();
+            List<Drink> newDrinks;
 
             try
             {
