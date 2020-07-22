@@ -6,57 +6,41 @@ using Newtonsoft.Json.Linq;
 
 namespace BLL
 {
-    public static class DrinkLoader
+    public class DrinkLoader
     {
-        public static List<Drink> AddDrinksFromFile(List<Drink> drinks = null)
+        public List<Drink> InitializeDrinksFromFile()
         {
-            List<Drink> newDrinks;
-            string path;
-
-            if (drinks == null)
-            {
-                path = Environment.CurrentDirectory + "/" + "drinks_source.json";
-            }
-            else
-            {
-                path = GetPath();
-            }
-
-            try
-            {
-                newDrinks = LoadFromFile(path);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"\n{e.Message}\n");
-                return null;
-            }
-
-            if (drinks == null)
-            {
-                return newDrinks;
-            }
-            else
-            {
-                drinks.AddRange(newDrinks);
-                return drinks;
-            }
-        }
-
-        private static List<Drink> LoadFromFile(string path)
-        {
-            var drinksString = File.ReadAllText(path);
-            var jo = JObject.Parse(drinksString);
-            var newDrinks = jo.SelectToken("drinks", false).ToObject<List<Drink>>();
+            var path = Environment.CurrentDirectory + "/" + "drinks_source.json";
+            var newDrinks = LoadFromFile(path);
 
             return newDrinks;
         }
 
-        private static string GetPath()
+        public void AddDrinksFromFile(List<Drink> currentDrinks, string path)
         {
-            Console.WriteLine("Please provide full path to the file with new drinks");
-            var path = Console.ReadLine();
-            return path;
+            var newDrinks = LoadFromFile(path);
+            if (newDrinks != null)
+            {
+                currentDrinks.AddRange(newDrinks);
+            }
+        }
+
+        private List<Drink> LoadFromFile(string path)
+        {
+            List<Drink> newDrinks;
+            try
+            {
+                var drinksString = File.ReadAllText(path);
+                var jo = JObject.Parse(drinksString);
+                newDrinks = jo.SelectToken("drinks", false).ToObject<List<Drink>>();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"\nOperation failed, path was incorrect\n");
+                return null;
+            }
+
+            return newDrinks;
         }
     }
 }
