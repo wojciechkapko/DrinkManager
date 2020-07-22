@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace DrinkManagerConsole
 {
-    internal class SearchDrinkByName
+    public class SearchDrinkByName
     {
-        private readonly List<Drink> drinksListToSearch;
+        private readonly List<Drink> DrinksListToSearch;
 
         public SearchDrinkByName(List<Drink> drinksList)
         {
-            drinksListToSearch = drinksList;
+            DrinksListToSearch = drinksList;
         }
 
         internal void SearchByName()
@@ -27,7 +27,7 @@ namespace DrinkManagerConsole
                 textToSearch = Console.ReadLine();
             } while (textToSearch == null);
 
-            foreach (var drink in drinksListToSearch)
+            foreach (var drink in DrinksListToSearch)
             {
                 if (drink.Name.ToLower().Contains(textToSearch.ToLower()))
                 {
