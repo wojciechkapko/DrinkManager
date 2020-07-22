@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json.Linq;
 
 namespace BLL
 {
@@ -11,9 +10,9 @@ namespace BLL
         public List<Drink> InitializeDrinksFromFile()
         {
             var path = Environment.CurrentDirectory + "/" + "drinks_source.json";
-            var newDrinks = LoadFromFile(path);
+            var drinks = LoadFromFile(path);
 
-            return newDrinks;
+            return drinks;
         }
 
         public void AddDrinksFromFile(List<Drink> currentDrinks, string path)
