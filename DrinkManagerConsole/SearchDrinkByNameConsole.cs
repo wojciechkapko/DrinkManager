@@ -12,8 +12,8 @@ namespace DrinkManagerConsole
             do
             {
                 Console.Clear();
-                Console.WriteLine("\nSearch drink by name");
-                Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("\nSearch drink by name\n".ToUpper());
+                Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
 
                 // Text to search and reference to Drinks List passed into Search method - returns list
                 var drinksFound = SearchDrinkByName.SearchByName(Utility.GetGenericData("Enter a drink name to find: "), drinksList);
@@ -27,18 +27,21 @@ namespace DrinkManagerConsole
                     foreach (var drink in drinksFound)
                     {
                         Console.WriteLine("\n------------------------------------------------------------------------------------------------------------------");
-                        Console.WriteLine($"Name: {drink.Name}");
-                        Console.WriteLine($"Is alcoholic: {drink.AlcoholicInfo}");
-                        Console.WriteLine($"Category: {drink.Category}");
-                        Console.WriteLine($"Glass type: {drink.GlassType}");
-                        Console.WriteLine("Ingredients: ");
+                        Console.WriteLine("Name:".PadRight(20) + drink.Name.PadRight(20) + drink.AlcoholicInfo);
+                        Console.WriteLine("Category:".PadRight(20) + drink.Category);
+                        Console.WriteLine("Glass type:".PadRight(20) + drink.GlassType);
+                        Console.WriteLine("\nIngredients: ");
                         foreach (var ingredient in drink.Ingredients)
                         {
-                            if (ingredient.Name == null) continue;
-                            Console.WriteLine($"{ingredient.Name} : {ingredient.Amount}");
+                            if (ingredient.Name == null)
+                            {
+                                continue;
+                            }
+                            Console.WriteLine(ingredient.Name.PadRight(20) + ingredient.Amount);
                         }
-                        Console.WriteLine($"Instructions: {drink.Instructions}");
+                        Console.WriteLine($"\nInstructions:\n{drink.Instructions}");
                     }
+                    Console.WriteLine("------------------------------------------------------------------------------------------------------------------");
                 }
                 
                 Console.Write("\nContinue search (y/n)? ");

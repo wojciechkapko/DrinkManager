@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BLL
 {
@@ -10,7 +11,7 @@ namespace BLL
 
             foreach (var drink in drinksListToSearch)
             {
-                if (drink.Name.ToLower().Contains(textToSearch.ToLower()))
+                if (drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase))
                 {
                     drinksFound.Add(drink);
                 }
