@@ -20,7 +20,7 @@ namespace DrinkManagerConsole
 
                 if (drinksFound.Count == 0)
                 {
-                    Console.WriteLine("No matching drinks in our database.");
+                    Console.WriteLine("\nNo matching drinks in our database.");
                 }
                 else
                 {

@@ -7,7 +7,7 @@ namespace DrinkManagerConsole
     {
         private static void Main()
         {
-            // initial loading drinks list from file into static variable in Drink Loader class
+            // initial loading drinks list from file into static variable in DrinkLoader class
             DrinkLoader.AddDrinksFromFile();
 
             // temporary app logic - to be changed when all features are ready 
