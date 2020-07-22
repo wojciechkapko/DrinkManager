@@ -1,55 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BLL
 {
     public class SearchDrinkByName
     {
-        private readonly List<Drink> DrinksListToSearch;
+        private readonly List<Drink> _drinksListToSearch;
 
         public SearchDrinkByName(List<Drink> drinksList)
         {
-            DrinksListToSearch = drinksList;
+            _drinksListToSearch = drinksList;
         }
 
-        public void SearchByName()
+        public List<Drink> SearchByName(string textToSearch)
         {
-            Console.Clear();
-            Console.WriteLine("\nSearch drink by name");
-            Console.WriteLine("-------------------------------");
-            Console.Write("Enter a drink name to find: ");
+            var drinksFound = new List<Drink>();
 
-            int numberOfDrinksFound = 0;
-            string textToSearch;
-            do
-            {
-                textToSearch = Console.ReadLine();
-            } while (textToSearch == null);
-
-            foreach (var drink in DrinksListToSearch)
+            foreach (var drink in _drinksListToSearch)
             {
                 if (drink.Name.ToLower().Contains(textToSearch.ToLower()))
                 {
-                    Console.WriteLine("\n---------------------------------------------------------------------------------");
-                    Console.WriteLine($"Name: {drink.Name}");
-                    Console.WriteLine($"Is alcoholic: {drink.AlcoholicInfo}");
-                    Console.WriteLine($"Category: {drink.Category}");
-                    Console.WriteLine($"Glass type: {drink.GlassType}");
-                    Console.WriteLine($"Ingredients: ");
-                    foreach (var ingredient in drink.Ingredients)
-                    {
-                        if (ingredient.Name == null) continue;
-                        Console.WriteLine($"{ingredient.Name} : {ingredient.Amount}");
-                    }
-                    Console.WriteLine($"Instructions: {drink.Instructions}");
-                    numberOfDrinksFound++;
+                    drinksFound.Add(drink);
                 }
             }
 
-            if (numberOfDrinksFound == 0)
-            {
-                Console.WriteLine("No matching drinks in our database.");
-            }
+            return drinksFound;
         }
     }
 }
