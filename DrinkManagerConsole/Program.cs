@@ -7,11 +7,11 @@ namespace DrinkManagerConsole
     {
         private static void Main()
         {
-            // initial loading drinks list from file into static variable in DrinkLoader class
-            DrinkLoader.AddDrinksFromFile();
+            // initial loading drinks list from file
+            var drinksListGlobal = DrinkLoader.AddDrinksFromFile();
 
             // temporary app logic - to be changed when all features are ready 
-            SearchDrinkByNameConsole.StartSearch();
+            SearchDrinkByNameConsole.StartSearch(drinksListGlobal);
 
             Console.WriteLine("Press anu key.");
             Console.ReadKey();

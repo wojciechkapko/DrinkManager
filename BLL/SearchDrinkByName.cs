@@ -2,20 +2,13 @@
 
 namespace BLL
 {
-    public class SearchDrinkByName
+    public static class SearchDrinkByName
     {
-        private readonly List<Drink> _drinksListToSearch;
-
-        public SearchDrinkByName(List<Drink> drinksList)
-        {
-            _drinksListToSearch = drinksList;
-        }
-
-        public List<Drink> SearchByName(string textToSearch)
+        public static List<Drink> SearchByName(string textToSearch, List<Drink> drinksListToSearch)
         {
             var drinksFound = new List<Drink>();
 
-            foreach (var drink in _drinksListToSearch)
+            foreach (var drink in drinksListToSearch)
             {
                 if (drink.Name.ToLower().Contains(textToSearch.ToLower()))
                 {
