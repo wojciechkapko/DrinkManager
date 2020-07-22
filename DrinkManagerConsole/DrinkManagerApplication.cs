@@ -17,20 +17,6 @@ namespace DrinkManagerConsole
 
         public void Start()
         {
-            bool isAppRunning = true;
-            do
-            {
-                // Menu();
-                // Other
-                var searchDrinkByName = new SearchDrinkByName(DrinksListGlobal);
-                searchDrinkByName.SearchByName();
-
-                Console.Write("Continue (y/n)? ");
-                if (Console.ReadLine().ToLower() == "n")
-                {
-                    isAppRunning = false;
-                }
-            } while (isAppRunning);
         }
     }
 }

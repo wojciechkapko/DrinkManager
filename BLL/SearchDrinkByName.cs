@@ -1,8 +1,7 @@
-﻿using BLL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace DrinkManagerConsole
+namespace BLL
 {
     public class SearchDrinkByName
     {
@@ -13,7 +12,7 @@ namespace DrinkManagerConsole
             DrinksListToSearch = drinksList;
         }
 
-        internal void SearchByName()
+        public void SearchByName()
         {
             Console.Clear();
             Console.WriteLine("\nSearch drink by name");

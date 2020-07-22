@@ -1,14 +1,33 @@
-﻿using System;
+﻿using BLL;
+using System;
 
 namespace DrinkManagerConsole
 {
-    internal class Program
+    public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
-            var drinkManagerApplication = new DrinkManagerApplication(); // parameter-less constructor loads drinks data from file to internal variable: drinksListGlobal
-            drinkManagerApplication.Start();  // start of application
-           
+            // initial loading drinks list from file into static variable in Drink Loader class
+            DrinkLoader.AddDrinksFromFile();
+
+            // temporary app logic - to be changed when all features are ready 
+            bool isAppRunning = true;
+            do
+            {
+                // Menu();
+                // Other
+
+                // Reference to Drinks List passed into Search class
+                var searchDrinkByName = new SearchDrinkByName(DrinkLoader.AddDrinksFromFile());
+                searchDrinkByName.SearchByName();
+
+                Console.Write("Continue (y/n)? ");
+                if (Console.ReadLine().ToLower() == "n")
+                {
+                    isAppRunning = false;
+                }
+            } while (isAppRunning);
+
             Console.WriteLine("Press anu key.");
             Console.ReadKey();
         }
