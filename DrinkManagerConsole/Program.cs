@@ -13,7 +13,7 @@ namespace DrinkManagerConsole
             // temporary app logic - to be changed when all features are ready 
             SearchDrinkByNameConsole.StartSearch(drinksListGlobal);
 
-            Console.WriteLine("Press anu key.");
+            Console.WriteLine("Press any key.");
             Console.ReadKey();
         }
     }

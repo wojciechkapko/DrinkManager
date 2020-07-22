@@ -15,7 +15,7 @@ namespace DrinkManagerConsole
                 Console.WriteLine("\nSearch drink by name");
                 Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
 
-                // Text to search and reference to Drinks List passed into Search method
+                // Text to search and reference to Drinks List passed into Search method - returns list
                 var drinksFound = SearchDrinkByName.SearchByName(Utility.GetGenericData("Enter a drink name to find: "), drinksList);
 
                 if (drinksFound.Count == 0)
