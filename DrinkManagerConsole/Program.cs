@@ -13,15 +13,12 @@ namespace DrinkManagerConsole
 
             // temporary app logic - to be changed when all features are ready
             Console.Write("Search by name or ingredient (n/i)? ");
-            if (Console.ReadLine().ToLower().Equals("n"))
-            {
-                SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchDrinkConsoleUi.SearchCriterion.Name);
-            }
-            else
-            {
-                SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchDrinkConsoleUi.SearchCriterion.Ingredient);
-            }
-            
+
+            SearchDrinkConsoleUi.StartSearch(drinksListGlobal, 
+                Console.ReadLine().ToLower().Equals("n")
+                    ? SearchDrinkConsoleUi.SearchCriterion.Name
+                    : SearchDrinkConsoleUi.SearchCriterion.Ingredient);
+
             Console.WriteLine("Press any key.");
             Console.ReadKey();
         }

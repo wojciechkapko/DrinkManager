@@ -21,14 +21,15 @@ namespace DrinkManagerConsole
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
 
                 List<Drink> drinksFound = null;
+                Console.Write($"Enter a drink {searchCriterion.ToString().ToLower()} to find: ");
 
                 switch (searchCriterion)
                 {
                     case SearchCriterion.Name:
-                        drinksFound = SearchDrink.SearchByName(Utility.GetGenericData($"Enter a drink {searchCriterion.ToString().ToLower()} to find: "), drinksList);
+                        drinksFound = SearchDrink.SearchByName(Console.ReadLine(), drinksList);
                         break;
                     case SearchCriterion.Ingredient:
-                        drinksFound = SearchDrink.SearchByIngredient(Utility.GetGenericData($"Enter a drink {searchCriterion.ToString().ToLower()} to find: "), drinksList);
+                        drinksFound = SearchDrink.SearchByIngredient(Console.ReadLine(), drinksList);
                         break;
                 }
 

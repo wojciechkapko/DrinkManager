@@ -32,12 +32,10 @@ namespace BLL
                     {
                         continue;
                     }
-                    else
+
+                    if (ingredient.Name.Contains(ingredientToSearch, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        if (ingredient.Name.Contains(ingredientToSearch, StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            drinksFound.Add(drink);
-                        }
+                        drinksFound.Add(drink);
                     }
                 }
             }
