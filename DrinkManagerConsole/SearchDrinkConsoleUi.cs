@@ -8,7 +8,7 @@ namespace DrinkManagerConsole
     {
         public enum SearchCriterion
         {
-            Name, Ingredient
+            Name, Ingredients
         }
         
         public static void StartSearch(List<Drink> drinksList, SearchCriterion searchCriterion)
@@ -21,15 +21,16 @@ namespace DrinkManagerConsole
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
 
                 List<Drink> drinksFound = null;
-                Console.Write($"Enter a drink {searchCriterion.ToString().ToLower()} to find: ");
+                Console.WriteLine($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
 
                 switch (searchCriterion)
                 {
                     case SearchCriterion.Name:
                         drinksFound = SearchDrink.SearchByName(Console.ReadLine(), drinksList);
                         break;
-                    case SearchCriterion.Ingredient:
-                        drinksFound = SearchDrink.SearchByIngredient(Console.ReadLine(), drinksList);
+                    case SearchCriterion.Ingredients:
+                        Console.WriteLine("You can provide one or more ingredients - separated with a space. \nDrinks containing all provided ingredients will be displayed.");
+                        drinksFound = SearchDrink.SearchByIngredients(new List<string>(Console.ReadLine().Split(' ')), drinksList);
                         break;
                 }
 

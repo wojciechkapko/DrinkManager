@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BLL
 {
@@ -7,38 +8,52 @@ namespace BLL
     {
         public static List<Drink> SearchByName(string textToSearch, List<Drink> drinksListToSearch)
         {
-            var drinksFound = new List<Drink>();
-
-            foreach (var drink in drinksListToSearch)
-            {
-                if (drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    drinksFound.Add(drink);
-                }
-            }
-
-            return drinksFound;
+            return drinksListToSearch.Where(drink =>  drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase)).ToList();
         }
 
-        public static List<Drink> SearchByIngredient(string ingredientToSearch, List<Drink> drinksListToSearch)
+        public static List<Drink> SearchByIngredients(List<string> ingredientsToSearch, List<Drink> drinksListToSearch)
         {
+            
+            
             var drinksFound = new List<Drink>();
 
-            foreach (var drink in drinksListToSearch)
-            {
-                foreach (var ingredient in drink.Ingredients)
-                {
-                    if (ingredient.Name == null)
-                    {
-                        continue;
-                    }
+            //foreach (var drink in drinksListToSearch)
+            //{
+            //    drinksFound = drink.Ingredient;
+            //}
+            //drinksFound = drinksListToSearch.Select(drink => drink.Ingredients.ToString().Contains(ingredientsToSearch.));
 
-                    if (ingredient.Name.Contains(ingredientToSearch, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        drinksFound.Add(drink);
-                    }
-                }
-            }
+            //var ingredientsFoundCount = 0;
+
+            //foreach (var drink in drinksListToSearch)
+            //{
+            //    if (drink.Ingredients.Contains.All(ingredientsToSearch))
+            //    {
+                    
+
+            //    }
+
+            //    foreach (var ingredient in drink.Ingredients)
+            //    {
+            //        if (ingredient.Name == null)
+            //        {
+            //            continue;
+            //        }
+                    
+            //        foreach (var ingredientToSearch in ingredientsToSearch)
+            //        {
+            //            if (ingredient.Name.Contains(ingredientToSearch, StringComparison.InvariantCultureIgnoreCase))
+            //            {
+            //                ingredientsFoundCount++;
+            //            }
+            //        }
+            //    }
+
+            //    if (ingredientsFoundCount >= ingredientsToSearch.Count)
+            //    {
+            //        drinksFound.Add(drink);
+            //    }
+            //}
 
             return drinksFound;
         }

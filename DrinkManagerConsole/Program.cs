@@ -17,7 +17,7 @@ namespace DrinkManagerConsole
             SearchDrinkConsoleUi.StartSearch(drinksListGlobal, 
                 Console.ReadLine().ToLower().Equals("n")
                     ? SearchDrinkConsoleUi.SearchCriterion.Name
-                    : SearchDrinkConsoleUi.SearchCriterion.Ingredient);
+                    : SearchDrinkConsoleUi.SearchCriterion.Ingredients);
 
             Console.WriteLine("Press any key.");
             Console.ReadKey();
