@@ -8,53 +8,41 @@ namespace BLL
     {
         public static List<Drink> SearchByName(string textToSearch, List<Drink> drinksListToSearch)
         {
-            return drinksListToSearch.Where(drink =>  drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            return drinksListToSearch
+                .Where(drink => drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase))
+                .ToList();
         }
 
-        public static List<Drink> SearchByIngredients(List<string> ingredientsToSearch, List<Drink> drinksListToSearch)
+        public static List<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, List<Drink> drinksListToSearch)
         {
-            
-            
             var drinksFound = new List<Drink>();
+            var ingredientsFound = new SortedSet<string>();
 
-            //foreach (var drink in drinksListToSearch)
-            //{
-            //    drinksFound = drink.Ingredient;
-            //}
-            //drinksFound = drinksListToSearch.Select(drink => drink.Ingredients.ToString().Contains(ingredientsToSearch.));
+            foreach (var drink in drinksListToSearch)
+            {
+                foreach (var drinkIngredient in drink.Ingredients)
+                {
+                    if (drinkIngredient.Name == null)
+                    {
+                        continue;
+                    }
 
-            //var ingredientsFoundCount = 0;
+                    foreach (var ingredient in ingredientsToSearch)
+                    {
+                        if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            ingredientsFound.Add(ingredient);
+                        }
+                    }
+                }
 
-            //foreach (var drink in drinksListToSearch)
-            //{
-            //    if (drink.Ingredients.Contains.All(ingredientsToSearch))
-            //    {
-                    
+                if (ingredientsFound.SetEquals(ingredientsToSearch))
+                {
+                    drinksFound.Add(drink);
+                }
 
-            //    }
-
-            //    foreach (var ingredient in drink.Ingredients)
-            //    {
-            //        if (ingredient.Name == null)
-            //        {
-            //            continue;
-            //        }
-                    
-            //        foreach (var ingredientToSearch in ingredientsToSearch)
-            //        {
-            //            if (ingredient.Name.Contains(ingredientToSearch, StringComparison.InvariantCultureIgnoreCase))
-            //            {
-            //                ingredientsFoundCount++;
-            //            }
-            //        }
-            //    }
-
-            //    if (ingredientsFoundCount >= ingredientsToSearch.Count)
-            //    {
-            //        drinksFound.Add(drink);
-            //    }
-            //}
-
+                ingredientsFound.Clear();
+            }
             return drinksFound;
         }
     }

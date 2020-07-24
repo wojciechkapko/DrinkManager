@@ -10,7 +10,7 @@ namespace DrinkManagerConsole
         {
             Name, Ingredients
         }
-        
+
         public static void StartSearch(List<Drink> drinksList, SearchCriterion searchCriterion)
         {
             bool continueSearch = true;
@@ -29,8 +29,8 @@ namespace DrinkManagerConsole
                         drinksFound = SearchDrink.SearchByName(Console.ReadLine(), drinksList);
                         break;
                     case SearchCriterion.Ingredients:
-                        Console.WriteLine("You can provide one or more ingredients - separated with a space. \nDrinks containing all provided ingredients will be displayed.");
-                        drinksFound = SearchDrink.SearchByIngredients(new List<string>(Console.ReadLine().Split(' ')), drinksList);
+                        Console.WriteLine("\nYou can provide one or more ingredients - separated with a space. \nDrinks containing all provided ingredients will be displayed.\n");
+                        drinksFound = SearchDrink.SearchByIngredients(new SortedSet<string>(Console.ReadLine()?.Split(' ') ?? throw new InvalidOperationException()), drinksList);
                         break;
                 }
 
@@ -59,7 +59,7 @@ namespace DrinkManagerConsole
                     }
                     Console.WriteLine("------------------------------------------------------------------------------------------------------------------");
                 }
-                
+
                 Console.Write($"\nContinue search by {searchCriterion.ToString().ToLower()} (y/n)? ");
                 if (Console.ReadLine()?.ToLower() == "n")
                 {
