@@ -4,21 +4,35 @@ using System.Collections.Generic;
 
 namespace DrinkManagerConsole
 {
-    public static class SearchDrinkByNameConsole
+    public static class SearchDrinkConsoleUi
     {
-        public static void StartSearch(List<Drink> drinksList)
+        public enum SearchCriterion
+        {
+            Name, Ingredient
+        }
+        
+        public static void StartSearch(List<Drink> drinksList, SearchCriterion searchCriterion)
         {
             bool continueSearch = true;
             do
             {
                 Console.Clear();
-                Console.WriteLine("\nSearch drink by name\n".ToUpper());
+                Console.WriteLine($"\nSearch drink by {searchCriterion}\n".ToUpper());
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
 
-                // Text to search and reference to Drinks List passed into Search method - returns list
-                var drinksFound = SearchDrinkByName.SearchByName(Utility.GetGenericData("Enter a drink name to find: "), drinksList);
+                List<Drink> drinksFound = null;
 
-                if (drinksFound.Count == 0)
+                switch (searchCriterion)
+                {
+                    case SearchCriterion.Name:
+                        drinksFound = SearchDrink.SearchByName(Utility.GetGenericData($"Enter a drink {searchCriterion.ToString().ToLower()} to find: "), drinksList);
+                        break;
+                    case SearchCriterion.Ingredient:
+                        drinksFound = SearchDrink.SearchByIngredient(Utility.GetGenericData($"Enter a drink {searchCriterion.ToString().ToLower()} to find: "), drinksList);
+                        break;
+                }
+
+                if (drinksFound?.Count == 0 || drinksFound == null)
                 {
                     Console.WriteLine("\nNo matching drinks in our database.");
                 }
@@ -44,7 +58,7 @@ namespace DrinkManagerConsole
                     Console.WriteLine("------------------------------------------------------------------------------------------------------------------");
                 }
                 
-                Console.Write("\nContinue search (y/n)? ");
+                Console.Write($"\nContinue search by {searchCriterion.ToString().ToLower()} (y/n)? ");
                 if (Console.ReadLine()?.ToLower() == "n")
                 {
                     continueSearch = false;
