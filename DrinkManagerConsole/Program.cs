@@ -17,24 +17,24 @@ namespace DrinkManagerConsole
             {
                 Console.Clear();
                 Console.Write("Search by name or ingredient or EXIT ? (n/i/e) ");
-                switch (Console.ReadLine())
+                switch (Console.ReadKey().KeyChar)
                 {
-                    case "n":
+                    case 'n':
                         SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchEnums.SearchCriterion.Name);
                         break;
-                    case "i":
+                    case 'i':
                         SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchEnums.SearchCriterion.Ingredients);
                         break;
-                    case "e":
+                    case 'e':
                         runApp = false;
                         break;
                     default:
-                        Console.WriteLine("I don't know what you mean - try again :)");
+                        Console.WriteLine("\nI don't know what you mean - try again :)");
                         break;
                 }
             } while (runApp);
 
-            Console.WriteLine("Press any key.");
+            Console.WriteLine("\nPress any key to close.");
             Console.ReadKey();
         }
     }
