@@ -16,7 +16,6 @@ namespace DrinkManagerConsole
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
 
                 List<Drink> drinksFound = null;
-                
 
                 switch (searchCriterion)
                 {
