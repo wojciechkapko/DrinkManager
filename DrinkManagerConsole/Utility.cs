@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using BLL;
 
 namespace DrinkManagerConsole
@@ -86,14 +88,10 @@ namespace DrinkManagerConsole
 
         public static void SearchByAlcoholContent(List<Drink> drinks)
         {
-            var emptyDrinks = new List<Drink>();
             var choice = new ConsoleKeyInfo();
-            if(drinks == emptyDrinks)
-            {
-                Console.WriteLine("The drink list is currently empty - Try to update your data by loading drinks from a file!");
-            }
             do
             {
+                Console.Clear();
                 Console.WriteLine("Choose one of the searching criteria: ");
                 Console.WriteLine("1. Alcoholic drinks");
                 Console.WriteLine("2. Non alcoholic drinks");
@@ -102,253 +100,283 @@ namespace DrinkManagerConsole
                 Console.WriteLine("5. Non alcoholic and optional alcohol drinks");
                 Console.WriteLine("Press any other key to go back to previous menu");
 
-                var contemporaryDrinkList = new List<Drink>();
-                choice = Console.ReadKey(true);
-                switch (choice.Key)
+                var contemporaryList = new List<Drink>();
+                choice = Console.ReadKey();
+                if (choice.Key == ConsoleKey.D1 || choice.Key == ConsoleKey.D2 || choice.Key == ConsoleKey.D3 || choice.Key == ConsoleKey.D4 || choice.Key == ConsoleKey.D5)
                 {
-                    case ConsoleKey.D1:
-                        SearchAlcoholic(drinks, contemporaryDrinkList);
-                        break;
-
-                    case ConsoleKey.D2:
-                        SearchNonAlcoholic(drinks, contemporaryDrinkList);
-                        break;
-
-                    case ConsoleKey.D3:
-                        SearchOptionalAlcohol(drinks, contemporaryDrinkList);
-                        break;
-
-                    case ConsoleKey.D4:
-                        SearchAlcoholicAndOptionalAlcohol(drinks, contemporaryDrinkList);
-                        break;
-
-                    case ConsoleKey.D5:
-                        SearchNonAndOptionalAlcohol(drinks, contemporaryDrinkList);
-                        break;
-
-                    default:
-                        return;
+                    UserChoice(choice, drinks, contemporaryList);
                 }
-            } while (choice.Key != ConsoleKey.D1 || choice.Key != ConsoleKey.D2);
+                else
+                {      
+                    break;
+                }
+            }
+            while (true);
         }
-        public static void SearchAlcoholic(List<Drink> drinks, List<Drink> contemporaryList)
+        internal static void UserChoice(ConsoleKeyInfo key, List<Drink> drinks, List<Drink> contemporaryList)
+        {
+            string alcoholicInfo;
+            Console.Clear();
+            switch (key.Key)
+            {
+                case ConsoleKey.D1:
+                    {
+                        alcoholicInfo = "Alcoholic";
+                        contemporaryList = AddToSearchList(alcoholicInfo, drinks, contemporaryList);
+                        ShowDrinksPaged(contemporaryList);
+                        break;
+                    }
+                case ConsoleKey.D2:
+                    {
+                        alcoholicInfo = "Non alcoholic";
+                        contemporaryList = AddToSearchList(alcoholicInfo, drinks, contemporaryList);
+                        ShowDrinksPaged(contemporaryList);
+                        break;
+                    }
+                case ConsoleKey.D3:
+                    {
+                        alcoholicInfo = "Optional alcohol";
+                        contemporaryList = AddToSearchList(alcoholicInfo, drinks, contemporaryList);
+                        ShowDrinksPaged(contemporaryList);
+                        break;
+                    }
+                case ConsoleKey.D4:
+                    {
+                        alcoholicInfo = "Alcoholic";
+                        contemporaryList = AddToSearchList(alcoholicInfo, drinks, contemporaryList);
+                        alcoholicInfo = "Optional alcohol";
+                        contemporaryList = AddToSearchList(alcoholicInfo, drinks, contemporaryList);
+                        ShowDrinksPaged(contemporaryList);
+                        break;
+                    }
+                case ConsoleKey.D5:
+                    {
+                        alcoholicInfo = "Non alcoholic";
+                        contemporaryList = AddToSearchList(alcoholicInfo, drinks, contemporaryList);
+                        alcoholicInfo = "Optional alcohol";
+                        contemporaryList = AddToSearchList(alcoholicInfo, drinks, contemporaryList);
+                        ShowDrinksPaged(contemporaryList);
+                        break;
+                    }
+            }
+        }
+        public static List<Drink> AddToSearchList(string alcoholicInfo, List<Drink> drinks, List<Drink> contemporaryList)
         {
             foreach (Drink drink in drinks)
             {
-                if (drink.AlcoholicInfo == "Alcoholic")
+                if (drink.AlcoholicInfo == alcoholicInfo)
                 {
                     contemporaryList.Add(drink);
                 }
             }
-            CheckDrink(contemporaryList);
+            return contemporaryList;
         }
-        public static void SearchNonAlcoholic(List<Drink> drinks, List<Drink> contemporaryList)
+        public static void ShowDrinksPaged(List<Drink> contemporaryList)
         {
-            foreach (Drink drink in drinks)
-            {
-                if (drink.AlcoholicInfo == "Non alcoholic")
-                {
-                    contemporaryList.Add(drink);
-                }
-            }
-            CheckDrink(contemporaryList);
-        }
-        public static void SearchOptionalAlcohol(List<Drink> drinks, List<Drink> contemporaryList)
-        {
-            foreach (Drink drink in drinks)
-            {
-                if (drink.AlcoholicInfo == "Optional alcohol")
-                {
-                    contemporaryList.Add(drink);
-                }
-            }
-            CheckDrink(contemporaryList);
-        }
-        public static void SearchNonAndOptionalAlcohol(List<Drink> drinks, List<Drink> contemporaryList)
-        {
-            foreach (Drink drink in drinks)
-            {
-                if (drink.AlcoholicInfo == "Non alcoholic")
-                {
-                    contemporaryList.Add(drink);
-                }
-            }
-            SearchOptionalAlcohol(drinks, contemporaryList);
-        }
-        public static void SearchAlcoholicAndOptionalAlcohol(List<Drink> drinks, List<Drink> contemporaryList)
-        {
-            foreach (Drink drink in drinks)
-            {
-                if (drink.AlcoholicInfo == "Non alcoholic")
-                {
-                    contemporaryList.Add(drink);
-                }
-            }
-            SearchOptionalAlcohol(drinks, contemporaryList);
-        }
-        public static void CheckDrink(List<Drink> contemporaryList)
-        {
-            var choice = new ConsoleKeyInfo();
             int page = 0;
             int index = 0;
             int counter = 0;
-
             while (index < contemporaryList.Count)
             {
-                if (counter % 10 == 0 && counter != 0)
-                {
-                    page++;
-                    counter = 0;
-                    do
-                    {
-                        Console.WriteLine("\nTo check any drink info press its corresponding number. \nTo go to next page press N to go back to previous page press P.\nTo go back to previous menu press any other key");
-                        choice = Console.ReadKey();
-                        switch (choice.Key)
-                        {
-                            case ConsoleKey.D1:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D2:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 1)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D3:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 2)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D4:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 3)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D5:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 4)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D6:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 5)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D7:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 6)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D8:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 7)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D9:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 8)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.N:
-                                break;
-                            case ConsoleKey.P:
-                                if (page == 0)
-                                    break;
-                                else
-                                {
-                                    page--;
-                                    break;
-                                }
-                            default:
-                                return;
-                        }
-                    }
-                    while (choice.Key != ConsoleKey.N || (choice.Key != ConsoleKey.P && page != 0));
-                }
-                else
-                {
-                    Console.WriteLine($"{counter}.".PadRight(6 ,' ') + contemporaryList.ElementAt<Drink>(index).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(index).AlcoholicInfo.PadRight(12, ' '));
-                }
                 counter++;
-                index = counter + page * 10;
+                if(counter % 10 == 0)
+                {
+                    page = CheckDrink(contemporaryList, page);
+                    counter = 0;
+                }
+                else 
+                {
+                    Console.WriteLine($"{counter}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(index).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(index).AlcoholicInfo.PadRight(12, ' '));
+                }
+                index = counter + page * 9;
                 if(index == contemporaryList.Count)
                 {
-                    int number = 0;
-                    do
-                    {
-                        Console.WriteLine("\nTo check any drink info press its corresponding number. \nTo go back to previous page press P.\nTo go back to previous menu press any other key");
-                        choice = Console.ReadKey();    
-                        int.TryParse(choice.KeyChar.ToString(), out number);
-                        if (number > index - page * 10)
-                        {
-                            return;
-                        } 
-                        switch (choice.Key)
-                        {
-                            case ConsoleKey.D1:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D2:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 1)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D3:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 2)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D4:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 3)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D5:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 4)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D6:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 5)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D7:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 6)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D8:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 7)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.D9:
-                                Console.WriteLine($"{contemporaryList.ElementAt<Drink>(page * 9 + 8)}");
-                                Console.WriteLine("To go back to previous menu, press any key");
-                                Console.ReadKey();
-                                break;
-                            case ConsoleKey.P:
-                                if (page == 0)
-                                    break;
-                                else
-                                {
-                                    page--;
-                                    index = index - (counter + 10);
-                                    counter = 0;
-                                    break;
-                                }
-                            default:
-                                return;
-                        }
-                    }
-                    while (choice.Key != ConsoleKey.P);
+                    page = CheckDrink(contemporaryList, page);
+                    counter = 0;
+                    index = counter + page * 9;
+                }
+                if (page < 0)
+                {
+                    return;
                 }
             }
-
+        }
+        public static int CheckDrink(List<Drink> contemporaryList, int page)
+        {
+            var choice = new ConsoleKeyInfo();
+            do
+            {
+                if(page * 9 + 9 > contemporaryList.Count)
+                {
+                    if (page == 0)
+                    { 
+                        Console.WriteLine("\nIf you want to check any drink, press its corresponding number\nIf you want to go back to previous menu, press ESC"); 
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nIf you want to check any drink, press its corresponding number\nIf you want to go to previous page press P\nIf you want to go back to previous menu, press ESC");
+                    }
+                }
+                else if (page == 0)
+                {
+                    Console.WriteLine("\nIf you want to check any drink, press its corresponding number\nIf you want to go to next page press N\nIf you want to go back to previous menu, press ESC");
+                }
+                else 
+                {
+                    Console.WriteLine("\nIf you want to check any drink, press its corresponding number\nIf you want to go to next page press N, or P to go to next to previous page\nIf you want to go back to previous menu, press ESC");
+                }
+                choice = Console.ReadKey();
+                Console.Clear();
+                switch (choice.Key)
+                {
+                    case ConsoleKey.D1:
+                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9));
+                        ReWriteAfterDrinkCheck(contemporaryList, page);
+                        break;
+                    case ConsoleKey.D2:
+                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 1));
+                        ReWriteAfterDrinkCheck(contemporaryList, page);
+                        break;
+                    case ConsoleKey.D3:
+                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 2));
+                        ReWriteAfterDrinkCheck(contemporaryList, page);
+                        break;
+                    case ConsoleKey.D4:
+                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 3));
+                        ReWriteAfterDrinkCheck(contemporaryList, page);
+                        break;
+                    case ConsoleKey.D5:
+                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 4));
+                        ReWriteAfterDrinkCheck(contemporaryList, page);
+                        break;
+                    case ConsoleKey.D6:
+                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 5));
+                        ReWriteAfterDrinkCheck(contemporaryList, page);
+                        break;
+                    case ConsoleKey.D7:
+                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 6));
+                        ReWriteAfterDrinkCheck(contemporaryList, page);
+                        break;
+                    case ConsoleKey.D8:
+                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 7));
+                        ReWriteAfterDrinkCheck(contemporaryList, page);
+                        break;
+                    case ConsoleKey.D9:
+                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 8));
+                        ReWriteAfterDrinkCheck(contemporaryList, page);
+                        break;
+                    case ConsoleKey.N:
+                        {
+                            if (page * 9 + 9 > contemporaryList.Count)
+                            {
+                                for (int i = page * 9; i < contemporaryList.Count; i++)
+                                {
+                                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
+                                }
+                                if (page == 0)
+                                {
+                                    Console.WriteLine("\nThis is the only page, there is no more pages");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nThis is the last page, there is no more");
+                                }
+                                break;
+                            }
+                            else
+                            {
+                                page++;
+                                return page;
+                            }
+                        }
+                    case ConsoleKey.P:
+                        {
+                            if (page == 0)
+                            {
+                                for (int i = page * 9; i < Math.Min(9, contemporaryList.Count); i++)
+                                {
+                                    Console.WriteLine($"{i + 1}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
+                                }
+                                if (page * 9 + 9 > contemporaryList.Count)
+                                {
+                                    Console.WriteLine("\nThis is the one and only page");
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("\nThis is the first page");
+                                    break;
+                                }
+                            }
+                            page--;
+                            return page;
+                        }
+                    case ConsoleKey.Escape:
+                    {
+                            return -1;
+                    }
+                    default:
+                        {
+                            for (int i = page * 9; i < Math.Min(page * 9 + 9, contemporaryList.Count); i++)
+                            {
+                                Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
+                            }
+                            break;
+                        }
+                }
+            }
+            while (true);
+        }
+        public static void ReWriteAfterDrinkCheck(List<Drink> contemporaryList, int page)
+        {
+            Console.WriteLine("\nTo go back to previous menu, press any key");
+            Console.ReadKey();
+            Console.Clear();
+            for (int i = page * 9; i < Math.Min(page * 9 + 9, contemporaryList.Count); i++)
+            {
+                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
+            }
+        }
+        public static void WriteDrinkInfo(Drink drink)
+        {
+            Console.WriteLine("Drink name: ".PadRight(20, ' '), $"{drink.Name}".PadRight (16, ' '));
+            Console.WriteLine("Category: ".PadRight(20, ' '), $"{drink.Category}".PadRight(16, ' '));
+            Console.WriteLine("Alcoholic info: ".PadRight(20, ' '), $"{drink.AlcoholicInfo}".PadRight(16, ' '));
+            Console.WriteLine("1st ingredient: ".PadRight(20, ' '), $"{drink.IngredientName1} - {drink.IngredientMeasure1}");
+            Console.WriteLine("2nd ingredient: ".PadRight(20, ' '), $"{drink.IngredientName2} - {drink.IngredientMeasure2}");
+            if (String.IsNullOrEmpty(drink.IngredientName3) == false)
+            {
+                Console.WriteLine("3rd ingredient: ".PadRight(20, ' '), $"{drink.IngredientName3} - {drink.IngredientMeasure3}");
+            }
+            if (String.IsNullOrEmpty(drink.IngredientName4) == false)
+            {
+                Console.WriteLine("4th ingredient: ".PadRight(20, ' '), $"{drink.IngredientName4} - {drink.IngredientMeasure4}");
+            }
+            if (String.IsNullOrEmpty(drink.IngredientName5) == false)
+            {
+                Console.WriteLine("5th ingredient: ".PadRight(20, ' '), $"{drink.IngredientName5} - {drink.IngredientMeasure5}");
+            }
+            if (String.IsNullOrEmpty(drink.IngredientName6) == false)
+            {
+                Console.WriteLine("6th ingredient: ".PadRight(20, ' '), $"{drink.IngredientName6} - {drink.IngredientMeasure6}");
+            }
+            if (String.IsNullOrEmpty(drink.IngredientName7) == false)
+            {
+                Console.WriteLine("7th ingredient: ".PadRight(20, ' '), $"{drink.IngredientName7} - {drink.IngredientMeasure7}");
+            }
+            if (String.IsNullOrEmpty(drink.IngredientName8) == false)
+            {
+                Console.WriteLine("8th ingredient: ".PadRight(20, ' '), $"{drink.IngredientName8} - {drink.IngredientMeasure8}");
+            }
+            if (String.IsNullOrEmpty(drink.IngredientName9) == false)
+            {
+                Console.WriteLine("9th ingredient: ".PadRight(20, ' '), $"{drink.IngredientName9} - {drink.IngredientMeasure9}");
+            }
+            if (String.IsNullOrEmpty(drink.IngredientName10) == false)
+            {
+                Console.WriteLine("10th ingredient: ".PadRight(20, ' '), $"{drink.IngredientName10} - {drink.IngredientMeasure10}");
+            }
+            return;
         }
     }
 }
