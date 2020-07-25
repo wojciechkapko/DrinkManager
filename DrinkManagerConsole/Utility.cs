@@ -231,35 +231,67 @@ namespace DrinkManagerConsole
                         ReWriteAfterDrinkCheck(contemporaryList, page);
                         break;
                     case ConsoleKey.D2:
-                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 1));
+                        page = ExceptionHandlerCheckDrink(page, page * 9 + 1, contemporaryList);
+                        if (page < 0)
+                        {
+                            return page;
+                        }
                         ReWriteAfterDrinkCheck(contemporaryList, page);
                         break;
                     case ConsoleKey.D3:
+                        page = ExceptionHandlerCheckDrink(page, page * 9 + 2, contemporaryList);
+                        if (page < 0)
+                        {
+                            return page;
+                        }
                         WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 2));
-                        ReWriteAfterDrinkCheck(contemporaryList, page);
                         break;
                     case ConsoleKey.D4:
-                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 3));
+                        page = ExceptionHandlerCheckDrink(page, page * 9 + 3, contemporaryList);
+                        if (page < 0)
+                        {
+                            return page;
+                        }
                         ReWriteAfterDrinkCheck(contemporaryList, page);
                         break;
                     case ConsoleKey.D5:
-                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 4));
+                        page = ExceptionHandlerCheckDrink(page, page * 9 + 4, contemporaryList);
+                        if (page < 0)
+                        {
+                            return page;
+                        }
                         ReWriteAfterDrinkCheck(contemporaryList, page);
                         break;
                     case ConsoleKey.D6:
-                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 5));
+                        page = ExceptionHandlerCheckDrink(page, page * 9 + 5, contemporaryList);
+                        if (page < 0)
+                        {
+                            return page;
+                        }
                         ReWriteAfterDrinkCheck(contemporaryList, page);
                         break;
                     case ConsoleKey.D7:
-                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 6));
+                        page = ExceptionHandlerCheckDrink(page, page * 9 + 6, contemporaryList);
+                        if (page < 0)
+                        {
+                            return page;
+                        }
                         ReWriteAfterDrinkCheck(contemporaryList, page);
                         break;
                     case ConsoleKey.D8:
-                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 7));
+                        page = ExceptionHandlerCheckDrink(page, page * 9 + 7, contemporaryList);
+                        if (page < 0)
+                        {
+                            return page;
+                        }
                         ReWriteAfterDrinkCheck(contemporaryList, page);
                         break;
                     case ConsoleKey.D9:
-                        WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + 8));
+                        page = ExceptionHandlerCheckDrink(page, page * 9 + 8, contemporaryList);
+                        if (page < 0)
+                        {
+                            return page;
+                        }    
                         ReWriteAfterDrinkCheck(contemporaryList, page);
                         break;
                     case ConsoleKey.N:
@@ -323,6 +355,21 @@ namespace DrinkManagerConsole
                 }
             }
             while (true);
+        }
+        public static int ExceptionHandlerCheckDrink(int page, int element, List<Drink> contemporaryList)
+        {
+            try
+            {
+                WriteDrinkInfo(contemporaryList.ElementAt(element));
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("Exception caught: ArgumentOutOfRangeException. Next time choose the number that is on the list!");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+                return -1;
+            }
+            return page;
         }
         public static void ReWriteAfterDrinkCheck(List<Drink> contemporaryList, int page)
         {
