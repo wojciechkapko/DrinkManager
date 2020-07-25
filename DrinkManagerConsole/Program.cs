@@ -15,14 +15,15 @@ namespace DrinkManagerConsole
             bool runApp = true;
             do
             {
+                Console.Clear();
                 Console.Write("Search by name or ingredient or EXIT ? (n/i/e) ");
                 switch (Console.ReadLine())
                 {
                     case "n":
-                        SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchDrinkConsoleUi.SearchCriterion.Name);
+                        SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchEnums.SearchCriterion.Name);
                         break;
                     case "i":
-                        SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchDrinkConsoleUi.SearchCriterion.Ingredients);
+                        SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchEnums.SearchCriterion.Ingredients);
                         break;
                     case "e":
                         runApp = false;

@@ -6,17 +6,7 @@ namespace DrinkManagerConsole
 {
     public static class SearchDrinkConsoleUi
     {
-        public enum SearchCriterion
-        {
-            Name, Ingredients
-        }
-
-        public enum SearchDrinkOption
-        {
-            All, Any
-        }
-
-        public static void StartSearch(List<Drink> drinksList, SearchCriterion searchCriterion)
+        public static void StartSearch(List<Drink> drinksList, SearchEnums.SearchCriterion searchCriterion)
         {
             bool continueSearch = true;
             do
@@ -26,17 +16,19 @@ namespace DrinkManagerConsole
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------------------");
 
                 List<Drink> drinksFound = null;
-                Console.WriteLine($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
+                
 
                 switch (searchCriterion)
                 {
-                    case SearchCriterion.Name:
+                    case SearchEnums.SearchCriterion.Name:
+                        Console.WriteLine($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
                         drinksFound = SearchDrink.SearchByName(Console.ReadLine(), drinksList);
                         break;
-                    case SearchCriterion.Ingredients:
+                    case SearchEnums.SearchCriterion.Ingredients:
                         Console.WriteLine("\nInstructions: \nYou can provide one or more ingredients - separated with a space. \nYou can search drinks containing all or any of provided ingredients.");
                         Console.WriteLine("\nWould you like to display drinks containing: \n1. all provided ingredients \n2. any of provided ingredients\n");
-                        var searchOption = Console.ReadLine() == "1" ? SearchDrinkOption.Any : SearchDrinkOption.All;
+                        var searchOption = Console.ReadLine() == "1" ? SearchEnums.SearchDrinkOption.Any : SearchEnums.SearchDrinkOption.All;
+                        Console.WriteLine($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
                         drinksFound = SearchDrink.SearchByIngredients(new SortedSet<string>(Console.ReadLine()?.Split(' ') ?? throw new InvalidOperationException()), drinksList, searchOption);
                         break;
                 }
