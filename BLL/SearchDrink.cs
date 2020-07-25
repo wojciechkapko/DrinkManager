@@ -13,7 +13,7 @@ namespace BLL
                 .ToList();
         }
 
-        public static List<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, List<Drink> drinksListToSearch)
+        public static List<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, List<Drink> drinksListToSearch, SearchDrinkOption searchOption)
         {
             var drinksFound = new List<Drink>();
             var ingredientsFound = new SortedSet<string>();

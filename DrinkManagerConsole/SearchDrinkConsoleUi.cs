@@ -11,6 +11,11 @@ namespace DrinkManagerConsole
             Name, Ingredients
         }
 
+        public enum SearchDrinkOption
+        {
+            All, Any
+        }
+
         public static void StartSearch(List<Drink> drinksList, SearchCriterion searchCriterion)
         {
             bool continueSearch = true;
@@ -29,8 +34,10 @@ namespace DrinkManagerConsole
                         drinksFound = SearchDrink.SearchByName(Console.ReadLine(), drinksList);
                         break;
                     case SearchCriterion.Ingredients:
-                        Console.WriteLine("\nYou can provide one or more ingredients - separated with a space. \nDrinks containing all provided ingredients will be displayed.\n");
-                        drinksFound = SearchDrink.SearchByIngredients(new SortedSet<string>(Console.ReadLine()?.Split(' ') ?? throw new InvalidOperationException()), drinksList);
+                        Console.WriteLine("\nInstructions: \nYou can provide one or more ingredients - separated with a space. \nYou can search drinks containing all or any of provided ingredients.");
+                        Console.WriteLine("\nWould you like to display drinks containing: \n1. all provided ingredients \n2. any of provided ingredients\n");
+                        var searchOption = Console.ReadLine() == "1" ? SearchDrinkOption.Any : SearchDrinkOption.All;
+                        drinksFound = SearchDrink.SearchByIngredients(new SortedSet<string>(Console.ReadLine()?.Split(' ') ?? throw new InvalidOperationException()), drinksList, searchOption);
                         break;
                 }
 
