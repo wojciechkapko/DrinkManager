@@ -87,6 +87,11 @@ namespace DrinkManagerConsole
         {
             var creator = new DrinkCreator();
             creator.AddNewDrink(drinksList);
+
+            Console.WriteLine("\nDrink added.");
+            // This should be replaced with a method maybe like "WaitForAnyKey(string message)"
+            Console.WriteLine("\nPress any key to go back to the main menu.");
+            Console.ReadKey();
         }
     }
 }
