@@ -1,5 +1,6 @@
 ﻿using BLL;
 using System;
+using BLL.Enums;
 
 namespace DrinkManagerConsole
 {
@@ -20,10 +21,10 @@ namespace DrinkManagerConsole
                 switch (Console.ReadKey().KeyChar)
                 {
                     case 'n':
-                        SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchEnums.SearchCriterion.Name);
+                        SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchCriterion.Name);
                         break;
                     case 'i':
-                        SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchEnums.SearchCriterion.Ingredients);
+                        SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchCriterion.Ingredients);
                         break;
                     case 'e':
                         runApp = false;

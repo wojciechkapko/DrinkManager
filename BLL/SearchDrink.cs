@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,12 +14,12 @@ namespace BLL
                 .ToList();
         }
 
-        public static List<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, List<Drink> drinksListToSearch, SearchEnums.SearchDrinkOption searchOption)
+        public static List<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, List<Drink> drinksListToSearch, SearchDrinkOption searchOption)
         {
             var drinksFound = new List<Drink>();
             var ingredientsFound = new SortedSet<string>();
 
-            if (searchOption == SearchEnums.SearchDrinkOption.All)
+            if (searchOption == SearchDrinkOption.All)
             {
                 foreach (var drink in drinksListToSearch)
                 {
@@ -46,7 +47,7 @@ namespace BLL
                     ingredientsFound.Clear();
                 }
             }
-            else if (searchOption == SearchEnums.SearchDrinkOption.Any)
+            else if (searchOption == SearchDrinkOption.Any)
             {
                 foreach (var drink in drinksListToSearch)
                 {
