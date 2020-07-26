@@ -25,13 +25,8 @@ namespace DrinkManagerConsole
                         break;
                     case MenuChoice.FindByAlcoholContent:
                         {
-                            Utility.MenuSearchByAlcoholContent();
-                            var searchChoice = Console.ReadKey();
-                            if(searchChoice.Key == ConsoleKey.D1 || searchChoice.Key == ConsoleKey.D2 || searchChoice.Key == ConsoleKey.D3 || searchChoice.Key == ConsoleKey.D4 || searchChoice.Key == ConsoleKey.D5)
-                            {
-                               var contemporaryList = Utility.GetDrinksByAlcoholContent(searchChoice, drinksListGlobal);
-                            }
-                            break; 
+                            SearchDrinkConsoleUi.HandleSearchDrinksByContentInConsole(drinksListGlobal);
+                            break;
                         }
                     case MenuChoice.AddCustomDrink:
                         break;

@@ -80,5 +80,23 @@ namespace BLL
 
             return drinksFound;
         }
+        /// <summary>
+        /// Searches drinks list by specified alcohol content criteria
+        /// </summary>
+        /// <param name="alcoholicInfo"></param>
+        /// <param name="drinks"></param>
+        /// <param name="contemporaryList"></param>
+        /// <returns></returns>
+        public static List<Drink> SearchByAlcoholContent(string alcoholicInfo, List<Drink> drinks, List<Drink> contemporaryList)
+        {
+            foreach (Drink drink in drinks)
+            {
+                if (drink.AlcoholicInfo == alcoholicInfo)
+                {
+                    contemporaryList.Add(drink);
+                }
+            }
+            return contemporaryList;
+        }
     }
 }
