@@ -1,5 +1,6 @@
 ﻿using BLL;
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DrinkManagerConsole
 {
@@ -23,7 +24,15 @@ namespace DrinkManagerConsole
                     case MenuChoice.FindByName:
                         break;
                     case MenuChoice.FindByAlcoholContent:
-                        break;
+                        {
+                            Utility.MenuSearchByAlcoholContent();
+                            var searchChoice = Console.ReadKey();
+                            if(searchChoice.Key == ConsoleKey.D1 || searchChoice.Key == ConsoleKey.D2 || searchChoice.Key == ConsoleKey.D3 || searchChoice.Key == ConsoleKey.D4 || searchChoice.Key == ConsoleKey.D5)
+                            {
+                               var contemporaryList = Utility.GetDrinksByAlcoholContent(searchChoice, drinksListGlobal);
+                            }
+                            break; 
+                        }
                     case MenuChoice.AddCustomDrink:
                         break;
                     case MenuChoice.FindByIngredient:

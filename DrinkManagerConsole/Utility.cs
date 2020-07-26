@@ -83,36 +83,29 @@ namespace DrinkManagerConsole
             return ingredients;
         }
 
-        public static List<Drink> MenuSearchByAlcoholContent(List<Drink> drinks)
+        public static List<Drink> HandleSearchDrinksByContentInConsole(List<Drink> drinks)
         {
-            var choice = new ConsoleKeyInfo();
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("Choose one of the searching criteria: ");
-                Console.WriteLine("1. Alcoholic drinks");
-                Console.WriteLine("2. Non alcoholic drinks");
-                Console.WriteLine("3. Optional alcohol drinks");
-                Console.WriteLine("4. Alcoholic and optional alcohol drinks");
-                Console.WriteLine("5. Non alcoholic and optional alcohol drinks");
-                Console.WriteLine("Press any other key to go back to previous menu");
+            Console.Clear();
+            Console.WriteLine("Choose one of the searching criteria: ");
+            Console.WriteLine("1. Alcoholic drinks");
+            Console.WriteLine("2. Non alcoholic drinks");
+            Console.WriteLine("3. Optional alcohol drinks");
+            Console.WriteLine("4. Alcoholic and optional alcohol drinks");
+            Console.WriteLine("5. Non alcoholic and optional alcohol drinks");
+            Console.WriteLine("Press any other key to go back to previous menu");
 
-                var contemporaryList = new List<Drink>();
-                choice = Console.ReadKey();
-                if (choice.Key == ConsoleKey.D1 || choice.Key == ConsoleKey.D2 || choice.Key == ConsoleKey.D3 || choice.Key == ConsoleKey.D4 || choice.Key == ConsoleKey.D5)
-                {
-                    contemporaryList = UserChoice(choice, drinks, contemporaryList);
-                    return contemporaryList;
-                }
-                else
-                {      
-                    return null;
-                }
+            var searchChoice = Console.ReadKey();
+            List<Drink> searchedList = null;
+            if (searchChoice.Key == ConsoleKey.D1 || searchChoice.Key == ConsoleKey.D2 || searchChoice.Key == ConsoleKey.D3 || searchChoice.Key == ConsoleKey.D4 || searchChoice.Key == ConsoleKey.D5)
+            {
+                searchedList = GetDrinksByAlcoholContent(searchChoice, drinks);
             }
-            while (true);
+
+            return searchedList;
         }
-        internal static List<Drink> UserChoice(ConsoleKeyInfo key, List<Drink> drinks, List<Drink> contemporaryList)
+        public static List<Drink> GetDrinksByAlcoholContent(ConsoleKeyInfo key, List<Drink> drinks)
         {
+            var contemporaryList = new List<Drink>();
             string alcoholicInfo;
             Console.Clear();
             switch (key.Key)
@@ -152,8 +145,10 @@ namespace DrinkManagerConsole
                         break;
                     }
             }
+
             return contemporaryList;
         }
+
         public static List<Drink> SearchByAlcoholContent(string alcoholicInfo, List<Drink> drinks, List<Drink> contemporaryList)
         {
             foreach (Drink drink in drinks)
