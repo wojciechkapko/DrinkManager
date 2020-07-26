@@ -1,6 +1,4 @@
 ﻿using BLL;
-using System;
-using BLL.Enums;
 
 namespace DrinkManagerConsole
 {
