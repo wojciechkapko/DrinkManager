@@ -1,11 +1,16 @@
+﻿using BLL;
 ﻿using System;
 
 namespace DrinkManagerConsole
 {
-    internal class Program
+    public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
+            // initial loading drinks list from file
+            var loader = new DrinkLoader();
+            var drinksListGlobal = loader.InitializeDrinksFromFile();
+
             var exitProgram = false;
             do
             {
