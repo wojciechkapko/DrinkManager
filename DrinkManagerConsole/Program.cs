@@ -24,22 +24,28 @@ namespace DrinkManagerConsole
                     case MenuChoice.FindByName:
                         SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchCriterion.Name);
                         break;
+
                     case MenuChoice.FindByAlcoholContent:
                         break;
+
                     case MenuChoice.AddCustomDrink:
+                        SearchDrinkConsoleUi.StartCustomDrinkCreation(drinksListGlobal);
                         break;
+
                     case MenuChoice.FindByIngredient:
                         SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchCriterion.Ingredients);
                         break;
+
                     case MenuChoice.UpdateDrinksFromFile:
                         break;
+
                     case MenuChoice.Exit:
                         exitProgram = true;
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
             } while (exitProgram == false);
         }
     }

@@ -24,6 +24,7 @@ namespace DrinkManagerConsole
                         Console.Write($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
                         drinksFound = SearchDrink.SearchByName(Console.ReadLine(), drinksList);
                         break;
+
                     case SearchCriterion.Ingredients:
                         Console.WriteLine("\nInstructions: \nYou can provide ONE or MORE ingredients - separated with a space. \nYou can search drinks containing ALL or ANY of provided ingredients.");
                         Console.Write("\nWould you like to display drinks containing: \n1. ALL provided ingredients \n2. ANY of provided ingredients\n(1/2) ");
@@ -33,12 +34,14 @@ namespace DrinkManagerConsole
                             case '1':
                                 searchOption = SearchDrinkOption.All;
                                 break;
+
                             case '2':
                                 searchOption = SearchDrinkOption.Any;
                                 break;
+
                             default:
                                 Console.WriteLine("\nI don't know what you mean - try again :)");
-                                searchOption = SearchDrinkOption.Any; //default initialization of local variable - default choice in case user fails to choose 
+                                searchOption = SearchDrinkOption.Any; //default initialization of local variable - default choice in case user fails to choose
                                 break;
                         }
                         Console.Write($"\n\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
@@ -78,6 +81,12 @@ namespace DrinkManagerConsole
                     continueSearch = false;
                 }
             } while (continueSearch);
+        }
+
+        public static void StartCustomDrinkCreation(List<Drink> drinksList)
+        {
+            var creator = new DrinkCreator();
+            creator.AddNewDrink(drinksList);
         }
     }
 }
