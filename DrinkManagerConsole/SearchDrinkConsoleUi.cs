@@ -46,31 +46,8 @@ namespace DrinkManagerConsole
                         break;
                 }
 
-                if (drinksFound?.Count == 0 || drinksFound == null)
-                {
-                    Console.WriteLine("\nNo matching drinks in our database.");
-                }
-                else
-                {
-                    foreach (var drink in drinksFound)
-                    {
-                        Console.WriteLine("\n------------------------------------------------------------------------------------------------------------------");
-                        Console.WriteLine("Name:".PadRight(20) + drink.Name.PadRight(30) + drink.AlcoholicInfo);
-                        Console.WriteLine("Category:".PadRight(20) + drink.Category);
-                        Console.WriteLine("Glass type:".PadRight(20) + drink.GlassType);
-                        Console.WriteLine("\nIngredients: ");
-                        foreach (var ingredient in drink.Ingredients)
-                        {
-                            if (ingredient.Name == null)
-                            {
-                                continue;
-                            }
-                            Console.WriteLine(ingredient.Name.PadRight(20) + ingredient.Amount);
-                        }
-                        Console.WriteLine($"\nInstructions:\n{drink.Instructions}");
-                    }
-                    Console.WriteLine("------------------------------------------------------------------------------------------------------------------");
-                }
+                // invoking extracted display method
+                DisplaySearchResults(drinksFound);
 
                 Console.Write($"\nContinue search by {searchCriterion.ToString().ToLower()} (y/n)? ");
                 if (Console.ReadKey().KeyChar == 'n')
@@ -78,6 +55,40 @@ namespace DrinkManagerConsole
                     continueSearch = false;
                 }
             } while (continueSearch);
+        }
+
+        public static void DisplaySearchResults(List<Drink> drinksFound)
+        {
+            if (drinksFound == null || drinksFound.Count == 0)
+            {
+                Console.WriteLine("\nNo matching drinks in our database.");
+            }
+            else
+            {
+                foreach (var drink in drinksFound)
+                {
+                    Console.WriteLine(
+                        "\n------------------------------------------------------------------------------------------------------------------");
+                    Console.WriteLine("Name:".PadRight(20) + drink.Name.PadRight(30) + drink.AlcoholicInfo);
+                    Console.WriteLine("Category:".PadRight(20) + drink.Category);
+                    Console.WriteLine("Glass type:".PadRight(20) + drink.GlassType);
+                    Console.WriteLine("\nIngredients: ");
+                    foreach (var ingredient in drink.Ingredients)
+                    {
+                        if (ingredient.Name == null)
+                        {
+                            continue;
+                        }
+
+                        Console.WriteLine(ingredient.Name.PadRight(20) + ingredient.Amount);
+                    }
+
+                    Console.WriteLine($"\nInstructions:\n{drink.Instructions}");
+                }
+
+                Console.WriteLine(
+                    "------------------------------------------------------------------------------------------------------------------");
+            }
         }
     }
 }
