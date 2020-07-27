@@ -59,7 +59,7 @@ namespace DrinkManagerConsole
 
         public static void DisplaySearchResults(List<Drink> drinksFound)
         {
-            if (drinksFound?.Count == 0 || drinksFound == null)
+            if (drinksFound == null || drinksFound.Count == 0)
             {
                 Console.WriteLine("\nNo matching drinks in our database.");
             }
