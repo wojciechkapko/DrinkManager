@@ -146,7 +146,7 @@ namespace DrinkManagerConsole
             var searchChoice = Console.ReadKey();
             if (searchChoice.Key == ConsoleKey.D1 || searchChoice.Key == ConsoleKey.D2 || searchChoice.Key == ConsoleKey.D3 || searchChoice.Key == ConsoleKey.D4 || searchChoice.Key == ConsoleKey.D5)
             {
-                GetDrinksByAlcoholContent(searchChoice, drinks);
+                DisplaySearchResults(GetDrinksByAlcoholContent(searchChoice, drinks));
             }
         }
         /// <summary>
@@ -158,42 +158,34 @@ namespace DrinkManagerConsole
         public static List<Drink> GetDrinksByAlcoholContent(ConsoleKeyInfo key, List<Drink> drinks)
         {
             var contemporaryList = new List<Drink>();
-            string alcoholicInfo;
             Console.Clear();
             switch (key.Key)
             {
                 case ConsoleKey.D1:
                     {
-                        alcoholicInfo = "Alcoholic";
-                        contemporaryList = SearchDrink.SearchByAlcoholContent(alcoholicInfo, drinks, contemporaryList);
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Alcoholic", drinks, contemporaryList);
                         break;
                     }
                 case ConsoleKey.D2:
                     {
-                        alcoholicInfo = "Non alcoholic";
-                        contemporaryList = SearchDrink.SearchByAlcoholContent(alcoholicInfo, drinks, contemporaryList);
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Non alcoholic", drinks, contemporaryList);
                         break;
                     }
                 case ConsoleKey.D3:
                     {
-                        alcoholicInfo = "Optional alcohol";
-                        contemporaryList = SearchDrink.SearchByAlcoholContent(alcoholicInfo, drinks, contemporaryList);
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Optional alcohol", drinks, contemporaryList);
                         break;
                     }
                 case ConsoleKey.D4:
                     {
-                        alcoholicInfo = "Alcoholic";
-                        contemporaryList = SearchDrink.SearchByAlcoholContent(alcoholicInfo, drinks, contemporaryList);
-                        alcoholicInfo = "Optional alcohol";
-                        contemporaryList = SearchDrink.SearchByAlcoholContent(alcoholicInfo, drinks, contemporaryList);
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Alcoholic", drinks, contemporaryList);
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Optional alcohol", drinks, contemporaryList);
                         break;
                     }
                 case ConsoleKey.D5:
                     {
-                        alcoholicInfo = "Non alcoholic";
-                        contemporaryList = SearchDrink.SearchByAlcoholContent(alcoholicInfo, drinks, contemporaryList);
-                        alcoholicInfo = "Optional alcohol";
-                        contemporaryList = SearchDrink.SearchByAlcoholContent(alcoholicInfo, drinks, contemporaryList);
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Non alcoholic", drinks, contemporaryList);
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Optional alcohol", drinks, contemporaryList);
                         break;
                     }
             }
