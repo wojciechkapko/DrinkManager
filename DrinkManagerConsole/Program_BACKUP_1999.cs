@@ -1,8 +1,11 @@
 ﻿using BLL;
-using System;
+<<<<<<< HEAD
+﻿using System;
 using System.Collections.Generic;
+=======
 using BLL.Enums;
 using System;
+>>>>>>> master
 
 namespace DrinkManagerConsole
 {
@@ -28,8 +31,15 @@ namespace DrinkManagerConsole
                         break;
 
                     case MenuChoice.FindByAlcoholContent:
-                        SearchDrinkConsoleUi.HandleSearchDrinksByContentInConsole(drinksListGlobal);
+<<<<<<< HEAD
+                        {
+                            SearchDrinkConsoleUi.HandleSearchDrinksByContentInConsole(drinksListGlobal);
+                            break;
+                        }
+=======
                         break;
+
+>>>>>>> master
                     case MenuChoice.AddCustomDrink:
                         SearchDrinkConsoleUi.StartCustomDrinkCreation(drinksListGlobal);
                         break;

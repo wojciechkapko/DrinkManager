@@ -1,8 +1,6 @@
 ﻿using BLL;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using BLL.Enums;
-using System;
 
 namespace DrinkManagerConsole
 {
@@ -24,31 +22,25 @@ namespace DrinkManagerConsole
                 switch (choice)
                 {
                     case MenuChoice.FindByName:
-                        SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchCriterion.Name);
                         break;
-
                     case MenuChoice.FindByAlcoholContent:
-                        SearchDrinkConsoleUi.HandleSearchDrinksByContentInConsole(drinksListGlobal);
-                        break;
+                        {
+                            SearchDrinkConsoleUi.HandleSearchDrinksByContentInConsole(drinksListGlobal);
+                            break;
+                        }
                     case MenuChoice.AddCustomDrink:
-                        SearchDrinkConsoleUi.StartCustomDrinkCreation(drinksListGlobal);
                         break;
-
                     case MenuChoice.FindByIngredient:
-                        SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchCriterion.Ingredients);
                         break;
-
                     case MenuChoice.UpdateDrinksFromFile:
-                        SearchDrinkConsoleUi.AddMoreDrinksFromFile(drinksListGlobal);
                         break;
-
                     case MenuChoice.Exit:
                         exitProgram = true;
                         break;
-
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+
             } while (exitProgram == false);
         }
     }
