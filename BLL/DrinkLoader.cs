@@ -35,8 +35,7 @@ namespace BLL
             }
             catch (Exception)
             {
-                Console.WriteLine($"\nOperation failed, path was incorrect\n");
-                return null;
+                throw new FileNotFoundException("File not found, maybe the path was incorrect?");
             }
 
             return newDrinks;

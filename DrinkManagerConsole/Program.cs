@@ -37,6 +37,7 @@ namespace DrinkManagerConsole
                         break;
 
                     case MenuChoice.UpdateDrinksFromFile:
+                        SearchDrinkConsoleUi.AddMoreDrinksFromFile(drinksListGlobal);
                         break;
 
                     case MenuChoice.Exit:

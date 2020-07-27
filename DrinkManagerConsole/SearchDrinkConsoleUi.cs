@@ -104,5 +104,29 @@ namespace DrinkManagerConsole
             Console.WriteLine("\nPress any key to go back to the main menu.");
             Console.ReadKey();
         }
+
+        public static void AddMoreDrinksFromFile(List<Drink> drinksList)
+        {
+            Console.WriteLine("Please provide full path to the source file");
+            var path = Console.ReadLine();
+            var loader = new DrinkLoader();
+            try
+            {
+                loader.AddDrinksFromFile(drinksList, path);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"\n{e.Message}");
+                // This should be replaced with a method maybe like "WaitForAnyKey(string message)"
+                Console.WriteLine("\nPress any key to go back to the main menu.");
+                Console.ReadKey();
+                return;
+            }
+
+            Console.WriteLine("New drinks added!");
+            // This should be replaced with a method maybe like "WaitForAnyKey(string message)"
+            Console.WriteLine("\nPress any key to go back to the main menu.");
+            Console.ReadKey();
+        }
     }
 }
