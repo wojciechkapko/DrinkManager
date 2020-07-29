@@ -21,8 +21,19 @@ namespace DrinkManagerConsole
                 switch (searchCriterion)
                 {
                     case SearchCriterion.Name:
-                        Console.Write($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
-                        drinksFound = SearchDrink.SearchByName(Console.ReadLine(), drinksList);
+                        var incorrectInput = true;
+                        string textToSearch;
+                        do
+                        {
+                            Console.Write($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
+                            textToSearch = Console.ReadLine();
+                            if (textToSearch != "")
+                            {
+                                incorrectInput = false;
+                            }
+                        } while (incorrectInput);
+                        
+                        drinksFound = SearchDrink.SearchByName(textToSearch, drinksList);
                         break;
 
                     case SearchCriterion.Ingredients:
