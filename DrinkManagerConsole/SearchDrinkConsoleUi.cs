@@ -21,7 +21,7 @@ namespace DrinkManagerConsole
                 switch (searchCriterion)
                 {
                     case SearchCriterion.Name:
-                        var incorrectInput = true;
+                        var incorrectInputDrinkName = true;
                         string textToSearch;
                         do
                         {
@@ -29,9 +29,9 @@ namespace DrinkManagerConsole
                             textToSearch = Console.ReadLine();
                             if (textToSearch != "")
                             {
-                                incorrectInput = false;
+                                incorrectInputDrinkName = false;
                             }
-                        } while (incorrectInput);
+                        } while (incorrectInputDrinkName);
                         
                         drinksFound = SearchDrink.SearchByName(textToSearch, drinksList);
                         break;
@@ -63,11 +63,22 @@ namespace DrinkManagerConsole
                 // invoking extracted display method
                 DisplaySearchResults(drinksFound);
 
-                Console.Write($"\nContinue search by {searchCriterion.ToString().ToLower()} (y/n)? ");
-                if (Console.ReadKey().KeyChar == 'n')
+                var incorrectInputEndSearch = true;
+                do
                 {
-                    continueSearch = false;
-                }
+                    Console.Write($"\nContinue search by {searchCriterion.ToString().ToLower()} (yes: [y/enter] / no: [n/esc])? ");
+                    var continueUserInput = Console.ReadKey();
+                    if (continueUserInput.KeyChar == 'y' || continueUserInput.KeyChar == 'Y' || continueUserInput.Key == ConsoleKey.Enter)
+                    {
+                        incorrectInputEndSearch = false;
+                    }
+                    else if (continueUserInput.KeyChar == 'n' || continueUserInput.KeyChar == 'N' || continueUserInput.Key == ConsoleKey.Escape)
+                    {
+                        incorrectInputEndSearch = false;
+                        continueSearch = false;
+                    }
+                } while (incorrectInputEndSearch);
+                
             } while (continueSearch);
         }
 
