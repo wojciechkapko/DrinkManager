@@ -21,19 +21,8 @@ namespace DrinkManagerConsole
                 switch (searchCriterion)
                 {
                     case SearchCriterion.Name:
-                        var incorrectInputDrinkName = true;
-                        string textToSearch;
-                        do
-                        {
-                            Console.Write($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
-                            textToSearch = Console.ReadLine();
-                            if (textToSearch != "")
-                            {
-                                incorrectInputDrinkName = false;
-                            }
-                        } while (incorrectInputDrinkName);
-                        
-                        drinksFound = SearchDrink.SearchByName(textToSearch, drinksList);
+                        var nameToSearch = GetTextToSearch(searchCriterion);
+                        drinksFound = SearchDrink.SearchByName(nameToSearch, drinksList);
                         break;
 
                     case SearchCriterion.Ingredients:
@@ -63,10 +52,8 @@ namespace DrinkManagerConsole
                             }
                         } while (incorrectInputIngredientsChoice);
                         
-                        Console.Write($"\n\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
-
-
-                        drinksFound = SearchDrink.SearchByIngredients(new SortedSet<string>(Console.ReadLine()?.Split(' ') ?? throw new InvalidOperationException()), drinksList, searchOption);
+                        var ingredientsToSearch = GetTextToSearch(searchCriterion);
+                        drinksFound = SearchDrink.SearchByIngredients(new SortedSet<string>(ingredientsToSearch.Split(' ')), drinksList, searchOption);
                         break;
                 }
 
@@ -90,6 +77,23 @@ namespace DrinkManagerConsole
                 } while (incorrectInputEndSearch);
                 
             } while (continueSearch);
+        }
+
+        private static string GetTextToSearch(SearchCriterion searchCriterion)
+        {
+            string textToSearch;
+            var incorrectInput = true;
+            do
+            {
+                Console.Write($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
+                textToSearch = Console.ReadLine();
+                if (textToSearch != "")
+                {
+                    incorrectInput = false;
+                }
+            } while (incorrectInput);
+            
+            return textToSearch;
         }
 
         public static void DisplaySearchResults(List<Drink> drinksFound)
