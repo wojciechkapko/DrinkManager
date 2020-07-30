@@ -21,43 +21,74 @@ namespace DrinkManagerConsole
                 switch (searchCriterion)
                 {
                     case SearchCriterion.Name:
-                        Console.Write($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
-                        drinksFound = SearchDrink.SearchByName(Console.ReadLine(), drinksList);
+                        var nameToSearch = GetTextToSearch(searchCriterion);
+                        drinksFound = SearchDrink.SearchByName(nameToSearch, drinksList);
                         break;
 
                     case SearchCriterion.Ingredients:
                         Console.WriteLine("\nInstructions: \nYou can provide ONE or MORE ingredients - separated with a space. \nYou can search drinks containing ALL or ANY of provided ingredients.");
-                        Console.Write("\nWould you like to display drinks containing: \n1. ALL provided ingredients \n2. ANY of provided ingredients\n(1/2) ");
-                        SearchDrinkOption searchOption;
-                        switch (Console.ReadKey().KeyChar)
+                        Console.WriteLine("\nWould you like to display drinks containing: \n1. ALL provided ingredients \n2. ANY of provided ingredients\n(1/2) ");
+                        var searchOption = SearchDrinkOption.All;
+                        bool incorrectInputIngredientsChoice;
+                        do
                         {
-                            case '1':
-                                searchOption = SearchDrinkOption.All;
-                                break;
+                            var searchOptionChoice = Console.ReadKey();
+                            switch (searchOptionChoice.KeyChar)
+                            {
+                                case '1':
+                                    searchOption = SearchDrinkOption.All;
+                                    incorrectInputIngredientsChoice = false;
+                                    break;
 
-                            case '2':
-                                searchOption = SearchDrinkOption.Any;
-                                break;
+                                case '2':
+                                    searchOption = SearchDrinkOption.Any;
+                                    incorrectInputIngredientsChoice = false;
+                                    break;
 
-                            default:
-                                Console.WriteLine("\nI don't know what you mean - try again :)");
-                                searchOption = SearchDrinkOption.Any; //default initialization of local variable - default choice in case user fails to choose
-                                break;
-                        }
-                        Console.Write($"\n\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
-                        drinksFound = SearchDrink.SearchByIngredients(new SortedSet<string>(Console.ReadLine()?.Split(' ') ?? throw new InvalidOperationException()), drinksList, searchOption);
+                                default:
+                                    Console.WriteLine("\nPlease enter correct answer.");
+                                    incorrectInputIngredientsChoice = true;
+                                    break;
+                            }
+                        } while (incorrectInputIngredientsChoice);
+                        
+                        var ingredientsToSearch = GetTextToSearch(searchCriterion);
+                        drinksFound = SearchDrink.SearchByIngredients(new SortedSet<string>(ingredientsToSearch.Split(' ')), drinksList, searchOption);
                         break;
                 }
 
                 // invoking extracted display method
                 DisplaySearchResults(drinksFound);
 
-                Console.Write($"\nContinue search by {searchCriterion.ToString().ToLower()} (y/n)? ");
-                if (Console.ReadKey().KeyChar == 'n')
+                var incorrectInputEndSearch = true;
+                do
                 {
-                    continueSearch = false;
-                }
+                    Console.Write($"\nContinue search by {searchCriterion.ToString().ToLower()} (yes: [y/enter] / no: [n/esc])? ");
+                    var continueUserInput = Console.ReadKey();
+                    if (continueUserInput.KeyChar == 'y' || continueUserInput.KeyChar == 'Y' || continueUserInput.Key == ConsoleKey.Enter)
+                    {
+                        incorrectInputEndSearch = false;
+                    }
+                    else if (continueUserInput.KeyChar == 'n' || continueUserInput.KeyChar == 'N' || continueUserInput.Key == ConsoleKey.Escape)
+                    {
+                        incorrectInputEndSearch = false;
+                        continueSearch = false;
+                    }
+                } while (incorrectInputEndSearch);
+                
             } while (continueSearch);
+        }
+
+        private static string GetTextToSearch(SearchCriterion searchCriterion)
+        {
+            string textToSearch;
+            do
+            {
+                Console.Write($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
+                textToSearch = Console.ReadLine();
+            } while (string.IsNullOrWhiteSpace(textToSearch));
+            
+            return textToSearch;
         }
 
         public static void DisplaySearchResults(List<Drink> drinksFound)
