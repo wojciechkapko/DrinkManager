@@ -82,16 +82,11 @@ namespace DrinkManagerConsole
         private static string GetTextToSearch(SearchCriterion searchCriterion)
         {
             string textToSearch;
-            var incorrectInput = true;
             do
             {
                 Console.Write($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
                 textToSearch = Console.ReadLine();
-                if (textToSearch != "")
-                {
-                    incorrectInput = false;
-                }
-            } while (incorrectInput);
+            } while (string.IsNullOrWhiteSpace(textToSearch));
             
             return textToSearch;
         }
