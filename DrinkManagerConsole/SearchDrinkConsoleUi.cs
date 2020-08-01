@@ -159,5 +159,68 @@ namespace DrinkManagerConsole
             Console.WriteLine("\nPress any key to go back to the main menu.");
             Console.ReadKey();
         }
+        /// <summary>
+        /// Shows search criteria menu, gets user input and cause GetDrinksByAlcoholContent to run
+        /// </summary>
+        /// <param name="drinks"></param>
+        public static void HandleSearchDrinksByContentInConsole(List<Drink> drinks)
+        {
+            Console.Clear();
+            Console.WriteLine("Choose one of the searching criteria: ");
+            Console.WriteLine("1. Alcoholic drinks");
+            Console.WriteLine("2. Non alcoholic drinks");
+            Console.WriteLine("3. Optional alcohol drinks");
+            Console.WriteLine("4. Alcoholic and optional alcohol drinks");
+            Console.WriteLine("5. Non alcoholic and optional alcohol drinks");
+            Console.WriteLine("Press any other key to go back to previous menu");
+
+            var searchChoice = Console.ReadKey();
+            if (searchChoice.Key == ConsoleKey.D1 || searchChoice.Key == ConsoleKey.D2 || searchChoice.Key == ConsoleKey.D3 || searchChoice.Key == ConsoleKey.D4 || searchChoice.Key == ConsoleKey.D5)
+            {
+                DisplaySearchResults(GetDrinksByAlcoholContent(searchChoice, drinks));
+            }
+        }
+        /// <summary>
+        /// Depending on user input from HandleSearchDrinksByContentinConsole, causes SearchByAlcoholContent to run with specified search criteria
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="drinks"></param>
+        /// <returns></returns>
+        public static List<Drink> GetDrinksByAlcoholContent(ConsoleKeyInfo key, List<Drink> drinks)
+        {
+            var contemporaryList = new List<Drink>();
+            Console.Clear();
+            switch (key.Key)
+            {
+                case ConsoleKey.D1:
+                    {
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Alcoholic", drinks, contemporaryList);
+                        break;
+                    }
+                case ConsoleKey.D2:
+                    {
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Non alcoholic", drinks, contemporaryList);
+                        break;
+                    }
+                case ConsoleKey.D3:
+                    {
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Optional alcohol", drinks, contemporaryList);
+                        break;
+                    }
+                case ConsoleKey.D4:
+                    {
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Alcoholic", drinks, contemporaryList);
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Optional alcohol", drinks, contemporaryList);
+                        break;
+                    }
+                case ConsoleKey.D5:
+                    {
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Non alcoholic", drinks, contemporaryList);
+                        contemporaryList = SearchDrink.SearchByAlcoholContent("Optional alcohol", drinks, contemporaryList);
+                        break;
+                    }
+            }
+            return contemporaryList;
+        }
     }
 }
