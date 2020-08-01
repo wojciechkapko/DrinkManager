@@ -58,7 +58,7 @@ namespace DrinkManagerConsole
                 }
 
                 // invoking extracted display method
-                DisplaySearchResults(drinksFound);
+                PagingHandler.DivideDrinkListIntoPages(drinksFound);
 
                 var incorrectInputEndSearch = true;
                 do
@@ -177,7 +177,8 @@ namespace DrinkManagerConsole
             var searchChoice = Console.ReadKey();
             if (searchChoice.Key == ConsoleKey.D1 || searchChoice.Key == ConsoleKey.D2 || searchChoice.Key == ConsoleKey.D3 || searchChoice.Key == ConsoleKey.D4 || searchChoice.Key == ConsoleKey.D5)
             {
-                DisplaySearchResults(GetDrinksByAlcoholContent(searchChoice, drinks));
+                PagingHandler.DivideDrinkListIntoPages(GetDrinksByAlcoholContent(searchChoice, drinks));
+                Console.Clear();
             }
         }
         /// <summary>
