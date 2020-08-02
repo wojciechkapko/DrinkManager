@@ -69,6 +69,7 @@ namespace DrinkManagerConsole
         public static void ReWriteDrinkListOnConsole(List<Drink> contemporaryList, int page, ConsoleKeyInfo choice)
         {
             Console.Clear();
+            //Print next page of drinks if user pressed key for Next Page
             if (choice.Key == ConsoleKey.N)
             {
                 for (int i = page * 9; i < contemporaryList.Count; i++)
@@ -76,6 +77,7 @@ namespace DrinkManagerConsole
                     Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
                 }
             }
+            //Print previous page of drinks if user pressed key for Previous Page
             else if (choice.Key == ConsoleKey.P)
             {
                 for (int i = page * 9; i < Math.Min(9, contemporaryList.Count); i++)
@@ -83,6 +85,7 @@ namespace DrinkManagerConsole
                     Console.WriteLine($"{i + 1}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
                 }
             }
+            //Reprints list after drink check or pressing unsupported input
             else
             {
                 for (int i = page * 9; i < Math.Min(page * 9 + 9, contemporaryList.Count); i++)

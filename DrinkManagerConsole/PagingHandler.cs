@@ -29,7 +29,6 @@ namespace DrinkManagerConsole
                 PrintOnConsole.TellUserThatHeCanNotGoToNextPage(page);
                 return false;
             }
-
             return true;
         }
         public static bool CheckIfUserCanGoBackToPreviousPage(List<Drink> contemporaryList, int page, ConsoleKeyInfo choice)
@@ -40,7 +39,6 @@ namespace DrinkManagerConsole
                 PrintOnConsole.TellUserThatHeCanNotGoBack(contemporaryList, page);
                 return false;
             }
-
             return true;
         }
         public static int MoveThroughPagesOrCheckDrinkInfo(List<Drink> contemporaryList, int page)
@@ -50,6 +48,7 @@ namespace DrinkManagerConsole
                 PrintOnConsole.PrintInstructionWhileOnPagedList(contemporaryList, page);
                 var choice = Console.ReadKey();
                 Console.Clear();
+                //Moves to drink info if user press 1 - 9
                 if (char.IsDigit(choice.KeyChar))
                 {
                     if (choice.KeyChar != '0')
@@ -58,32 +57,33 @@ namespace DrinkManagerConsole
                         {
                             return -1;
                         }
-
                         PrintOnConsole.PressAnyKeyToGoBackToPreviousMenu();
                         PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
                     }
+                    //Cleans and rewrites list if user picked 0
                     else
                     {
                         PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
                     }
                 }
-                else if (choice.Key == ConsoleKey.N)
+                //If user picked N for Next Page, page is increased
+                else if (choice.Key == ConsoleKey.N && CheckIfUserCanGoToNextPage(contemporaryList, page, choice))
                 {
-                    if (CheckIfUserCanGoToNextPage(contemporaryList, page, choice))
-                    {
-                        page++;
-                        return page;
-                    }
+                    page++;
+                    return page;
                 }
+                //If user picked P for Previous Page, page is decreased
                 else if (choice.Key == ConsoleKey.P && CheckIfUserCanGoBackToPreviousPage(contemporaryList, page, choice))
                 {
                     page--;
                     return page;
                 }
+                //Exits to main menu
                 else if (choice.Key == ConsoleKey.Escape)
                 {
                     return -1;
                 }
+                //Rewrites drink list to console if user gives unsupported input
                 else
                 {
                     PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
