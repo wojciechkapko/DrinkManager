@@ -1,7 +1,6 @@
-﻿using System;
+﻿using BLL;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using BLL;
 
 namespace DrinkManagerConsole
 {
@@ -52,15 +51,16 @@ namespace DrinkManagerConsole
         public static List<Ingredient> GetIngredients()
         {
             var ingredients = new List<Ingredient>();
+            int numberOfIngredients;
 
-            Console.WriteLine();
-            Console.Write("Number of ingredients: ");
-            var numberOfIngredients = Convert.ToInt32(Console.ReadLine());
-
-            for (int i = 0; i < numberOfIngredients; i++)
+            do
             {
-                Console.WriteLine();
-                Console.Write("Name: ");
+                Console.Write("\nNumber of ingredients (max 10): ");
+            } while (!int.TryParse(Console.ReadLine(), out numberOfIngredients) || numberOfIngredients > 10);
+
+            for (var i = 0; i < numberOfIngredients; i++)
+            {
+                Console.Write("\nName: ");
                 var name = Console.ReadLine();
                 Console.Write("Amount: ");
                 var amount = Console.ReadLine();
