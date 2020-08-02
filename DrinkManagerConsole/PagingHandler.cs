@@ -11,11 +11,11 @@ namespace DrinkManagerConsole
         {
             try
             {
-                PrintOnConsole.WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + int.Parse(choice.KeyChar.ToString()) - 1));
+                SearchDrinkConsoleUi.WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + int.Parse(choice.KeyChar.ToString()) - 1));
             }
             catch (ArgumentOutOfRangeException)
             {
-                PrintOnConsole.WriteExceptionCaughtInfo();
+                SearchDrinkConsoleUi.WriteExceptionCaughtInfo();
                 return false;
             }
             return true;
@@ -25,8 +25,8 @@ namespace DrinkManagerConsole
         {
             if (page * 9 + 9 > contemporaryList.Count)
             {
-                PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
-                PrintOnConsole.TellUserThatHeCanNotGoToNextPage(page);
+                SearchDrinkConsoleUi.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
+                SearchDrinkConsoleUi.TellUserThatHeCanNotGoToNextPage(page);
                 return false;
             }
             return true;
@@ -35,8 +35,8 @@ namespace DrinkManagerConsole
         {
             if (page == 0)
             {
-                PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
-                PrintOnConsole.TellUserThatHeCanNotGoBack(contemporaryList, page);
+                SearchDrinkConsoleUi.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
+                SearchDrinkConsoleUi.TellUserThatHeCanNotGoBack(contemporaryList, page);
                 return false;
             }
             return true;
@@ -45,7 +45,7 @@ namespace DrinkManagerConsole
         {
             do
             {
-                PrintOnConsole.PrintInstructionWhileOnPagedList(contemporaryList, page);
+                SearchDrinkConsoleUi.PrintInstructionWhileOnPagedList(contemporaryList, page);
                 var choice = Console.ReadKey();
                 Console.Clear();
                 //Moves to drink info if user press 1 - 9
@@ -57,13 +57,13 @@ namespace DrinkManagerConsole
                         {
                             return -1;
                         }
-                        PrintOnConsole.PressAnyKeyToGoBackToPreviousMenu();
-                        PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
+                        SearchDrinkConsoleUi.PressAnyKeyToGoBackToPreviousMenu();
+                        SearchDrinkConsoleUi.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
                     }
                     //Cleans and rewrites list if user picked 0
                     else
                     {
-                        PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
+                        SearchDrinkConsoleUi.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
                     }
                 }
                 //If user picked N for Next Page, page is increased
@@ -92,7 +92,7 @@ namespace DrinkManagerConsole
                 //Rewrites drink list to console if user gives unsupported input
                 else
                 {
-                    PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
+                    SearchDrinkConsoleUi.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
                 }
             }
             while (true);
@@ -112,7 +112,7 @@ namespace DrinkManagerConsole
                 }
                 else
                 {
-                    PrintOnConsole.PrintDrinksOnPage(contemporaryList, counter, index);
+                    SearchDrinkConsoleUi.PrintDrinksOnPage(contemporaryList, counter, index);
                 }
                 index = counter + page * 9;
                 if (index == contemporaryList.Count)

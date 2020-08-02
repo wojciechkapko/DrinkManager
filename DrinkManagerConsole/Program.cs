@@ -1,8 +1,6 @@
 ﻿using BLL;
 using System;
-using System.Collections.Generic;
 using BLL.Enums;
-using System;
 
 namespace DrinkManagerConsole
 {
