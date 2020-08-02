@@ -29,10 +29,8 @@ namespace DrinkManagerConsole
                 PrintOnConsole.TellUserThatHeCanNotGoToNextPage(page);
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
         }
         public static bool CheckIfUserCanGoBackToPreviousPage(List<Drink> contemporaryList, int page, ConsoleKeyInfo choice)
         {
@@ -42,15 +40,15 @@ namespace DrinkManagerConsole
                 PrintOnConsole.TellUserThatHeCanNotGoBack(contemporaryList, page);
                 return false;
             }
+
             return true;
         }
         public static int MoveThroughPagesOrCheckDrinkInfo(List<Drink> contemporaryList, int page)
         {
-            var choice = new ConsoleKeyInfo();
             do
             {
                 PrintOnConsole.PrintInstructionWhileOnPagedList(contemporaryList, page);
-                choice = Console.ReadKey();
+                var choice = Console.ReadKey();
                 Console.Clear();
                 if (char.IsDigit(choice.KeyChar))
                 {
@@ -60,41 +58,27 @@ namespace DrinkManagerConsole
                         {
                             return -1;
                         }
-                        else
-                        {
-                            PrintOnConsole.PressAnyKeyToGoBackToPreviousMenu();
-                            PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
-                        }
+
+                        PrintOnConsole.PressAnyKeyToGoBackToPreviousMenu();
+                        PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
                     }
                     else
                     {
                         PrintOnConsole.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
-                        continue;
                     }
                 }
                 else if (choice.Key == ConsoleKey.N)
                 {
-                    if (CheckIfUserCanGoToNextPage(contemporaryList, page, choice) == false)
-                    {
-                        continue;
-                    }
-                    else
+                    if (CheckIfUserCanGoToNextPage(contemporaryList, page, choice))
                     {
                         page++;
                         return page;
                     }
                 }
-                else if (choice.Key == ConsoleKey.P)
+                else if (choice.Key == ConsoleKey.P && CheckIfUserCanGoBackToPreviousPage(contemporaryList, page, choice))
                 {
-                    if (CheckIfUserCanGoBackToPreviousPage(contemporaryList, page, choice) == false)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        page--;
-                        return page;
-                    }
+                    page--;
+                    return page;
                 }
                 else if (choice.Key == ConsoleKey.Escape)
                 {

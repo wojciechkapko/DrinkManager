@@ -69,14 +69,7 @@ namespace DrinkManagerConsole
         public static void ReWriteDrinkListOnConsole(List<Drink> contemporaryList, int page, ConsoleKeyInfo choice)
         {
             Console.Clear();
-            if (char.IsDigit(choice.KeyChar))
-            {
-                for (int i = page * 9; i < Math.Min(page * 9 + 9, contemporaryList.Count); i++)
-                {
-                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
-                }
-            }
-            else if (choice.Key == ConsoleKey.N)
+            if (choice.Key == ConsoleKey.N)
             {
                 for (int i = page * 9; i < contemporaryList.Count; i++)
                 {
