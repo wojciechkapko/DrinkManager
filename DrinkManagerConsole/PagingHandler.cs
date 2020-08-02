@@ -1,17 +1,16 @@
-﻿using System;
+﻿using BLL;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using BLL;
 
 namespace DrinkManagerConsole
 {
     public class PagingHandler
     {
-        public static bool TryToWriteDrinkInfo(List<Drink> contemporaryList, int page, ConsoleKeyInfo choice)
+        public static bool TryToWriteDrinkInfo(Drink drink)
         {
             try
             {
-                SearchDrinkConsoleUi.WriteDrinkInfo(contemporaryList.ElementAt(page * 9 + int.Parse(choice.KeyChar.ToString()) - 1));
+                SearchDrinkConsoleUi.WriteDrinkInfo(drink);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -31,6 +30,7 @@ namespace DrinkManagerConsole
             }
             return true;
         }
+
         public static bool CheckIfUserCanGoBackToPreviousPage(List<Drink> contemporaryList, int page, ConsoleKeyInfo choice)
         {
             if (page == 0)
@@ -41,6 +41,7 @@ namespace DrinkManagerConsole
             }
             return true;
         }
+
         public static int MoveThroughPagesOrCheckDrinkInfo(List<Drink> contemporaryList, int page)
         {
             do
@@ -48,16 +49,19 @@ namespace DrinkManagerConsole
                 SearchDrinkConsoleUi.PrintInstructionWhileOnPagedList(contemporaryList, page);
                 var choice = Console.ReadKey();
                 Console.Clear();
-                //Moves to drink info if user press 1 - 9
+                // Moves to drink info if user press 1 - 9
                 if (char.IsDigit(choice.KeyChar))
                 {
                     if (choice.KeyChar != '0')
                     {
-                        if (TryToWriteDrinkInfo(contemporaryList, page, choice) == false)
+                        // select the drink form the list
+                        var drink = contemporaryList[page * 9 + int.Parse(choice.KeyChar.ToString()) - 1];
+
+                        if (TryToWriteDrinkInfo(drink) == false)
                         {
                             return -1;
                         }
-                        SearchDrinkConsoleUi.PressAnyKeyToGoBackToPreviousMenu();
+                        SearchDrinkConsoleUi.DisplayProductDetailsOptions(drink);
                         SearchDrinkConsoleUi.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
                     }
                     //Cleans and rewrites list if user picked 0
@@ -76,7 +80,7 @@ namespace DrinkManagerConsole
                     }
                 }
                 //If user picked P for Previous Page, page is decreased
-                else if (choice.Key == ConsoleKey.P) 
+                else if (choice.Key == ConsoleKey.P)
                 {
                     if (CheckIfUserCanGoBackToPreviousPage(contemporaryList, page, choice))
                     {
@@ -97,6 +101,7 @@ namespace DrinkManagerConsole
             }
             while (true);
         }
+
         public static void DivideDrinkListIntoPages(List<Drink> contemporaryList)
         {
             int page = 0;
