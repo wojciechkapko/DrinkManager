@@ -341,6 +341,14 @@ namespace DrinkManagerConsole
             Console.WriteLine($"\nInstructions:\n{drink.Instructions}");
             Console.WriteLine(
                     "------------------------------------------------------------------------------------------------------------------");
+            if (drink.isReviewed)
+            {
+                Console.WriteLine($"Score: {drink.DrinkReview.ReviewScore}");
+                Console.WriteLine(drink.DrinkReview.ReviewText);
+                Console.WriteLine($"Date: {drink.DrinkReview.ReviewDate}");
+                Console.WriteLine(
+                    "------------------------------------------------------------------------------------------------------------------");
+            }
         }
 
         public static void DisplayProductDetailsOptions(Drink drink)
