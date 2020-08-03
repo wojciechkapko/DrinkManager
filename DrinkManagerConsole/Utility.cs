@@ -56,7 +56,7 @@ namespace DrinkManagerConsole
             do
             {
                 Console.Write("\nNumber of ingredients (max 10): ");
-            } while (!int.TryParse(Console.ReadLine(), out numberOfIngredients) || numberOfIngredients > 10 || numberOfIngredients < 1);
+            } while (!int.TryParse(Console.ReadLine(), out numberOfIngredients) || numberOfIngredients > 15 || numberOfIngredients < 1);
 
             for (var i = 0; i < numberOfIngredients; i++)
             {
