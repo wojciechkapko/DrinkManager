@@ -55,6 +55,21 @@ namespace BLL
         [JsonProperty("strIngredient10")]
         public string IngredientName10 { get; set; }
 
+        [JsonProperty("strIngredient11")]
+        public string IngredientName11 { get; set; }
+
+        [JsonProperty("strIngredient12")]
+        public string IngredientName12 { get; set; }
+
+        [JsonProperty("strIngredient13")]
+        public string IngredientName13 { get; set; }
+
+        [JsonProperty("strIngredient14")]
+        public string IngredientName14 { get; set; }
+
+        [JsonProperty("strIngredient15")]
+        public string IngredientName15 { get; set; }
+
         [JsonProperty("strMeasure1")]
         public string IngredientMeasure1 { get; set; }
 
@@ -85,9 +100,25 @@ namespace BLL
         [JsonProperty("strMeasure10")]
         public string IngredientMeasure10 { get; set; }
 
+        [JsonProperty("strMeasure11")]
+        public string IngredientMeasure11 { get; set; }
+
+        [JsonProperty("strMeasure12")]
+        public string IngredientMeasure12 { get; set; }
+
+        [JsonProperty("strMeasure13")]
+        public string IngredientMeasure13 { get; set; }
+
+        [JsonProperty("strMeasure14")]
+        public string IngredientMeasure14 { get; set; }
+
+        [JsonProperty("strMeasure15")]
+        public string IngredientMeasure15 { get; set; }
+
         public DrinkReview DrinkReview { get; set; }
 
-        public bool isReviewed {
+        public bool isReviewed
+        {
             get
             {
                 if (DrinkReview != null)
@@ -95,7 +126,8 @@ namespace BLL
                     return true;
                 }
                 return false;
-            } }
+            }
+        }
 
         public List<Ingredient> Ingredients
         {
@@ -154,6 +186,31 @@ namespace BLL
                         {
                             Name = IngredientName10,
                             Amount = IngredientMeasure10
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName11,
+                            Amount = IngredientMeasure11
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName12,
+                            Amount = IngredientMeasure12
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName13,
+                            Amount = IngredientMeasure13
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName14,
+                            Amount = IngredientMeasure14
+                        },
+                        new Ingredient
+                        {
+                            Name = IngredientName15,
+                            Amount = IngredientMeasure15
                         }
                     };
                 }
