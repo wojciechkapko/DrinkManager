@@ -1,6 +1,6 @@
-﻿using System;
+﻿using BLL;
+using System;
 using System.Collections.Generic;
-using BLL;
 
 namespace DrinkManagerConsole
 {
@@ -19,6 +19,7 @@ namespace DrinkManagerConsole
             {
                 Name = Utility.GetGenericData("Drink name: "),
                 AlcoholicInfo = Utility.GetAlcoholicInfoFromConsole(),
+                GlassType = Utility.GetGenericData("Glass type: "),
                 Category = Utility.GetGenericData("Category name: "),
                 Ingredients = Utility.GetIngredients(),
                 Instructions = Utility.GetGenericData("Instructions: ")
