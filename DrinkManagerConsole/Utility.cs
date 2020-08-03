@@ -60,7 +60,7 @@ namespace DrinkManagerConsole
 
             for (var i = 0; i < numberOfIngredients; i++)
             {
-                Console.Write("\nName: ");
+                Console.Write("\nIngredient name: ");
                 var name = Console.ReadLine();
                 Console.Write("Amount: ");
                 var amount = Console.ReadLine();
