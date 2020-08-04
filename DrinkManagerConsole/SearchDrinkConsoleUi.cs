@@ -52,7 +52,7 @@ namespace DrinkManagerConsole
                                     break;
                             }
                         } while (incorrectInputIngredientsChoice);
-                        
+
                         var ingredientsToSearch = GetTextToSearch(searchCriterion);
                         drinksFound = SearchDrink.SearchByIngredients(new SortedSet<string>(ingredientsToSearch.Split(' ')), drinksList, searchOption);
                         break;
@@ -76,7 +76,6 @@ namespace DrinkManagerConsole
                         continueSearch = false;
                     }
                 } while (incorrectInputEndSearch);
-                
             } while (continueSearch);
         }
 
@@ -88,7 +87,7 @@ namespace DrinkManagerConsole
                 Console.Write($"\nEnter a drink {searchCriterion.ToString().ToLower()} to find: ");
                 textToSearch = Console.ReadLine();
             } while (string.IsNullOrWhiteSpace(textToSearch));
-            
+
             return textToSearch;
         }
 
@@ -160,6 +159,7 @@ namespace DrinkManagerConsole
             Console.WriteLine("\nPress any key to go back to the main menu.");
             Console.ReadKey();
         }
+
         /// <summary>
         /// Shows search criteria menu, gets user input and cause GetDrinksByAlcoholContent to run
         /// </summary>
@@ -182,6 +182,7 @@ namespace DrinkManagerConsole
                 Console.Clear();
             }
         }
+
         /// <summary>
         /// Depending on user input from HandleSearchDrinksByContentinConsole, causes SearchByAlcoholContent to run with specified search criteria
         /// </summary>
@@ -224,10 +225,12 @@ namespace DrinkManagerConsole
             }
             return contemporaryList;
         }
+
         public static void PrintDrinksOnPage(List<Drink> contemporaryList, int counter, int index)
         {
             Console.WriteLine($"{counter}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(index).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(index).AlcoholicInfo.PadRight(12, ' '));
         }
+
         public static void PrintInstructionWhileOnPagedList(List<Drink> contemporaryList, int page)
         {
             if (page * 9 + 9 > contemporaryList.Count)
@@ -250,6 +253,7 @@ namespace DrinkManagerConsole
                 Console.WriteLine("\nIf you want to check any drink, press its corresponding number\nIf you want to go to next page press N, or P to go to next to previous page\nIf you want to go back to main menu, press ESC");
             }
         }
+
         public static void TellUserThatHeCanNotGoToNextPage(int page)
         {
             if (page == 0)
@@ -261,6 +265,7 @@ namespace DrinkManagerConsole
                 Console.WriteLine("\nThis is the last page, there is no more");
             }
         }
+
         public static void TellUserThatHeCanNotGoBack(List<Drink> contemporaryList, int page)
         {
             if (page * 9 + 9 > contemporaryList.Count)
@@ -272,17 +277,20 @@ namespace DrinkManagerConsole
                 Console.WriteLine("\nThis is the first page");
             }
         }
+
         public static void WriteExceptionCaughtInfo()
         {
             Console.WriteLine("Exception caught: ArgumentOutOfRangeException. Next time choose the number that is on the list!");
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
         }
+
         public static void PressAnyKeyToGoBackToPreviousMenu()
         {
             Console.WriteLine("\nTo go back to previous menu, press any key");
             Console.ReadKey();
         }
+
         public static void ReWriteDrinkListOnConsole(List<Drink> contemporaryList, int page, ConsoleKeyInfo choice)
         {
             Console.Clear();
@@ -311,6 +319,7 @@ namespace DrinkManagerConsole
                 }
             }
         }
+
         public static void WriteDrinkInfo(Drink drink)
         {
             Console.WriteLine(
@@ -332,7 +341,72 @@ namespace DrinkManagerConsole
             Console.WriteLine($"\nInstructions:\n{drink.Instructions}");
             Console.WriteLine(
                     "------------------------------------------------------------------------------------------------------------------");
-            return;
+            if (drink.isReviewed)
+            {
+                Console.WriteLine($"Score: {drink.DrinkReview.ReviewScore}");
+                Console.WriteLine(drink.DrinkReview.ReviewText);
+                Console.WriteLine($"Date: {drink.DrinkReview.ReviewDate}");
+                Console.WriteLine(
+                    "------------------------------------------------------------------------------------------------------------------");
+            }
         }
+
+        public static void DisplayProductDetailsOptions(Drink drink)
+        {
+            while (true)
+            {
+                Console.WriteLine();
+                if (!drink.isReviewed)
+                {
+                    Console.WriteLine("Press R to leave a review for this drink");
+                }
+                else if (ValidateReviewAge(drink.DrinkReview.ReviewDate))
+                {
+                    Console.WriteLine("Press R to edit review for this drink");
+                }
+                Console.WriteLine("Press F to add to favorites list");
+                Console.WriteLine("Press E to edit drink details");
+                Console.WriteLine("\nPress ESC to go back");
+
+                var userChoice = Console.ReadKey(true);
+
+                switch (userChoice.Key)
+                {
+                    case ConsoleKey.R:
+                        if (!drink.isReviewed)
+                        {
+                            // Create review method call
+                            break;
+                        }
+                        else if (ValidateReviewAge(drink.DrinkReview.ReviewDate))
+                        {
+                            // Edit review method call
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nUnsupported input, try again...\n");
+                            continue;
+                        }
+
+                    case ConsoleKey.F:
+                        // Add to favorites method call
+                        break;
+
+                    case ConsoleKey.E:
+                        // Edit drink details method call
+                        break;
+
+                    case ConsoleKey.Escape:
+                        return;
+
+                    default:
+                        Console.WriteLine("\nUnsupported input, try again...\n");
+                        continue;
+                }
+            }
+        }
+
+        private static bool ValidateReviewAge(DateTime reviewDate) => !(DateTime.Now.Subtract(reviewDate).TotalSeconds > 60);
     }
 }
