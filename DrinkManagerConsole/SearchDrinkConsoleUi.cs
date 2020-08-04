@@ -407,6 +407,6 @@ namespace DrinkManagerConsole
             }
         }
 
-        private static bool ValidateReviewAge(DateTime reviewDate) => !(DateTime.Now.Subtract(reviewDate).Seconds > 5);
+        private static bool ValidateReviewAge(DateTime reviewDate) => !(DateTime.Now.Subtract(reviewDate).TotalSeconds > 60);
     }
 }
