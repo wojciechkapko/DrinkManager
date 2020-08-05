@@ -3,12 +3,15 @@ using System;
 
 namespace DrinkManagerConsole
 {
-    public class ReviewUi
+    public static class ReviewUi
     {
         public static void EditReview(Drink drink)
         {
             
             Console.Clear();
+            Console.WriteLine("Current drink information:");
+            Console.WriteLine(
+                "------------------------------------------------------------------------------------------------------------------");
             SearchDrinkConsoleUi.WriteDrinkInfo(drink);
 
             Console.WriteLine("Please provide new score:");
@@ -20,6 +23,11 @@ namespace DrinkManagerConsole
             drink.DrinkReview.ReviewScore = newScore;
             drink.DrinkReview.ReviewText = newReview;
             drink.DrinkReview.ReviewDate = DateTime.Now;
+
+            Console.WriteLine("New drink information:");
+            Console.WriteLine(
+                "------------------------------------------------------------------------------------------------------------------");
+            SearchDrinkConsoleUi.WriteDrinkInfo(drink);
 
             Console.WriteLine("\nPress any key to go back.");
             Console.ReadKey();
