@@ -380,7 +380,7 @@ namespace DrinkManagerConsole
                         }
                         else if (ValidateReviewAge(drink.DrinkReview.ReviewDate))
                         {
-                            // Edit review method call
+                            ReviewUi.EditReview(drink);
                             break;
                         }
                         else
