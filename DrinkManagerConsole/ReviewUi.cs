@@ -7,27 +7,34 @@ namespace DrinkManagerConsole
     {
         public static void EditReview(Drink drink)
         {
-            
             Console.Clear();
             Console.WriteLine("Current drink information:");
-            Console.WriteLine(
-                "------------------------------------------------------------------------------------------------------------------");
             SearchDrinkConsoleUi.WriteDrinkInfo(drink);
 
-            Console.WriteLine("Please provide new score:");
-            var newScore = Console.Read();
-            Console.WriteLine("Please write new review:");
-            Console.WriteLine(
-                "------------------------------------------------------------------------------------------------------------------");
-            var newReview = Console.ReadLine();
-            drink.DrinkReview.ReviewScore = newScore;
-            drink.DrinkReview.ReviewText = newReview;
-            drink.DrinkReview.ReviewDate = DateTime.Now;
+            int newScore;
+            do
+            {
+                Console.WriteLine("\nPlease provide new score (0 - 5):");
+            } while (!int.TryParse(Console.ReadLine(), out newScore) && newScore >= 0 && newScore <= 5);
+           
+            string newReview;
+            do
+            {
+                Console.WriteLine("\nPlease write new review:");
+                newReview = Console.ReadLine();
+            } while (newReview == null);
 
-            Console.WriteLine("New drink information:");
-            Console.WriteLine(
-                "------------------------------------------------------------------------------------------------------------------");
-            SearchDrinkConsoleUi.WriteDrinkInfo(drink);
+            ReviewService reviewService = new ReviewService();
+            if (reviewService.EditReview(drink, newScore, newReview))
+            {
+                Console.WriteLine("\nYour new review has been saved.");
+                Console.WriteLine("\nNew drink information:");
+                SearchDrinkConsoleUi.WriteDrinkInfo(drink);
+            }
+            else
+            {
+                Console.WriteLine("\nError occured - please try again.");
+            }
 
             Console.WriteLine("\nPress any key to go back.");
             Console.ReadKey();
