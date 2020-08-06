@@ -34,7 +34,7 @@ namespace DrinkManagerConsole
             }
             else
             {
-                reviewService.AddReview(newScore, newReview);
+                drink.DrinkReview = reviewService.AddReview(newScore, newReview);
                 Console.WriteLine("\nThank you for reviewing our drink!");
                 Console.WriteLine("\nNew drink information:");
                 SearchDrinkConsoleUi.WriteDrinkInfo(drink);
