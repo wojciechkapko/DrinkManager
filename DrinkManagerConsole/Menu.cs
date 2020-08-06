@@ -8,10 +8,11 @@ namespace DrinkManagerConsole
     {
         FindByName = 1,
         FindByAlcoholContent = 2,
-        AddCustomDrink = 3,
-        FindByIngredient = 4,
-        UpdateDrinksFromFile = 5,
-        Exit = 6
+        FindByIngredient = 3,
+        ShowReviewedDrinksList = 4,
+        AddCustomDrink = 5,
+        UpdateDrinksFromFile = 6,
+        Exit = 7
 
     }
     class Menu
@@ -31,8 +32,9 @@ namespace DrinkManagerConsole
         {
             {MenuChoice.FindByName, "Find drink by its name."},
             {MenuChoice.FindByAlcoholContent, "Find drink by alcohol content."},
-            {MenuChoice.AddCustomDrink, "Add your own drink."},
             {MenuChoice.FindByIngredient, "Find drink by its ingredient."},
+            {MenuChoice.ShowReviewedDrinksList, "Show your reviewed drinks." },
+            {MenuChoice.AddCustomDrink, "Add your own drink."},
             {MenuChoice.UpdateDrinksFromFile, "Update your drinks data."},
             {MenuChoice.Exit, "Exit."}
         };

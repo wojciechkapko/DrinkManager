@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BLL
 {
@@ -18,6 +19,22 @@ namespace BLL
                 ReviewText = review,
                 ReviewDate = DateTime.Now
             };
+        }
+        public List<Drink> ShowReviewed(List<Drink> drinks)
+        {
+            var contemporaryList = new List<Drink>();
+            foreach(var drink in drinks)
+            {
+                if(drink.isReviewed)
+                {
+                    contemporaryList.Add(drink);
+                }
+            }
+            if(contemporaryList.Count == 0)
+            {
+                Console.WriteLine("You haven't reviewed any drinks yet!");
+            }
+            return contemporaryList;
         }
     }
 }
