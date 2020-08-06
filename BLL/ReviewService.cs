@@ -4,17 +4,20 @@ namespace BLL
 {
     public class ReviewService
     {
-        public bool EditReview(Drink drink, int score, string review)
+        public void EditReview(Drink drink, int score, string review)
         {
-            if (!drink.isReviewed)
-            {
-                return false;
-            }
-
             drink.DrinkReview.ReviewScore = score;
             drink.DrinkReview.ReviewText = review;
             drink.DrinkReview.ReviewDate = DateTime.Now;
-            return true;
+        }
+        public DrinkReview AddReview(int score, string review)
+        {
+            return new DrinkReview
+            {
+                ReviewScore = score,
+                ReviewText = review,
+                ReviewDate = DateTime.Now
+            };
         }
     }
 }

@@ -373,14 +373,9 @@ namespace DrinkManagerConsole
                 switch (userChoice.Key)
                 {
                     case ConsoleKey.R:
-                        if (!drink.isReviewed)
+                        if (!drink.isReviewed || (drink.isReviewed && ValidateReviewAge(drink.DrinkReview.ReviewDate)))
                         {
-                            // Create review method call
-                            break;
-                        }
-                        else if (ValidateReviewAge(drink.DrinkReview.ReviewDate))
-                        {
-                            ReviewUi.EditReview(drink);
+                            ReviewUi.GetDataFromUserForNewReview(drink);
                             break;
                         }
                         else

@@ -5,7 +5,7 @@ namespace DrinkManagerConsole
 {
     public static class ReviewUi
     {
-        public static void EditReview(Drink drink)
+        public static void GetDataFromUserForNewReview(Drink drink)
         {
             Console.Clear();
             Console.WriteLine("Current drink information:");
@@ -25,19 +25,20 @@ namespace DrinkManagerConsole
             } while (newReview == null);
 
             ReviewService reviewService = new ReviewService();
-            if (reviewService.EditReview(drink, newScore, newReview))
+            if (drink.isReviewed)
             {
+                reviewService.EditReview(drink, newScore, newReview);
                 Console.WriteLine("\nYour new review has been saved.");
                 Console.WriteLine("\nNew drink information:");
                 SearchDrinkConsoleUi.WriteDrinkInfo(drink);
             }
             else
             {
-                Console.WriteLine("\nError occured - please try again.");
+                drink.DrinkReview = reviewService.AddReview(newScore, newReview);
+                Console.WriteLine("\nThank you for reviewing our drink!");
+                Console.WriteLine("\nNew drink information:");
+                SearchDrinkConsoleUi.WriteDrinkInfo(drink);
             }
-
-            Console.WriteLine("\nPress any key to go back.");
-            Console.ReadKey();
         }
     }
 }
