@@ -375,12 +375,12 @@ namespace DrinkManagerConsole
                     case ConsoleKey.R:
                         if (!drink.isReviewed)
                         {
-                            // Create review method call
+                            ReviewUi.GetDataFromUserForNewReview(drink);
                             break;
                         }
                         else if (ValidateReviewAge(drink.DrinkReview.ReviewDate))
                         {
-                            ReviewUi.EditReview(drink);
+                            ReviewUi.GetDataFromUserForNewReview(drink);
                             break;
                         }
                         else
