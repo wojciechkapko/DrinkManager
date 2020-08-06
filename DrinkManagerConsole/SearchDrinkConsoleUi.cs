@@ -376,8 +376,6 @@ namespace DrinkManagerConsole
                         if (!drink.isReviewed)
                         {
                             // Create review method call
-                            ReviewUi.EditReview(drink);
-
                             break;
                         }
                         else if (ValidateReviewAge(drink.DrinkReview.ReviewDate))

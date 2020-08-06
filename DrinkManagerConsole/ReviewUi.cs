@@ -14,8 +14,8 @@ namespace DrinkManagerConsole
             int newScore;
             do
             {
-                Console.WriteLine("\nPlease provide new score (0 - 5):");
-            } while (!int.TryParse(Console.ReadLine(), out newScore) && newScore >= 0 && newScore <= 5);
+                Console.WriteLine($"\nPlease provide new score ({DrinkReview.MinScore} - {DrinkReview.MaxScore}):");
+            } while (!int.TryParse(Console.ReadLine(), out newScore) || newScore < DrinkReview.MinScore || newScore > DrinkReview.MaxScore);
            
             string newReview;
             do
