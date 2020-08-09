@@ -1,5 +1,6 @@
 ﻿using BLL;
 using System;
+using System.Collections.Generic;
 
 namespace DrinkManagerConsole
 {
@@ -7,6 +8,9 @@ namespace DrinkManagerConsole
     {
         public static void StartEdition(Drink selectedDrink)
         {
+            var ingredients = selectedDrink.Ingredients;
+
+            Console.WriteLine();
             Console.WriteLine("What do you want to edit?");
             Console.WriteLine("1. Name");
             Console.WriteLine("2. Category");
@@ -50,52 +54,65 @@ namespace DrinkManagerConsole
                 case 6:
                     Console.WriteLine("Select ingredient to edit:");
 
-                    input = SelectIngredient(selectedDrink);
+                    input = SelectIngredient(ingredients);
 
-                    var newName = UpdateInfo("ingredient name", selectedDrink.Ingredients[input].Name);
-                    var newAmount = UpdateInfo("ingredient amount", selectedDrink.Ingredients[input].Amount);
+                    var newName = UpdateInfo("ingredient name", ingredients[input].Name);
+                    var newAmount = UpdateInfo("ingredient amount", ingredients[input].Amount);
 
-                    selectedDrink.Ingredients[input].Name = newName;
-                    selectedDrink.Ingredients[input].Amount = newAmount;
-
+                    ingredients[input] = new Ingredient()
+                    {
+                        Name = newName,
+                        Amount = newAmount
+                    };
+                    selectedDrink.Ingredients = ingredients;
                     break;
                 case 7:
-                    var index = 0;
-                    foreach (var ingredient in selectedDrink.Ingredients)
+                    var index = -1;
+                    for (var i = 0; i < ingredients.Count; i++)
                     {
-                        if (string.IsNullOrWhiteSpace(ingredient.Name))
+                        if (string.IsNullOrWhiteSpace(ingredients[i].Name))
                         {
-                            index = selectedDrink.Ingredients.IndexOf(ingredient);
+                            index = i;
                             break;
                         }
-                        Console.WriteLine("There are already 15 ingredients. You can't add more.");
                     }
 
+                    if (index == -1)
+                    {
+                        Console.WriteLine("There are already 15 ingredients. You can't add more.");
+                        break;
+                    }
                     newName = GetNewInfo("ingredient name");
                     newAmount = GetNewInfo("amount");
 
-                    selectedDrink.Ingredients[index].Name = newName;
-                    selectedDrink.Ingredients[index].Amount = newAmount;
-
+                    ingredients[index] = new Ingredient()
+                    {
+                        Name = newName,
+                        Amount = newAmount
+                    };
+                    selectedDrink.Ingredients = ingredients;
                     break;
                 case 8:
                     Console.WriteLine("Select ingredient to remove:");
 
-                    input = SelectIngredient(selectedDrink);
+                    input = SelectIngredient(ingredients);
 
-                    selectedDrink.Ingredients.RemoveAt(input);
-                    selectedDrink.Ingredients.Add(new Ingredient());
+                    ingredients.RemoveAt(input);
+                    ingredients.Add(new Ingredient());
+                    selectedDrink.Ingredients = ingredients;
                     break;
             }
+
         }
 
-        private static int SelectIngredient(Drink selectedDrink)
+        private static int SelectIngredient(List<Ingredient> ingredients)
         {
             bool inputParse;
             int input;
-            foreach (var ingredient in selectedDrink.Ingredients)
+
+            for(var i=0; i<ingredients.Count; i++)
             {
-                PrintIngredient(selectedDrink.Ingredients.IndexOf(ingredient) + 1, ingredient);
+                PrintIngredient(i+1, ingredients[i]);
             }
 
             Console.WriteLine();
@@ -103,7 +120,7 @@ namespace DrinkManagerConsole
             {
                 Console.WriteLine("Choice: ");
                 inputParse = int.TryParse(Console.ReadLine(), out input);
-            } while (inputParse == false || input < 1 || input > selectedDrink.Ingredients.Count);
+            } while (inputParse == false || input < 1 || input > ingredients.Count);
 
             input -= 1;
             return input;
