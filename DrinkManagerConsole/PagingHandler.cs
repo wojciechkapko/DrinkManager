@@ -1,6 +1,7 @@
 ﻿using BLL;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DrinkManagerConsole
 {
@@ -56,6 +57,7 @@ namespace DrinkManagerConsole
                     {
                         // select the drink form the list
                         var drink = contemporaryList[page * 9 + int.Parse(choice.KeyChar.ToString()) - 1];
+                        Console.WriteLine();
 
                         if (TryToWriteDrinkInfo(drink) == false)
                         {

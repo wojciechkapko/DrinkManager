@@ -8,7 +8,7 @@ namespace DrinkManagerConsole
     {
         public static string GetAlcoholicInfoFromConsole()
         {
-            Console.WriteLine("\nIs this an Alcoholic drink?: ");
+            Console.WriteLine("\nSelect an alcohol content option.");
             Console.WriteLine("\n1. Alcoholic");
             Console.WriteLine("2. Non Alcoholic");
             Console.WriteLine("3. Optional Alcoholic");
