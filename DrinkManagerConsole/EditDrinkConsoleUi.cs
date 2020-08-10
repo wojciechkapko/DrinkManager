@@ -9,9 +9,8 @@ namespace DrinkManagerConsole
         public static void StartEdition(Drink selectedDrink)
         {
             var ingredients = selectedDrink.Ingredients;
-
             Console.WriteLine();
-            Console.WriteLine("What do you want to edit?");
+            Console.WriteLine("\nWhat do you want to edit?\n");
             Console.WriteLine("1. Name");
             Console.WriteLine("2. Category");
             Console.WriteLine("3. Alcoholic Info");
@@ -20,39 +19,35 @@ namespace DrinkManagerConsole
             Console.WriteLine("6. Ingredients");
             Console.WriteLine("7. Add new ingredient");
             Console.WriteLine("8. Remove ingredient");
+
+            Console.Write("\nChoice: ");
+            var choice = Console.ReadKey();
             Console.WriteLine();
+            int input;
 
-            var input = 0;
-            var inputParse = false;
-            do
+            switch (choice.Key)
             {
-                Console.WriteLine("Choice: ");
-                inputParse = int.TryParse(Console.ReadLine(), out input);
-            } while (inputParse == false || input < 1 || input > 8);
-
-            switch (input)
-            {
-                case 1:
+                case ConsoleKey.D1:
                     selectedDrink.Name = UpdateInfo("name", selectedDrink.Name);
                     break;
-                case 2:
+                case ConsoleKey.D2:
                     selectedDrink.Category = UpdateInfo("category", selectedDrink.Category);
                     break;
 
-                case 3:
+                case ConsoleKey.D3:
                     selectedDrink.AlcoholicInfo = Utility.GetAlcoholicInfoFromConsole();
                     break;
 
-                case 4:
+                case ConsoleKey.D4:
                     selectedDrink.GlassType = UpdateInfo("glass type", selectedDrink.GlassType);
                     break;
 
-                case 5:
+                case ConsoleKey.D5:
                     selectedDrink.Instructions = UpdateInfo("instruction", selectedDrink.Instructions);
                     break;
 
-                case 6:
-                    Console.WriteLine("Select ingredient to edit:");
+                case ConsoleKey.D6:
+                    Console.WriteLine("\nSelect ingredient to edit:");
 
                     input = SelectIngredient(ingredients);
 
@@ -66,7 +61,7 @@ namespace DrinkManagerConsole
                     };
                     selectedDrink.Ingredients = ingredients;
                     break;
-                case 7:
+                case ConsoleKey.D7:
                     var index = -1;
                     for (var i = 0; i < ingredients.Count; i++)
                     {
@@ -80,6 +75,7 @@ namespace DrinkManagerConsole
                     if (index == -1)
                     {
                         Console.WriteLine("There are already 15 ingredients. You can't add more.");
+                        Console.ReadKey();
                         break;
                     }
                     newName = GetNewInfo("ingredient name");
@@ -92,7 +88,7 @@ namespace DrinkManagerConsole
                     };
                     selectedDrink.Ingredients = ingredients;
                     break;
-                case 8:
+                case ConsoleKey.D8:
                     Console.WriteLine("Select ingredient to remove:");
 
                     input = SelectIngredient(ingredients);
@@ -115,11 +111,11 @@ namespace DrinkManagerConsole
                 PrintIngredient(i+1, ingredients[i]);
             }
 
-            Console.WriteLine();
             do
             {
-                Console.WriteLine("Choice: ");
-                inputParse = int.TryParse(Console.ReadLine(), out input);
+                Console.Write("\nChoice: ");
+                var choice = Console.ReadKey();
+                inputParse = int.TryParse(choice.KeyChar.ToString(), out input);
             } while (inputParse == false || input < 1 || input > ingredients.Count);
 
             input -= 1;
@@ -134,14 +130,14 @@ namespace DrinkManagerConsole
 
         private static string UpdateInfo(string fieldName, string fieldValue)
         {
-            Console.WriteLine($"Old {fieldName}: {fieldValue}.");
+            Console.WriteLine($"\nOld {fieldName}: {fieldValue}");
             
             return GetNewInfo(fieldName);
         }
 
         private static string GetNewInfo(string fieldName)
         {
-            Console.Write($"New {fieldName}: ");
+            Console.Write($"\nNew {fieldName}: ");
             string newValue;
             do
             {
