@@ -332,15 +332,15 @@ namespace DrinkManagerConsole
                 Console.WriteLine();
                 if (!drink.isReviewed)
                 {
-                    Console.WriteLine("Press R to leave a review for this drink");
+                    Console.WriteLine("Press R to leave a review for this drink.");
                 }
                 else if (ValidateReviewAge(drink.DrinkReview.ReviewDate))
                 {
-                    Console.WriteLine("Press R to edit review for this drink");
+                    Console.WriteLine("Press R to edit review for this drink.");
                 }
-                Console.WriteLine("Press F to add to favorites list");
-                Console.WriteLine("Press E to edit drink details");
-                Console.WriteLine("\nPress ESC to go back");
+                Console.WriteLine("Press F to add to favorites list.");
+                Console.WriteLine("Press E to edit drink details.");
+                Console.WriteLine("\nPress ESC to go back.");
 
                 var userChoice = Console.ReadKey(true);
 
@@ -363,7 +363,7 @@ namespace DrinkManagerConsole
                         break;
 
                     case ConsoleKey.E:
-                        // Edit drink details method call
+                        EditDrinkConsoleUi.StartEdition(drink);
                         break;
 
                     case ConsoleKey.Escape:
