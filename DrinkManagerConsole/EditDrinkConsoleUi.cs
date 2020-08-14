@@ -59,34 +59,19 @@ namespace DrinkManagerConsole
                         Name = newName,
                         Amount = newAmount
                     };
-                    selectedDrink.Ingredients = ingredients;
                     break;
                 case ConsoleKey.D7:
-                    var index = -1;
-                    for (var i = 0; i < ingredients.Count; i++)
-                    {
-                        if (string.IsNullOrWhiteSpace(ingredients[i].Name))
-                        {
-                            index = i;
-                            break;
-                        }
-                    }
-
-                    if (index == -1)
+                    if (ingredients.Count == 15)
                     {
                         Console.WriteLine("There are already 15 ingredients. You can't add more.");
                         Console.ReadKey();
                         break;
                     }
-                    newName = GetNewInfo("ingredient name");
-                    newAmount = GetNewInfo("amount");
-
-                    ingredients[index] = new Ingredient()
+                    ingredients.Add(new Ingredient()
                     {
-                        Name = newName,
-                        Amount = newAmount
-                    };
-                    selectedDrink.Ingredients = ingredients;
+                        Name = GetNewInfo("ingredient name"),
+                        Amount = GetNewInfo("amount")
+                    });
                     break;
                 case ConsoleKey.D8:
                     Console.WriteLine("Select ingredient to remove:");
@@ -95,7 +80,6 @@ namespace DrinkManagerConsole
 
                     ingredients.RemoveAt(input);
                     ingredients.Add(new Ingredient());
-                    selectedDrink.Ingredients = ingredients;
                     break;
             }
 
