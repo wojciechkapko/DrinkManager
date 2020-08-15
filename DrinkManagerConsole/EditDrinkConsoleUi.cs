@@ -79,7 +79,6 @@ namespace DrinkManagerConsole
                     input = SelectIngredient(ingredients);
 
                     ingredients.RemoveAt(input);
-                    ingredients.Add(new Ingredient());
                     break;
             }
 
