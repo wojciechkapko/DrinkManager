@@ -1,6 +1,7 @@
 ﻿using BLL;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DrinkManagerConsole
 {
@@ -56,6 +57,7 @@ namespace DrinkManagerConsole
                     {
                         // select the drink form the list
                         var drink = contemporaryList[page * 9 + int.Parse(choice.KeyChar.ToString()) - 1];
+                        Console.WriteLine();
 
                         if (TryToWriteDrinkInfo(drink) == false)
                         {
@@ -65,10 +67,7 @@ namespace DrinkManagerConsole
                         SearchDrinkConsoleUi.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
                     }
                     //Cleans and rewrites list if user picked 0
-                    else
-                    {
-                        SearchDrinkConsoleUi.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
-                    }
+                    SearchDrinkConsoleUi.ReWriteDrinkListOnConsole(contemporaryList, page, choice);
                 }
                 //If user picked N for Next Page, page is increased
                 else if (choice.Key == ConsoleKey.N)
@@ -80,7 +79,7 @@ namespace DrinkManagerConsole
                     }
                 }
                 //If user picked P for Previous Page, page is decreased
-                else if (choice.Key == ConsoleKey.P)
+                else if (choice.Key == ConsoleKey.P) 
                 {
                     if (CheckIfUserCanGoBackToPreviousPage(contemporaryList, page, choice))
                     {
