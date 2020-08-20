@@ -1,6 +1,6 @@
 ﻿using BLL;
-using System;
 using BLL.Enums;
+using System;
 
 namespace DrinkManagerConsole
 {
@@ -28,6 +28,7 @@ namespace DrinkManagerConsole
                     case MenuChoice.FindByAlcoholContent:
                         SearchDrinkConsoleUi.HandleSearchDrinksByContentInConsole(drinksListGlobal);
                         break;
+
                     case MenuChoice.AddCustomDrink:
                         SearchDrinkConsoleUi.StartCustomDrinkCreation(drinksListGlobal);
                         break;
@@ -38,6 +39,10 @@ namespace DrinkManagerConsole
 
                     case MenuChoice.UpdateDrinksFromFile:
                         SearchDrinkConsoleUi.AddMoreDrinksFromFile(drinksListGlobal);
+                        break;
+
+                    case MenuChoice.DisplayFavourites:
+                        FavouritesService.Display();
                         break;
 
                     case MenuChoice.Exit:
