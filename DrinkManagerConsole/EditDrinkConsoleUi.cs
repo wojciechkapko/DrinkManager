@@ -36,6 +36,7 @@ namespace DrinkManagerConsole
 
                 case ConsoleKey.D3:
                     selectedDrink.AlcoholicInfo = Utility.GetAlcoholicInfoFromConsole();
+                    Console.WriteLine($"\nAlcoholic Info was saved as {selectedDrink.AlcoholicInfo}.");
                     break;
 
                 case ConsoleKey.D4:
@@ -77,9 +78,10 @@ namespace DrinkManagerConsole
                     Console.WriteLine("Select ingredient to remove:");
 
                     input = SelectIngredient(ingredients);
-
+                    var deletedIngredient = ingredients[input];
                     ingredients.RemoveAt(input);
-                    ingredients.Add(new Ingredient());
+                    Console.WriteLine($"\n{deletedIngredient.Name} was removed.");
+
                     break;
             }
 
@@ -128,6 +130,7 @@ namespace DrinkManagerConsole
                 newValue = Console.ReadLine();
             } while (string.IsNullOrWhiteSpace(newValue));
 
+            Console.WriteLine($"\n{char.ToUpper(fieldName[0]) + fieldName.Substring(1)} was saved as {newValue}.");
             return newValue;
         }
     }
