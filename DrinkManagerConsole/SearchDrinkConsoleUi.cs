@@ -90,7 +90,7 @@ namespace DrinkManagerConsole
 
             return textToSearch;
         }
-        
+
         public static void StartCustomDrinkCreation(List<Drink> drinksList)
         {
             var creator = new DrinkCreator();
@@ -258,7 +258,6 @@ namespace DrinkManagerConsole
             Console.ReadKey();
         }
 
-
         public static void ReWriteDrinkListOnConsole(List<Drink> contemporaryList, int page, ConsoleKeyInfo choice)
         {
             Console.Clear();
@@ -267,8 +266,8 @@ namespace DrinkManagerConsole
             {
                 for (int i = page * 9; i < contemporaryList.Count; i++)
                 {
-                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ') 
-                                      + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') 
+                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ')
+                                      + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ')
                                       + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
                 }
             }
@@ -277,8 +276,8 @@ namespace DrinkManagerConsole
             {
                 for (int i = page * 9; i < Math.Min(9, contemporaryList.Count); i++)
                 {
-                    Console.WriteLine($"{i + 1}.".PadRight(6, ' ') 
-                                      + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') 
+                    Console.WriteLine($"{i + 1}.".PadRight(6, ' ')
+                                      + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ')
                                       + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
                 }
             }
@@ -287,8 +286,8 @@ namespace DrinkManagerConsole
             {
                 for (int i = page * 9; i < Math.Min(page * 9 + 9, contemporaryList.Count); i++)
                 {
-                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ') 
-                                      + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') 
+                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ')
+                                      + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ')
                                       + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
                 }
             }
@@ -360,6 +359,7 @@ namespace DrinkManagerConsole
 
                     case ConsoleKey.F:
                         // Add to favorites method call
+                        FavouritesService.AddDrink(drink);
                         break;
 
                     case ConsoleKey.E:

@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DrinkManagerConsole
 {
-    enum MenuChoice
+    internal enum MenuChoice
     {
         FindByName = 1,
         FindByAlcoholContent = 2,
         FindByIngredient = 3,
         AddCustomDrink = 4,
         UpdateDrinksFromFile = 5,
-        Exit = 6
-
+        DisplayFavourites = 6,
+        Exit = 7
     }
-    class Menu
+
+    internal class Menu
     {
         private readonly string[] _lines = {
             @"  ____                    _          ,__ __                                      ",
@@ -24,7 +24,6 @@ namespace DrinkManagerConsole
             @"(/\___/    |_/|_/  |  |_/| \_/ \/    |  |  |_/\_/|_/  |  |_/\_/|_/\_/|/|__/   |_/",
             @"                                                                    /|           ",
             @"                                                                    \|           ",
-
         };
 
         private readonly Dictionary<MenuChoice, string> _options = new Dictionary<MenuChoice, string>
@@ -34,14 +33,14 @@ namespace DrinkManagerConsole
             {MenuChoice.FindByIngredient, "Find drink by its ingredient."},
             {MenuChoice.AddCustomDrink, "Add your own drink."},
             {MenuChoice.UpdateDrinksFromFile, "Update your drinks data."},
+            {MenuChoice.DisplayFavourites, "Display your favourite drinks."},
             {MenuChoice.Exit, "Exit."}
-
         };
 
         public void Show()
         {
             Console.Clear();
-            
+
             foreach (var line in _lines)
             {
                 Console.WriteLine(line);
