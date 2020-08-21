@@ -58,8 +58,14 @@ namespace DrinkManagerConsole
                         break;
                 }
 
-                // invoking extracted display method
-                PagingHandler.DivideDrinkListIntoPages(drinksFound);
+                if (drinksFound != null && drinksFound.Count == 0)
+                {
+                    Console.WriteLine("\nNo drinks found in the database matching your criteria.");
+                }
+                else
+                {
+                    PagingHandler.DivideDrinkListIntoPages(drinksFound);
+                }
 
                 var incorrectInputEndSearch = true;
                 do
