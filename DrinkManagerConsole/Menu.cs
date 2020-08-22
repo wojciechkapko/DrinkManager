@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DrinkManagerConsole
 {
-    enum MenuChoice
+    internal enum MenuChoice
     {
         FindByName = 1,
         FindByAlcoholContent = 2,
         FindByIngredient = 3,
-        ShowReviewedDrinksList = 4,
-        AddCustomDrink = 5,
-        UpdateDrinksFromFile = 6,
-        Exit = 7
-
+        AddCustomDrink = 4,
+        UpdateDrinksFromFile = 5,
+        DisplayFavourites = 6,
+        ShowReviewedDrinksList = 7,
+        Exit = 8
     }
-    class Menu
+
+    internal class Menu
     {
         private readonly string[] _lines = {
             @"  ____                    _          ,__ __                                      ",
@@ -25,7 +25,6 @@ namespace DrinkManagerConsole
             @"(/\___/    |_/|_/  |  |_/| \_/ \/    |  |  |_/\_/|_/  |  |_/\_/|_/\_/|/|__/   |_/",
             @"                                                                    /|           ",
             @"                                                                    \|           ",
-
         };
 
         private readonly Dictionary<MenuChoice, string> _options = new Dictionary<MenuChoice, string>
@@ -33,16 +32,17 @@ namespace DrinkManagerConsole
             {MenuChoice.FindByName, "Find drink by its name."},
             {MenuChoice.FindByAlcoholContent, "Find drink by alcohol content."},
             {MenuChoice.FindByIngredient, "Find drink by its ingredient."},
-            {MenuChoice.ShowReviewedDrinksList, "Show your reviewed drinks." },
             {MenuChoice.AddCustomDrink, "Add your own drink."},
             {MenuChoice.UpdateDrinksFromFile, "Update your drinks data."},
+            {MenuChoice.DisplayFavourites, "Display your favourite drinks."},
+	    {MenuChoice.ShowReviewedDrinksList, "Show your reviewed drinks."},
             {MenuChoice.Exit, "Exit."}
         };
 
         public void Show()
         {
             Console.Clear();
-            
+
             foreach (var line in _lines)
             {
                 Console.WriteLine(line);

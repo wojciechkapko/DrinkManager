@@ -8,7 +8,7 @@ namespace DrinkManagerConsole
     {
         public static string GetAlcoholicInfoFromConsole()
         {
-            Console.WriteLine("\nIs this an Alcoholic drink?: ");
+            Console.WriteLine("\nSelect an alcohol content option.");
             Console.WriteLine("\n1. Alcoholic");
             Console.WriteLine("2. Non Alcoholic");
             Console.WriteLine("3. Optional Alcoholic");
@@ -30,12 +30,10 @@ namespace DrinkManagerConsole
                         return "Optional alcohol";
 
                     default:
-                        Console.WriteLine("\nUnsupported input, try again...\n");
+                        Console.WriteLine("\nChoose 1, 2 or 3.");
                         continue;
                 }
-            } while (choice.Key != ConsoleKey.D1 || choice.Key != ConsoleKey.D2);
-
-            return "Something went wrong";
+            } while (true);
         }
 
         public static string GetGenericData(string message = null)
@@ -55,7 +53,7 @@ namespace DrinkManagerConsole
 
             do
             {
-                Console.Write("\nNumber of ingredients (max 10): ");
+                Console.Write("\nNumber of ingredients (max 15): ");
             } while (!int.TryParse(Console.ReadLine(), out numberOfIngredients) || numberOfIngredients > 15 || numberOfIngredients < 1);
 
             for (var i = 0; i < numberOfIngredients; i++)

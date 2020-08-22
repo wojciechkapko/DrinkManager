@@ -45,6 +45,10 @@ namespace DrinkManagerConsole
                         SearchDrinkConsoleUi.AddMoreDrinksFromFile(drinksListGlobal);
                         break;
 
+                    case MenuChoice.DisplayFavourites:
+                        FavouritesService.Display();
+                        break;
+
                     case MenuChoice.Exit:
                         exitProgram = true;
                         break;

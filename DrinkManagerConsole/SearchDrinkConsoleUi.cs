@@ -58,8 +58,14 @@ namespace DrinkManagerConsole
                         break;
                 }
 
-                // invoking extracted display method
-                PagingHandler.DivideDrinkListIntoPages(drinksFound);
+                if (drinksFound != null && drinksFound.Count == 0)
+                {
+                    Console.WriteLine("\nNo drinks found in the database matching your criteria.");
+                }
+                else
+                {
+                    PagingHandler.DivideDrinkListIntoPages(drinksFound);
+                }
 
                 var incorrectInputEndSearch = true;
                 do
@@ -91,40 +97,6 @@ namespace DrinkManagerConsole
             return textToSearch;
         }
 
-        public static void DisplaySearchResults(List<Drink> drinksFound)
-        {
-            if (drinksFound == null || drinksFound.Count == 0)
-            {
-                Console.WriteLine("\nNo matching drinks in our database.");
-            }
-            else
-            {
-                foreach (var drink in drinksFound)
-                {
-                    Console.WriteLine(
-                        "\n------------------------------------------------------------------------------------------------------------------");
-                    Console.WriteLine("Name:".PadRight(20) + drink.Name.PadRight(30) + drink.AlcoholicInfo);
-                    Console.WriteLine("Category:".PadRight(20) + drink.Category);
-                    Console.WriteLine("Glass type:".PadRight(20) + drink.GlassType);
-                    Console.WriteLine("\nIngredients: ");
-                    foreach (var ingredient in drink.Ingredients)
-                    {
-                        if (ingredient.Name == null)
-                        {
-                            continue;
-                        }
-
-                        Console.WriteLine(ingredient.Name.PadRight(20) + ingredient.Amount);
-                    }
-
-                    Console.WriteLine($"\nInstructions:\n{drink.Instructions}");
-                }
-
-                Console.WriteLine(
-                    "------------------------------------------------------------------------------------------------------------------");
-            }
-        }
-
         public static void StartCustomDrinkCreation(List<Drink> drinksList)
         {
             var creator = new DrinkCreator();
@@ -138,7 +110,7 @@ namespace DrinkManagerConsole
 
         public static void AddMoreDrinksFromFile(List<Drink> drinksList)
         {
-            Console.WriteLine("Please provide full path to the source file");
+            Console.WriteLine("Please provide full path to the source file.");
             var path = Console.ReadLine();
             var loader = new DrinkLoader();
             try
@@ -168,12 +140,12 @@ namespace DrinkManagerConsole
         {
             Console.Clear();
             Console.WriteLine("Choose one of the searching criteria: ");
-            Console.WriteLine("1. Alcoholic drinks");
+            Console.WriteLine("\n1. Alcoholic drinks");
             Console.WriteLine("2. Non alcoholic drinks");
             Console.WriteLine("3. Optional alcohol drinks");
             Console.WriteLine("4. Alcoholic and optional alcohol drinks");
             Console.WriteLine("5. Non alcoholic and optional alcohol drinks");
-            Console.WriteLine("Press any other key to go back to previous menu");
+            Console.WriteLine("\nPress any other key to go back to previous menu");
 
             var searchChoice = Console.ReadKey();
             if (searchChoice.Key == ConsoleKey.D1 || searchChoice.Key == ConsoleKey.D2 || searchChoice.Key == ConsoleKey.D3 || searchChoice.Key == ConsoleKey.D4 || searchChoice.Key == ConsoleKey.D5)
@@ -237,20 +209,27 @@ namespace DrinkManagerConsole
             {
                 if (page == 0)
                 {
-                    Console.WriteLine("\nIf you want to check any drink, press its corresponding number\nIf you want to go back to main menu, press ESC");
+                    Console.WriteLine("\nPress corresponding number to select drink." +
+                                      "\nPress ESC to go back to main menu.");
                 }
                 else
                 {
-                    Console.WriteLine("\nIf you want to check any drink, press its corresponding number\nIf you want to go to previous page press P\nIf you want to go back to main menu, press ESC");
+                    Console.WriteLine("\nPress corresponding number to select drink." +
+                                      "\nPress P to go to previous page." +
+                                      "\nPress ESC to go back to main menu.");
                 }
             }
             else if (page == 0)
             {
-                Console.WriteLine("\nIf you want to check any drink, press its corresponding number\nIf you want to go to next page press N\nIf you want to go back to main menu, press ESC");
+                Console.WriteLine("\nPress corresponding number to select drink." +
+                                  "\nPress N to go to next page." +
+                                  "\nPress ESC to go back to main menu.");
             }
             else
             {
-                Console.WriteLine("\nIf you want to check any drink, press its corresponding number\nIf you want to go to next page press N, or P to go to next to previous page\nIf you want to go back to main menu, press ESC");
+                Console.WriteLine("\nPress corresponding number to select drink." +
+                                  "\nPress N to go to next page or press P to go to previous page." +
+                                  "\nPress ESC to go back to main menu.");
             }
         }
 
@@ -258,11 +237,11 @@ namespace DrinkManagerConsole
         {
             if (page == 0)
             {
-                Console.WriteLine("\nThis is the only page, there is no more pages");
+                Console.WriteLine("\nThis is the only page, there is no more pages.");
             }
             else
             {
-                Console.WriteLine("\nThis is the last page, there is no more");
+                Console.WriteLine("\nThis is the last page, there is no more.");
             }
         }
 
@@ -270,11 +249,11 @@ namespace DrinkManagerConsole
         {
             if (page * 9 + 9 > contemporaryList.Count)
             {
-                Console.WriteLine("\nThis is the one and only page");
+                Console.WriteLine("\nThis is the one and only page.");
             }
             else
             {
-                Console.WriteLine("\nThis is the first page");
+                Console.WriteLine("\nThis is the first page.");
             }
         }
 
@@ -282,12 +261,6 @@ namespace DrinkManagerConsole
         {
             Console.WriteLine("Exception caught: ArgumentOutOfRangeException. Next time choose the number that is on the list!");
             Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
-
-        public static void PressAnyKeyToGoBackToPreviousMenu()
-        {
-            Console.WriteLine("\nTo go back to previous menu, press any key");
             Console.ReadKey();
         }
 
@@ -299,7 +272,9 @@ namespace DrinkManagerConsole
             {
                 for (int i = page * 9; i < contemporaryList.Count; i++)
                 {
-                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
+                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ')
+                                      + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ')
+                                      + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
                 }
             }
             //Print previous page of drinks if user pressed key for Previous Page
@@ -307,7 +282,9 @@ namespace DrinkManagerConsole
             {
                 for (int i = page * 9; i < Math.Min(9, contemporaryList.Count); i++)
                 {
-                    Console.WriteLine($"{i + 1}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
+                    Console.WriteLine($"{i + 1}.".PadRight(6, ' ')
+                                      + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ')
+                                      + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
                 }
             }
             //Reprints list after drink check or pressing unsupported input
@@ -315,7 +292,9 @@ namespace DrinkManagerConsole
             {
                 for (int i = page * 9; i < Math.Min(page * 9 + 9, contemporaryList.Count); i++)
                 {
-                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ') + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ') + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
+                    Console.WriteLine($"{i - page * 9 + 1}.".PadRight(6, ' ')
+                                      + contemporaryList.ElementAt<Drink>(i).Name.PadRight(16, ' ')
+                                      + contemporaryList.ElementAt<Drink>(i).AlcoholicInfo.PadRight(12, ' '));
                 }
             }
         }
@@ -358,15 +337,15 @@ namespace DrinkManagerConsole
                 Console.WriteLine();
                 if (!drink.isReviewed)
                 {
-                    Console.WriteLine("Press R to leave a review for this drink");
+                    Console.WriteLine("Press R to leave a review for this drink.");
                 }
                 else if (ValidateReviewAge(drink.DrinkReview.ReviewDate))
                 {
-                    Console.WriteLine("Press R to edit review for this drink");
+                    Console.WriteLine("Press R to edit review for this drink.");
                 }
-                Console.WriteLine("Press F to add to favorites list");
-                Console.WriteLine("Press E to edit drink details");
-                Console.WriteLine("\nPress ESC to go back");
+                Console.WriteLine("Press F to add to favorites list.");
+                Console.WriteLine("Press E to edit drink details.");
+                Console.WriteLine("\nPress ESC to go back.");
 
                 var userChoice = Console.ReadKey(true);
 
@@ -386,10 +365,11 @@ namespace DrinkManagerConsole
 
                     case ConsoleKey.F:
                         // Add to favorites method call
+                        FavouritesService.AddDrink(drink);
                         break;
 
                     case ConsoleKey.E:
-                        // Edit drink details method call
+                        EditDrinkConsoleUi.StartEdition(drink);
                         break;
 
                     case ConsoleKey.Escape:
