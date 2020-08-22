@@ -35,7 +35,7 @@ namespace DrinkManagerConsole
             {MenuChoice.AddCustomDrink, "Add your own drink."},
             {MenuChoice.UpdateDrinksFromFile, "Update your drinks data."},
             {MenuChoice.DisplayFavourites, "Display your favourite drinks."},
-	    {MenuChoice.ShowReviewedDrinksList, "Show your reviewed drinks."},
+	        {MenuChoice.ShowReviewedDrinksList, "Show your reviewed drinks."},
             {MenuChoice.Exit, "Exit."}
         };
 

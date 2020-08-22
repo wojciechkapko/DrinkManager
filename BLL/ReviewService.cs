@@ -32,7 +32,9 @@ namespace BLL
             }
             if(contemporaryList.Count == 0)
             {
-                Console.WriteLine("You haven't reviewed any drinks yet!");
+                Console.WriteLine("You haven't reviewed any drinks yet.");
+                Console.WriteLine("Press any key to go back to main menu.");
+                Console.ReadKey();
             }
             return contemporaryList;
         }

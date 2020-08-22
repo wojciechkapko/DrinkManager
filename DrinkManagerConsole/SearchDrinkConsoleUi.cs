@@ -386,7 +386,6 @@ namespace DrinkManagerConsole
             var reviewService = new ReviewService();
             Console.Clear();
             PagingHandler.DivideDrinkListIntoPages(reviewService.ShowReviewed(drinks));
-            PressAnyKeyToGoBackToPreviousMenu();
         }
 
         private static bool ValidateReviewAge(DateTime reviewDate) => !(DateTime.Now.Subtract(reviewDate).TotalSeconds > 60);
