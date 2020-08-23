@@ -19,8 +19,11 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult Index()
         {
-            var drinks = _loader.InitializeDrinksFromFile();
-            return View();
+            var model = new HomeViewModel
+            {
+                Drinks = _loader.InitializeDrinksFromFile()
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()
