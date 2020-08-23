@@ -29,12 +29,16 @@ namespace DrinkManagerConsole
                         SearchDrinkConsoleUi.HandleSearchDrinksByContentInConsole(drinksListGlobal);
                         break;
 
-                    case MenuChoice.AddCustomDrink:
-                        SearchDrinkConsoleUi.StartCustomDrinkCreation(drinksListGlobal);
-                        break;
-
                     case MenuChoice.FindByIngredient:
                         SearchDrinkConsoleUi.StartSearch(drinksListGlobal, SearchCriterion.Ingredients);
+                        break;
+
+                    case MenuChoice.ShowReviewedDrinksList:
+                        SearchDrinkConsoleUi.ShowReviewedDrinksHandler(drinksListGlobal);
+                        break;
+
+                    case MenuChoice.AddCustomDrink:
+                        SearchDrinkConsoleUi.StartCustomDrinkCreation(drinksListGlobal);
                         break;
 
                     case MenuChoice.UpdateDrinksFromFile:

@@ -11,7 +11,8 @@ namespace DrinkManagerConsole
         AddCustomDrink = 4,
         UpdateDrinksFromFile = 5,
         DisplayFavourites = 6,
-        Exit = 7
+        ShowReviewedDrinksList = 7,
+        Exit = 8
     }
 
     internal class Menu
@@ -34,6 +35,7 @@ namespace DrinkManagerConsole
             {MenuChoice.AddCustomDrink, "Add your own drink."},
             {MenuChoice.UpdateDrinksFromFile, "Update your drinks data."},
             {MenuChoice.DisplayFavourites, "Display your favourite drinks."},
+	        {MenuChoice.ShowReviewedDrinksList, "Show your reviewed drinks."},
             {MenuChoice.Exit, "Exit."}
         };
 

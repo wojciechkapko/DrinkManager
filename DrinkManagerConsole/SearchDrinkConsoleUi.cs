@@ -381,6 +381,12 @@ namespace DrinkManagerConsole
                 }
             }
         }
+        public static void ShowReviewedDrinksHandler(List<Drink> drinks)
+        {
+            var reviewService = new ReviewService();
+            Console.Clear();
+            PagingHandler.DivideDrinkListIntoPages(reviewService.ShowReviewed(drinks));
+        }
 
         private static bool ValidateReviewAge(DateTime reviewDate) => !(DateTime.Now.Subtract(reviewDate).TotalSeconds > 60);
     }
