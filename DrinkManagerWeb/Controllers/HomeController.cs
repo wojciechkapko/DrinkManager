@@ -3,6 +3,7 @@ using DrinkManagerWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Linq;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -21,7 +22,7 @@ namespace DrinkManagerWeb.Controllers
         {
             var model = new HomeViewModel
             {
-                Drinks = _db.Drinks
+                Drinks = _db.Drinks.ToList()
             };
             return View(model);
         }

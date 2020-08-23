@@ -1,15 +1,16 @@
 ﻿using BLL;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace DrinkManagerWeb.Data
 {
-    public class DrinkAppContext
+    public class DrinkAppContext : DbContext
     {
-        public DrinkAppContext(DrinkLoader loader)
+        public DrinkAppContext(DbContextOptions<DrinkAppContext> options) : base(options)
         {
-            Drinks = loader.InitializeDrinksFromFile();
         }
 
-        public List<Drink> Drinks { get; private set; }
+        public DbSet<Drink> Drinks { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<DrinkReview> Reviews { get; set; }
     }
 }

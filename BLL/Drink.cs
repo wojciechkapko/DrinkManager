@@ -1,11 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BLL
 {
     public class Drink
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
+
         public string Category { get; set; }
         public string AlcoholicInfo { get; set; }
         public string GlassType { get; set; }
