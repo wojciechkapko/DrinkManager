@@ -1,4 +1,4 @@
-﻿using BLL;
+﻿using DrinkManagerWeb.Data;
 using DrinkManagerWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,19 +9,19 @@ namespace DrinkManagerWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly DrinkLoader _loader;
+        private readonly DrinkAppContext _db;
 
-        public HomeController(ILogger<HomeController> logger, DrinkLoader loader)
+        public HomeController(ILogger<HomeController> logger, DrinkAppContext db)
         {
             _logger = logger;
-            _loader = loader;
+            _db = db;
         }
 
         public IActionResult Index()
         {
             var model = new HomeViewModel
             {
-                Drinks = _loader.InitializeDrinksFromFile()
+                Drinks = _db.Drinks
             };
             return View(model);
         }
