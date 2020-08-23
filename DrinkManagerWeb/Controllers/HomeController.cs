@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BLL;
+using DrinkManagerWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DrinkManagerWeb.Models;
+using System.Diagnostics;
 
 namespace DrinkManagerWeb.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly DrinkLoader _loader;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, DrinkLoader loader)
         {
             _logger = logger;
+            _loader = loader;
         }
 
         public IActionResult Index()
         {
+            var drinks = _loader.InitializeDrinksFromFile();
             return View();
         }
 
