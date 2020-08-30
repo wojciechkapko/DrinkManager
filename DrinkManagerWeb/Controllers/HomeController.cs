@@ -1,5 +1,5 @@
 ﻿using DrinkManagerWeb.Data;
-using DrinkManagerWeb.Models;
+using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;

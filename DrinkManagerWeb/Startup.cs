@@ -50,7 +50,7 @@ namespace DrinkManagerWeb
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            Seeder.Seedit(app.ApplicationServices);
+            Seeder.SeedData(app.ApplicationServices);
         }
     }
 }

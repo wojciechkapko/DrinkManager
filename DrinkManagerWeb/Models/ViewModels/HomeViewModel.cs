@@ -1,7 +1,7 @@
 ﻿using BLL;
 using System.Collections.Generic;
 
-namespace DrinkManagerWeb.Models
+namespace DrinkManagerWeb.Models.ViewModels
 {
     public class HomeViewModel
     {

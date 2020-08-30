@@ -1,11 +1,11 @@
-﻿@model HomeViewModel
+﻿@model DrinkManagerWeb.Models.ViewModels.HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    @foreach(var drink in Model.Drinks)
+    @foreach (var drink in Model.Drinks)
     {
         <h4>@drink.Name</h4>
     }

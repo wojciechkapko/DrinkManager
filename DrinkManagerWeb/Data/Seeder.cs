@@ -2,15 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace DrinkManagerWeb.Data
 {
     public static class Seeder
     {
-        public static void Seedit(IServiceProvider serviceProvider)
+        public static void SeedData(IServiceProvider serviceProvider)
         {
             using var serviceScope = serviceProvider
                 .GetRequiredService<IServiceScopeFactory>().CreateScope();
@@ -28,12 +26,11 @@ namespace DrinkManagerWeb.Data
             if (!context.Drinks.Any())
             {
                 // Load drinks from json file
-                List<Drink> drinks = new DrinkLoader().InitializeDrinksFromFile();
+                var drinks = new DrinkLoader().InitializeDrinksFromFile();
                 // Add drinks to the database
                 context.AddRange(drinks);
                 context.SaveChanges();
                 Console.WriteLine("Database is empty...Seeding data");
-                Thread.Sleep(1000);
             }
         }
     }
