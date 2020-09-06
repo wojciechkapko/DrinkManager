@@ -20,16 +20,6 @@ namespace BLL
         public List<Ingredient> Ingredients { get; set; }
         public DrinkReview DrinkReview { get; set; }
 
-        public bool isReviewed
-        {
-            get
-            {
-                if (DrinkReview != null)
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
+        public bool IsReviewed => DrinkReview != null;
     }
 }
