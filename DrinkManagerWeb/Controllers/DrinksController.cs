@@ -15,27 +15,14 @@ namespace DrinkManagerWeb.Controllers
             _db = db;
         }
 
-        public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
+        public IActionResult Index(string sortOrder, int? pageNumber)
         {
-                ViewData["CurrentSort"] = sortOrder;
                 ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
-                if (searchString != null)
-                {
-                    pageNumber = 1;
-                }
-                else
-                {
-                    searchString = currentFilter;
-                }
-
-                ViewData["CurrentFilter"] = searchString;
+                pageNumber = 1;
 
                 var drinks = _db.Drinks.AsQueryable();
-                if (!String.IsNullOrEmpty(searchString))
-                {
-                    drinks = drinks.Where(s => s.Name.Contains(searchString));
-                }
+
                 switch (sortOrder)
                 {
                     case "name_desc":
