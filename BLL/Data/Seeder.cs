@@ -1,10 +1,9 @@
-﻿using BLL;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace DrinkManagerWeb.Data
+namespace BLL.Data
 {
     public static class Seeder
     {
@@ -19,8 +18,8 @@ namespace DrinkManagerWeb.Data
             if (!context.Database.CanConnect())
             {
                 // Create the database
-                context.Database.Migrate();
                 Console.WriteLine("Database does not exist...Creating");
+                context.Database.Migrate();
             }
             // Check if we have data in the database
             if (!context.Drinks.Any())

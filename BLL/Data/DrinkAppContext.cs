@@ -1,7 +1,6 @@
-﻿using BLL;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace DrinkManagerWeb.Data
+namespace BLL.Data
 {
     public class DrinkAppContext : DbContext
     {

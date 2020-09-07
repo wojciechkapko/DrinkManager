@@ -1,4 +1,4 @@
-﻿using DrinkManagerWeb.Data;
+﻿using BLL.Data;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
