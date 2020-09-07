@@ -34,24 +34,35 @@
     var nextDisabled = !Model.Drinks.HasNextPage ? "disabled" : "";
 }
 
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
-   class="btn btn-default @prevDisabled">
-    Previous
-</a>
-@for (int i = 0; i < Model.Drinks.TotalPages; i++)
-{
-    <a asp-action="Index"
-       asp-route-sortOrder="@ViewData["CurrentSort"]"
-       asp-route-pageNumber="@(i+1)"
-       class="btn btn-default @Model.Drinks.IsOnCurrentPage(Model.Drinks.PageIndex, i+1)">
-        @(i+1)
-    </a>
-}
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
-   class="btn btn-default @nextDisabled">
-    Next
-</a>
+<nav>
+    <ul class="pagination">
+        <li class="page-item @prevDisabled">
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="page-link">
+                Previous
+            </a>
+        </li>
+        @for (int i = 0; i < Model.Drinks.TotalPages; i++)
+        {
+            <li class="page-item @Model.Drinks.IsOnCurrentPage(Model.Drinks.PageIndex, i+1)">
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(i+1)"
+                   class="page-link">
+                    @(i+1)
+                </a>
+            </li>
+        }
+        <li class="page-item @nextDisabled">
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
+               class="page-link">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>

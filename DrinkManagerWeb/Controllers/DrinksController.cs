@@ -18,6 +18,7 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult Index(string sortOrder, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 10;
             var drinks = _db.Drinks.AsQueryable();
