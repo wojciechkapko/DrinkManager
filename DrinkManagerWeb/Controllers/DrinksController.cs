@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DrinkManagerWeb.Data;
+using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -29,8 +30,11 @@ namespace DrinkManagerWeb.Controllers
                     drinks = drinks.OrderBy(s => s.Name);
                     break;
             }
-            var drinksView = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize);
-            return View(drinksView);
+            var model = new DrinksViewModel
+            {
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+            };
+            return View(model);
         }
     }
 }

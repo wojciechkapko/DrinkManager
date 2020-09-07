@@ -1,4 +1,4 @@
-﻿@model BLL.PaginatedList<BLL.Drink>
+﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
 
 @{
     ViewBag.Title = "Drinks";
@@ -18,7 +18,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var drink in Model)
+        @foreach (var drink in Model.Drinks)
         {
             <tr>
                 <td>
@@ -30,28 +30,28 @@
 </table>
 
 @{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var prevDisabled = !Model.Drinks.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Drinks.HasNextPage ? "disabled" : "";
 }
 
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
    class="btn btn-default @prevDisabled">
     Previous
 </a>
-@for (int i = 0; i < Model.TotalPages; i++)
+@for (int i = 0; i < Model.Drinks.TotalPages; i++)
 {
     <a asp-action="Index"
        asp-route-sortOrder="@ViewData["CurrentSort"]"
        asp-route-pageNumber="@(i+1)"
-       class="btn btn-default @Model.IsOnCurrentPage(Model.PageIndex, i+1)">
+       class="btn btn-default @Model.Drinks.IsOnCurrentPage(Model.Drinks.PageIndex, i+1)">
         @(i+1)
     </a>
 }
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
    class="btn btn-default @nextDisabled">
     Next
 </a>
