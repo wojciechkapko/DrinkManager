@@ -32,6 +32,17 @@ namespace BLL
                 return (PageIndex < TotalPages);
             }
         }
+        public string IsOnCurrentPage(int pageIndex, int currentPageIndex)
+        {
+            if(pageIndex == currentPageIndex)
+            {
+                return "disabled";
+            }
+            else
+            {
+                return "";
+            }
+        }
 
         public static PaginatedList<T> CreatePaginatedList(IQueryable<T> source, int pageIndex, int pageSize)
         {

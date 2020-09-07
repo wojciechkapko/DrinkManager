@@ -20,17 +20,14 @@
     <tbody>
         @foreach (var drink in Model)
         {
-                <tr>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@drink.Id">@Html.DisplayFor(modelItem => drink.Name)</a>
-                    </td>
-                    <td>
-                        <img src="@drink.ImageUrl" width="100" height="100" asp-append-version="false" />
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@drink.Id">@drink.Name</a>
+                </td>
+            </tr>
         }
-        </tbody>
-    </table>
+    </tbody>
+</table>
 
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
@@ -43,6 +40,15 @@
    class="btn btn-default @prevDisabled">
     Previous
 </a>
+@for (int i = 0; i < Model.TotalPages; i++)
+{
+    <a asp-action="Index"
+       asp-route-sortOrder="@ViewData["CurrentSort"]"
+       asp-route-pageNumber="@(i+1)"
+       class="btn btn-default @Model.IsOnCurrentPage(Model.PageIndex, i+1)">
+        @(i+1)
+    </a>
+}
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex + 1)"

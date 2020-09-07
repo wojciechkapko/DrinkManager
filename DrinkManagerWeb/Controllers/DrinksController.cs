@@ -17,24 +17,20 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult Index(string sortOrder, int? pageNumber)
         {
-                ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-
-                pageNumber = 1;
-
-                var drinks = _db.Drinks.AsQueryable();
-
-                switch (sortOrder)
-                {
-                    case "name_desc":
-                        drinks = drinks.OrderByDescending(s => s.Name);
-                        break;
-                    default:    
-                        drinks = drinks.OrderBy(s => s.Name);
-                        break;
-                }
-
-                int pageSize = 10;
-                return View(PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize));
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            int pageSize = 10;
+            var drinks = _db.Drinks.AsQueryable();
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    drinks = drinks.OrderByDescending(s => s.Name);
+                    break;
+                default:    
+                    drinks = drinks.OrderBy(s => s.Name);
+                    break;
+            }
+            var drinksView = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize);
+            return View(drinksView);
         }
     }
 }

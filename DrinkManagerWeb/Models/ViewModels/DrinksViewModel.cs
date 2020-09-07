@@ -5,6 +5,6 @@ namespace DrinkManagerWeb.Models.ViewModels
 {
     public class DrinksViewModel
     {
-        public List<Drink> Drinks { get; set; }
+        public PaginatedList<Drink> Drinks { get; set; }
     }
 }
