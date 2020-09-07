@@ -1,4 +1,5 @@
 using BLL.Data;
+using BLL.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace DrinkManagerWeb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DrinkAppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddControllersWithViews();
         }
 

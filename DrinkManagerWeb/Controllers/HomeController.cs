@@ -1,29 +1,56 @@
-﻿using BLL.Data;
+﻿using BLL;
+using BLL.Data.Repositories;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Diagnostics;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly DrinkAppContext _db;
+        private readonly IDrinkRepository _drinkRepository;
 
-        public HomeController(ILogger<HomeController> logger, DrinkAppContext db)
+        public HomeController(ILogger<HomeController> logger, IDrinkRepository drinkRepository)
         {
             _logger = logger;
-            _db = db;
+            _drinkRepository = drinkRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var model = new HomeViewModel
             {
-                Drinks = _db.Drinks.ToList()
+                Drinks = await _drinkRepository.GetAllDrinks()
             };
+
+            // temp test drink to be removed
+            var newDrink = new Drink
+            {
+                Name = "test",
+                Ingredients = null,
+                DrinkReview = null,
+                AlcoholicInfo = "alcoholic",
+                GlassType = "tall",
+                Category = "nice",
+                Instructions = "mix",
+                Id = Guid.NewGuid().ToString()
+            };
+
+            // tests to be removed
+            var id = newDrink.Id;
+            await _drinkRepository.AddDrink(newDrink);
+            await _drinkRepository.SaveChanges();
+            var testDrink = await _drinkRepository.GetDrinkById(id);
+            testDrink.Name = "Test22";
+            _drinkRepository.Update(testDrink);
+            await _drinkRepository.SaveChanges();
+            await _drinkRepository.DeleteDrink(testDrink.Id);
+            await _drinkRepository.SaveChanges();
+
             return View(model);
         }
 
