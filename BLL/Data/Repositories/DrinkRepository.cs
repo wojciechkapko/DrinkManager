@@ -40,9 +40,9 @@ namespace BLL.Data.Repositories
             _context.Drinks.Update(drink);
         }
 
-        public async Task DeleteDrink(string id)
+        public void DeleteDrink(Drink drink)
         {
-            _context.Drinks.Remove(await GetDrinkById(id));
+            _context.Drinks.Remove(drink);
         }
 
         public async Task<bool> SaveChanges()
