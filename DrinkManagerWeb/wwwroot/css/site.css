@@ -60,28 +60,28 @@ html {
     min-height: 100%;
 }
 
-.navigation {
-    background-color: #ffcd38;
-    padding-left: 20px;
-}
-
-.btn-search {
-    border: 2px solid #4a4a4a;
-}
-
-    .btn-search:hover {
-        background-color: #4a4a4a;
-        color: #ffdd67;
-    }
-
 .sidenav {
     background-color: #ffdd67;
-    text-align: center;
     padding-top: 15px;
+}
+
+.website-name {
+    text-align: center;
+    padding-bottom: 15px; 
+}
+
+.sidebar-list {
+    padding-left: 30px;
 }
 
 .main-body {
     padding: 0;
+}
+
+.main-image {
+    padding: 10px;
+    border: 3px solid #4a4a4a;
+    margin: 30px;
 }
 
 body {
