@@ -1,0 +1,67 @@
+﻿@model DrinkManagerWeb.Models.ViewModels.DrinkDetailsViewModel
+
+@{
+    ViewBag.Title = Model.Drink.Name;
+    Layout = "_Layout";
+}
+
+
+<div class="col-4">
+    <img class="w-100 rounded shadow-lg mb-3" src="@Model.Drink.ImageUrl"/>
+    <div class="card">
+        <div class="card-header">
+            <h4>Ingredients</h4>
+        </div>
+        <div class="card-body">
+            <ul>
+                @foreach (var ingredient in Model.Drink.Ingredients)
+                {
+                    <li>@ingredient.Name @ingredient.Amount</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-8">
+    <div class="card mb-3">
+        <div class="mb-3 card-header">
+            <div class="d-flex">
+                <h1>@Model.Drink.Name</h1>
+                <div class="buttons d-flex align-items-center ml-auto">
+                    @*TODO Favourites condition*@
+                    <a href="#" class="btn btn-outline-primary"><i class="fas fa-heart mr-2"></i>Add to Favourites</a>
+                </div>
+            </div>
+            <strong>@Model.Drink.Category</strong>
+        </div>
+        <div class="card-body">
+            <p>@Model.Drink.Instructions</p>
+            <div class="row">
+                <div class="col-6 d-flex flex-column">
+                    <strong>Alcohol content:</strong>
+                    <div>@Model.Drink.AlcoholicInfo</div>
+                </div>
+                <div class="col-6 d-flex flex-column">
+                    <strong>Glass:</strong>
+                    <div>@Model.Drink.GlassType</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="mb-3 card-header">
+            <h4>Reviews</h4>
+        </div>
+        <div class="card-body">
+                @if (Model.Drink.DrinkReview == null)
+                {
+                    <p>No reviews</p>
+                }
+                else
+                {
+                    <p>@Model.Drink.DrinkReview</p>
+                }
+        </div>
+    </div>
+</div>
+
