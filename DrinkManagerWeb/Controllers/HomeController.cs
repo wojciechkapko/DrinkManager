@@ -41,8 +41,6 @@ namespace DrinkManagerWeb.Controllers
             };
 
             // tests to be removed
-            _drinkRepository.DeleteDrink(await _drinkRepository.FindDrink(d => d.Name.Equals("test")));
-            await _drinkRepository.SaveChanges();
 
             var id = newDrink.Id;
             await _drinkRepository.AddDrink(newDrink);
