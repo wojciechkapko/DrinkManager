@@ -20,39 +20,9 @@ namespace DrinkManagerWeb.Controllers
             _drinkRepository = drinkRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var model = new HomeViewModel
-            {
-                Drinks = await _drinkRepository.GetAllDrinks()
-            };
-
-            // temp test drink to be removed
-            var newDrink = new Drink
-            {
-                Name = "test",
-                Ingredients = null,
-                DrinkReview = null,
-                AlcoholicInfo = "alcoholic",
-                GlassType = "tall",
-                Category = "nice",
-                Instructions = "mix",
-                Id = Guid.NewGuid().ToString()
-            };
-
-            // tests to be removed
-
-            var id = newDrink.Id;
-            await _drinkRepository.AddDrink(newDrink);
-            await _drinkRepository.SaveChanges();
-            var testDrink = await _drinkRepository.GetDrinkById(id);
-            testDrink.Name = "Test22";
-            _drinkRepository.Update(testDrink);
-            await _drinkRepository.SaveChanges();
-            _drinkRepository.DeleteDrink(testDrink);
-            await _drinkRepository.SaveChanges();
-
-            return View(model);
+            return View();
         }
 
         public IActionResult Privacy()

@@ -45,6 +45,7 @@ namespace BLL
                         Category = drink.strCategory,
                         GlassType = drink.strGlass,
                         Instructions = drink.strInstructions,
+                        ImageUrl = drink.strDrinkThumb,
                         Ingredients = new List<Ingredient>
                         {
                             new Ingredient
