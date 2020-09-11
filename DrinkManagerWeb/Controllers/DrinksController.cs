@@ -4,7 +4,6 @@ using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -48,6 +47,33 @@ namespace DrinkManagerWeb.Controllers
                 Drink = _db.Drinks.FirstOrDefault(d => d.Id.Equals(id))
             };
 
+            return View(model);
+        }
+
+        public IActionResult SearchByName(string searchString, string sortOrder, int? pageNumber)
+        {
+            var drinks = _db.Drinks.AsQueryable();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                drinks = drinks.Where(x => x.Name.Contains(searchString, StringComparison.InvariantCultureIgnoreCase));
+            }
+
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            int pageSize = 10;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    drinks = drinks.OrderByDescending(s => s.Name);
+                    break;
+                default:    
+                    drinks = drinks.OrderBy(s => s.Name);
+                    break;
+            }
+            var model = new DrinksViewModel
+            {
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+            };
             return View(model);
         }
     }
