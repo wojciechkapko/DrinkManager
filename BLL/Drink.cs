@@ -8,7 +8,7 @@ namespace BLL
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public string Id { get; set; }
+        public string DrinkId { get; set; }
 
         [Required]
         public string Name { get; set; }
@@ -18,7 +18,8 @@ namespace BLL
         public string GlassType { get; set; }
         public string Instructions { get; set; }
         public string ImageUrl { get; set; }
-        public List<Ingredient> Ingredients { get; set; }
+        public List<DrinkIngredient> DrinkIngredients { get; set; }
+
         public DrinkReview DrinkReview { get; set; }
         public bool IsReviewed => DrinkReview != null;
     }

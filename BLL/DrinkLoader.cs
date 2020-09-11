@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using BLL.Data.DTOs;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -9,26 +10,31 @@ namespace BLL
 {
     public class DrinkLoader
     {
-        public List<Drink> InitializeDrinksFromFile()
+        public FileLoaderDto InitializeDrinksFromFile()
         {
             var path = Environment.CurrentDirectory + "/" + "drinks_source.json";
-            var drinks = LoadFromFile(path);
+            var data = LoadFromFile(path);
 
-            return drinks;
+            return data;
         }
 
-        public void AddDrinksFromFile(List<Drink> currentDrinks, string path)
-        {
-            var newDrinks = LoadFromFile(path);
-            if (newDrinks != null)
-            {
-                currentDrinks.AddRange(newDrinks);
-            }
-        }
+        // public void AddDrinksFromFile(List<Drink> currentDrinks, string path)
+        // {
+        //     var newDrinks = LoadFromFile(path);
+        //     if (newDrinks != null)
+        //     {
+        //         currentDrinks.AddRange(newDrinks);
+        //     }
+        // }
 
-        private List<Drink> LoadFromFile(string path)
+        private FileLoaderDto LoadFromFile(string path)
         {
             var newDrinks = new List<Drink>();
+            var newIngredients = new List<Ingredient>();
+            var relationDrinkIngredients = new List<DrinkIngredient>();
+
+
+
             try
             {
                 var drinksString = File.ReadAllText(path);
@@ -37,99 +43,129 @@ namespace BLL
 
                 foreach (var drink in deserializedJson)
                 {
-                    newDrinks.Add(new Drink
+                    // create new drink
+                    var newDrink = new Drink
                     {
-                        Id = drink.idDrink,
+                        DrinkId = drink.idDrink.ToString(),
                         Name = drink.strDrink,
                         AlcoholicInfo = drink.strAlcoholic,
                         Category = drink.strCategory,
                         GlassType = drink.strGlass,
                         Instructions = drink.strInstructions,
-                        ImageUrl = drink.strDrinkThumb,
-                        Ingredients = new List<Ingredient>
-                        {
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient1,
-                                Amount = drink.strMeasure1
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient2,
-                                Amount = drink.strMeasure2
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient3,
-                                Amount = drink.strMeasure3
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient4,
-                                Amount = drink.strMeasure4
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient5,
-                                Amount = drink.strMeasure5
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient6,
-                                Amount = drink.strMeasure6
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient7,
-                                Amount = drink.strMeasure7
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient8,
-                                Amount = drink.strMeasure8
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient9,
-                                Amount = drink.strMeasure9
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient10,
-                                Amount = drink.strMeasure10
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient11,
-                                Amount = drink.strMeasure11
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient12,
-                                Amount = drink.strMeasure12
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient13,
-                                Amount = drink.strMeasure13
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient14,
-                                Amount = drink.strMeasure14
-                            },
-                            new Ingredient
-                            {
-                                Name = drink.strIngredient15,
-                                Amount = drink.strMeasure15
-                            }
-                        }
-                    });
-                }
+                        ImageUrl = drink.strDrinkThumb
+                    };
+                    // add new drink to all drinks list
+                    newDrinks.Add(newDrink);
 
-                foreach (var drink in newDrinks)
-                {
-                    drink.Ingredients = drink.Ingredients.Where(x => x.Name != null).ToList();
+                    // create current drink's ingredients list
+                    var ingredients = new List<Ingredient>
+                    {
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient1,
+                            Amount = drink.strMeasure1,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient2,
+                            Amount = drink.strMeasure2,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient3,
+                            Amount = drink.strMeasure3,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient4,
+                            Amount = drink.strMeasure4,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient5,
+                            Amount = drink.strMeasure5,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient6,
+                            Amount = drink.strMeasure6,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient7,
+                            Amount = drink.strMeasure7,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient8,
+                            Amount = drink.strMeasure8,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient9,
+                            Amount = drink.strMeasure9,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient10,
+                            Amount = drink.strMeasure10,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient11,
+                            Amount = drink.strMeasure11,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient12,
+                            Amount = drink.strMeasure12,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient13,
+                            Amount = drink.strMeasure13,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient14,
+                            Amount = drink.strMeasure14,
+                            IngredientId = Guid.NewGuid().ToString()
+                        },
+                        new Ingredient
+                        {
+                            Name = drink.strIngredient15,
+                            Amount = drink.strMeasure15,
+                            IngredientId = Guid.NewGuid().ToString()
+                        }
+                    };
+                    // remove null ingredients
+                    ingredients = ingredients.Where(x => x.Name != null).ToList();
+                    // add current drink's ingredients to all ingredients list
+                    newIngredients.AddRange(ingredients);
+
+                    // create relation between current drink and current drink's ingredients
+                    relationDrinkIngredients.AddRange(
+                        ingredients.Select(
+                            ingredient => new DrinkIngredient
+                            {
+                                Ingredient = ingredient,
+                                Drink = newDrink,
+                                IngredientId = ingredient.IngredientId,
+                                DrinkId = newDrink.DrinkId
+                            }));
                 }
             }
             catch (Exception)
@@ -137,7 +173,13 @@ namespace BLL
                 throw new FileNotFoundException("File not found, maybe the path was incorrect?");
             }
 
-            return newDrinks;
+
+            return new FileLoaderDto
+            {
+                Drinks = newDrinks,
+                Ingredients = newIngredients,
+                DrinkIngredients = relationDrinkIngredients
+            };
         }
     }
 }

@@ -1,23 +1,17 @@
-﻿using BLL;
-using BLL.Data.Repositories;
-using DrinkManagerWeb.Models.ViewModels;
+﻿using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IDrinkRepository _drinkRepository;
 
-        public HomeController(ILogger<HomeController> logger, IDrinkRepository drinkRepository)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _drinkRepository = drinkRepository;
         }
 
         public IActionResult Index()

@@ -26,6 +26,12 @@ namespace BLL.Data.Repositories
             return _context.Drinks.FindAsync(id);
         }
 
+        public List<Ingredient> GetIngredientsFor(string id)
+        {
+            var test = _context.DrinkIngredients.Where(d => d.DrinkId == id).Select(di => di.IngredientId).ToList();
+            return _context.Ingredients.Where(i => test.Contains(i.IngredientId)).ToList();
+        }
+
         public Task<Drink> FindDrink(Expression<Func<Drink, bool>> predicate)
         {
             return _context.Drinks.FirstOrDefaultAsync(predicate);

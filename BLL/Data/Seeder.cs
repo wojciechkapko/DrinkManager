@@ -25,9 +25,11 @@ namespace BLL.Data
             if (!context.Drinks.Any())
             {
                 // Load drinks from json file
-                var drinks = new DrinkLoader().InitializeDrinksFromFile();
+                var data = new DrinkLoader().InitializeDrinksFromFile();
                 // Add drinks to the database
-                context.AddRange(drinks);
+                context.Drinks.AddRange(data.Drinks);
+                context.Ingredients.AddRange(data.Ingredients);
+                context.DrinkIngredients.AddRange(data.DrinkIngredients);
                 context.SaveChanges();
                 Console.WriteLine("Database is empty...Seeding data");
             }

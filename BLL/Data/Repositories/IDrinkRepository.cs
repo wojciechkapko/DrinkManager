@@ -21,5 +21,6 @@ namespace BLL.Data.Repositories
         void DeleteDrink(Drink drink);
 
         Task<bool> SaveChanges();
+        List<Ingredient> GetIngredientsFor(string id);
     }
 }

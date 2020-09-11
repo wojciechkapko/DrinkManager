@@ -1,11 +1,10 @@
 ﻿using BLL;
+using BLL.Data.Repositories;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using BLL.Data;
-using BLL.Data.Repositories;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -29,7 +28,7 @@ namespace DrinkManagerWeb.Controllers
                 case "name_desc":
                     drinks = drinks.OrderByDescending(s => s.Name);
                     break;
-                default:    
+                default:
                     drinks = drinks.OrderBy(s => s.Name);
                     break;
             }
@@ -37,6 +36,19 @@ namespace DrinkManagerWeb.Controllers
             {
                 Drinks = await PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
             };
+            return View(model);
+        }
+
+        [HttpGet("drink/{id}")]
+        public async Task<IActionResult> DrinkDetails(string id)
+        {
+
+            var model = new DrinkDetailsViewModel
+            {
+                Drink = await _drinkRepository.GetDrinkById(id),
+                Ingredients = _drinkRepository.GetIngredientsFor(id)
+            };
+
             return View(model);
         }
     }
