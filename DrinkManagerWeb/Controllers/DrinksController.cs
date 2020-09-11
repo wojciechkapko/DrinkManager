@@ -4,6 +4,7 @@ using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -35,6 +36,18 @@ namespace DrinkManagerWeb.Controllers
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
             };
+            return View(model);
+        }
+
+        [HttpGet("drink/{id}")]
+        public IActionResult DrinkDetails(string id)
+        {
+
+            var model = new DrinkDetailsViewModel
+            {
+                Drink = _db.Drinks.FirstOrDefault(d => d.Id.Equals(id))
+            };
+
             return View(model);
         }
     }
