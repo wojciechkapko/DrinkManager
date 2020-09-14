@@ -58,8 +58,10 @@ namespace DrinkManagerWeb.Controllers
                 drinks = drinks.Where(x => x.Name.Contains(searchString, StringComparison.InvariantCultureIgnoreCase));
             }
 
+            ViewData["SearchString"] = searchString;
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
             int pageSize = 10;
             switch (sortOrder)
             {
