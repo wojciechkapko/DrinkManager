@@ -78,6 +78,12 @@ html {
     padding: 0;
 }
 
+.main-text {
+    text-align: left;
+    padding-top: 30px;
+    padding-left: 30px;
+}
+
 .main-image {
     padding: 10px;
     border: 3px solid #4a4a4a;
