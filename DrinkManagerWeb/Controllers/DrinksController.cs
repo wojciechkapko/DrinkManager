@@ -1,21 +1,22 @@
 ﻿using BLL;
 using DrinkManagerWeb.Data;
+using DrinkManagerWeb.Logic;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using BLL.Enums;
 
 namespace DrinkManagerWeb.Controllers
 {
     public class DrinksController : Controller
     {
         private readonly DrinkAppContext _db;
+        private readonly IDrinkService _drinkService;
 
-        public DrinksController(DrinkAppContext db)
+        public DrinksController(DrinkAppContext db, IDrinkService drinkService)
         {
             _db = db;
+            _drinkService = drinkService;
         }
 
         public IActionResult Index(string sortOrder, int? pageNumber)
@@ -55,14 +56,10 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult SearchByName(string searchString, string sortOrder, int? pageNumber)
         {
             var drinks = _db.Drinks.AsQueryable();
-
+            
             if (!String.IsNullOrEmpty(searchString))
             {
-                // solution using BLL -- requires significant adjustments in BLL & console app (changes of List type to IQuerable)
-                // do we have to care about console app ?
-                //drinks = SearchDrink.SearchByName(searchString, drinks);
-                drinks = drinks.Where(drink =>
-                    drink.Name.Contains(searchString, StringComparison.InvariantCultureIgnoreCase));
+                drinks = _drinkService.SearchByName(searchString, drinks);
             }
 
             ViewData["SearchString"] = searchString;

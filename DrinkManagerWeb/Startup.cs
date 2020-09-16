@@ -1,5 +1,6 @@
 using BLL;
 using DrinkManagerWeb.Data;
+using DrinkManagerWeb.Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,7 @@ namespace DrinkManagerWeb
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddSingleton<DrinkAppContext>(new DrinkAppContext(new DrinkLoader()));
+            services.AddScoped<IDrinkService, DrinkService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
