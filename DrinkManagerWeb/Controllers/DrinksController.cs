@@ -1,9 +1,11 @@
 ﻿using BLL;
+using BLL.Enums;
 using DrinkManagerWeb.Data;
 using DrinkManagerWeb.Logic;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DrinkManagerWeb.Controllers
@@ -83,13 +85,15 @@ namespace DrinkManagerWeb.Controllers
             return View(model);
         }
 
-        public IActionResult SearchByIngredients(string searchString, string sortOrder, int? pageNumber)
+        public IActionResult SearchByIngredients(string searchString, string condition, string sortOrder, int? pageNumber)
         {
             var drinks = _db.Drinks.AsQueryable();
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                //drinks = SearchDrink.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')), drinks.ToList(), SearchDrinkOption.Any);
+                var searchDrinkIngredientsCondition =
+                    condition.Equals("all") ? SearchDrinkOption.All : SearchDrinkOption.Any;
+                drinks = _drinkService.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')), drinks, searchDrinkIngredientsCondition);
             }
 
             ViewData["SearchString"] = searchString;

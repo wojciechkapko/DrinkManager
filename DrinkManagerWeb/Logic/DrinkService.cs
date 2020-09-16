@@ -17,7 +17,69 @@ namespace DrinkManagerWeb.Logic
         public IQueryable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, IQueryable<Drink> drinksListToSearch,
             SearchDrinkOption searchOption)
         {
-            throw new System.NotImplementedException();
+            var drinksFound = new List<Drink>();
+            var ingredientsFound = new SortedSet<string>();
+
+            if (searchOption == SearchDrinkOption.All)
+            {
+                foreach (var drink in drinksListToSearch)
+                {
+                    foreach (var drinkIngredient in drink.Ingredients)
+                    {
+                        if (drinkIngredient.Name == null)
+                        {
+                            continue;
+                        }
+
+                        foreach (var ingredient in ingredientsToSearch)
+                        {
+                            if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                ingredientsFound.Add(ingredient);
+                            }
+                        }
+                    }
+
+                    if (ingredientsFound.SetEquals(ingredientsToSearch))
+                    {
+                        drinksFound.Add(drink);
+                    }
+
+                    ingredientsFound.Clear();
+                }
+            }
+            else if (searchOption == SearchDrinkOption.Any)
+            {
+                foreach (var drink in drinksListToSearch)
+                {
+                    var nextDrink = false;
+
+                    foreach (var drinkIngredient in drink.Ingredients)
+                    {
+                        if (drinkIngredient.Name == null)
+                        {
+                            continue;
+                        }
+
+                        foreach (var ingredient in ingredientsToSearch)
+                        {
+                            if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                drinksFound.Add(drink);
+                                nextDrink = true;
+                                break;
+                            }
+                        }
+
+                        if (nextDrink)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return drinksFound.AsQueryable();
         }
 
         public IQueryable<Drink> SearchByAlcoholContent(string alcoholicInfo, IQueryable<Drink> drinks, IQueryable<Drink> contemporaryList)
