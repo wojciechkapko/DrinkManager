@@ -13,12 +13,12 @@ namespace DrinkManagerWeb.Controllers
     public class DrinksController : Controller
     {
         private readonly DrinkAppContext _db;
-        private readonly IDrinkService _drinkService;
+        private readonly IDrinkSearchService _drinkSearchService;
 
-        public DrinksController(DrinkAppContext db, IDrinkService drinkService)
+        public DrinksController(DrinkAppContext db, IDrinkSearchService drinkSearchService)
         {
             _db = db;
-            _drinkService = drinkService;
+            _drinkSearchService = drinkSearchService;
         }
 
         public IActionResult Index(string sortOrder, int? pageNumber)
@@ -61,7 +61,7 @@ namespace DrinkManagerWeb.Controllers
             
             if (!String.IsNullOrEmpty(searchString))
             {
-                drinks = _drinkService.SearchByName(searchString, drinks);
+                drinks = _drinkSearchService.SearchByName(searchString, drinks);
             }
 
             ViewData["SearchString"] = searchString;
@@ -93,7 +93,7 @@ namespace DrinkManagerWeb.Controllers
             {
                 var searchDrinkIngredientsCondition =
                     condition.Equals("all") ? SearchDrinkOption.All : SearchDrinkOption.Any;
-                drinks = _drinkService.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')), drinks, searchDrinkIngredientsCondition);
+                drinks = _drinkSearchService.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')), drinks, searchDrinkIngredientsCondition);
             }
 
             ViewData["SearchString"] = searchString;

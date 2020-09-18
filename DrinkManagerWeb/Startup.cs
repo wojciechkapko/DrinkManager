@@ -23,7 +23,7 @@ namespace DrinkManagerWeb
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddSingleton<DrinkAppContext>(new DrinkAppContext(new DrinkLoader()));
-            services.AddScoped<IDrinkService, DrinkService>();
+            services.AddScoped<IDrinkSearchService, DrinkSearchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

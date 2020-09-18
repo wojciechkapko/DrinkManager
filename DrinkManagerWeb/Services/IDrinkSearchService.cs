@@ -5,7 +5,7 @@ using BLL.Enums;
 
 namespace DrinkManagerWeb.Services
 {
-    public interface IDrinkService
+    public interface IDrinkSearchService
     {
         IQueryable<Drink> SearchByName(string textToSearch, IQueryable<Drink> drinksListToSearch);
 
