@@ -9,66 +9,10 @@
     <form asp-controller="Drinks" asp-action="SearchByName" method="get">
         <p>
             Enter a drink name to find: <input type="text" name="SearchString">
-            <input type="submit" value="Search"/>
+            <input type="submit" value="Search" />
+            <br />
         </p>
     </form>
 </div>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            <a asp-action="SearchByName" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Name</a>
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var drink in Model.Drinks)
-    {
-        <tr>
-            <td>
-                <a asp-action="DrinkDetails" asp-route-id="@drink.Id">@drink.Name</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
-
-@{
-    var prevDisabled = !Model.Drinks.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.Drinks.HasNextPage ? "disabled" : "";
-}
-
-<nav>
-    <ul class="pagination">
-        <li class="page-item @prevDisabled">
-            <a asp-action="SearchByName"
-               asp-route-sortOrder="@ViewData["CurrentSort"]"
-               asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
-               asp-route-currentFilter="@ViewData["CurrentFilter"]"
-               class="page-link">
-                Previous
-            </a>
-        </li>
-        @for (int i = 0; i < Model.Drinks.TotalPages; i++)
-        {
-            <li class="page-item @Model.Drinks.IsOnCurrentPage(Model.Drinks.PageIndex, i+1)">
-                <a asp-action="SearchByName"
-                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                   asp-route-pageNumber="@(i+1)"
-                   class="page-link">
-                    @(i+1)
-                </a>
-            </li>
-        }
-        <li class="page-item @nextDisabled">
-            <a asp-action="SearchByName"
-               asp-route-sortOrder="@ViewData["CurrentSort"]"
-               asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
-               class="page-link">
-                Next
-            </a>
-        </li>
-    </ul>
-</nav>
+<partial name="Partials/DrinksList" model="Model" />
