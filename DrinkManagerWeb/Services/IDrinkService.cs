@@ -1,9 +1,9 @@
-﻿using BLL;
-using BLL.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using BLL;
+using BLL.Enums;
 
-namespace DrinkManagerWeb.Logic
+namespace DrinkManagerWeb.Services
 {
     public interface IDrinkService
     {

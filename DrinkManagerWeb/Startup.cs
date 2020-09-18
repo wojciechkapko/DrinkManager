@@ -1,6 +1,6 @@
 using BLL;
 using DrinkManagerWeb.Data;
-using DrinkManagerWeb.Logic;
+using DrinkManagerWeb.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

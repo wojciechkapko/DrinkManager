@@ -1,12 +1,12 @@
 ﻿using BLL;
 using BLL.Enums;
 using DrinkManagerWeb.Data;
-using DrinkManagerWeb.Logic;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DrinkManagerWeb.Services;
 
 namespace DrinkManagerWeb.Controllers
 {
