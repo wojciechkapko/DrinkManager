@@ -2,11 +2,11 @@
 using BLL.Enums;
 using DrinkManagerWeb.Data;
 using DrinkManagerWeb.Models.ViewModels;
+using DrinkManagerWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DrinkManagerWeb.Services;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -24,7 +24,7 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult Index(string sortOrder, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 10;
             var drinks = _db.Drinks.AsQueryable();
             switch (sortOrder)
