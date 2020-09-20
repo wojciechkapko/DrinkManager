@@ -6,11 +6,12 @@
     <title>@ViewData["Title"] - DrinkManagerWeb</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- sidebar -->
     <div class="container-fluid">
-        <div class="row">
+        <div class="row wrapper">
             <div class="col-2 sidenav pt-3">
                 <h2 class="text-center pb-3"> Drink Manager</h2>
                 <ul class="navbar-nav flex-grow-1 pl-5">
@@ -35,7 +36,7 @@
                 </ul>
             </div>
 
-            <div class="col-10 p-0">
+            <main class="col-10 p-0">
 
                 <!-- page body -->
                 <div>
@@ -45,11 +46,11 @@
 
                 <!-- footer -->
                 <footer class="border-top footer text-muted">
-                    <div class="container">
-                        &copy; 2020 - DrinkManagerWeb - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </div>
-                </footer>
-            </div>
+                    <div class="p-1 pl-4">
+                            &copy; 2020 - DrinkManagerWeb
+                        </div>
+                    </footer>
+            </main>
         </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
