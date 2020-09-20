@@ -19,11 +19,7 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult Index()
         {
-            var model = new HomeViewModel
-            {
-                Drinks = _db.Drinks
-            };
-            return View(model);
+            return View();
         }
 
         public IActionResult Privacy()
