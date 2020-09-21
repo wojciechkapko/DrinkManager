@@ -18,8 +18,7 @@ namespace BLL
         public string GlassType { get; set; }
         public string Instructions { get; set; }
         public string ImageUrl { get; set; }
-        public List<DrinkIngredient> DrinkIngredients { get; set; }
-
+        public List<Ingredient> Ingredients { get; set; }
         public DrinkReview DrinkReview { get; set; }
         public bool IsReviewed => DrinkReview != null;
     }

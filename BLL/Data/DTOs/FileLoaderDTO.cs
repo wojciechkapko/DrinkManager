@@ -6,6 +6,5 @@ namespace BLL.Data.DTOs
     {
         public List<Drink> Drinks { get; set; }
         public List<Ingredient> Ingredients { get; set; }
-        public List<DrinkIngredient> DrinkIngredients { get; set; }
     }
 }

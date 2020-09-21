@@ -14,7 +14,7 @@
             </div>
             <div class="card-body">
                 <ul>
-                    @foreach (var ingredient in Model.Ingredients)
+                    @foreach (var ingredient in Model.Drink.Ingredients)
                     {
                         <li>@ingredient.Name @ingredient.Amount</li>
                     }

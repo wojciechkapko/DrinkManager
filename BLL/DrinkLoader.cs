@@ -31,7 +31,6 @@ namespace BLL
         {
             var newDrinks = new List<Drink>();
             var newIngredients = new List<Ingredient>();
-            var relationDrinkIngredients = new List<DrinkIngredient>();
 
 
 
@@ -54,8 +53,7 @@ namespace BLL
                         Instructions = drink.strInstructions,
                         ImageUrl = drink.strDrinkThumb
                     };
-                    // add new drink to all drinks list
-                    newDrinks.Add(newDrink);
+
 
                     // create current drink's ingredients list
                     var ingredients = new List<Ingredient>
@@ -154,18 +152,9 @@ namespace BLL
                     // remove null ingredients
                     ingredients = ingredients.Where(x => x.Name != null).ToList();
                     // add current drink's ingredients to all ingredients list
-                    newIngredients.AddRange(ingredients);
-
-                    // create relation between current drink and current drink's ingredients
-                    relationDrinkIngredients.AddRange(
-                        ingredients.Select(
-                            ingredient => new DrinkIngredient
-                            {
-                                Ingredient = ingredient,
-                                Drink = newDrink,
-                                IngredientId = ingredient.IngredientId,
-                                DrinkId = newDrink.DrinkId
-                            }));
+                    newDrink.Ingredients = ingredients;
+                    // add new drink to all drinks list
+                    newDrinks.Add(newDrink);
                 }
             }
             catch (Exception)
@@ -177,8 +166,7 @@ namespace BLL
             return new FileLoaderDto
             {
                 Drinks = newDrinks,
-                Ingredients = newIngredients,
-                DrinkIngredients = relationDrinkIngredients
+                Ingredients = newIngredients
             };
         }
     }

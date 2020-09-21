@@ -45,8 +45,7 @@ namespace DrinkManagerWeb.Controllers
 
             var model = new DrinkDetailsViewModel
             {
-                Drink = await _drinkRepository.GetDrinkById(id),
-                Ingredients = _drinkRepository.GetIngredientsFor(id)
+                Drink = await _drinkRepository.GetDrinkById(id)
             };
 
             return View(model);
