@@ -28,7 +28,7 @@ namespace BLL.Data.Repositories
 
         public Task<Drink> FindDrink(Expression<Func<Drink, bool>> predicate)
         {
-            return _context.Drinks.FirstOrDefaultAsync(predicate);
+            return _context.Drinks.Include(i => i.Ingredients).FirstOrDefaultAsync(predicate);
         }
 
         public async Task AddDrink(Drink drink)
