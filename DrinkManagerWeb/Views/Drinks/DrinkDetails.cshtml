@@ -6,22 +6,28 @@
 }
 
 
-
-
 <div class="row p-4">
     <div class="col-4">
-        <img class="w-100 rounded shadow-lg mb-3" src="@Model.Drink.ImageUrl" />
+        <img class="w-100 rounded shadow-lg mb-3" src="@Model.Drink.ImageUrl"/>
         <div class="card">
             <div class="card-header">
                 <h4>Ingredients</h4>
             </div>
             <div class="card-body">
-                <ul>
-                    @foreach (var ingredient in Model.Drink.Ingredients)
-                    {
-                        <li>@ingredient.Name @ingredient.Amount</li>
-                    }
-                </ul>
+
+                @if (Model.Drink.Ingredients != null && Model.Drink.Ingredients.Any())
+                {
+                    <ul>
+                        @foreach (var ingredient in Model.Drink.Ingredients)
+                        {
+                            <li>@ingredient.Name @ingredient.Amount</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No ingredients</p>
+                }
             </div>
         </div>
     </div>
