@@ -1,6 +1,6 @@
 ﻿@model BLL.Drink
 
-<div class="row p-4">
+<div class="row px-4">
     <div class="col-12">
         <h1>Add Drink</h1>
         <hr />
@@ -53,11 +53,16 @@
             if ($(".alert").length === 0) {
                 $("form").prepend(
                     `<div class="alert alert-danger alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            You can add maximum of 15 ingredients</div>`);
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        You can add maximum of 15 ingredients
+                    </div>`);
             }
             return;
         }
-        $("#ingredients-group").append(`<div class='d-flex'><input id='Ingredient_${ingredientNumber}' class='form-control mb-3' placeholder='Ingredient ${ingredientNumber}' name='Ingredient_${ingredientNumber}'/><button type="button" class="close ml-3 rounded" onclick="$('#Ingredient_${ingredientNumber}').remove();$(this).remove()">&times;</button></div>`);
+        $("#ingredients-group").append(
+            `<div class='d-flex'>
+                <input id='Ingredient_${ingredientNumber}' class='form-control mb-3' placeholder='Ingredient ${ingredientNumber}' name='Ingredient_${ingredientNumber}'/>
+                <button type="button" class="close ml-3 rounded" onclick="$('#Ingredient_${ingredientNumber}').remove();$(this).remove()">&times;</button>
+            </div>`);
     }
 </script>
