@@ -103,5 +103,19 @@ namespace DrinkManagerWeb.Controllers
 
             return RedirectToAction(nameof(DrinkDetails), new { id = newDrink.Id });
         }
+
+        public IActionResult Remove(string id)
+        {
+            var drink = _db.Drinks.Find(d => d.Id.Equals(id));
+            if (drink == null)
+            {
+                return NotFound();
+            }
+            _db.Drinks.Remove(drink);
+
+            TempData["Alert"] = $"Drink {drink.Name} removed";
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

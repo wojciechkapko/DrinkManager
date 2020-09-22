@@ -103,11 +103,3 @@ h1, h2, h3, h4, h5, h6 {
 .navbar-brand:hover {
     color: #212529;
 }
-
-
-.form-group .close {
-    background: #ff1d5c;
-    opacity: 1;
-    height: 38px;
-    width: 38px;
-}

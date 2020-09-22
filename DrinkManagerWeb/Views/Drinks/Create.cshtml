@@ -67,9 +67,9 @@
             return;
         }
         $("#ingredients-group").append(
-            `<div class='d-flex'>
-                <input id='Ingredient_${ingredientNumber}' class='form-control mb-3' placeholder='Ingredient ${ingredientNumber}' name='Ingredient_${ingredientNumber}'/>
-                <button type="button" class="close ml-3 rounded" onclick="$('#Ingredient_${ingredientNumber}').remove();$(this).remove()">&times;</button>
+            `<div class='d-flex mb-3' id='Ingredient_${ingredientNumber}'>
+                <input class='form-control' placeholder='Ingredient ${ingredientNumber}' name='Ingredient_${ingredientNumber}'/>
+                <button type="button" class="ml-3 btn btn-danger" onclick="$('#Ingredient_${ingredientNumber}').remove();$(this).remove()">&times;</button>
             </div>`);
     }
 </script>
