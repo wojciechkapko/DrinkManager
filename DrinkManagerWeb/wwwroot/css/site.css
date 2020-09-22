@@ -1,10 +1,26 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
+.logo {
+    line-height: 1.1;
+    color: #212529;
+    font-size: 2rem;
+}
+
+.logo:hover {
+    color: #212529;
+    text-decoration: none;
+}
+
+.logo i {
+    color: #212529;
+    border: 5px solid #212529;
+    padding: .75rem;
+    border-radius: 1rem;
+}
+
+.nav-item.active a {
+    text-decoration: underline;
 }
 
 /* Provide sufficient contrast against white background */
@@ -36,14 +52,6 @@ html {
     }
 }
 
-.border-top {
-    border-top: 1px solid #e5e5e5;
-}
-
-.border-bottom {
-    border-bottom: 1px solid #e5e5e5;
-}
-
 .box-shadow {
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
@@ -73,7 +81,7 @@ body {
     bottom: 0;
     white-space: nowrap;
     line-height: 60px; /* Vertically center the text there */
-    background-color: #ffcd38;
+    background-color: #ffdd67;
     position: absolute;
     width: 100%;
 }
@@ -93,13 +101,4 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-item:hover a {
     text-decoration: underline;
-}
-
-.navbar-brand {
-    color: #212529;
-    font-size: 2rem;
-}
-
-.navbar-brand:hover {
-    color: #212529;
 }
