@@ -38,13 +38,17 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-6">
-                    <label asp-for="Instructions">Instructions</label>
-                    <textarea class="form-control mb-3" rows="3" asp-for="Instructions"></textarea>
-                    <span asp-validation-for="Instructions" class="text-danger"></span>
-                    <label asp-for="ImageUrl">Image Url</label>
-                    <input type="text" class="form-control" asp-for="ImageUrl" placeholder="Image Url">
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Instructions">Instructions</label>
+                        <textarea class="form-control mb-3" rows="3" asp-for="Instructions"></textarea>
+                        <span asp-validation-for="Instructions" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImageUrl">Image Url</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl" placeholder="Image Url">
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
                 </div>
                 <div class="form-group col-md-6">
                     <div id="ingredients-group">
@@ -77,20 +81,20 @@
                 if ($(".alert").length === 0) {
                     $("form").prepend(
                         `<div class="alert alert-danger alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            You can add maximum of 15 ingredients
-                        </div>`);
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    You can add maximum of 15 ingredients
+                                </div>`);
                 }
                 return;
             }
             $("#ingredients-group").append(
                 `<div class='form-group mb-3' id='Ingredient_${ingredientNumber}'>
-                    <div class='d-flex'>
-                        <input type="text" class="form-control" placeholder="Ingredient" data-val="true" data-val-length="The field Ingredient must be a string with a maximum length of 50." data-val-length-max="50" data-val-regex="Amount separated by space is required" data-val-regex-pattern=".*\\s.*" id="Ingredient${ingredientNumber}" maxlength="50" name="Ingredient${ingredientNumber}" value="${value}"/>
-                        <button type="button" class="ml-3 btn btn-danger" onclick="$('#Ingredient_${ingredientNumber}').remove();$(this).remove()">&times;</button>
-                    </div>
-                    <span class="text-danger field-validation-valid" data-valmsg-for="Ingredient${ingredientNumber}" data-valmsg-replace="true"></span>
-                </div>`);
+                            <div class='d-flex'>
+                                <input type="text" class="form-control" placeholder="Ingredient" data-val="true" data-val-length="The field Ingredient must be a string with a maximum length of 50." data-val-length-max="50" data-val-regex="Amount separated by space is required" data-val-regex-pattern=".*\\s.*" id="Ingredient${ingredientNumber}" maxlength="50" name="Ingredient${ingredientNumber}" value="${value}"/>
+                                <button type="button" class="ml-3 btn btn-danger" onclick="$('#Ingredient_${ingredientNumber}').remove();$(this).remove()">&times;</button>
+                            </div>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="Ingredient${ingredientNumber}" data-valmsg-replace="true"></span>
+                        </div>`);
 
 
         }
