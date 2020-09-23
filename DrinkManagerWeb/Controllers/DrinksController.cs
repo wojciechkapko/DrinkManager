@@ -112,7 +112,7 @@ namespace DrinkManagerWeb.Controllers
             var imageUrl = "https://medifactia.com/wp-content/uploads/2018/01/placeholder.png";
 
             // if image data exists replace placeholder
-            if (data.ContainsKey("ImageUrl"))
+            if (data.ContainsKey("ImageUrl") && string.IsNullOrWhiteSpace(data["ImageUrl"]) == false)
             {
                 imageUrl = data["ImageUrl"];
             }
