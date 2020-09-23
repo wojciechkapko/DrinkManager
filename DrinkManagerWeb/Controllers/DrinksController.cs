@@ -54,26 +54,31 @@ namespace DrinkManagerWeb.Controllers
         }
 
 
-        [HttpGet("drink/create")]
-        public IActionResult Create(string? id)
+        [HttpGet("drink/edit/{id}")]
+        public IActionResult Edit(string? id)
         {
-            if (id != null)
+            var drink = _db.Drinks.Find(d => d.Id.Equals(id));
+
+            var model = new DrinkCreateViewModel
             {
-                var drink = _db.Drinks.Find(d => d.Id.Equals(id));
+                Id = drink?.Id,
+                GlassType = drink?.GlassType,
+                Category = drink?.Category,
+                Instructions = drink?.Instructions,
+                AlcoholicInfo = drink?.AlcoholicInfo,
+                Name = drink?.Name,
+                Ingredients = drink?.Ingredients,
+                ImageUrl = drink?.ImageUrl
+            };
 
-                var model = new DrinkCreateViewModel
-                {
-                    Id = drink?.Id,
-                    GlassType = drink?.GlassType,
-                    Category = drink?.Category,
-                    Instructions = drink?.Instructions,
-                    AlcoholicInfo = drink?.AlcoholicInfo,
-                    Name = drink?.Name,
-                    Ingredients = drink?.Ingredients
-                };
+            return View("Create", model);
+        }
 
-                return View(model);
-            }
+
+
+        [HttpGet("drink/create")]
+        public IActionResult Create()
+        {
             return View();
         }
 

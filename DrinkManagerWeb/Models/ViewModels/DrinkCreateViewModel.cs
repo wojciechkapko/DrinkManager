@@ -25,7 +25,7 @@ namespace DrinkManagerWeb.Models.ViewModels
         public string ImageUrl { get; set; }
         [DisplayName("Ingredient")]
         [Required(ErrorMessage = "First ingredient is required.")]
-        [StringLength(25)]
+        [StringLength(50)]
         [RegularExpression(".*\\s.*", ErrorMessage = "Amount separated by space is required.")]
         public string Ingredient1 { get; set; }
         public string Ingredient2 { get; set; }

@@ -1,5 +1,10 @@
 ﻿@model DrinkManagerWeb.Models.ViewModels.DrinkCreateViewModel
 
+@{
+    ViewBag.Title = Model == null ? "Create new drink" : $"Editing {Model.Name}";
+    Layout = "_Layout";
+}
+
 <div class="row px-4">
     <div class="col-12">
         <h1>@(Model == null ? "Create new drink" : $"Editing {Model.Name}")</h1>
@@ -81,7 +86,7 @@
             $("#ingredients-group").append(
                 `<div class='form-group mb-3' id='Ingredient_${ingredientNumber}'>
                     <div class='d-flex'>
-                        <input type="text" class="form-control" placeholder="Ingredient" data-val="true" data-val-length="The field Ingredient must be a string with a maximum length of 25." data-val-length-max="25" data-val-regex="Amount separated by space is required" data-val-regex-pattern=".*\\s.*" id="Ingredient${ingredientNumber}" maxlength="25" name="Ingredient${ingredientNumber}" value="${value}"/>
+                        <input type="text" class="form-control" placeholder="Ingredient" data-val="true" data-val-length="The field Ingredient must be a string with a maximum length of 50." data-val-length-max="50" data-val-regex="Amount separated by space is required" data-val-regex-pattern=".*\\s.*" id="Ingredient${ingredientNumber}" maxlength="50" name="Ingredient${ingredientNumber}" value="${value}"/>
                         <button type="button" class="ml-3 btn btn-danger" onclick="$('#Ingredient_${ingredientNumber}').remove();$(this).remove()">&times;</button>
                     </div>
                     <span class="text-danger field-validation-valid" data-valmsg-for="Ingredient${ingredientNumber}" data-valmsg-replace="true"></span>
