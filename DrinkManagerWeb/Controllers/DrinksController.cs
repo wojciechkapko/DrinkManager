@@ -58,14 +58,20 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(IFormCollection data)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
 
             var ingredients = new List<Ingredient>();
 
             foreach (var key in data.Keys)
             {
-                if (key.Contains("Ingredient"))
+                if (key.Contains("Ingredient") && string.IsNullOrWhiteSpace(data[key]) == false)
                 {
                     var ingredientData = data[key].ToString().Split(' ', 2);
 
