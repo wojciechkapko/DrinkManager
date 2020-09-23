@@ -38,7 +38,7 @@
                     <h1>@Model.Drink.Name</h1>
                     <div class="buttons d-flex align-items-center ml-auto">
                         @*TODO Favourites condition*@
-                        <a href="#" class="btn btn-primary mr-3">Edit</a>
+                        <a asp-controller="Drinks" asp-action="Create" asp-route-id="@Model.Drink.Id" class="btn btn-primary mr-3">Edit</a>
                         <a href="#" class="btn btn-outline-primary mr-3"><i class="fas fa-heart mr-2"></i>Add to Favourites</a>
                         <a class="btn btn-danger" asp-controller="Drinks" asp-action="Remove" asp-route-id="@Model.Drink.Id">Remove</a>
                     </div>

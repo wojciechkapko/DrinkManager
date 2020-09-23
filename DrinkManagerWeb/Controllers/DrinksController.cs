@@ -1,4 +1,5 @@
-﻿using BLL;
+﻿#nullable enable
+using BLL;
 using DrinkManagerWeb.Data;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -52,14 +53,33 @@ namespace DrinkManagerWeb.Controllers
             return View(model);
         }
 
-        public IActionResult Create()
+
+        [HttpGet("drink/create")]
+        public IActionResult Create(string? id)
         {
+            if (id != null)
+            {
+                var drink = _db.Drinks.Find(d => d.Id.Equals(id));
+
+                var model = new DrinkCreateViewModel
+                {
+                    Id = drink?.Id,
+                    GlassType = drink?.GlassType,
+                    Category = drink?.Category,
+                    Instructions = drink?.Instructions,
+                    AlcoholicInfo = drink?.AlcoholicInfo,
+                    Name = drink?.Name,
+                    Ingredients = drink?.Ingredients
+                };
+
+                return View(model);
+            }
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("drink/create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection data)
+        public IActionResult Create(IFormCollection data, string? id)
         {
 
             if (!ModelState.IsValid)
@@ -91,23 +111,49 @@ namespace DrinkManagerWeb.Controllers
                 imageUrl = data["ImageUrl"];
             }
 
+            string redirectId;
 
-            var newDrink = new Drink
+            if (id != null)
             {
-                Id = Guid.NewGuid().ToString(),
-                Ingredients = ingredients,
-                GlassType = data["GlassType"],
-                ImageUrl = imageUrl,
-                DrinkReview = null,
-                Category = data["Category"],
-                AlcoholicInfo = data["AlcoholicInfo"],
-                Instructions = data["Instructions"],
-                Name = data["Name"]
-            };
+                var drinkToUpdate = _db.Drinks.Find(d => d.Id.Equals(id));
+                redirectId = id;
 
-            _db.Drinks.Add(newDrink);
+                if (drinkToUpdate == null)
+                {
+                    TempData["Alert"] = $"Drink not found";
+                    return RedirectToAction(nameof(Index));
+                }
 
-            return RedirectToAction(nameof(DrinkDetails), new { id = newDrink.Id });
+                drinkToUpdate.Ingredients = ingredients;
+                drinkToUpdate.GlassType = data["GlassType"];
+                drinkToUpdate.Category = data["Category"];
+                drinkToUpdate.AlcoholicInfo = data["AlcoholicInfo"];
+                drinkToUpdate.Instructions = data["Instructions"];
+                drinkToUpdate.Name = data["Name"];
+            }
+            else
+            {
+                var newDrink = new Drink
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Ingredients = ingredients,
+                    GlassType = data["GlassType"],
+                    ImageUrl = imageUrl,
+                    DrinkReview = null,
+                    Category = data["Category"],
+                    AlcoholicInfo = data["AlcoholicInfo"],
+                    Instructions = data["Instructions"],
+                    Name = data["Name"]
+                };
+
+                _db.Drinks.Add(newDrink);
+                redirectId = newDrink.Id;
+            }
+
+
+
+
+            return RedirectToAction(nameof(DrinkDetails), new { id = redirectId });
         }
 
         public IActionResult Remove(string id)

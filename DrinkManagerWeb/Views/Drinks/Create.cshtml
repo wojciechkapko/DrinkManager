@@ -2,9 +2,9 @@
 
 <div class="row px-4">
     <div class="col-12">
-        <h1>Add Drink</h1>
+        <h1>@(Model == null ? "Create new drink" : $"Editing {Model.Name}")</h1>
         <hr />
-        <form asp-antiforgery="true" asp-action="Create" asp-controller="Drinks" method="post">
+        <form asp-antiforgery="true" asp-action="Create" asp-controller="Drinks" asp-route-id="@(Model != null ? Model.Id : null)" method="post">
             <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="Name">Name</label>
@@ -46,7 +46,7 @@
                             <span asp-validation-for="Ingredient1" class="text-danger"></span>
                         </div>
                     </div>
-                    <button type="button" onclick="AddIngredientInput()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Ingredient</button>
+                    <button type="button" onclick="AddInputAndRestartValidation()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Ingredient</button>
                 </div>
             </div>
             <div class="mt-3 border-top">
@@ -63,7 +63,7 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        function AddIngredientInput() {
+        function AddIngredientInput(value = "") {
             let ingredientNumber = $("#ingredients-group input").length + 1;
             if (ingredientNumber > 15) {
                 if ($(".alert").length === 0) {
@@ -78,15 +78,50 @@
             $("#ingredients-group").append(
                 `<div class='form-group mb-3' id='Ingredient_${ingredientNumber}'>
                     <div class='d-flex'>
-                        <input type="text" class="form-control" placeholder="Ingredient" data-val="true" data-val-length="The field Ingredient must be a string with a maximum length of 15." data-val-length-max="15" data-val-regex="Amount separated by space is required" data-val-regex-pattern=".*\\s.*" id="Ingredient${ingredientNumber}" maxlength="15" name="Ingredient${ingredientNumber}" value=""/>
+                        <input type="text" class="form-control" placeholder="Ingredient" data-val="true" data-val-length="The field Ingredient must be a string with a maximum length of 25." data-val-length-max="25" data-val-regex="Amount separated by space is required" data-val-regex-pattern=".*\\s.*" id="Ingredient${ingredientNumber}" maxlength="25" name="Ingredient${ingredientNumber}" value="${value}"/>
                         <button type="button" class="ml-3 btn btn-danger" onclick="$('#Ingredient_${ingredientNumber}').remove();$(this).remove()">&times;</button>
                     </div>
                     <span class="text-danger field-validation-valid" data-valmsg-for="Ingredient${ingredientNumber}" data-valmsg-replace="true"></span>
                 </div>`);
 
+
+        }
+
+        function AddInputAndRestartValidation() {
+            AddIngredientInput();
+            ReInitiateValidation();
+        }
+
+        function ReInitiateValidation() {
             let form = $("form").removeData("validator").removeData("unobtrusiveValidation");
 
             $.validator.unobtrusive.parse(form);
         }
     </script>
+
+
+
+    @if (Model != null)
+    {
+
+        foreach (var ingredient in Model.Ingredients)
+        {
+            if (Model.Ingredients.IndexOf(ingredient) == 0)
+            {
+                <script>
+                    $("#Ingredient1").val("@ingredient.Name @ingredient.Amount");
+                </script>
+            }
+            else
+            {
+                <script>
+                    AddIngredientInput("@ingredient.Name @ingredient.Amount");
+                </script>
+            }
+        }
+
+        <script>
+            ReInitiateValidation();
+        </script>
+    }
 }
