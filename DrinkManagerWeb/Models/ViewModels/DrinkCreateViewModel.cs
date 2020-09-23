@@ -20,6 +20,8 @@ namespace DrinkManagerWeb.Models.ViewModels
         public string GlassType { get; set; }
         [Required]
         public string Instructions { get; set; }
+        [DisplayName("Image URL")]
+        [Url]
         public string ImageUrl { get; set; }
         [DisplayName("Ingredient")]
         [Required(ErrorMessage = "First ingredient is required.")]

@@ -134,6 +134,8 @@ namespace DrinkManagerWeb.Controllers
                 drinkToUpdate.AlcoholicInfo = data["AlcoholicInfo"];
                 drinkToUpdate.Instructions = data["Instructions"];
                 drinkToUpdate.Name = data["Name"];
+                drinkToUpdate.ImageUrl = imageUrl;
+
             }
             else
             {
