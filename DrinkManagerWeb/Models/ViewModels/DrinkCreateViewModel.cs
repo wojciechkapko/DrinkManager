@@ -16,6 +16,7 @@ namespace DrinkManagerWeb.Models.ViewModels
         [StringLength(25)]
         public string Category { get; set; }
         public string AlcoholicInfo { get; set; }
+        [Required]
         [StringLength(25)]
         public string GlassType { get; set; }
         [Required]
