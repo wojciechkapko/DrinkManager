@@ -89,6 +89,7 @@ namespace DrinkManagerWeb.Controllers
 
             var ingredients = new List<Ingredient>();
 
+            // create ingredient objects from the from data
             foreach (var key in data.Keys)
             {
                 if (key.Contains("Ingredient") && string.IsNullOrWhiteSpace(data[key]) == false)
@@ -111,15 +112,18 @@ namespace DrinkManagerWeb.Controllers
                 imageUrl = data["ImageUrl"];
             }
 
+            // id that we will use for the redirect
             string redirectId;
 
             if (id != null)
             {
+                // ID is not null, we edit
                 var drinkToUpdate = _db.Drinks.Find(d => d.Id.Equals(id));
                 redirectId = id;
 
                 if (drinkToUpdate == null)
                 {
+                    // something went wrong redirect to drinks index
                     TempData["Alert"] = $"Drink not found";
                     return RedirectToAction(nameof(Index));
                 }
@@ -133,6 +137,7 @@ namespace DrinkManagerWeb.Controllers
             }
             else
             {
+                // id was null, we create a new drink
                 var newDrink = new Drink
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -149,8 +154,6 @@ namespace DrinkManagerWeb.Controllers
                 _db.Drinks.Add(newDrink);
                 redirectId = newDrink.Id;
             }
-
-
 
 
             return RedirectToAction(nameof(DrinkDetails), new { id = redirectId });
