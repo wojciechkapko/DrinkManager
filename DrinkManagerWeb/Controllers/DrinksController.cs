@@ -85,18 +85,19 @@ namespace DrinkManagerWeb.Controllers
             return View(model);
         }
 
-        public IActionResult SearchByIngredients(string searchString, string condition, string sortOrder, int? pageNumber)
+        public IActionResult SearchByIngredients(string searchString, string searchCondition, string sortOrder, int? pageNumber)
         {
             var drinks = _db.Drinks.AsQueryable();
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 var searchDrinkIngredientsCondition =
-                    condition.Equals("all") ? SearchDrinkOption.All : SearchDrinkOption.Any;
+                    searchCondition.Equals("all") ? SearchDrinkOption.All : SearchDrinkOption.Any;
                 drinks = _drinkSearchService.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')), drinks, searchDrinkIngredientsCondition);
             }
 
             ViewData["SearchString"] = searchString;
+            ViewData["SearchCondition"] = searchCondition;
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
