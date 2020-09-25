@@ -38,7 +38,7 @@
                     </li>
                     <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
                         <i class="fas fa-search mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Search by name</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="SearchByName">Search by name</a>
                     </li>
                     <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
                         <i class="fas fa-percent mr-3"></i>
@@ -46,7 +46,7 @@
                     </li>
                     <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
                         <i class="fas fa-lemon mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Search by ingredient</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="SearchByIngredients">Search by ingredients</a>
                     </li>
                     <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
                         <i class="fas fa-heart mr-3"></i>
