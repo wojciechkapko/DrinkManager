@@ -11,5 +11,7 @@ namespace DrinkManagerWeb.Data
         }
 
         public List<Drink> Drinks { get; private set; }
+
+        public List<int> FavouriteDrinksIds { get; set; }
     }
 }
