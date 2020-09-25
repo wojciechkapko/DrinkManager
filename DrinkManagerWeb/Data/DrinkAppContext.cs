@@ -9,9 +9,10 @@ namespace DrinkManagerWeb.Data
         {
             Drinks = loader.InitializeDrinksFromFile();
         }
-
+        
         public List<Drink> Drinks { get; private set; }
 
-        public List<int> FavouriteDrinksIds { get; set; }
+        public List<int> FavouriteDrinksIds { get; set; } = new List<int>();
+
     }
 }

@@ -31,9 +31,19 @@
                 <div class="d-flex">
                     <h1>@Model.Drink.Name</h1>
                     <div class="buttons d-flex align-items-center ml-auto">
-                        @*TODO Favourites condition*@
                         <a href="#" class="btn btn-primary mr-3">Edit</a>
-                        <a href="#" class="btn btn-outline-primary"><i class="fas fa-heart mr-2"></i>Add to Favourites</a>
+                        @if (Model.IsFavourite)
+                        {
+                            <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.Drink.Id" class="btn btn-outline-primary">
+                                <i class="fas fa-heart mr-2"></i>Remove from Favourites
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Drinks" asp-action="AddToFavourite" asp-route-id="@Model.Drink.Id" class="btn btn-outline-primary">
+                                <i class="fas fa-heart mr-2"></i>Add to Favourites
+                            </a>
+                        }
                     </div>
                 </div>
                 <strong>@Model.Drink.Category</strong>
