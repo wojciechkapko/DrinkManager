@@ -23,6 +23,7 @@ namespace DrinkManagerWeb
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddSingleton<DrinkAppContext>(new DrinkAppContext(new DrinkLoader()));
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
         }
 
