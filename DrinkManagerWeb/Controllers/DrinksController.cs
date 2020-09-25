@@ -65,6 +65,7 @@ namespace DrinkManagerWeb.Controllers
             }
 
             ViewData["SearchString"] = searchString;
+            ViewData["SearchType"] = "SearchByName";
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
@@ -90,6 +91,7 @@ namespace DrinkManagerWeb.Controllers
 
             ViewData["SearchString"] = searchString;
             ViewData["SearchCondition"] = searchCondition;
+            ViewData["SearchType"] = "SearchByIngredients";
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
