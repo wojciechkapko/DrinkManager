@@ -8,11 +8,13 @@
 <div>
     <form asp-controller="Drinks" asp-action="SearchByIngredients" method="get">
         <p>
-            Enter ingredients to find: <input type="text" name="SearchString">
+            Enter ingredients to find <br/>(Tip 1: you can provide one or more ingredients separated by a space) <br/>
+            (Tip 2: choose if you want to find drinks containing ANY or ALL provided ingredients):<br/>
+            <input type="text" name="SearchString">
             <input type="radio" id="any" name="searchCondition" value="any" checked="checked" />
-            <label for="all">Any</label>
+            <label for="all">Any ingredient</label>
             <input type="radio" id="all" name="searchCondition" value="all" />
-            <label for="any">All</label>
+            <label for="any">All ingredients</label>
             <input type="submit" value="Search" />
         </p>
     </form>
