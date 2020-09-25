@@ -48,9 +48,9 @@
                         <i class="fas fa-lemon mr-3"></i>
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Search by ingredient</a>
                     </li>
-                    <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
+                    <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "FavouriteDrinks" ? "active" : "")">
                         <i class="fas fa-heart mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="FavouriteDrinks" asp-action="Index">Favourite drinks</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="FavouriteDrinks">Favourite drinks</a>
                     </li>
                     <li class="nav-item d-flex align-items-center @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
                         <i class="fas fa-star mr-3"></i>
