@@ -1,8 +1,8 @@
-﻿using System;
+﻿using BLL;
+using BLL.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using BLL;
-using BLL.Enums;
 
 namespace DrinkManagerWeb.Services
 {
@@ -85,6 +85,20 @@ namespace DrinkManagerWeb.Services
         public IQueryable<Drink> SearchByAlcoholContent(string alcoholicInfo, IQueryable<Drink> drinks, IQueryable<Drink> contemporaryList)
         {
             throw new System.NotImplementedException();
+        }
+
+        public IQueryable<Drink> SortDrinks(string sortOrder, IQueryable<Drink> drinks)
+        {
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    drinks = drinks.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    drinks = drinks.OrderBy(s => s.Name);
+                    break;
+            }
+            return drinks;
         }
     }
 }

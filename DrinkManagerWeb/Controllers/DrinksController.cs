@@ -69,18 +69,10 @@ namespace DrinkManagerWeb.Controllers
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
             int pageSize = 10;
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    drinks = drinks.OrderByDescending(s => s.Name);
-                    break;
-                default:    
-                    drinks = drinks.OrderBy(s => s.Name);
-                    break;
-            }
+
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(_drinkSearchService.SortDrinks(sortOrder, drinks), pageNumber ?? 1, pageSize)
             };
             return View(model);
         }
@@ -102,18 +94,10 @@ namespace DrinkManagerWeb.Controllers
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
             int pageSize = 10;
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    drinks = drinks.OrderByDescending(s => s.Name);
-                    break;
-                default:    
-                    drinks = drinks.OrderBy(s => s.Name);
-                    break;
-            }
+
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(_drinkSearchService.SortDrinks(sortOrder, drinks), pageNumber ?? 1, pageSize)
             };
             return View(model);
         }

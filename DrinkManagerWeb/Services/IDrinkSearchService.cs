@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using BLL;
+﻿using BLL;
 using BLL.Enums;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DrinkManagerWeb.Services
 {
@@ -14,5 +14,7 @@ namespace DrinkManagerWeb.Services
 
         IQueryable<Drink> SearchByAlcoholContent(string alcoholicInfo, IQueryable<Drink> drinks,
             IQueryable<Drink> contemporaryList);
+
+        IQueryable<Drink> SortDrinks(string sortOrder, IQueryable<Drink> drinks);
     }
 }
