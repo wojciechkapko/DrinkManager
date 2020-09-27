@@ -1,0 +1,22 @@
+﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="@ViewData["SearchType"]" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-searchString="@ViewData["SearchString"]" asp-route-searchCondition="@ViewData["SearchCondition"]">Name</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var drink in Model.Drinks)
+        {
+            <tr>
+                <td>
+                    <a asp-action="DrinkDetails" asp-route-id="@drink.Id">@drink.Name</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
