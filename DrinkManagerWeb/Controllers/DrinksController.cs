@@ -79,14 +79,14 @@ namespace DrinkManagerWeb.Controllers
         {
             _db.FavouriteDrinksIds.Add(int.Parse(id));
 
-            return DrinkDetails(id);
+            return RedirectToAction("DrinkDetails", new {id});
         }
 
         public IActionResult RemoveFromFavourite(string id)
         {
             _db.FavouriteDrinksIds.Remove(int.Parse(id));
 
-            return DrinkDetails(id);
+            return RedirectToAction("DrinkDetails", new { id });
         }
     }
 }

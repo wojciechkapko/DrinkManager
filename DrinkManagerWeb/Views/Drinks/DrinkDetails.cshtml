@@ -34,8 +34,8 @@
                         <a href="#" class="btn btn-primary mr-3">Edit</a>
                         @if (Model.IsFavourite)
                         {
-                            <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.Drink.Id" class="btn btn-outline-primary">
-                                <i class="fas fa-heart mr-2"></i>Remove from Favourites
+                            <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.Drink.Id" class="btn btn-primary">
+                                <i class="fas fa-heart-broken mr-2"></i>Remove from Favourites
                             </a>
                         }
                         else
