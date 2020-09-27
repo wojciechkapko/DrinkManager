@@ -2,7 +2,6 @@
 using DrinkManagerWeb.Data;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 
 namespace DrinkManagerWeb.Controllers
@@ -50,7 +49,7 @@ namespace DrinkManagerWeb.Controllers
             return View(model);
         }
 
-        public IActionResult SearchByAlcoholContent(string sortOrder, int? pageNumber, bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics)
+        public IActionResult SearchByAlcoholContent(string sortOrder, int? pageNumber, bool alcoholics = true, bool nonAlcoholics = true, bool optionalAlcoholics = true)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";

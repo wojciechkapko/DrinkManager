@@ -10,8 +10,9 @@
         <header class="d-flex align-items-center">
             <h1>Search by Alcohol Content</h1>
         </header>
+        
         <div>
-            <form method="post">
+            <form asp-route-pageNumber="1" method="post">
                 <div class="form-check">
                     @Html.CheckBoxFor(item => item.Alcoholics, new { @class = "form-check-input", @id = "alcoholicsCheck" })
                     <label class="form-check-label" for="alcoholicsCheck">Alcoholic Drinks</label>
@@ -30,63 +31,77 @@
                 <button>Search</button>
             </form>
         </div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>
-                    <a asp-action="SearchByAlcoholContent" asp-route-lastAlcoholicInfo="@ViewData["lastAlcoholicInfo"]" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Name</a>
-                </th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach (var drink in Model.Drinks)
-            {
-                <tr>
-                    <td>
-                        <a asp-action="DrinkDetails" asp-route-id="@drink.Id">@drink.Name</a>
-                    </td>
-                </tr>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <a asp-action="SearchByAlcoholContent" 
+                               asp-route-alcoholics="@Model.Alcoholics"
+                               asp-route-nonAlcoholics="@Model.NonAlcoholics"
+                               asp-route-optionalAlcoholics="@Model.OptionalAlcoholics" 
+                               asp-route-sortOrder="@ViewData["NameSortParm"]" 
+                               asp-route-currentFilter="@ViewData["CurrentFilter"]">Name</a>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var drink in Model.Drinks)
+                    {
+                        <tr>
+                            <td>
+                                <a asp-action="DrinkDetails" asp-route-id="@drink.Id">@drink.Name</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @{
+                var prevDisabled = !Model.Drinks.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.Drinks.HasNextPage ? "disabled" : "";
             }
-            </tbody>
-        </table>
 
-        @{
-            var prevDisabled = !Model.Drinks.HasPreviousPage ? "disabled" : "";
-            var nextDisabled = !Model.Drinks.HasNextPage ? "disabled" : "";
-        }
-
-        <nav>
-            <ul class="pagination">
-                <li class="page-item @prevDisabled">
-                    <a asp-action="SearchByAlcoholContent"
-                       asp-route-sortOrder="@ViewData["CurrentSort"]"
-                       asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
-                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                       class="page-link">
-                        Previous
-                    </a>
-                </li>
-                @for (int i = 0; i < Model.Drinks.TotalPages; i++)
-                {
-                    <li class="page-item @Model.Drinks.IsOnCurrentPage(Model.Drinks.PageIndex, i + 1)">
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item @prevDisabled">
                         <a asp-action="SearchByAlcoholContent"
+                           asp-route-alcoholics="@Model.Alcoholics"
+                           asp-route-nonAlcoholics="@Model.NonAlcoholics"
+                           asp-route-optionalAlcoholics="@Model.OptionalAlcoholics"
                            asp-route-sortOrder="@ViewData["CurrentSort"]"
-                           asp-route-pageNumber="@(i + 1)"
+                           asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
                            class="page-link">
-                            @(i + 1)
+                            Previous
                         </a>
                     </li>
-                }
-                <li class="page-item @nextDisabled">
-                    <a asp-action="SearchByAlcoholContent"
-                       asp-route-sortOrder="@ViewData["CurrentSort"]"
-                       asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
-                       class="page-link">
-                        Next
-                    </a>
-                </li>
-            </ul>
-        </nav>
+                    @for (int i = 0; i < Model.Drinks.TotalPages; i++)
+                    {
+                        <li class="page-item @Model.Drinks.IsOnCurrentPage(Model.Drinks.PageIndex, i + 1)">
+                            <a asp-action="SearchByAlcoholContent"
+                               asp-route-alcoholics="@Model.Alcoholics"
+                               asp-route-nonAlcoholics="@Model.NonAlcoholics"
+                               asp-route-optionalAlcoholics="@Model.OptionalAlcoholics"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-pageNumber="@(i + 1)"
+                               class="page-link">
+                                @(i + 1)
+                            </a>
+                        </li>
+                    }
+                    <li class="page-item @nextDisabled">
+                        <a asp-action="SearchByAlcoholContent"
+                           asp-route-alcoholics="@Model.Alcoholics"
+                           asp-route-nonAlcoholics="@Model.NonAlcoholics"
+                           asp-route-optionalAlcoholics="@Model.OptionalAlcoholics"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
+                           class="page-link">
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
     </div>
 </div>

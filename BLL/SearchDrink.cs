@@ -84,13 +84,7 @@ namespace BLL
             return drinksFound;
         }
 
-        /// <summary>
-        /// Searches drinks list by specified alcohol content criteria
-        /// </summary>
-        /// <param name="alcoholicInfo"></param>
-        /// <param name="drinks"></param>
-        /// <param name="contemporaryList"></param>
-        /// <returns></returns>
+
         public static IQueryable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics, List<Drink> drinks)
         {
             var contemporaryList = new List<Drink>();
@@ -108,7 +102,6 @@ namespace BLL
             {
                 contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsOptionalAlcohol).ToList());
             }
-            
             return contemporaryList.AsQueryable();
         }
     }
