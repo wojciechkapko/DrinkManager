@@ -17,19 +17,24 @@
     <!-- sidebar -->
     <div class="container-fluid">
         <div class="row wrapper">
-            <div class="col-2 sidenav pt-3">
-                <h2 class="text-center pb-4 pt-4">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Drink Manager 
-                        <i class="fas fa-cocktail"></i></a>
-                    </h2>
-                <ul class="navbar-nav flex-grow-1 pl-5">
+            <nav class="col-2 sidenav p-0 border-light border-right">
+                <a class="logo px-5 d-flex my-5" asp-area="" asp-controller="Home" asp-action="Index">
+                    <div class="mr-3">
+                        <i class="fas fa-cocktail"></i>
+                    </div>
+                    <div class="text-left">
+                        Drink<br />
+                        Manager
+                    </div>
+                </a>
+                <ul class="navbar-nav px-5">
                     <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Home" ? "active" : "")">
                         <i class="fas fa-home mr-3"></i>
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Drinks" ? "active" : "")">
                         <i class="fas fa-glass-martini mr-3"></i>
-                        <a class="nav-link text-dark p-0" asp-area="" asp-controller="Drinks" asp-action="Index">All drinks</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="Index">All drinks</a>
                     </li>
                     <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
                         <i class="fas fa-search mr-3"></i>
@@ -52,21 +57,11 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Reviewed drinks</a>
                     </li>
                 </ul>
-            </div>
+            </nav>
 
-            <main class="col-10 p-0">
-
+            <main class="col-10 pt-5">
                 <!-- page body -->
-                
-            @RenderBody()
-               
-
-                <!-- footer -->
-                <footer class="border-top footer text-muted">
-                    <div class="p-1 pl-4">
-                            &copy; 2020 - DrinkManagerWeb
-                        </div>
-                    </footer>
+                @RenderBody()
             </main>
         </div>
     </div>

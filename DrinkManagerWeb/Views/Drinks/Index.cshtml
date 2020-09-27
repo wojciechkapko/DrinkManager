@@ -7,11 +7,19 @@
     var prevDisabled = !Model.Drinks.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.Drinks.HasNextPage ? "disabled" : "";
 }
-<div class="row p-4">
+
+<div class="row px-4">
     <div class="col-12">
-        @* <p> *@
-        @*     <a asp-action="Create">Create New</a> *@
-        @* </p> *@
+        <header class="d-flex align-items-center">
+            <h1>Drink List</h1>
+            <div class="buttons ml-auto">
+
+                <a asp-action="Create" class="btn btn-primary">
+                    <i class="fas fa-plus mr-2"></i>
+                    Create New Drink
+                </a>
+            </div>
+        </header>
         <table class="table">
             <thead>
                 <tr>
