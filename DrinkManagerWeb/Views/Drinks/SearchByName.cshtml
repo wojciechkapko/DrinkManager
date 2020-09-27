@@ -9,8 +9,8 @@
 <div>
     <form asp-controller="Drinks" asp-action="SearchByName" method="get">
         <p>
-            Enter a drink name to find <br/>(Tip: you can provide a part of the name you are looking for):<br/> 
-            <input type="text" name="SearchString">
+            Enter a drink name to find <br />(Tip: you can provide a part of the name you are looking for):<br />
+            <input type="text" name="SearchString" value="@ViewData["SearchString"]">
             <input type="submit" value="Search" />
             <br />
         </p>

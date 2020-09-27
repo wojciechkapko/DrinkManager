@@ -78,7 +78,7 @@ namespace DrinkManagerWeb.Controllers
             return View(model);
         }
 
-        public IActionResult SearchByIngredients(string searchString, string searchCondition, string sortOrder, int? pageNumber)
+        public IActionResult SearchByIngredients(string searchString, string sortOrder, int? pageNumber, string searchCondition = "any")
         {
             var drinks = _db.Drinks.AsQueryable();
 
