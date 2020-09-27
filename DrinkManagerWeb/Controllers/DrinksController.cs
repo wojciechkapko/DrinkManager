@@ -97,14 +97,12 @@ namespace DrinkManagerWeb.Controllers
             // create ingredient objects from the from data
             foreach (var key in data.Keys)
             {
-                if (key.Contains("Ingredient") && string.IsNullOrWhiteSpace(data[key]) == false)
+                if (key.Contains("Ingredient"))
                 {
-                    var ingredientData = data[key].ToString().Split(' ', 2);
-
                     ingredients.Add(new Ingredient
                     {
-                        Name = ingredientData[0],
-                        Amount = ingredientData[1]
+                        Name = data[key],
+                        Amount = data["Amount" + key.Split("Ingredient")[1]]
                     });
                 }
             }
