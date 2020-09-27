@@ -17,7 +17,7 @@
                 </a>
             </div>
         </header>
-        <table class="table">
+        @*<table class="table">
             <thead>
                 <tr>
                     <th>
@@ -36,7 +36,18 @@
                     </tr>
                 }
             </tbody>
-        </table>
+        </table>*@
+        <div class="card-columns">
+            @foreach (var drink in Model.Drinks)
+            {
+                <div class="card">
+                    <div class="card-img" style="background-image: url('@drink.ImageUrl');"></div>
+                    <div class="card-body">
+                        <a class="card-title" asp-action="DrinkDetails" asp-route-id="@drink.Id">@drink.Name</a>
+                    </div>
+                </div>
+            }
+        </div>
 
         @{
             var prevDisabled = !Model.Drinks.HasPreviousPage ? "disabled" : "";
