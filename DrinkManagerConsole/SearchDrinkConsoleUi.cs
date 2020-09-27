@@ -150,7 +150,6 @@ namespace DrinkManagerConsole
             var searchChoice = Console.ReadKey();
             if (searchChoice.Key == ConsoleKey.D1 || searchChoice.Key == ConsoleKey.D2 || searchChoice.Key == ConsoleKey.D3 || searchChoice.Key == ConsoleKey.D4 || searchChoice.Key == ConsoleKey.D5)
             {
-                PagingHandler.DivideDrinkListIntoPages(GetDrinksByAlcoholContent(searchChoice, drinks));
                 Console.Clear();
             }
         }
@@ -161,42 +160,6 @@ namespace DrinkManagerConsole
         /// <param name="key"></param>
         /// <param name="drinks"></param>
         /// <returns></returns>
-        public static List<Drink> GetDrinksByAlcoholContent(ConsoleKeyInfo key, List<Drink> drinks)
-        {
-            var contemporaryList = new List<Drink>();
-            Console.Clear();
-            switch (key.Key)
-            {
-                case ConsoleKey.D1:
-                    {
-                        contemporaryList = SearchDrink.SearchByAlcoholContent("Alcoholic", drinks, contemporaryList);
-                        break;
-                    }
-                case ConsoleKey.D2:
-                    {
-                        contemporaryList = SearchDrink.SearchByAlcoholContent("Non alcoholic", drinks, contemporaryList);
-                        break;
-                    }
-                case ConsoleKey.D3:
-                    {
-                        contemporaryList = SearchDrink.SearchByAlcoholContent("Optional alcohol", drinks, contemporaryList);
-                        break;
-                    }
-                case ConsoleKey.D4:
-                    {
-                        contemporaryList = SearchDrink.SearchByAlcoholContent("Alcoholic", drinks, contemporaryList);
-                        contemporaryList = SearchDrink.SearchByAlcoholContent("Optional alcohol", drinks, contemporaryList);
-                        break;
-                    }
-                case ConsoleKey.D5:
-                    {
-                        contemporaryList = SearchDrink.SearchByAlcoholContent("Non alcoholic", drinks, contemporaryList);
-                        contemporaryList = SearchDrink.SearchByAlcoholContent("Optional alcohol", drinks, contemporaryList);
-                        break;
-                    }
-            }
-            return contemporaryList;
-        }
 
         public static void PrintDrinksOnPage(List<Drink> contemporaryList, int counter, int index)
         {
