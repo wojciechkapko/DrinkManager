@@ -28,11 +28,12 @@
                 <input type="radio" id="all" name="searchCondition" value="all" checked="checked" />
                 <label for="all">All ingredients</label>
             }
-            <button type="submit" class="btn btn-primary">Search</button>
-            <a asp-controller="Drinks" asp-action="SearchByIngredients" asp-route-searchString="" asp-route-searchCondition="any" class="btn btn-dark" type="button">Clear</a>
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+            <a asp-controller="Drinks" asp-action="SearchByIngredients" asp-route-searchString="" asp-route-searchCondition="any" class="btn btn-outline-secondary" type="button">Clear</a>
         </p>
     </form>
 </div>
 
 <partial name="Partials/DrinksList" model="Model" />
 <partial name="Partials/DrinksPagination" model="Model" />
+<partial name="Partials/BackButton" />
