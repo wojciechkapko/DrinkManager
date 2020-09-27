@@ -5,11 +5,12 @@
     Layout = "_Layout";
 }
 
+<h2>Search by ingredients</h2>
 <div>
     <form asp-controller="Drinks" asp-action="SearchByIngredients" method="get">
         <p>
-            Enter ingredients to find <br/>(Tip 1: you can provide one or more ingredients separated by a space) <br/>
-            (Tip 2: choose if you want to find drinks containing ANY or ALL provided ingredients):<br/>
+            Enter ingredients to find <br />(Tip 1: you can provide one or more ingredients separated by a space) <br />
+            (Tip 2: choose if you want to find drinks containing ANY or ALL provided ingredients):<br />
             <input type="text" name="SearchString">
             <input type="radio" id="any" name="searchCondition" value="any" checked="checked" />
             <label for="any">Any ingredient</label>
