@@ -17,13 +17,26 @@
                 </a>
             </div>
         </header>
-        <div class="card-columns">
+        @*<div class="card-columns">
             @foreach (var drink in Model.Drinks)
             {
-                <div class="card">
+                <div class="card col-lg-8 col-md-4 col-sm-2">
                     <a class="card-title" asp-action="DrinkDetails" asp-route-id="@drink.Id"><img class="w-100 rounded shadow-lg mb-3" src="@drink.ImageUrl" /></a>
                     <div class="card-body">
-                        <a class="card-title" asp-action="DrinkDetails" asp-route-id="@drink.Id"><h4>@drink.Name</h4></a>
+                        <a class="card-title" asp-action="DrinkDetails" asp-route-id="@drink.Id"><h5>@drink.Name</h5></a>
+                    </div>
+                </div>
+            }
+        </div>*@
+        <div class="row">
+            @foreach (var drink in Model.Drinks)
+            {
+                <div class="col-lg-3 col-md-2 col-sm-1 mb-3">
+                    <div class="card">
+                        <a class="page-link" asp-action="DrinkDetails" asp-route-id="@drink.Id"><img class="w-100 rounded shadow-lg" src="@drink.ImageUrl" /></a>
+                        <div class="card-body">
+                            <a class="card-title" asp-action="DrinkDetails" asp-route-id="@drink.Id"><h4>@drink.Name</h4></a>
+                        </div>
                     </div>
                 </div>
             }
