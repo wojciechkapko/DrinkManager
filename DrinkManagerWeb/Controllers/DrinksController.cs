@@ -4,7 +4,6 @@ using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -21,7 +20,7 @@ namespace DrinkManagerWeb.Controllers
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            int pageSize = 10;
+            int pageSize = 12;
             var drinks = _db.Drinks.AsQueryable();
             switch (sortOrder)
             {
