@@ -27,7 +27,7 @@ namespace BLL.Data
                 // Load drinks from json file
                 var data = new DrinkLoader().InitializeDrinksFromFile();
                 // Add drinks to the database
-                context.AddRange(data.Drinks);
+                context.AddRange(data);
                 context.SaveChanges();
                 Console.WriteLine("Database is empty...Seeding data");
             }

@@ -1,5 +1,4 @@
-﻿using BLL.Data.DTOs;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ namespace BLL
 {
     public class DrinkLoader
     {
-        public FileLoaderDto InitializeDrinksFromFile()
+        public List<Drink> InitializeDrinksFromFile()
         {
             var path = Environment.CurrentDirectory + "/" + "drinks_source.json";
             var data = LoadFromFile(path);
@@ -18,16 +17,16 @@ namespace BLL
             return data;
         }
 
-        // public void AddDrinksFromFile(List<Drink> currentDrinks, string path)
-        // {
-        //     var newDrinks = LoadFromFile(path);
-        //     if (newDrinks != null)
-        //     {
-        //         currentDrinks.AddRange(newDrinks);
-        //     }
-        // }
+        public void AddDrinksFromFile(List<Drink> currentDrinks, string path)
+        {
+            var newDrinks = LoadFromFile(path);
+            if (newDrinks != null)
+            {
+                currentDrinks.AddRange(newDrinks);
+            }
+        }
 
-        private FileLoaderDto LoadFromFile(string path)
+        private List<Drink> LoadFromFile(string path)
         {
             var newDrinks = new List<Drink>();
             var newIngredients = new List<Ingredient>();
@@ -163,11 +162,7 @@ namespace BLL
             }
 
 
-            return new FileLoaderDto
-            {
-                Drinks = newDrinks,
-                Ingredients = newIngredients
-            };
+            return newDrinks;
         }
     }
 }
