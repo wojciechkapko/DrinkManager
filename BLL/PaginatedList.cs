@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace BLL
 {
@@ -36,7 +34,7 @@ namespace BLL
         }
         public string IsOnCurrentPage(int pageIndex, int currentPageIndex)
         {
-            if(pageIndex == currentPageIndex)
+            if (pageIndex == currentPageIndex)
             {
                 return "disabled";
             }
@@ -46,10 +44,10 @@ namespace BLL
             }
         }
 
-        public static async Task<PaginatedList<T>> CreatePaginatedList(IQueryable<T> source, int pageIndex, int pageSize)
+        public static PaginatedList<T> CreatePaginatedList(IQueryable<T> source, int pageIndex, int pageSize)
         {
-            var count = await source.CountAsync();
-            var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            var count = source.Count();
+            var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
         }
     }

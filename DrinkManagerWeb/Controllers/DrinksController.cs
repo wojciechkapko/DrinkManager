@@ -17,7 +17,7 @@ namespace DrinkManagerWeb.Controllers
             _drinkRepository = drinkRepository;
         }
 
-        public async Task<IActionResult> Index(string sortOrder, int? pageNumber)
+        public IActionResult Index(string sortOrder, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -34,7 +34,7 @@ namespace DrinkManagerWeb.Controllers
             }
             var model = new DrinksViewModel
             {
-                Drinks = await PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
             };
             return View(model);
         }
