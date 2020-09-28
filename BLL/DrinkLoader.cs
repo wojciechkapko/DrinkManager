@@ -17,21 +17,10 @@ namespace BLL
             return data;
         }
 
-        public void AddDrinksFromFile(List<Drink> currentDrinks, string path)
-        {
-            var newDrinks = LoadFromFile(path);
-            if (newDrinks != null)
-            {
-                currentDrinks.AddRange(newDrinks);
-            }
-        }
-
-        private List<Drink> LoadFromFile(string path)
+        public List<Drink> LoadFromFile(string path)
         {
             var newDrinks = new List<Drink>();
             var newIngredients = new List<Ingredient>();
-
-
 
             try
             {
@@ -160,7 +149,6 @@ namespace BLL
             {
                 throw new FileNotFoundException("File not found, maybe the path was incorrect?");
             }
-
 
             return newDrinks;
         }

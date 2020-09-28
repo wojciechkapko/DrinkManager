@@ -112,7 +112,7 @@ namespace DrinkManagerConsole
         {
             Console.WriteLine("Please provide full path to the source file.");
             var path = Console.ReadLine();
-            var loader = new DrinkLoader();
+            var loader = new FileDrinkLoaderConsole();
             try
             {
                 loader.AddDrinksFromFile(drinksList, path);
