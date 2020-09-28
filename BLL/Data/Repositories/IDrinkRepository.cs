@@ -11,7 +11,7 @@ namespace BLL.Data.Repositories
 
         Task<Drink> GetDrinkById(string id);
 
-        public Task<Drink> FindDrink(Expression<Func<Drink, bool>> predicate);
+        Task<Drink> FindDrink(Expression<Func<Drink, bool>> predicate);
 
         Task AddDrink(Drink drink);
 
