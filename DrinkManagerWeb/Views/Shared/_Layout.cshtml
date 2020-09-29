@@ -17,9 +17,9 @@
     <!-- sidebar -->
     <div class="container-fluid">
         <div class="row wrapper">
-            <nav class="col-2 sidenav p-0 border-light border-right">
-                <a class="logo px-5 d-flex my-5" asp-area="" asp-controller="Home" asp-action="Index">
-                    <div class="mr-3">
+            <nav class="sidenav px-0 py-md-0 border-light border-right" id="sidenav">
+                <a class="logo d-flex justify-content-center my-2 my-md-0 px-3 my-md-5" asp-area="" asp-controller="Home" asp-action="Index">
+                    <div>
                         <i class="fas fa-cocktail"></i>
                     </div>
                     <div class="text-left">
@@ -27,39 +27,39 @@
                         Manager
                     </div>
                 </a>
-                <ul class="navbar-nav px-5">
-                    <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Home" ? "active" : "")">
-                        <i class="fas fa-home mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <ul class="navbar-nav flex-row flex-md-column">
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Home" ? "active" : "")">
+
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i><span>Home</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Drinks" ? "active" : "")">
-                        <i class="fas fa-glass-martini mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="Index">All drinks</a>
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Drinks" ? "active" : "")">
+
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="Index"><i class="fas fa-glass-martini"></i><span>All drinks</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
-                        <i class="fas fa-search mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Search by name</a>
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
+
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-search"></i><span>Search by name</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
-                        <i class="fas fa-percent mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Search by alcohol content</a>
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
+
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-percent"></i><span>Search by alcohol content</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
-                        <i class="fas fa-lemon mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Search by ingredient</a>
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
+
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-lemon"></i><span>Search by ingredient</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
-                        <i class="fas fa-heart mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Favourite drinks</a>
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
+
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-heart"></i><span>Favourite drinks</span></a>
                     </li>
                     <li class="nav-item d-flex align-items-center @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
-                        <i class="fas fa-star mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Reviewed drinks</a>
+
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-star"></i><span>Reviewed drinks</span></a>
                     </li>
                 </ul>
             </nav>
 
-            <main class="col-10 pt-5">
+            <main class="col pt-5">
                 <!-- page body -->
                 @RenderBody()
             </main>
@@ -69,6 +69,5 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
-
 </body>
 </html>
