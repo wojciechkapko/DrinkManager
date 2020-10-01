@@ -1,22 +1,23 @@
-﻿#nullable enable
+#nullable enable
 using BLL;
-using DrinkManagerWeb.Data;
+using BLL.Data.Repositories;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
     public class DrinksController : Controller
     {
-        private readonly DrinkAppContext _db;
+        private readonly IDrinkRepository _drinkRepository;
 
-        public DrinksController(DrinkAppContext db)
+        public DrinksController(IDrinkRepository drinkRepository)
         {
-            _db = db;
+            _drinkRepository = drinkRepository;
         }
 
         public IActionResult Index(string sortOrder, int? pageNumber)
@@ -24,7 +25,7 @@ namespace DrinkManagerWeb.Controllers
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 10;
-            var drinks = _db.Drinks.AsQueryable();
+            var drinks = _drinkRepository.GetAllDrinks();
             switch (sortOrder)
             {
                 case "name_desc":
@@ -42,12 +43,12 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [HttpGet("drink/{id}")]
-        public IActionResult DrinkDetails(string id)
+        public async Task<IActionResult> DrinkDetails(string id)
         {
 
             var model = new DrinkDetailsViewModel
             {
-                Drink = _db.Drinks.FirstOrDefault(d => d.Id.Equals(id))
+                Drink = await _drinkRepository.GetDrinkById(id)
             };
 
             return View(model);
@@ -55,13 +56,13 @@ namespace DrinkManagerWeb.Controllers
 
 
         [HttpGet("drink/edit/{id}")]
-        public IActionResult Edit(string? id)
+        public async Task<IActionResult> Edit(string? id)
         {
-            var drink = _db.Drinks.Find(d => d.Id.Equals(id));
+            var drink = await _drinkRepository.GetDrinkById(id);
 
             var model = new DrinkCreateViewModel
             {
-                Id = drink?.Id,
+                Id = drink?.DrinkId,
                 GlassType = drink?.GlassType,
                 Category = drink?.Category,
                 Instructions = drink?.Instructions,
@@ -84,7 +85,7 @@ namespace DrinkManagerWeb.Controllers
 
         [HttpPost("drink/create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection data, string? id)
+        public async Task<IActionResult> Create(IFormCollection data, string? id)
         {
 
             if (!ModelState.IsValid)
@@ -101,6 +102,7 @@ namespace DrinkManagerWeb.Controllers
                 {
                     ingredients.Add(new Ingredient
                     {
+                        IngredientId = Guid.NewGuid().ToString(),
                         Name = data[key],
                         Amount = data["Amount" + key.Split("Ingredient")[1]]
                     });
@@ -121,8 +123,8 @@ namespace DrinkManagerWeb.Controllers
             if (id != null)
             {
                 // ID is not null, we edit
-                var drinkToUpdate = _db.Drinks.Find(d => d.Id.Equals(id));
-                redirectId = id;
+                var drinkToUpdate = await _drinkRepository.GetDrinkById(id);
+
 
                 if (drinkToUpdate == null)
                 {
@@ -138,14 +140,15 @@ namespace DrinkManagerWeb.Controllers
                 drinkToUpdate.Instructions = data["Instructions"];
                 drinkToUpdate.Name = data["Name"];
                 drinkToUpdate.ImageUrl = imageUrl;
-
+                _drinkRepository.UpdateDrink(drinkToUpdate);
+                redirectId = id;
             }
             else
             {
                 // id was null, we create a new drink
                 var newDrink = new Drink
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    DrinkId = Guid.NewGuid().ToString(),
                     Ingredients = ingredients,
                     GlassType = data["GlassType"],
                     ImageUrl = imageUrl,
@@ -156,22 +159,27 @@ namespace DrinkManagerWeb.Controllers
                     Name = data["Name"]
                 };
 
-                _db.Drinks.Add(newDrink);
-                redirectId = newDrink.Id;
+
+                await _drinkRepository.AddDrink(newDrink);
+                redirectId = newDrink.DrinkId;
             }
 
+            await _drinkRepository.SaveChanges();
 
             return RedirectToAction(nameof(DrinkDetails), new { id = redirectId });
         }
 
-        public IActionResult Remove(string id)
+        public async Task<IActionResult> Remove(string id)
         {
-            var drink = _db.Drinks.Find(d => d.Id.Equals(id));
+            var drink = await _drinkRepository.GetDrinkById(id);
+
             if (drink == null)
             {
                 return NotFound();
             }
-            _db.Drinks.Remove(drink);
+
+            _drinkRepository.DeleteDrink(drink);
+            await _drinkRepository.SaveChanges();
 
             TempData["Alert"] = $"Drink {drink.Name} removed";
 

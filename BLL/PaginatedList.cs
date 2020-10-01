@@ -34,7 +34,7 @@ namespace BLL
         }
         public string IsOnCurrentPage(int pageIndex, int currentPageIndex)
         {
-            if(pageIndex == currentPageIndex)
+            if (pageIndex == currentPageIndex)
             {
                 return "disabled";
             }

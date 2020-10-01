@@ -5,8 +5,7 @@
     Layout = "_Layout";
 }
 
-
-<div class="row p-4">
+<div class="row px-4">
     <div class="col-4">
         <img class="w-100 rounded shadow-lg mb-3" src="@Model.Drink.ImageUrl" />
         <div class="card">
@@ -38,7 +37,7 @@
                     <h1>@Model.Drink.Name</h1>
                     <div class="buttons d-flex align-items-center ml-auto">
                         @*TODO Favourites condition*@
-                        <a asp-controller="Drinks" asp-action="Edit" asp-route-id="@Model.Drink.Id" class="btn btn-primary mr-3">Edit</a>
+                        <a asp-controller="Drinks" asp-action="Edit" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary mr-3">Edit</a>
                         <a href="#" class="btn btn-outline-primary mr-3"><i class="fas fa-heart mr-2"></i>Add to Favourites</a>
                         <a href="javascript:void(0)" class="btn btn-danger" onclick="OpenRemoveModal()">Remove</a>
                     </div>
@@ -85,7 +84,7 @@
             $("#modal .modal-title").append(`<h2>Remove @Model.Drink.Name</h2>`);
             $("#modal .modal-body").append(`<p class="text-center m-0">Are you sure that you want to remove @Model.Drink.Name ?</p>`);
             $("#modal .modal-footer").append(`<a class="btn btn-primary mr-auto" href="javascript:void(0)" onclick="$('#modal').modal('hide')">No</a>`);
-            $("#modal .modal-footer").append(`<a class="btn btn-danger" href="/Drinks/Remove/@Model.Drink.Id">Yes</a>`);
+            $("#modal .modal-footer").append(`<a class="btn btn-danger" href="/Drinks/Remove/@Model.Drink.DrinkId">Yes</a>`);
             $('#modal').modal();
 
             $('#modal').off('hidden.bs.modal').on('hidden.bs.modal',

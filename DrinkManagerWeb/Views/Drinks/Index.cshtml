@@ -3,8 +3,12 @@
 @{
     ViewBag.Title = "Drinks";
     Layout = "_Layout";
+
+    var prevDisabled = !Model.Drinks.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Drinks.HasNextPage ? "disabled" : "";
 }
-<div class="row p-4">
+
+<div class="row px-4">
     <div class="col-12">
         @if (TempData["Alert"] != null)
         {
@@ -15,9 +19,16 @@
                 </button>
             </div>
         }
-        <p>
-            <a asp-action="Create">Create New</a>
-        </p>
+        <header class="d-flex align-items-center">
+            <h1>Drink List</h1>
+            <div class="buttons ml-auto">
+
+                <a asp-action="Create" class="btn btn-primary">
+                    <i class="fas fa-plus mr-2"></i>
+                    Create New Drink
+                </a>
+            </div>
+        </header>
         <table class="table">
             <thead>
                 <tr>
@@ -32,21 +43,15 @@
                 {
                     <tr>
                         <td>
-                            <a asp-action="DrinkDetails" asp-route-id="@drink.Id">@drink.Name</a>
+                            <a asp-action="DrinkDetails" asp-route-id="@drink.DrinkId">@drink.Name</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-
-        @{
-            var prevDisabled = !Model.Drinks.HasPreviousPage ? "disabled" : "";
-            var nextDisabled = !Model.Drinks.HasNextPage ? "disabled" : "";
-        }
-
         <nav>
             <ul class="pagination">
-                <li class="page-item @prevDisabled">
+                <li class="page-item @Model.Drinks.HasPreviousPage">
                     <a asp-action="Index"
                        asp-route-sortOrder="@ViewData["CurrentSort"]"
                        asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
@@ -66,7 +71,7 @@
                         </a>
                     </li>
                 }
-                <li class="page-item @nextDisabled">
+                <li class="page-item @Model.Drinks.HasNextPage">
                     <a asp-action="Index"
                        asp-route-sortOrder="@ViewData["CurrentSort"]"
                        asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
