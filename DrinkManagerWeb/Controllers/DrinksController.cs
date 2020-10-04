@@ -19,9 +19,42 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult Index(string sortOrder, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            int pageSize = 12;
+            var drinks = _drinkRepository.GetAllDrinks();
+            drinks = sortOrder switch
+            {
+                "name_desc" => drinks.OrderByDescending(s => s.Name),
+                _ => drinks.OrderBy(s => s.Name),
+            };
+            var model = new DrinksViewModel
+            {
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+            };
+            return View(model);
+        }
+
+        [HttpGet("drink/{id}")]
+        public async Task<IActionResult> DrinkDetails(string id)
+        {
+            var drink = await _drinkRepository.GetDrinkById(id);
+            if (drink == null)
+            {
+                // add error View
+            }
+
+            return View(drink);
+        }
+
+        [HttpGet("Drinks/favourites")]
+        public IActionResult FavouriteDrinks(string sortOrder, int? pageNumber)
+        {
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 10;
-            var drinks = _drinkRepository.GetAllDrinks();
+
+            var drinks = this._drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
+            
             switch (sortOrder)
             {
                 case "name_desc":
@@ -38,16 +71,34 @@ namespace DrinkManagerWeb.Controllers
             return View(model);
         }
 
-        [HttpGet("drink/{id}")]
-        public async Task<IActionResult> DrinkDetails(string id)
+        public async Task<IActionResult> AddToFavourite(string id)
         {
-
-            var model = new DrinkDetailsViewModel
+            var drink = await _drinkRepository.GetDrinkById(id);
+            if (drink == null)
             {
-                Drink = await _drinkRepository.GetDrinkById(id)
-            };
+                // add error View
+            }
+            drink.IsFavourite = true;
 
-            return View(model);
+            _drinkRepository.Update(drink);
+            await _drinkRepository.SaveChanges();
+            
+            return RedirectToAction("DrinkDetails", new {id});
+        }
+
+        public async Task<IActionResult> RemoveFromFavourite(string id)
+        {
+            var drink = await _drinkRepository.GetDrinkById(id);
+            if (drink == null)
+            {
+                // add error View
+            }
+            drink.IsFavourite = false;
+
+            _drinkRepository.Update(drink);
+            await _drinkRepository.SaveChanges();
+            
+            return RedirectToAction("DrinkDetails", new { id });
         }
 
         public IActionResult SearchByAlcoholContent(string sortOrder, int? pageNumber, bool alcoholics = true, bool nonAlcoholics = true, bool optionalAlcoholics = true)
