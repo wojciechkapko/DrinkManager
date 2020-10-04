@@ -19,7 +19,7 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult Index(string sortOrder, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 12;
             var drinks = _drinkRepository.GetAllDrinks();
             drinks = sortOrder switch
