@@ -45,15 +45,39 @@ namespace DrinkManagerWeb.Controllers
         [HttpGet("drink/{id}")]
         public async Task<IActionResult> DrinkDetails(string id)
         {
-
-            var model = new DrinkDetailsViewModel
+            var drink = await _drinkRepository.GetDrinkById(id);
+            if (drink == null)
             {
-                Drink = await _drinkRepository.GetDrinkById(id)
-            };
+                // add error View
+            }
 
-            return View(model);
+            return View(drink);
         }
 
+        [HttpGet("Drinks/favourites")]
+        public IActionResult FavouriteDrinks(string sortOrder, int? pageNumber)
+        {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            int pageSize = 10;
+
+            var drinks = this._drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    drinks = drinks.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    drinks = drinks.OrderBy(s => s.Name);
+                    break;
+            }
+            var model = new DrinksViewModel
+            {
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+            };
+            return View(model);
+        }
 
         [HttpGet("drink/edit/{id}")]
         public async Task<IActionResult> Edit(string? id)
@@ -184,6 +208,36 @@ namespace DrinkManagerWeb.Controllers
             TempData["Alert"] = $"Drink {drink.Name} removed";
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> AddToFavourite(string id)
+        {
+            var drink = await _drinkRepository.GetDrinkById(id);
+            if (drink == null)
+            {
+                // add error View
+            }
+            drink.IsFavourite = true;
+
+            _drinkRepository.UpdateDrink(drink);
+            await _drinkRepository.SaveChanges();
+
+            return RedirectToAction("DrinkDetails", new { id });
+        }
+
+        public async Task<IActionResult> RemoveFromFavourite(string id)
+        {
+            var drink = await _drinkRepository.GetDrinkById(id);
+            if (drink == null)
+            {
+                // add error View
+            }
+            drink.IsFavourite = false;
+
+            _drinkRepository.UpdateDrink(drink);
+            await _drinkRepository.SaveChanges();
+
+            return RedirectToAction("DrinkDetails", new { id });
         }
     }
 }
