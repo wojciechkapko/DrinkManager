@@ -24,17 +24,13 @@ namespace DrinkManagerWeb.Controllers
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            int pageSize = 10;
+            int pageSize = 12;
             var drinks = _drinkRepository.GetAllDrinks();
-            switch (sortOrder)
+            drinks = sortOrder switch
             {
-                case "name_desc":
-                    drinks = drinks.OrderByDescending(s => s.Name);
-                    break;
-                default:
-                    drinks = drinks.OrderBy(s => s.Name);
-                    break;
-            }
+                "name_desc" => drinks.OrderByDescending(s => s.Name),
+                _ => drinks.OrderBy(s => s.Name),
+            };
             var model = new DrinksViewModel
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
