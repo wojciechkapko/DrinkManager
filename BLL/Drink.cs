@@ -7,7 +7,7 @@ namespace BLL
     public class Drink
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string DrinkId { get; set; }
 
         [Required]

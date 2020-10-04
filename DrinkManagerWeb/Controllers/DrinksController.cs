@@ -122,7 +122,6 @@ namespace DrinkManagerWeb.Controllers
                 {
                     ingredients.Add(new Ingredient
                     {
-                        IngredientId = Guid.NewGuid().ToString(),
                         Name = data[key],
                         Amount = data["Amount" + key.Split("Ingredient")[1]]
                     });
