@@ -112,7 +112,7 @@ namespace DrinkManagerConsole
         {
             Console.WriteLine("Please provide full path to the source file.");
             var path = Console.ReadLine();
-            var loader = new DrinkLoader();
+            var loader = new FileDrinkLoaderConsole();
             try
             {
                 loader.AddDrinksFromFile(drinksList, path);
@@ -320,7 +320,7 @@ namespace DrinkManagerConsole
             Console.WriteLine($"\nInstructions:\n{drink.Instructions}");
             Console.WriteLine(
                     "------------------------------------------------------------------------------------------------------------------");
-            if (drink.isReviewed)
+            if (drink.IsReviewed)
             {
                 Console.WriteLine($"Score: {drink.DrinkReview.ReviewScore}");
                 Console.WriteLine(drink.DrinkReview.ReviewText);
@@ -335,7 +335,7 @@ namespace DrinkManagerConsole
             while (true)
             {
                 Console.WriteLine();
-                if (!drink.isReviewed)
+                if (!drink.IsReviewed)
                 {
                     Console.WriteLine("Press R to leave a review for this drink.");
                 }
@@ -352,7 +352,7 @@ namespace DrinkManagerConsole
                 switch (userChoice.Key)
                 {
                     case ConsoleKey.R:
-                        if (!drink.isReviewed || (drink.isReviewed && ValidateReviewAge(drink.DrinkReview.ReviewDate)))
+                        if (!drink.IsReviewed || (drink.IsReviewed && ValidateReviewAge(drink.DrinkReview.ReviewDate)))
                         {
                             ReviewUi.GetDataFromUserForNewReview(drink);
                             break;
@@ -381,6 +381,7 @@ namespace DrinkManagerConsole
                 }
             }
         }
+
         public static void ShowReviewedDrinksHandler(List<Drink> drinks)
         {
             var reviewService = new ReviewService();

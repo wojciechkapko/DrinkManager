@@ -1,5 +1,5 @@
 ﻿using BLL;
-using DrinkManagerWeb.Data;
+using BLL.Data.Repositories;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,11 +9,11 @@ namespace DrinkManagerWeb.Controllers
 {
     public class DrinksController : Controller
     {
-        private readonly DrinkAppContext _db;
+        private readonly IDrinkRepository _drinkRepository;
 
-        public DrinksController(DrinkAppContext db)
+        public DrinksController(IDrinkRepository drinkRepository)
         {
-            _db = db;
+            _drinkRepository = drinkRepository;
         }
 
         public IActionResult Index(string sortOrder, int? pageNumber)
@@ -21,13 +21,13 @@ namespace DrinkManagerWeb.Controllers
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 12;
-            var drinks = _db.Drinks.AsQueryable();
+            var drinks = _drinkRepository.GetAllDrinks();
             switch (sortOrder)
             {
                 case "name_desc":
                     drinks = drinks.OrderByDescending(s => s.Name);
                     break;
-                default:    
+                default:
                     drinks = drinks.OrderBy(s => s.Name);
                     break;
             }
@@ -39,12 +39,12 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [HttpGet("drink/{id}")]
-        public IActionResult DrinkDetails(string id)
+        public async Task<IActionResult> DrinkDetails(string id)
         {
 
             var model = new DrinkDetailsViewModel
             {
-                Drink = _db.Drinks.FirstOrDefault(d => d.Id.Equals(id))
+                Drink = await _drinkRepository.GetDrinkById(id)
             };
 
             return View(model);
