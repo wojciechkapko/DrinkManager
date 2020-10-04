@@ -3,6 +3,7 @@ using BLL.Data.Repositories;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -54,7 +55,7 @@ namespace DrinkManagerWeb.Controllers
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 10;
-            var drinks = SearchDrink.SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics, _db.Drinks);
+            var drinks = SearchDrink.SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics, _drinkRepository.GetAllDrinks().ToList());
             switch (sortOrder)
             {
                 case "name_desc":
