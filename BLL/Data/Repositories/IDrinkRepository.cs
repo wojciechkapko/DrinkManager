@@ -15,7 +15,7 @@ namespace BLL.Data.Repositories
 
         Task AddDrink(Drink drink);
 
-        void UpdateDrink(Drink drink);
+        void Update(Drink drink);
 
         void DeleteDrink(Drink drink);
 

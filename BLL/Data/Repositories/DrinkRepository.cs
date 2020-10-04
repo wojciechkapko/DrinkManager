@@ -36,7 +36,7 @@ namespace BLL.Data.Repositories
             await _context.Drinks.AddAsync(drink);
         }
 
-        public void UpdateDrink(Drink drink)
+        public void Update(Drink drink)
         {
             _context.Drinks.Update(drink);
         }

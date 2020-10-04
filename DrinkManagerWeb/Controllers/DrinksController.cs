@@ -160,7 +160,7 @@ namespace DrinkManagerWeb.Controllers
                 drinkToUpdate.Instructions = data["Instructions"];
                 drinkToUpdate.Name = data["Name"];
                 drinkToUpdate.ImageUrl = imageUrl;
-                _drinkRepository.UpdateDrink(drinkToUpdate);
+                _drinkRepository.Update(drinkToUpdate);
                 redirectId = id;
             }
             else
@@ -215,7 +215,7 @@ namespace DrinkManagerWeb.Controllers
             }
             drink.IsFavourite = true;
 
-            _drinkRepository.UpdateDrink(drink);
+            _drinkRepository.Update(drink);
             await _drinkRepository.SaveChanges();
 
             return RedirectToAction("DrinkDetails", new { id });
@@ -230,7 +230,7 @@ namespace DrinkManagerWeb.Controllers
             }
             drink.IsFavourite = false;
 
-            _drinkRepository.UpdateDrink(drink);
+            _drinkRepository.Update(drink);
             await _drinkRepository.SaveChanges();
 
             return RedirectToAction("DrinkDetails", new { id });
