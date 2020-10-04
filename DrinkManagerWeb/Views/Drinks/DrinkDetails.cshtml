@@ -13,12 +13,19 @@
                 <h4>Ingredients</h4>
             </div>
             <div class="card-body">
-                <ul>
-                    @foreach (var ingredient in Model.Ingredients)
-                    {
-                        <li>@ingredient.Name @ingredient.Amount</li>
-                    }
-                </ul>
+                @if (Model.Ingredients != null && Model.Ingredients.Any())
+                {
+                    <ul>
+                        @foreach (var ingredient in Model.Ingredients)
+                        {
+                            <li>@ingredient.Name @ingredient.Amount</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No ingredients</p>
+                }
             </div>
         </div>
     </div>
@@ -28,19 +35,20 @@
                 <div class="d-flex">
                     <h1>@Model.Name</h1>
                     <div class="buttons d-flex align-items-center ml-auto">
-                        <a href="#" class="btn btn-primary mr-3">Edit</a>
                         @if (Model.IsFavourite)
                         {
-                            <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.DrinkId" class="btn btn-primary">
+                            <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.DrinkId" class="btn btn-primary mr-3">
                                 <i class="fas fa-heart-broken mr-2"></i>Remove from Favourites
                             </a>
                         }
                         else
                         {
-                            <a asp-controller="Drinks" asp-action="AddToFavourite" asp-route-id="@Model.DrinkId" class="btn btn-outline-primary">
+                            <a asp-controller="Drinks" asp-action="AddToFavourite" asp-route-id="@Model.DrinkId" class="btn btn-outline-primary mr-3">
                                 <i class="fas fa-heart mr-2"></i>Add to Favourites
                             </a>
                         }
+                        <a asp-controller="Drinks" asp-action="Edit" asp-route-id="@Model.DrinkId" class="btn btn-primary mr-3">Edit</a>
+                        <a href="javascript:void(0)" class="btn btn-danger" onclick="OpenRemoveModal()">Remove</a>
                     </div>
                 </div>
                 <strong>@Model.Category</strong>
@@ -76,3 +84,24 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts
+{
+    <script>
+        function OpenRemoveModal() {
+            $("#modal .modal-title").append(`<h2>Remove @Model.Name</h2>`);
+            $("#modal .modal-body").append(`<p class="text-center m-0">Are you sure that you want to remove @Model.Name ?</p>`);
+            $("#modal .modal-footer").append(`<a class="btn btn-primary mr-auto" href="javascript:void(0)" onclick="$('#modal').modal('hide')">No</a>`);
+            $("#modal .modal-footer").append(`<a class="btn btn-danger" href="/Drinks/Remove/@Model.DrinkId">Yes</a>`);
+            $('#modal').modal();
+
+            $('#modal').off('hidden.bs.modal').on('hidden.bs.modal',
+                function(e) {
+                    $("#modal .modal-title").html("");
+                    $("#modal .modal-body").html("");
+                    $("#modal .modal-footer").html("");
+                });
+        }
+    </script>
+}
