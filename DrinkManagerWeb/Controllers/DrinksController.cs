@@ -45,7 +45,7 @@ namespace DrinkManagerWeb.Controllers
             var drink = await _drinkRepository.GetDrinkById(id);
             if (drink == null)
             {
-                // dodać nowy widok na nulla
+                // add error View
             }
 
             return View(drink);
@@ -59,7 +59,7 @@ namespace DrinkManagerWeb.Controllers
             int pageSize = 10;
 
             var drinks = this._drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
-            //var drinks = _db.Drinks.AsQueryable();
+            
             switch (sortOrder)
             {
                 case "name_desc":
@@ -81,7 +81,7 @@ namespace DrinkManagerWeb.Controllers
             var drink = await _drinkRepository.GetDrinkById(id);
             if (drink == null)
             {
-                // dodać nowy widok na nulla
+                // add error View
             }
             drink.IsFavourite = true;
 
@@ -96,7 +96,7 @@ namespace DrinkManagerWeb.Controllers
             var drink = await _drinkRepository.GetDrinkById(id);
             if (drink == null)
             {
-                // dodać nowy widok na nulla
+                // add error View
             }
             drink.IsFavourite = false;
 
