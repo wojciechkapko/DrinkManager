@@ -51,7 +51,7 @@ namespace DrinkManagerWeb.Controllers
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            int pageSize = 10;
+            int pageSize = 12;
 
             var drinks = this._drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
             
@@ -108,7 +108,7 @@ namespace DrinkManagerWeb.Controllers
             ViewData["Alcoholics"] = alcoholics;
             ViewData["nonAlcoholics"] = nonAlcoholics;
             ViewData["optionalAlcoholics"] = optionalAlcoholics;
-            int pageSize = 10;
+            int pageSize = 12;
             var drinks = SearchDrink.SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics, _drinkRepository.GetAllDrinks().ToList());
             switch (sortOrder)
             {
