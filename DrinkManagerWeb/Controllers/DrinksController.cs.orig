@@ -4,7 +4,6 @@ using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -42,24 +41,28 @@ namespace DrinkManagerWeb.Controllers
         [HttpGet("drink/{id}")]
         public async Task<IActionResult> DrinkDetails(string id)
         {
-            var drink = await _drinkRepository.GetDrinkById(id);
-            if (drink == null)
+
+            var model = new DrinkDetailsViewModel
             {
-                // add error View
-            }
+<<<<<<< HEAD
+                Drink = _db.Drinks.FirstOrDefault(d => d.Id.Equals(id)),
+                IsFavourite = _db.FavouriteDrinksIds.Contains(int.Parse(id))
+=======
+                Drink = await _drinkRepository.GetDrinkById(id)
+>>>>>>> master
+            };
 
-            return View(drink);
+            return View(model);
         }
-
         [HttpGet("Drinks/favourites")]
         public IActionResult FavouriteDrinks(string sortOrder, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 10;
-
-            var drinks = this._drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
-            
+            var drinks = _db.Drinks.AsQueryable();
+            var favouritesIds = _db.FavouriteDrinksIds;
+            drinks = drinks.Where(drink => favouritesIds.Contains(int.Parse(drink.Id)));
             switch (sortOrder)
             {
                 case "name_desc":
@@ -76,33 +79,17 @@ namespace DrinkManagerWeb.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AddToFavourite(string id)
+        public IActionResult AddToFavourite(string id)
         {
-            var drink = await _drinkRepository.GetDrinkById(id);
-            if (drink == null)
-            {
-                // add error View
-            }
-            drink.IsFavourite = true;
+            _db.FavouriteDrinksIds.Add(int.Parse(id));
 
-            _drinkRepository.Update(drink);
-            await _drinkRepository.SaveChanges();
-            
             return RedirectToAction("DrinkDetails", new {id});
         }
 
-        public async Task<IActionResult> RemoveFromFavourite(string id)
+        public IActionResult RemoveFromFavourite(string id)
         {
-            var drink = await _drinkRepository.GetDrinkById(id);
-            if (drink == null)
-            {
-                // add error View
-            }
-            drink.IsFavourite = false;
+            _db.FavouriteDrinksIds.Remove(int.Parse(id));
 
-            _drinkRepository.Update(drink);
-            await _drinkRepository.SaveChanges();
-            
             return RedirectToAction("DrinkDetails", new { id });
         }
     }
