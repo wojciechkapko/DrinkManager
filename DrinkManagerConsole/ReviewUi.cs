@@ -16,7 +16,7 @@ namespace DrinkManagerConsole
             {
                 Console.WriteLine($"\nPlease provide new score ({DrinkReview.MinScore} - {DrinkReview.MaxScore}):");
             } while (!int.TryParse(Console.ReadLine(), out newScore) || newScore < DrinkReview.MinScore || newScore > DrinkReview.MaxScore);
-           
+
             string newReview;
             do
             {
@@ -25,7 +25,7 @@ namespace DrinkManagerConsole
             } while (newReview == null);
 
             ReviewService reviewService = new ReviewService();
-            if (drink.isReviewed)
+            if (drink.IsReviewed)
             {
                 reviewService.EditReview(drink, newScore, newReview);
                 Console.WriteLine("\nYour new review has been saved.");
