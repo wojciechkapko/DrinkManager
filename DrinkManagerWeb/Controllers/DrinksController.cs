@@ -4,6 +4,7 @@ using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -22,15 +23,11 @@ namespace DrinkManagerWeb.Controllers
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 12;
             var drinks = _drinkRepository.GetAllDrinks();
-            switch (sortOrder)
+            drinks = sortOrder switch
             {
-                case "name_desc":
-                    drinks = drinks.OrderByDescending(s => s.Name);
-                    break;
-                default:
-                    drinks = drinks.OrderBy(s => s.Name);
-                    break;
-            }
+                "name_desc" => drinks.OrderByDescending(s => s.Name),
+                _ => drinks.OrderBy(s => s.Name),
+            };
             var model = new DrinksViewModel
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
