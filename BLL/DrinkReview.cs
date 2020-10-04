@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BLL
 {
@@ -6,6 +7,9 @@ namespace BLL
     {
         public const int MinScore = 0;
         public const int MaxScore = 5;
+
+        [Key]
+        public int Id { get; set; }
 
         public int ReviewScore { get; set; }
 
