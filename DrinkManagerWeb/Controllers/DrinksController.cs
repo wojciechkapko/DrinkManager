@@ -54,6 +54,9 @@ namespace DrinkManagerWeb.Controllers
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["Alcoholics"] = alcoholics;
+            ViewData["nonAlcoholics"] = nonAlcoholics;
+            ViewData["optionalAlcoholics"] = optionalAlcoholics;
             int pageSize = 10;
             var drinks = SearchDrink.SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics, _drinkRepository.GetAllDrinks().ToList());
             switch (sortOrder)

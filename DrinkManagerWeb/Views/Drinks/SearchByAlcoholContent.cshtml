@@ -36,9 +36,9 @@
                     <tr>
                         <th>
                             <a asp-action="SearchByAlcoholContent" 
-                               asp-route-alcoholics="@Model.Alcoholics"
-                               asp-route-nonAlcoholics="@Model.NonAlcoholics"
-                               asp-route-optionalAlcoholics="@Model.OptionalAlcoholics" 
+                               asp-route-alcoholics="@ViewData["Alcoholics"]"
+                               asp-route-nonAlcoholics="@ViewData["nonAlcoholics"]"
+                               asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]" 
                                asp-route-sortOrder="@ViewData["NameSortParm"]" 
                                asp-route-currentFilter="@ViewData["CurrentFilter"]">Name</a>
                         </th>
@@ -66,9 +66,9 @@
                 <ul class="pagination">
                     <li class="page-item @prevDisabled">
                         <a asp-action="SearchByAlcoholContent"
-                           asp-route-alcoholics="@Model.Alcoholics"
-                           asp-route-nonAlcoholics="@Model.NonAlcoholics"
-                           asp-route-optionalAlcoholics="@Model.OptionalAlcoholics"
+                           asp-route-alcoholics="@ViewData["Alcoholics"]"
+                           asp-route-nonAlcoholics="@ViewData["nonAlcoholics"]"
+                           asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]" 
                            asp-route-sortOrder="@ViewData["CurrentSort"]"
                            asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
                            asp-route-currentFilter="@ViewData["CurrentFilter"]"
@@ -80,9 +80,9 @@
                     {
                         <li class="page-item @Model.Drinks.IsOnCurrentPage(Model.Drinks.PageIndex, i + 1)">
                             <a asp-action="SearchByAlcoholContent"
-                               asp-route-alcoholics="@Model.Alcoholics"
-                               asp-route-nonAlcoholics="@Model.NonAlcoholics"
-                               asp-route-optionalAlcoholics="@Model.OptionalAlcoholics"
+                               asp-route-alcoholics="@ViewData["Alcoholics"]"
+                               asp-route-nonAlcoholics="@ViewData["nonAlcoholics"]"
+                               asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]" 
                                asp-route-sortOrder="@ViewData["CurrentSort"]"
                                asp-route-pageNumber="@(i + 1)"
                                class="page-link">
@@ -92,9 +92,9 @@
                     }
                     <li class="page-item @nextDisabled">
                         <a asp-action="SearchByAlcoholContent"
-                           asp-route-alcoholics="@Model.Alcoholics"
-                           asp-route-nonAlcoholics="@Model.NonAlcoholics"
-                           asp-route-optionalAlcoholics="@Model.OptionalAlcoholics"
+                           asp-route-alcoholics="@ViewData["Alcoholics"]"
+                           asp-route-nonAlcoholics="@ViewData["nonAlcoholics"]"
+                           asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]" 
                            asp-route-sortOrder="@ViewData["CurrentSort"]"
                            asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
                            class="page-link">
