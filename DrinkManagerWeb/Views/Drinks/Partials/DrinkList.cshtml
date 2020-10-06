@@ -1,22 +1,15 @@
 ﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <a asp-action="@ViewData["SearchType"]" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-searchString="@ViewData["SearchString"]" asp-route-searchCondition="@ViewData["SearchCondition"]">Name</a>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var drink in Model.Drinks)
-        {
-            <tr>
-                <td>
-                    <a asp-action="DrinkDetails" asp-route-id="@drink.Id">@drink.Name</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="row">
+    @foreach (var drink in Model.Drinks)
+    {
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
+            <div class="card">
+                <a class="page-link" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId"><img class="w-100 rounded shadow-lg" src="@drink.ImageUrl" /></a>
+                <div class="card-body text-center">
+                    <a class="card-title text-dark" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId"><h4>@drink.Name</h4></a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

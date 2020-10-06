@@ -1,5 +1,4 @@
-﻿using DrinkManagerWeb.Data;
-using DrinkManagerWeb.Models;
+﻿using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -9,12 +8,10 @@ namespace DrinkManagerWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly DrinkAppContext _db;
 
-        public HomeController(ILogger<HomeController> logger, DrinkAppContext db)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _db = db;
         }
 
         public IActionResult Index()

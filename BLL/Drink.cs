@@ -1,11 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BLL
 {
     public class Drink
     {
-        public string Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string DrinkId { get; set; }
+
+        [Required]
         public string Name { get; set; }
+
         public string Category { get; set; }
         public string AlcoholicInfo { get; set; }
         public string GlassType { get; set; }
@@ -13,16 +20,7 @@ namespace BLL
         public string ImageUrl { get; set; }
         public List<Ingredient> Ingredients { get; set; }
         public DrinkReview DrinkReview { get; set; }
-        public bool isReviewed
-        {
-            get
-            {
-                if (DrinkReview != null)
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
+        public bool IsReviewed => DrinkReview != null;
+        public bool IsFavourite { get; set; }
     }
 }

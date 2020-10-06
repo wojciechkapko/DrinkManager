@@ -48,9 +48,9 @@
                         <i class="fas fa-lemon mr-3"></i>
                         <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="SearchByIngredients">Search by ingredients</a>
                     </li>
-                    <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
+                    <li class="nav-item d-flex align-items-center mb-3 @(routeValues["Action"].ToString() == "FavouriteDrinks" ? "active" : "")">
                         <i class="fas fa-heart mr-3"></i>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Favourite drinks</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Drinks" asp-action="FavouriteDrinks">Favourite drinks</a>
                     </li>
                     <li class="nav-item d-flex align-items-center @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
                         <i class="fas fa-star mr-3"></i>
@@ -58,7 +58,6 @@
                     </li>
                 </ul>
             </nav>
-
             <main class="col-10 pt-5">
                 <!-- page body -->
                 @RenderBody()
@@ -70,5 +69,21 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
