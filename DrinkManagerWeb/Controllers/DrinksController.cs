@@ -2,14 +2,14 @@
 using BLL;
 using BLL.Data.Repositories;
 using BLL.Enums;
-using DrinkManagerWeb.Data;
 using DrinkManagerWeb.Models.ViewModels;
-using Microsoft.AspNetCore.Http;
 using DrinkManagerWeb.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -242,7 +242,7 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult SearchByName(string searchString, string sortOrder, int? pageNumber)
         {
-            var drinks = _db.Drinks.AsQueryable();
+            var drinks = _drinkRepository.GetAllDrinks();
             
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -265,7 +265,7 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult SearchByIngredients(string searchString, string sortOrder, int? pageNumber, string searchCondition = "any")
         {
-            var drinks = _db.Drinks.AsQueryable();
+            var drinks = _drinkRepository.GetAllDrinks();
 
             if (!String.IsNullOrEmpty(searchString))
             {
