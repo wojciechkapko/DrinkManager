@@ -55,7 +55,7 @@ namespace DrinkManagerWeb.Controllers
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            int pageSize = 10;
+            int pageSize = 12;
 
             var drinks = this._drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
 
