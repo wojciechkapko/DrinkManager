@@ -25,7 +25,7 @@ namespace DrinkManagerWeb.Controllers
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 12;
-            var drinks = _drinkRepository.GetAllDrinks();
+            var drinks = _drinkRepository.GetAllDrinks().AsEnumerable();
             drinks = sortOrder switch
             {
                 "name_desc" => drinks.OrderByDescending(s => s.Name),
