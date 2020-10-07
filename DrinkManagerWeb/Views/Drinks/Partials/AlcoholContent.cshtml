@@ -1,16 +1,9 @@
-﻿@using BLL
-@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
-
-@{
-    ViewBag.Title = "Drinks";
-    Layout = "_Layout";
-}
+﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
 <div class="row px-4">
     <div class="col-12">
         <header class="d-flex align-items-center">
             <h1>Search by Alcohol Content</h1>
         </header>
-        
         <div>
             <form asp-route-pageNumber="1" method="post">
                 <div class="form-check">
@@ -26,12 +19,10 @@
                     <label class="form-check-label" for="optionalAlcoholicsCheck">Optional Alcohol Drinks</label>
                 </div>
                 @*<input name="Alcoholics" type="checkbox" value="true" /> Alcoholic Drinks<br />
-        <input name="NonAlcoholics" type="checkbox" value="true" /> Non Alcoholic Drinks<br />
-        <input name="OptionalAlcoholics" type="checkbox" value="true" /> Optional Alcohol Drinks<br />*@
+                    <input name="NonAlcoholics" type="checkbox" value="true" /> Non Alcoholic Drinks<br />
+                    <input name="OptionalAlcoholics" type="checkbox" value="true" /> Optional Alcohol Drinks<br />*@
                 <button>Search</button>
             </form>
         </div>
-        <partial name="Partials/DrinkList" model="Model"/>
-        <partial name="Partials/Pagination" model="Model" />
     </div>
 </div>
