@@ -59,7 +59,7 @@ namespace DrinkManagerWeb.Controllers
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            int pageSize = 10;
+            int pageSize = 12;
 
             var drinks = this._drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
 
@@ -126,7 +126,6 @@ namespace DrinkManagerWeb.Controllers
                 {
                     ingredients.Add(new Ingredient
                     {
-                        IngredientId = Guid.NewGuid().ToString(),
                         Name = data[key],
                         Amount = data["Amount" + key.Split("Ingredient")[1]]
                     });

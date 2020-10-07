@@ -33,7 +33,6 @@ namespace BLL
                     // create new drink
                     var newDrink = new Drink
                     {
-                        DrinkId = drink.idDrink.ToString(),
                         Name = drink.strDrink,
                         AlcoholicInfo = drink.strAlcoholic,
                         Category = drink.strCategory,
@@ -49,92 +48,77 @@ namespace BLL
                         new Ingredient
                         {
                             Name = drink.strIngredient1,
-                            Amount = drink.strMeasure1,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure1
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient2,
-                            Amount = drink.strMeasure2,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure2
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient3,
-                            Amount = drink.strMeasure3,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure3
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient4,
-                            Amount = drink.strMeasure4,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure4
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient5,
-                            Amount = drink.strMeasure5,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure5
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient6,
-                            Amount = drink.strMeasure6,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure6
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient7,
-                            Amount = drink.strMeasure7,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure7
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient8,
-                            Amount = drink.strMeasure8,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure8
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient9,
-                            Amount = drink.strMeasure9,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure9
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient10,
-                            Amount = drink.strMeasure10,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure10
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient11,
-                            Amount = drink.strMeasure11,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure11
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient12,
-                            Amount = drink.strMeasure12,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure12
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient13,
-                            Amount = drink.strMeasure13,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure13
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient14,
-                            Amount = drink.strMeasure14,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure14
                         },
                         new Ingredient
                         {
                             Name = drink.strIngredient15,
-                            Amount = drink.strMeasure15,
-                            IngredientId = Guid.NewGuid().ToString()
+                            Amount = drink.strMeasure15
                         }
                     };
                     // remove null ingredients
