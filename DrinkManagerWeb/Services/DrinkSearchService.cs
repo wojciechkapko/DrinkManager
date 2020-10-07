@@ -8,13 +8,14 @@ namespace DrinkManagerWeb.Services
 {
     public class DrinkSearchService : IDrinkSearchService
     {
-        public IQueryable<Drink> SearchByName(string textToSearch, IQueryable<Drink> drinksListToSearch)
+        public IEnumerable<Drink> SearchByName(string textToSearch, IEnumerable<Drink> drinksListToSearch)
         {
             return drinksListToSearch
-                .Where(drink => drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase));
+                .Where(drink => drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase))
+                ;
         }
 
-        public IQueryable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, IQueryable<Drink> drinksListToSearch,
+        public IEnumerable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, IEnumerable<Drink> drinksListToSearch,
             SearchDrinkOption searchOption)
         {
             var drinksFound = new List<Drink>();
@@ -79,15 +80,15 @@ namespace DrinkManagerWeb.Services
                 }
             }
 
-            return drinksFound.AsQueryable();
+            return drinksFound.AsEnumerable();
         }
 
-        public IQueryable<Drink> SearchByAlcoholContent(string alcoholicInfo, IQueryable<Drink> drinks, IQueryable<Drink> contemporaryList)
+        public IEnumerable<Drink> SearchByAlcoholContent(string alcoholicInfo, IEnumerable<Drink> drinks, IEnumerable<Drink> contemporaryList)
         {
             throw new System.NotImplementedException();
         }
 
-        public IQueryable<Drink> SortDrinks(string sortOrder, IQueryable<Drink> drinks)
+        public IEnumerable<Drink> SortDrinks(string sortOrder, IEnumerable<Drink> drinks)
         {
             switch (sortOrder)
             {

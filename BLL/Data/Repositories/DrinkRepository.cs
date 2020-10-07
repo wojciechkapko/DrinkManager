@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -15,9 +16,9 @@ namespace BLL.Data.Repositories
             _context = context;
         }
 
-        public IQueryable<Drink> GetAllDrinks()
+        public IEnumerable<Drink> GetAllDrinks()
         {
-            return _context.Drinks.AsQueryable();
+            return _context.Drinks.AsEnumerable();
         }
 
         public Task<Drink> GetDrinkById(string id)

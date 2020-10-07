@@ -7,14 +7,14 @@ namespace DrinkManagerWeb.Services
 {
     public interface IDrinkSearchService
     {
-        IQueryable<Drink> SearchByName(string textToSearch, IQueryable<Drink> drinksListToSearch);
+        IEnumerable<Drink> SearchByName(string textToSearch, IEnumerable<Drink> drinksListToSearch);
 
-        IQueryable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch,
-            IQueryable<Drink> drinksListToSearch, SearchDrinkOption searchOption);
+        IEnumerable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch,
+            IEnumerable<Drink> drinksListToSearch, SearchDrinkOption searchOption);
 
-        IQueryable<Drink> SearchByAlcoholContent(string alcoholicInfo, IQueryable<Drink> drinks,
-            IQueryable<Drink> contemporaryList);
+        IEnumerable<Drink> SearchByAlcoholContent(string alcoholicInfo, IEnumerable<Drink> drinks,
+            IEnumerable<Drink> contemporaryList);
 
-        IQueryable<Drink> SortDrinks(string sortOrder, IQueryable<Drink> drinks);
+        IEnumerable<Drink> SortDrinks(string sortOrder, IEnumerable<Drink> drinks);
     }
 }

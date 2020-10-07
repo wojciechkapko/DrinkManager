@@ -244,7 +244,7 @@ namespace DrinkManagerWeb.Controllers
         {
             var drinks = _drinkRepository.GetAllDrinks();
             
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 drinks = _drinkSearchService.SearchByName(searchString, drinks);
             }
@@ -252,9 +252,9 @@ namespace DrinkManagerWeb.Controllers
             ViewData["SearchString"] = searchString;
             ViewData["SearchType"] = "SearchByName";
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
-            int pageSize = 10;
+            int pageSize = 12;
 
             var model = new DrinksViewModel
             {
@@ -267,7 +267,7 @@ namespace DrinkManagerWeb.Controllers
         {
             var drinks = _drinkRepository.GetAllDrinks();
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
                 var searchDrinkIngredientsCondition =
                     searchCondition.Equals("all") ? SearchDrinkOption.All : SearchDrinkOption.Any;
@@ -280,7 +280,7 @@ namespace DrinkManagerWeb.Controllers
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
-            int pageSize = 10;
+            int pageSize = 12;
 
             var model = new DrinksViewModel
             {
