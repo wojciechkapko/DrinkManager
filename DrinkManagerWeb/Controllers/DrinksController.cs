@@ -245,7 +245,7 @@ namespace DrinkManagerWeb.Controllers
             
             if (!string.IsNullOrEmpty(searchString))
             {
-                drinks = _drinkSearchService.SearchByName(searchString, drinks);
+                drinks = _drinkSearchService.SearchByName(searchString);
             }
 
             ViewData["SearchString"] = searchString;
@@ -270,14 +270,14 @@ namespace DrinkManagerWeb.Controllers
             {
                 var searchDrinkIngredientsCondition =
                     searchCondition.Equals("all") ? SearchDrinkOption.All : SearchDrinkOption.Any;
-                drinks = _drinkSearchService.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')), drinks, searchDrinkIngredientsCondition);
+                drinks = _drinkSearchService.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')), searchDrinkIngredientsCondition);
             }
 
             ViewData["SearchString"] = searchString;
             ViewData["SearchCondition"] = searchCondition;
             ViewData["SearchType"] = "SearchByIngredients";
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
             int pageSize = 12;
 

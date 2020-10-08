@@ -5,12 +5,13 @@
     Layout = "_Layout";
 }
 
-<h2>Search by ingredients</h2>
+<div class="h2 font-weight-bold">Search by ingredients</div>
 <div>
     <form asp-controller="Drinks" asp-action="SearchByIngredients" method="get">
         <p>
-            Enter ingredients to find <br />(Tip 1: you can provide one or more ingredients separated by a space) <br />
-            (Tip 2: choose if you want to find drinks containing ANY or ALL provided ingredients):<br />
+            <div class="h5 font-weight-bold">Enter ingredients to find</div>  
+            <div class="h6">(Tip 1: you can provide one or more ingredients separated by a space)</div>
+            <div class="h6">(Tip 2: choose if you want to find drinks containing ANY or ALL provided ingredients)</div>
 
             <input type="text" name="SearchString" value="@ViewData["SearchString"]">
 

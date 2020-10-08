@@ -1,5 +1,7 @@
 ﻿using BLL;
+using BLL.Data;
 using BLL.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,79 +10,89 @@ namespace DrinkManagerWeb.Services
 {
     public class DrinkSearchService : IDrinkSearchService
     {
-        public IEnumerable<Drink> SearchByName(string textToSearch, IEnumerable<Drink> drinksListToSearch)
+        private readonly DrinkAppContext _context;
+
+        public DrinkSearchService(DrinkAppContext context)
         {
-            return drinksListToSearch
-                .Where(drink => drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase))
-                ;
+            _context = context;
         }
 
-        public IEnumerable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, IEnumerable<Drink> drinksListToSearch,
-            SearchDrinkOption searchOption)
+        public IEnumerable<Drink> SearchByName(string textToSearch)
+        {
+            return _context.Drinks.AsEnumerable()
+                .Where(drink => drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        public IEnumerable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, SearchDrinkOption searchOption)
         {
             var drinksFound = new List<Drink>();
             var ingredientsFound = new SortedSet<string>();
+            var drinks = _context.Drinks.Include(drink => drink.Ingredients);
 
-            if (searchOption == SearchDrinkOption.All)
+            switch (searchOption)
             {
-                foreach (var drink in drinksListToSearch)
+                case SearchDrinkOption.All:
                 {
-                    foreach (var drinkIngredient in drink.Ingredients)
+                    foreach (var drink in drinks)
                     {
-                        if (drinkIngredient.Name == null)
+                        foreach (var drinkIngredient in drink.Ingredients)
                         {
-                            continue;
-                        }
-
-                        foreach (var ingredient in ingredientsToSearch)
-                        {
-                            if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                            if (drinkIngredient.Name == null)
                             {
-                                ingredientsFound.Add(ingredient);
+                                continue;
+                            }
+
+                            foreach (var ingredient in ingredientsToSearch)
+                            {
+                                if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    ingredientsFound.Add(ingredient);
+                                }
                             }
                         }
-                    }
 
-                    if (ingredientsFound.SetEquals(ingredientsToSearch))
-                    {
-                        drinksFound.Add(drink);
-                    }
-
-                    ingredientsFound.Clear();
-                }
-            }
-            else if (searchOption == SearchDrinkOption.Any)
-            {
-                foreach (var drink in drinksListToSearch)
-                {
-                    var nextDrink = false;
-
-                    foreach (var drinkIngredient in drink.Ingredients)
-                    {
-                        if (drinkIngredient.Name == null)
+                        if (ingredientsFound.SetEquals(ingredientsToSearch))
                         {
-                            continue;
+                            drinksFound.Add(drink);
                         }
 
-                        foreach (var ingredient in ingredientsToSearch)
+                        ingredientsFound.Clear();
+                    }
+                    break;
+                }
+                case SearchDrinkOption.Any:
+                {
+                    foreach (var drink in drinks)
+                    {
+                        var nextDrink = false;
+
+                        foreach (var drinkIngredient in drink.Ingredients)
                         {
-                            if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                            if (drinkIngredient.Name == null)
                             {
-                                drinksFound.Add(drink);
-                                nextDrink = true;
+                                continue;
+                            }
+
+                            foreach (var ingredient in ingredientsToSearch)
+                            {
+                                if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    drinksFound.Add(drink);
+                                    nextDrink = true;
+                                    break;
+                                }
+                            }
+
+                            if (nextDrink)
+                            {
                                 break;
                             }
                         }
-
-                        if (nextDrink)
-                        {
-                            break;
-                        }
                     }
+                    break;
                 }
             }
-
-            return drinksFound.AsEnumerable();
+            return drinksFound;
         }
 
         public IEnumerable<Drink> SearchByAlcoholContent(string alcoholicInfo, IEnumerable<Drink> drinks, IEnumerable<Drink> contemporaryList)
