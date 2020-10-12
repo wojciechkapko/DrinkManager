@@ -234,5 +234,20 @@ namespace DrinkManagerWeb.Controllers
 
             return RedirectToAction("DrinkDetails", new { id });
         }
+
+        public async Task<IActionResult> AddReview(string id)
+        {
+            var drink = await _drinkRepository.GetDrinkById(id);
+            if (drink == null)
+            {
+                // add error View
+            }
+            
+
+            _drinkRepository.Update(drink);
+            await _drinkRepository.SaveChanges();
+
+            return RedirectToAction("DrinkDetails", new { id });
+        }
     }
 }
