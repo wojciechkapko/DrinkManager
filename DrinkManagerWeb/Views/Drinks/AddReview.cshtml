@@ -1,0 +1,35 @@
+﻿@model DrinkManagerWeb.Models.ViewModels.DrinkCreateViewModel
+
+@{
+    ViewBag.Title = $"Review of {Model.Name}";
+    Layout = "_Layout";
+}
+
+<div class="row px-4">
+    <div class="col-12">
+        <h1>Review of {Model.Name}</h1>
+        <hr />
+        <form asp-antiforgery="true" asp-action="AddReview" asp-controller="Drinks" asp-route-id="@(Model != null ? Model.Id : null)" method="post">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Name">Review</label>
+                    <input type="text" class="form-control" asp-for="Name" placeholder="Name">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="AlcoholicInfo">Alcohol content</label>
+                    <select class="form-control" asp-for="AlcoholicInfo">
+                        <option>Alcoholic</option>
+                        <option>Non alcoholic</option>
+                        <option>Optional alcohol</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-3 border-top">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>

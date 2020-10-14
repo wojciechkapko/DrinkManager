@@ -96,7 +96,6 @@ namespace DrinkManagerWeb.Controllers
         }
 
 
-
         [HttpGet("drink/create")]
         public IActionResult Create()
         {
@@ -235,19 +234,40 @@ namespace DrinkManagerWeb.Controllers
             return RedirectToAction("DrinkDetails", new { id });
         }
 
+        [HttpGet("drink/addReview")]
         public async Task<IActionResult> AddReview(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
-            if (drink == null)
-            {
-                // add error View
-            }
-            
 
-            _drinkRepository.Update(drink);
+            var model = new DrinkReviewViewModel
+            {
+                ReviewText = drink.DrinkReview.ReviewText,
+                ReviewScore = drink.DrinkReview.ReviewScore,
+                Name = drink.Name
+            };
+
+            return View( model);
+        }
+
+        [HttpPost("drink/addReview")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddReview(IFormCollection data, string? id)
+        {
+
+            var drinkToUpdate = await _drinkRepository.GetDrinkById(id);
+
+            if (drinkToUpdate == null)
+            {
+                TempData["Alert"] = "Drink not found.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            drinkToUpdate.DrinkReview.ReviewText = data["ReviewText"];
+            drinkToUpdate.DrinkReview.ReviewScore = int.Parse(data["ReviewScore"]);
+            
             await _drinkRepository.SaveChanges();
 
-            return RedirectToAction("DrinkDetails", new { id });
+            return RedirectToAction(nameof(DrinkDetails), new {id});
         }
     }
 }
