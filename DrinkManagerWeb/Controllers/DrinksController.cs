@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security;
 using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
@@ -266,7 +265,8 @@ namespace DrinkManagerWeb.Controllers
 
             drinkToUpdate.DrinkReview.ReviewText = data["DrinkReview.ReviewText"];
             drinkToUpdate.DrinkReview.ReviewScore = int.Parse(data["DrinkReview.ReviewScore"]);
-            
+
+            _drinkRepository.Update(drinkToUpdate);
             await _drinkRepository.SaveChanges();
 
             return RedirectToAction(nameof(DrinkDetails), new {id});
