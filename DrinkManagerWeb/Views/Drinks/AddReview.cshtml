@@ -9,21 +9,23 @@
     <div class="col-12">
         <h1>Review of {Model.Name}</h1>
         <hr />
-        <form asp-antiforgery="true" asp-action="AddReview" asp-controller="Drinks" asp-route-id="@(Model != null ? Model.Id : null)" method="post">
+        <form asp-antiforgery="true" asp-action="AddReview" asp-controller="Drinks" asp-route-id="@(Model)" method="post">
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label asp-for="Name">Review</label>
-                    <input type="text" class="form-control" asp-for="Name" placeholder="Name">
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <label asp-for="DrinkReview.ReviewText">Review</label>
+                    <input type="text" class="form-control" asp-for="DrinkReview.ReviewText" placeholder="ReviewText">
+                    <span asp-validation-for="DrinkReview.ReviewText" class="text-danger"></span>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label asp-for="AlcoholicInfo">Alcohol content</label>
-                    <select class="form-control" asp-for="AlcoholicInfo">
-                        <option>Alcoholic</option>
-                        <option>Non alcoholic</option>
-                        <option>Optional alcohol</option>
+                    <label asp-for="DrinkReview.ReviewScore">Drink score:</label>
+                    <select class="form-control" asp-for="DrinkReview.ReviewScore">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
                     </select>
                 </div>
             </div>

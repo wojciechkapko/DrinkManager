@@ -95,7 +95,6 @@ namespace DrinkManagerWeb.Controllers
             return View("Create", model);
         }
 
-
         [HttpGet("drink/create")]
         public IActionResult Create()
         {
@@ -235,21 +234,22 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [HttpGet("drink/addReview")]
-        public async Task<IActionResult> AddReview(string id)
+        public async Task<IActionResult> AddReview(string? id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
 
-            var model = new DrinkReviewViewModel
+            var model = new DrinkCreateViewModel
             {
-                ReviewText = drink.DrinkReview.ReviewText,
-                ReviewScore = drink.DrinkReview.ReviewScore,
-                Name = drink.Name
+                DrinkReview = drink.DrinkReview,
+                Id = drink?.DrinkId,
+                Name = drink?.Name
             };
 
-            return View( model);
+            return View("AddReview", model);
         }
+  
 
-        [HttpPost("drink/addReview")]
+            [HttpPost("drink/addReview")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddReview(IFormCollection data, string? id)
         {
