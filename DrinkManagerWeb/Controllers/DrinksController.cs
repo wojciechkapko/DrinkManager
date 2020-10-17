@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
@@ -240,16 +241,15 @@ namespace DrinkManagerWeb.Controllers
 
             var model = new DrinkCreateViewModel
             {
-                DrinkReview = drink.DrinkReview,
-                Id = drink?.DrinkId,
-                Name = drink?.Name
+                DrinkReview = drink?.DrinkReview,
+                Name = drink?.Name,
+                Id = drink?.DrinkId
             };
 
             return View("AddReview", model);
         }
   
-
-            [HttpPost("drink/addReview")]
+        [HttpPost("drink/addReview")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddReview(IFormCollection data, string? id)
         {
@@ -262,8 +262,10 @@ namespace DrinkManagerWeb.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            drinkToUpdate.DrinkReview.ReviewText = data["ReviewText"];
-            drinkToUpdate.DrinkReview.ReviewScore = int.Parse(data["ReviewScore"]);
+            drinkToUpdate.DrinkReview = new DrinkReview();
+
+            drinkToUpdate.DrinkReview.ReviewText = data["DrinkReview.ReviewText"];
+            drinkToUpdate.DrinkReview.ReviewScore = int.Parse(data["DrinkReview.ReviewScore"]);
             
             await _drinkRepository.SaveChanges();
 

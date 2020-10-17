@@ -7,9 +7,9 @@
 
 <div class="row px-4">
     <div class="col-12">
-        <h1>Review of {Model.Name}</h1>
+        <h1>Review of @Model.Name</h1>
         <hr />
-        <form asp-antiforgery="true" asp-action="AddReview" asp-controller="Drinks" asp-route-id="@(Model)" method="post">
+        <form asp-antiforgery="true" asp-action="AddReview" asp-controller="Drinks" asp-route-id="@(Model.Id)" method="post">
             <div class="row">
                 <div class="form-group col-md-6">
                     <label asp-for="DrinkReview.ReviewText">Review</label>
