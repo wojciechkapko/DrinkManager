@@ -36,20 +36,17 @@
 
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="Index"><i class="fas fa-glass-martini"></i><span>All drinks</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
-
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "SearchByName" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-search"></i><span>Search by name</span></a>
                     </li>
                     <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
 
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-percent"></i><span>Search by alcohol content</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
-
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "SearchByIngredients" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-lemon"></i><span>Search by ingredient</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
-
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "FavouriteDrinks" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Privacy"><i class="fas fa-heart"></i><span>Favourite drinks</span></a>
                     </li>
                     <li class="nav-item d-flex align-items-center @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
@@ -69,5 +66,22 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

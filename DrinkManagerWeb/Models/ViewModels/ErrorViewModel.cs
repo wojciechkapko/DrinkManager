@@ -1,6 +1,4 @@
-using System;
-
-namespace DrinkManagerWeb.Models
+namespace DrinkManagerWeb.Models.ViewModels
 {
     public class ErrorViewModel
     {
