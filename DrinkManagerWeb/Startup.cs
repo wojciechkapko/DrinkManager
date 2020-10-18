@@ -1,5 +1,6 @@
 using BLL.Data;
 using BLL.Data.Repositories;
+using DrinkManagerWeb.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace DrinkManagerWeb
             services.AddDbContext<DrinkAppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddScoped<IDrinkSearchService, DrinkSearchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

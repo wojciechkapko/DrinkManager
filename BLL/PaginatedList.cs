@@ -44,7 +44,7 @@ namespace BLL
             }
         }
 
-        public static PaginatedList<T> CreatePaginatedList(IQueryable<T> source, int pageIndex, int pageSize)
+        public static PaginatedList<T> CreatePaginatedList(IEnumerable<T> source, int pageIndex, int pageSize)
         {
             var count = source.Count();
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
