@@ -57,21 +57,9 @@ namespace DrinkManagerWeb.Controllers
         [HttpGet("Drinks/favourites")]
         public IActionResult FavouriteDrinks(string sortOrder, int? pageNumber)
         {
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 12;
 
-            var drinks = this._drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
-
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    drinks = drinks.OrderByDescending(s => s.Name);
-                    break;
-                default:
-                    drinks = drinks.OrderBy(s => s.Name);
-                    break;
-            }
+            var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
 
             var model = new DrinksViewModel
             {
@@ -273,6 +261,7 @@ namespace DrinkManagerWeb.Controllers
 
             drinkToUpdate.DrinkReview.ReviewText = data["DrinkReview.ReviewText"];
             drinkToUpdate.DrinkReview.ReviewScore = int.Parse(data["DrinkReview.ReviewScore"]);
+            drinkToUpdate.IsReviewed = true;
 
             _drinkRepository.Update(drinkToUpdate);
             await _drinkRepository.SaveChanges();
@@ -283,21 +272,9 @@ namespace DrinkManagerWeb.Controllers
         [HttpGet("Drinks/reviews")]
         public IActionResult ReviewedDrinks(string sortOrder, int? pageNumber)
         {
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 12;
 
             var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsReviewed);
-
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    drinks = drinks.OrderByDescending(s => s.Name);
-                    break;
-                default:
-                    drinks = drinks.OrderBy(s => s.Name);
-                    break;
-            }
 
             var model = new DrinksViewModel
             {

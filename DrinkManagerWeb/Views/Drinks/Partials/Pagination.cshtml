@@ -6,8 +6,7 @@
 <nav>
     <ul class="pagination">
         <li class="page-item @prevDisabled">
-            <a asp-route-sortOrder="@ViewData["CurrentSort"]"
-               asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
+            <a asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
                asp-route-searchString="@ViewData["SearchString"]"
                asp-route-searchCondition="@ViewData["SearchCondition"]"
                class="page-link">
@@ -17,8 +16,7 @@
         @for (int i = 0; i < Model.Drinks.TotalPages; i++)
         {
             <li class="page-item @Model.Drinks.IsOnCurrentPage(Model.Drinks.PageIndex, i+1)">
-                <a asp-route-sortOrder="@ViewData["CurrentSort"]"
-                   asp-route-pageNumber="@(i+1)"
+                <a asp-route-pageNumber="@(i+1)"
                    asp-route-searchString="@ViewData["SearchString"]"
                    asp-route-searchCondition="@ViewData["SearchCondition"]"
                    class="page-link">
@@ -27,8 +25,7 @@
             </li>
         }
         <li class="page-item @nextDisabled">
-            <a asp-route-sortOrder="@ViewData["CurrentSort"]"
-               asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
+            <a asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
                asp-route-searchString="@ViewData["SearchString"]"
                asp-route-searchCondition="@ViewData["SearchCondition"]"
                class="page-link">
