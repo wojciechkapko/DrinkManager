@@ -1,7 +1,9 @@
 #nullable enable
 using BLL;
 using BLL.Data.Repositories;
+using BLL.Enums;
 using DrinkManagerWeb.Models.ViewModels;
+using DrinkManagerWeb.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,10 +16,12 @@ namespace DrinkManagerWeb.Controllers
     public class DrinksController : Controller
     {
         private readonly IDrinkRepository _drinkRepository;
+        private readonly IDrinkSearchService _drinkSearchService;
 
-        public DrinksController(IDrinkRepository drinkRepository)
+        public DrinksController(IDrinkRepository drinkRepository, IDrinkSearchService drinkSearchService)
         {
             _drinkRepository = drinkRepository;
+            _drinkSearchService = drinkSearchService;
         }
 
         public IActionResult Index(string sortOrder, int? pageNumber)
@@ -233,6 +237,55 @@ namespace DrinkManagerWeb.Controllers
             await _drinkRepository.SaveChanges();
 
             return RedirectToAction("DrinkDetails", new { id });
+        }
+
+        public IActionResult SearchByName(string searchString, string sortOrder, int? pageNumber)
+        {
+            var drinks = _drinkRepository.GetAllDrinks();
+            
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                drinks = _drinkSearchService.SearchByName(searchString);
+            }
+
+            ViewData["SearchString"] = searchString;
+            ViewData["SearchType"] = "SearchByName";
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            int pageSize = 12;
+
+            var model = new DrinksViewModel
+            {
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(_drinkSearchService.SortDrinks(sortOrder, drinks), pageNumber ?? 1, pageSize)
+            };
+            return View(model);
+        }
+
+        public IActionResult SearchByIngredients(string searchString, string sortOrder, int? pageNumber, string searchCondition = "any")
+        {
+            var drinks = _drinkRepository.GetAllDrinks();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var searchDrinkIngredientsCondition =
+                    searchCondition.Equals("all") ? SearchDrinkOption.All : SearchDrinkOption.Any;
+                drinks = _drinkSearchService.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')), searchDrinkIngredientsCondition);
+            }
+
+            ViewData["SearchString"] = searchString;
+            ViewData["SearchCondition"] = searchCondition;
+            ViewData["SearchType"] = "SearchByIngredients";
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            int pageSize = 12;
+
+            var model = new DrinksViewModel
+            {
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(_drinkSearchService.SortDrinks(sortOrder, drinks), pageNumber ?? 1, pageSize)
+            };
+            return View(model);
         }
     }
 }
