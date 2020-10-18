@@ -271,5 +271,30 @@ namespace DrinkManagerWeb.Controllers
 
             return RedirectToAction(nameof(DrinkDetails), new {id});
         }
+
+        [HttpGet("Drinks/reviews")]
+        public IActionResult ReviewedDrinks(string sortOrder, int? pageNumber)
+        {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            int pageSize = 12;
+
+            var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsReviewed);
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    drinks = drinks.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    drinks = drinks.OrderBy(s => s.Name);
+                    break;
+            }
+            var model = new DrinksViewModel
+            {
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+            };
+            return View(model);
+        }
     }
 }
