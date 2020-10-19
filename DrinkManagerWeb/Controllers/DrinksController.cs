@@ -262,6 +262,7 @@ namespace DrinkManagerWeb.Controllers
             drinkToUpdate.DrinkReview.ReviewText = data["DrinkReview.ReviewText"];
             drinkToUpdate.DrinkReview.ReviewScore = int.Parse(data["DrinkReview.ReviewScore"]);
             drinkToUpdate.IsReviewed = true;
+            drinkToUpdate.DrinkReview.ReviewDate = DateTime.Now;
 
             _drinkRepository.Update(drinkToUpdate);
             await _drinkRepository.SaveChanges();
