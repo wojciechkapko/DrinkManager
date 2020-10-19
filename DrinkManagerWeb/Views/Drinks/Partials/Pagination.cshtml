@@ -8,6 +8,8 @@
         <li class="page-item @prevDisabled">
             <a asp-route-sortOrder="@ViewData["CurrentSort"]"
                asp-route-pageNumber="@(Model.Drinks.PageIndex - 1)"
+               asp-route-searchString="@ViewData["SearchString"]"
+               asp-route-searchCondition="@ViewData["SearchCondition"]"
                asp-route-alcoholics="@ViewData["Alcoholics"]"
                asp-route-nonAlcoholics="@ViewData["nonAlcoholics"]"
                asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]"
@@ -23,6 +25,8 @@
                    asp-route-nonAlcoholics="@ViewData["nonAlcoholics"]"
                    asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]" 
                    asp-route-pageNumber="@(i+1)"
+                   asp-route-searchString="@ViewData["SearchString"]"
+                   asp-route-searchCondition="@ViewData["SearchCondition"]"
                    class="page-link">
                     @(i+1)
                 </a>
@@ -34,6 +38,8 @@
                asp-route-nonAlcoholics="@ViewData["nonAlcoholics"]"
                asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]" 
                asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
+               asp-route-searchString="@ViewData["SearchString"]"
+               asp-route-searchCondition="@ViewData["SearchCondition"]"
                class="page-link">
                 Next
             </a>

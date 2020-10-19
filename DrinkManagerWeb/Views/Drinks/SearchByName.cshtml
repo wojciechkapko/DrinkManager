@@ -1,0 +1,23 @@
+﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+
+@{
+    ViewBag.Title = "Search by name";
+    Layout = "_Layout";
+}
+
+<div class="h2 font-weight-bold">Search by name</div>
+<div>
+    <form asp-controller="Drinks" asp-action="SearchByName" method="get">
+        <p>
+            <div class="h5 font-weight-bold">Enter a drink name to find</div>
+            <div class="h6">(Tip: you can provide a part of the name you are looking for)</div>
+            <input type="text" name="SearchString" value="@ViewData["SearchString"]">
+            <button type="submit" class="btn btn-outline-primary mr-0 ml-2 mt-0 mb-0">Search</button>
+            <a asp-controller="Drinks" asp-action="SearchByName" asp-route-searchString="" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0" type="button">Clear</a>
+            <br/>
+        </p>
+    </form>
+</div>
+
+<partial name="Partials/DrinkList" model="Model" />
+<partial name="Partials/Pagination" model="Model" />

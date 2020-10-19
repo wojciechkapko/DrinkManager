@@ -6,7 +6,7 @@ namespace BLL
     public class Ingredient
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string IngredientId { get; set; }
 
         public string DrinkId { get; set; }
