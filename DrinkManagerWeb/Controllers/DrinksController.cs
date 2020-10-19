@@ -17,6 +17,7 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
+        private readonly int _pageSize = 12;
 
         public DrinksController(IDrinkRepository drinkRepository, IDrinkSearchService drinkSearchService)
         {
@@ -27,8 +28,7 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult Index(string sortOrder, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            int pageSize = 12;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             var drinks = _drinkRepository.GetAllDrinks();
             drinks = sortOrder switch
             {
@@ -37,7 +37,7 @@ namespace DrinkManagerWeb.Controllers
             };
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
             };
             return View(model);
         }
@@ -57,13 +57,11 @@ namespace DrinkManagerWeb.Controllers
         [HttpGet("Drinks/favourites")]
         public IActionResult FavouriteDrinks(string sortOrder, int? pageNumber)
         {
-            int pageSize = 12;
-
             var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
 
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
             };
             return View(model);
         }
@@ -170,7 +168,6 @@ namespace DrinkManagerWeb.Controllers
                     Name = data["Name"]
                 };
 
-
                 await _drinkRepository.AddDrink(newDrink);
                 redirectId = newDrink.DrinkId;
             }
@@ -257,10 +254,12 @@ namespace DrinkManagerWeb.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            drinkToUpdate.DrinkReview = new DrinkReview();
+            drinkToUpdate.DrinkReview = new DrinkReview
+            {
+                ReviewText = data["DrinkReview.ReviewText"],
+                ReviewScore = int.Parse(data["DrinkReview.ReviewScore"])
+            };
 
-            drinkToUpdate.DrinkReview.ReviewText = data["DrinkReview.ReviewText"];
-            drinkToUpdate.DrinkReview.ReviewScore = int.Parse(data["DrinkReview.ReviewScore"]);
             drinkToUpdate.IsReviewed = true;
             drinkToUpdate.DrinkReview.ReviewDate = DateTime.Now;
 
@@ -273,13 +272,11 @@ namespace DrinkManagerWeb.Controllers
         [HttpGet("Drinks/reviews")]
         public IActionResult ReviewedDrinks(string sortOrder, int? pageNumber)
         {
-            int pageSize = 12;
-
             var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsReviewed);
 
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize)
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
             };
             return View(model);
         }
@@ -298,12 +295,10 @@ namespace DrinkManagerWeb.Controllers
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
-            int pageSize = 12;
-
             var model = new DrinksViewModel
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(_drinkSearchService.SortDrinks(sortOrder, drinks),
-                    pageNumber ?? 1, pageSize)
+                    pageNumber ?? 1, _pageSize)
             };
             return View(model);
         }
@@ -327,12 +322,10 @@ namespace DrinkManagerWeb.Controllers
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
-            int pageSize = 12;
-
             var model = new DrinksViewModel
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(_drinkSearchService.SortDrinks(sortOrder, drinks),
-                    pageNumber ?? 1, pageSize)
+                    pageNumber ?? 1, _pageSize)
             };
             return View(model);
         }
