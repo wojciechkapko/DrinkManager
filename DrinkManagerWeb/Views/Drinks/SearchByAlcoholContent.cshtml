@@ -10,7 +10,8 @@
         <header class="d-flex align-items-center">
             <h1>Search by Alcohol Content</h1>
         </header>
-        
+        @*Checkboxes returns user choice of alcohol content to controller. 
+            They are automatically checked when user comes to this view from another view*@
         <div>
             <form asp-route-pageNumber="1" method="post">
                 <div class="form-check">
@@ -25,9 +26,6 @@
                     @Html.CheckBoxFor(item => item.OptionalAlcoholics, new { @class = "form-check-input", @id = "optionalAlcoholicsCheck" })
                     <label class="form-check-label" for="optionalAlcoholicsCheck">Optional Alcohol Drinks</label>
                 </div>
-                @*<input name="Alcoholics" type="checkbox" value="true" /> Alcoholic Drinks<br />
-        <input name="NonAlcoholics" type="checkbox" value="true" /> Non Alcoholic Drinks<br />
-        <input name="OptionalAlcoholics" type="checkbox" value="true" /> Optional Alcohol Drinks<br />*@
                 <button>Search</button>
             </form>
         </div>
