@@ -78,7 +78,12 @@
                 }
                 else
                 {
-                    <p>Score of drink: @Model.DrinkReview.ReviewScore</p>
+            <p>
+                @for (var i = @Model.DrinkReview.ReviewScore; i > 0; i--)
+                {
+                    <span class="fa fa-star checked"></span>
+                }
+            </p>
                     <p>@Model.DrinkReview.ReviewText</p>
                     <p>Date of Review: @Model.DrinkReview.ReviewDate</p>
                 }
