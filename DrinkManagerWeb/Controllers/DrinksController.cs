@@ -245,7 +245,7 @@ namespace DrinkManagerWeb.Controllers
             ViewData["nonAlcoholics"] = nonAlcoholics;
             ViewData["optionalAlcoholics"] = optionalAlcoholics;
             int pageSize = 12;
-            var drinks = SearchDrink.SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics, _drinkRepository.GetAllDrinks().ToList());
+            var drinks = _drinkSearchService.SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics, _drinkRepository.GetAllDrinks().ToList());
 
             //Model saves alcoholic content info passed by controller to save
             //user choices while going through PaginatedList pages

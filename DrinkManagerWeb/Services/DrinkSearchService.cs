@@ -10,6 +10,9 @@ namespace DrinkManagerWeb.Services
 {
     public class DrinkSearchService : IDrinkSearchService
     {
+        public const string DrinkIsAlcoholic = "Alcoholic";
+        public const string DrinkIsNonAlcoholic = "Non alcoholic";
+        public const string DrinkIsOptionalAlcohol = "Optional alcohol";
         private readonly DrinkAppContext _context;
 
         public DrinkSearchService(DrinkAppContext context)
@@ -95,10 +98,26 @@ namespace DrinkManagerWeb.Services
             return drinksFound;
         }
 
-        public IEnumerable<Drink> SearchByAlcoholContent(string alcoholicInfo, IEnumerable<Drink> drinks, IEnumerable<Drink> contemporaryList)
+        public IQueryable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics, List<Drink> drinks)
         {
-            throw new System.NotImplementedException();
+            var contemporaryList = new List<Drink>();
+            if (alcoholics)
+            {
+                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsAlcoholic).ToList());
+            }
+
+            if (nonAlcoholics)
+            {
+                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsNonAlcoholic).ToList());
+            }
+
+            if (optionalAlcoholics)
+            {
+                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsOptionalAlcohol).ToList());
+            }
+            return contemporaryList.AsQueryable();
         }
+
 
         public IEnumerable<Drink> SortDrinks(string sortOrder, IEnumerable<Drink> drinks)
         {

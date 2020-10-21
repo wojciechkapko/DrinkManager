@@ -12,23 +12,23 @@
         </header>
         @*Checkboxes returns user choice of alcohol content to controller. 
             They are automatically checked when user comes to this view from another view*@
-        <div>
+        <div class="p-2">
             <form asp-route-pageNumber="1" method="post">
                 <div class="h5 font-weight-bold">Choose alcoholic option</div>
-                <div class="form-check">
+                <div class="form-check p-1">
                     @Html.CheckBoxFor(item => item.Alcoholics, new { @class = "form-check-input", @id = "alcoholicsCheck" })
-                    <label class="form-check-label">Alcoholic Drinks</label>
+                    <label class="form-check-label" >Alcoholic Drinks</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check p-1 ">
                     @Html.CheckBoxFor(item => item.NonAlcoholics, new { @class = "form-check-input", @id = "nonAlcoholicsCheck" })
                     <label class="form-check-label">Non Alcoholic Drinks</label>
                 </div>
-                <div class="form-check">
+                <div class="form-check p-1">
                     @Html.CheckBoxFor(item => item.OptionalAlcoholics, new { @class = "form-check-input", @id = "optionalAlcoholicsCheck" })
                     <label class="form-check-label">Optional Alcohol Drinks</label>
                 </div>
-                <button type="submit" class="btn btn-outline-primary mr-0 ml-2 mt-0 mb-0">Search</button>
-                <a asp-controller="Drinks" asp-action="SearchByAlcoholContent" asp-route-alcoholics="false" asp-route-nonAlcoholics="false" asp-route-optionalAlcoholics="false" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0" type="button">Clear</a>
+                <button type="submit" class="btn btn-outline-primary mr-0 ml-2 mt-0 mb-0 p-2">Search</button>
+                <a asp-controller="Drinks" asp-action="SearchByAlcoholContent" asp-route-alcoholics="false" asp-route-nonAlcoholics="false" asp-route-optionalAlcoholics="false" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0 p-2" type="button">Clear</a>
             </form>
         </div>
         <partial name="Partials/DrinkList" model="Model"/>
