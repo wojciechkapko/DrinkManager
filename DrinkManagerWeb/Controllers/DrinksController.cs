@@ -27,9 +27,9 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult Index(string sortOrder, int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             int pageSize = 12;
-            var drinks = _drinkRepository.GetAllDrinks();
+            var drinks = _drinkRepository.GetAllDrinks().AsEnumerable();
             drinks = sortOrder switch
             {
                 "name_desc" => drinks.OrderByDescending(s => s.Name),
@@ -237,6 +237,26 @@ namespace DrinkManagerWeb.Controllers
             await _drinkRepository.SaveChanges();
 
             return RedirectToAction("DrinkDetails", new { id });
+        }
+
+        public IActionResult SearchByAlcoholContent(int? pageNumber, bool alcoholics = true, bool nonAlcoholics = true, bool optionalAlcoholics = true)
+        {
+            ViewData["Alcoholics"] = alcoholics;
+            ViewData["nonAlcoholics"] = nonAlcoholics;
+            ViewData["optionalAlcoholics"] = optionalAlcoholics;
+            int pageSize = 12;
+            var drinks = _drinkSearchService.SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics, _drinkRepository.GetAllDrinks().ToList());
+
+            //Model saves alcoholic content info passed by controller to save
+            //user choices while going through PaginatedList pages
+            var model = new DrinksViewModel
+            {
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize),
+                Alcoholics = alcoholics,
+                NonAlcoholics = nonAlcoholics,
+                OptionalAlcoholics = optionalAlcoholics
+            };
+            return View(model);
         }
 
         public IActionResult SearchByName(string searchString, string sortOrder, int? pageNumber)

@@ -7,6 +7,9 @@ namespace BLL
 {
     public static class SearchDrink
     {
+        public const string DrinkIsAlcoholic = "Alcoholic";
+        public const string DrinkIsNonAlcoholic = "Non alcoholic";
+        public const string DrinkIsOptionalAlcohol = "Optional alcohol";
         public static List<Drink> SearchByName(string textToSearch, List<Drink> drinksListToSearch)
         {
             return drinksListToSearch
@@ -80,23 +83,26 @@ namespace BLL
 
             return drinksFound;
         }
-        /// <summary>
-        /// Searches drinks list by specified alcohol content criteria
-        /// </summary>
-        /// <param name="alcoholicInfo"></param>
-        /// <param name="drinks"></param>
-        /// <param name="contemporaryList"></param>
-        /// <returns></returns>
-        public static List<Drink> SearchByAlcoholContent(string alcoholicInfo, List<Drink> drinks, List<Drink> contemporaryList)
+
+
+        public static IQueryable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics, List<Drink> drinks)
         {
-            foreach (Drink drink in drinks)
+            var contemporaryList = new List<Drink>();
+            if (alcoholics)
             {
-                if (drink.AlcoholicInfo == alcoholicInfo)
-                {
-                    contemporaryList.Add(drink);
-                }
+                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsAlcoholic).ToList());
             }
-            return contemporaryList;
+
+            if (nonAlcoholics)
+            {
+                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsNonAlcoholic).ToList());
+            }
+
+            if (optionalAlcoholics)
+            {
+                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsOptionalAlcohol).ToList());
+            }
+            return contemporaryList.AsQueryable();
         }
     }
 }
