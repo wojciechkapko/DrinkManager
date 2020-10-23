@@ -29,7 +29,9 @@ namespace DrinkManagerWeb.Controllers
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            var drinks = _drinkRepository.GetAllDrinks();
+
+            var drinks = _drinkRepository.GetAllDrinks().AsEnumerable();
+
             drinks = sortOrder switch
             {
                 "name_desc" => drinks.OrderByDescending(s => s.Name),
@@ -277,6 +279,26 @@ namespace DrinkManagerWeb.Controllers
             var model = new DrinksViewModel
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
+            };
+            return View(model);
+        }
+
+        public IActionResult SearchByAlcoholContent(int? pageNumber, bool alcoholics = true, bool nonAlcoholics = true, bool optionalAlcoholics = true)
+        {
+            ViewData["Alcoholics"] = alcoholics;
+            ViewData["nonAlcoholics"] = nonAlcoholics;
+            ViewData["optionalAlcoholics"] = optionalAlcoholics;
+            int pageSize = 12;
+            var drinks = _drinkSearchService.SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics, _drinkRepository.GetAllDrinks().ToList());
+
+            //Model saves alcoholic content info passed by controller to save
+            //user choices while going through PaginatedList pages
+            var model = new DrinksViewModel
+            {
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize),
+                Alcoholics = alcoholics,
+                NonAlcoholics = nonAlcoholics,
+                OptionalAlcoholics = optionalAlcoholics
             };
             return View(model);
         }

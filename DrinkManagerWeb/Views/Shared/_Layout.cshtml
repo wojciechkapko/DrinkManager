@@ -39,9 +39,9 @@
                     <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "SearchByName" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="SearchByName"><i class="fas fa-search"></i><span>Search by name</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" ? "active" : "")">
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "SearchByAlcoholContent" ? "active" : "")">
 
-                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-percent"></i><span>Search by alcohol content</span></a>
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="SearchByAlcoholContent"><i class="fas fa-percent"></i><span>Search by alcohol content</span></a>
                     </li>
                     <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "SearchByIngredients" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="SearchByIngredients"><i class="fas fa-lemon"></i><span>Search by ingredient</span></a>
