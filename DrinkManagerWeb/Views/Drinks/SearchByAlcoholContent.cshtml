@@ -7,24 +7,22 @@
 }
 <div class="row px-4">
     <div class="col-12">
-        <header class="d-flex align-items-center">
-            <h1>Search by Alcohol Content</h1>
-        </header>
+        <header class="h2 font-weight-bold">Search by Alcohol Content</header>
         @*Checkboxes returns user choice of alcohol content to controller. 
             They are automatically checked when user comes to this view from another view*@
+        <div class="h5 font-weight-bold">Choose alcoholic option</div>
         <div class="p-2">
-            <form asp-route-pageNumber="1" method="post">
-                <div class="h5 font-weight-bold">Choose alcoholic option</div>
+            <form asp-route-pageNumber="1" method="get">
                 <div class="form-check p-1">
-                    @Html.CheckBoxFor(item => item.Alcoholics, new { @class = "form-check-input", @id = "alcoholicsCheck" })
-                    <label class="form-check-label" >Alcoholic Drinks</label>
+                    @Html.CheckBoxFor(item => item.Alcoholics, new {@class = "form-check-input", @id = "alcoholicsCheck"})
+                    <label class="form-check-label">Alcoholic Drinks</label>
                 </div>
                 <div class="form-check p-1 ">
-                    @Html.CheckBoxFor(item => item.NonAlcoholics, new { @class = "form-check-input", @id = "nonAlcoholicsCheck" })
+                    @Html.CheckBoxFor(item => item.NonAlcoholics, new {@class = "form-check-input", @id = "nonAlcoholicsCheck"})
                     <label class="form-check-label">Non Alcoholic Drinks</label>
                 </div>
                 <div class="form-check p-1">
-                    @Html.CheckBoxFor(item => item.OptionalAlcoholics, new { @class = "form-check-input", @id = "optionalAlcoholicsCheck" })
+                    @Html.CheckBoxFor(item => item.OptionalAlcoholics, new {@class = "form-check-input", @id = "optionalAlcoholicsCheck"})
                     <label class="form-check-label">Optional Alcohol Drinks</label>
                 </div>
                 <button type="submit" class="btn btn-outline-primary mr-0 ml-2 mt-0 mb-0 p-2">Search</button>

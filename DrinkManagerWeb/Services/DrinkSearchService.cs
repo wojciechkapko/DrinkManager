@@ -117,20 +117,5 @@ namespace DrinkManagerWeb.Services
             }
             return contemporaryList.AsQueryable();
         }
-
-
-        public IEnumerable<Drink> SortDrinks(string sortOrder, IEnumerable<Drink> drinks)
-        {
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    drinks = drinks.OrderByDescending(s => s.Name);
-                    break;
-                default:
-                    drinks = drinks.OrderBy(s => s.Name);
-                    break;
-            }
-            return drinks;
-        }
     }
 }
