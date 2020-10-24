@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj" />
+    <ProjectReference Include="..\DrinkManagerWeb\DrinkManagerWeb.csproj" />
   </ItemGroup>
 
   <ItemGroup>
