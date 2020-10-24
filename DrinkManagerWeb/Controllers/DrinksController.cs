@@ -27,7 +27,7 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult Index(int? pageNumber)
         {
-            var drinks = _drinkRepository.GetAllDrinks().AsEnumerable();
+            var drinks = _drinkRepository.GetAllDrinks().AsEnumerable().OrderBy(x => x.Name);
 
             var model = new DrinksViewModel
             {
