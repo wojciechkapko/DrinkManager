@@ -5,7 +5,14 @@
     {
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
             <div class="card">
-                <a class="page-link" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId"><img class="w-100 rounded shadow-lg" src="@drink.ImageUrl" /></a>
+                <a class="page-link" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId"><img class="w-100 rounded shadow-lg" src="@drink.ImageUrl" />
+                    <div class="overlay">
+                        @if (drink.IsFavourite)
+                        {
+                            <i class="fas fa-heart favourite-icon"></i>
+                        }
+                    </div>
+                </a>
                 <div class="card-body text-center">
                     <a class="card-title text-dark" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId"><h4>@drink.Name</h4></a>
                 </div>
