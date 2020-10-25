@@ -33,24 +33,24 @@
         <div class="card mb-3">
             <div class="mb-3 card-header">
                 <div class="row">
-                    <h1 class="col-12 text-center text-xl-left col-xl-6">@Model.Name</h1>
-                    <div class="buttons d-flex align-items-center ml-xl-auto col-12 col-xl-6 justify-content-center justify-content-xl-end">
+                    <h1 class="col-12 text-center text-xl-left col-xl-5">@Model.Name</h1>
+                    <div class="buttons d-flex align-items-center ml-xl-auto col-12 col-xl-7 justify-content-center justify-content-xl-end flex-wrap">
                         @if (Model.IsFavourite)
                         {
-                            <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.DrinkId" class="btn btn-primary mr-3 text-nowrap">
+                            <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.DrinkId" class="btn btn-primary mx-2 mb-2 text-nowrap">
                                 <i class="fas fa-heart-broken mr-2"></i>Remove from Favourites
                             </a>
                         }
                         else
                         {
-                            <a asp-controller="Drinks" asp-action="AddToFavourite" asp-route-id="@Model.DrinkId" class="btn btn-outline-primary mr-3 text-nowrap">
+                            <a asp-controller="Drinks" asp-action="AddToFavourite" asp-route-id="@Model.DrinkId" class="btn btn-outline-primary mx-2 mb-2 text-nowrap">
                                 <i class="fas fa-heart mr-2"></i>Add to Favourites
                             </a>
                         }
-                        <a asp-controller="Drinks" asp-action="Edit" asp-route-id="@Model.DrinkId" class="btn btn-primary mr-3">Edit</a>
-                        <a href="javascript:void(0)" class="btn btn-danger" onclick="OpenRemoveModal()">Remove</a>
+                        <a asp-controller="Drinks" asp-action="Edit" asp-route-id="@Model.DrinkId" class="btn btn-primary mx-2 mb-2">Edit</a>
+                        <a href="javascript:void(0)" class="btn btn-danger mx-2 mb-2" onclick="OpenRemoveModal()">Remove</a>
                     </div>
-                    <strong class="mt-2 text-center text-xl-left col-12">@Model.Category</strong>
+                    <strong class="text-center text-xl-left col-12">@Model.Category</strong>
                 </div>
             </div>
             <div class="card-body">
