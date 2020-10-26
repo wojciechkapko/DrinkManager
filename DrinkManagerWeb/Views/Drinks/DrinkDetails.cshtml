@@ -28,6 +28,9 @@
                 }
             </div>
         </div>
+        <div class="p-2">
+            <partial name="Partials/BackButton"/>
+        </div>
     </div>
     <div class="col-12 col-md-8">
         <div class="card mb-3">
@@ -35,7 +38,6 @@
                 <div class="d-flex">
                     <h1>@Model.Name</h1>
                     <div class="buttons d-flex align-items-center ml-auto">
-                        <partial name="Partials/BackButton"/>
                         @if (Model.IsFavourite)
                         {
                             <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.DrinkId" class="btn btn-primary mr-3">

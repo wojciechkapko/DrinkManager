@@ -2,7 +2,7 @@
 using BLL;
 using BLL.Data.Repositories;
 using BLL.Enums;
-using DrinkManagerWeb.Services;
+using BLL.Services;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +27,7 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult Index(int? pageNumber)
         {
-            var drinks = _drinkRepository.GetAllDrinks().AsEnumerable().OrderBy(x => x.Name);
+            var drinks = _drinkRepository.GetAllDrinks().OrderBy(x => x.Name);
 
             var model = new DrinksViewModel
             {
@@ -49,7 +49,7 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [HttpGet("Drinks/favourites")]
-        public IActionResult FavouriteDrinks(string sortOrder, int? pageNumber)
+        public IActionResult FavouriteDrinks(int? pageNumber)
         {
             var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
 
@@ -264,7 +264,7 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [HttpGet("Drinks/reviews")]
-        public IActionResult ReviewedDrinks(string sortOrder, int? pageNumber)
+        public IActionResult ReviewedDrinks(int? pageNumber)
         {
             var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsReviewed);
 
@@ -280,7 +280,8 @@ namespace DrinkManagerWeb.Controllers
             ViewData["Alcoholics"] = alcoholics;
             ViewData["nonAlcoholics"] = nonAlcoholics;
             ViewData["optionalAlcoholics"] = optionalAlcoholics;
-            var drinks = _drinkSearchService.SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics, _drinkRepository.GetAllDrinks().ToList());
+            var drinks = _drinkSearchService
+                .SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics);
 
             //Model saves alcoholic content info passed by controller to save
             //user choices while going through PaginatedList pages
@@ -297,7 +298,6 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult SearchByName(string searchString, int? pageNumber)
         {
             var drinks = _drinkRepository.GetAllDrinks();
-
             if (!string.IsNullOrEmpty(searchString))
             {
                 drinks = _drinkSearchService.SearchByName(searchString);
@@ -308,13 +308,13 @@ namespace DrinkManagerWeb.Controllers
 
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks,
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks.AsEnumerable(),
                     pageNumber ?? 1, _pageSize)
             };
             return View(model);
         }
 
-        public IActionResult SearchByIngredients(string searchString, string sortOrder, int? pageNumber,
+        public IActionResult SearchByIngredients(string searchString, int? pageNumber,
             string searchCondition = "any")
         {
             var drinks = _drinkRepository.GetAllDrinks();
