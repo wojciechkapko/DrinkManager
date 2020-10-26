@@ -21,6 +21,11 @@ namespace BLL.Data.Repositories
             return _context.Drinks.AsEnumerable();
         }
 
+        public IQueryable<Drink> GetAllDrinksAsQueryable()
+        {
+            return _context.Drinks.AsQueryable();
+        }
+
         public Task<Drink> GetDrinkById(string id)
         {
             return _context.Drinks.Include(i => i.Ingredients).Include(i => i.DrinkReview)

@@ -2,8 +2,8 @@
 using BLL;
 using BLL.Data.Repositories;
 using BLL.Enums;
-using DrinkManagerWeb.Models.ViewModels;
 using DrinkManagerWeb.Services;
+using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
