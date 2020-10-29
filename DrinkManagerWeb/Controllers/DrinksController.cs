@@ -4,6 +4,7 @@ using BLL.Data.Repositories;
 using BLL.Enums;
 using DrinkManagerWeb.Models.ViewModels;
 using DrinkManagerWeb.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -56,6 +57,7 @@ namespace DrinkManagerWeb.Controllers
             return View(drink);
         }
 
+        [Authorize]
         [HttpGet("Drinks/favourites")]
         public IActionResult FavouriteDrinks(string sortOrder, int? pageNumber)
         {
@@ -176,8 +178,9 @@ namespace DrinkManagerWeb.Controllers
 
             await _drinkRepository.SaveChanges();
 
-            return RedirectToAction(nameof(DrinkDetails), new {id = redirectId});
+            return RedirectToAction(nameof(DrinkDetails), new { id = redirectId });
         }
+
 
         public async Task<IActionResult> Remove(string id)
         {
@@ -196,6 +199,7 @@ namespace DrinkManagerWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public async Task<IActionResult> AddToFavourite(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
@@ -209,9 +213,10 @@ namespace DrinkManagerWeb.Controllers
             _drinkRepository.Update(drink);
             await _drinkRepository.SaveChanges();
 
-            return RedirectToAction("DrinkDetails", new {id});
+            return RedirectToAction("DrinkDetails", new { id });
         }
 
+        [Authorize]
         public async Task<IActionResult> RemoveFromFavourite(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
@@ -225,9 +230,10 @@ namespace DrinkManagerWeb.Controllers
             _drinkRepository.Update(drink);
             await _drinkRepository.SaveChanges();
 
-            return RedirectToAction("DrinkDetails", new {id});
+            return RedirectToAction("DrinkDetails", new { id });
         }
 
+        [Authorize]
         [HttpGet("drink/addReview")]
         public async Task<IActionResult> AddReview(string? id)
         {
@@ -268,9 +274,10 @@ namespace DrinkManagerWeb.Controllers
             _drinkRepository.Update(drinkToUpdate);
             await _drinkRepository.SaveChanges();
 
-            return RedirectToAction(nameof(DrinkDetails), new {id});
+            return RedirectToAction(nameof(DrinkDetails), new { id });
         }
 
+        [Authorize]
         [HttpGet("Drinks/reviews")]
         public IActionResult ReviewedDrinks(string sortOrder, int? pageNumber)
         {

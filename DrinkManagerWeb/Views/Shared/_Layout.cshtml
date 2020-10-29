@@ -27,29 +27,30 @@
                         Manager
                     </div>
                 </a>
+                <partial name="_LoginPartial" />
                 <ul class="navbar-nav flex-row flex-md-column">
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Home" ? "active" : "")">
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Home" ? "active" : "")">
 
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i><span>Home</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Drinks" ? "active" : "")">
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Drinks" ? "active" : "")">
 
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="Index"><i class="fas fa-glass-martini"></i><span>All drinks</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "SearchByName" ? "active" : "")">
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "SearchByName" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="SearchByName"><i class="fas fa-search"></i><span>Search by name</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "SearchByAlcoholContent" ? "active" : "")">
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "SearchByAlcoholContent" ? "active" : "")">
 
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="SearchByAlcoholContent"><i class="fas fa-percent"></i><span>Search by alcohol content</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "SearchByIngredients" ? "active" : "")">
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "SearchByIngredients" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="SearchByIngredients"><i class="fas fa-lemon"></i><span>Search by ingredient</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"].ToString() == "FavouriteDrinks" ? "active" : "")">
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "FavouriteDrinks" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="FavouriteDrinks"><i class="fas fa-heart"></i><span>Favourite drinks</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center @(routeValues["Action"].ToString() == "ReviewedDrinks" ? "active" : "")">
+                    <li class="nav-item d-flex align-items-center @(routeValues["Action"] != null && routeValues["Action"].ToString() == "ReviewedDrinks" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="ReviewedDrinks"><i class="fas fa-star"></i><span>Reviewed drinks</span></a>
                     </li>
                 </ul>
