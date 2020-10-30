@@ -2,7 +2,6 @@
 using BLL;
 using BLL.Data.Repositories;
 using BLL.Enums;
-using BLL.Services;
 using DrinkManagerWeb.Models.ViewModels;
 using DrinkManagerWeb.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -20,19 +19,19 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
-        private readonly IFavouriteService _favouriteService;
+        private readonly IFavouriteRepository _favouriteRepository;
         private readonly UserManager<AppUser> _userManager;
         private readonly int _pageSize = 12;
 
         public DrinksController(
             IDrinkRepository drinkRepository,
             IDrinkSearchService drinkSearchService,
-            IFavouriteService favouriteService,
+            IFavouriteRepository favouriteRepository,
             UserManager<AppUser> userManager)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;
-            _favouriteService = favouriteService;
+            _favouriteRepository = favouriteRepository;
             _userManager = userManager;
         }
 
@@ -64,14 +63,20 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            return View(drink);
+            var model = new DrinkDetailsViewModel
+            {
+                Drink = drink,
+                IsFavourite = _favouriteRepository.IsFavourite(_userManager.GetUserId(User), drink?.DrinkId)
+            };
+
+            return View(model);
         }
 
         [Authorize]
         [HttpGet("Drinks/favourites")]
         public IActionResult FavouriteDrinks(string sortOrder, int? pageNumber)
         {
-            var drinks = _favouriteService.GetUserFavouriteDrinks(_userManager.GetUserId(User));
+            var drinks = _favouriteRepository.GetUserFavouriteDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {
@@ -221,7 +226,7 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            _favouriteService.AddToFavourites(_userManager.GetUserId(User), drink);
+            _favouriteRepository.AddToFavourites(_userManager.GetUserId(User), drink);
 
             return RedirectToAction("DrinkDetails", new { id });
         }
@@ -235,7 +240,7 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            _favouriteService.RemoveFromFavourites(_userManager.GetUserId(User), drink?.DrinkId);
+            _favouriteRepository.RemoveFromFavourites(_userManager.GetUserId(User), drink?.DrinkId);
 
             return RedirectToAction("DrinkDetails", new { id });
         }
