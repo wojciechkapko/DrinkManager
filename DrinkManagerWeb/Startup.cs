@@ -1,6 +1,7 @@
 using BLL;
 using BLL.Data;
 using BLL.Data.Repositories;
+using BLL.Services;
 using DrinkManagerWeb.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +37,9 @@ namespace DrinkManagerWeb
             services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
+            services.AddScoped<IFavouriteService, FavouriteService>();
+            services.AddScoped<IFavouriteRepository, FavouriteRepository>();
+
             services.AddRazorPages();
 
         }

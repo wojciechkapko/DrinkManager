@@ -1,4 +1,9 @@
-﻿@model BLL.Drink
+﻿@using Microsoft.AspNetCore.Identity
+@using BLL.Services
+@using System.Security.Claims
+@model BLL.Drink
+@inject IFavouriteService _favouriteService;
+
 
 @{
     ViewBag.Title = Model.Name;
@@ -30,12 +35,13 @@
         </div>
     </div>
     <div class="col-12 col-md-8">
+        <partial name="_AlertPartial" />
         <div class="card mb-3">
             <div class="mb-3 card-header">
                 <div class="d-flex">
                     <h1>@Model.Name</h1>
                     <div class="buttons d-flex align-items-center ml-auto">
-                        @if (Model.IsFavourite)
+                        @if (_favouriteService.IsFavourite(Context.User.FindFirstValue(ClaimTypes.NameIdentifier), @Model.DrinkId))
                         {
                             <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.DrinkId" class="btn btn-primary mr-3">
                                 <i class="fas fa-heart-broken mr-2"></i>Remove from Favourites
@@ -78,12 +84,12 @@
                 }
                 else
                 {
-            <p>
-                @for (var i = @Model.DrinkReview.ReviewScore; i > 0; i--)
-                {
-                    <span class="fa fa-star checked"></span>
-                }
-            </p>
+                    <p>
+                        @for (var i = @Model.DrinkReview.ReviewScore; i > 0; i--)
+                        {
+                            <span class="fa fa-star checked"></span>
+                        }
+                    </p>
                     <p>@Model.DrinkReview.ReviewText</p>
                     <p>Date of Review: @Model.DrinkReview.ReviewDate</p>
                 }

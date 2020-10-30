@@ -2,10 +2,12 @@
 using BLL;
 using BLL.Data.Repositories;
 using BLL.Enums;
+using BLL.Services;
 using DrinkManagerWeb.Models.ViewModels;
 using DrinkManagerWeb.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,12 +20,20 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
+        private readonly IFavouriteService _favouriteService;
+        private readonly UserManager<AppUser> _userManager;
         private readonly int _pageSize = 12;
 
-        public DrinksController(IDrinkRepository drinkRepository, IDrinkSearchService drinkSearchService)
+        public DrinksController(
+            IDrinkRepository drinkRepository,
+            IDrinkSearchService drinkSearchService,
+            IFavouriteService favouriteService,
+            UserManager<AppUser> userManager)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;
+            _favouriteService = favouriteService;
+            _userManager = userManager;
         }
 
         public IActionResult Index(string sortOrder, int? pageNumber)
@@ -61,7 +71,7 @@ namespace DrinkManagerWeb.Controllers
         [HttpGet("Drinks/favourites")]
         public IActionResult FavouriteDrinks(string sortOrder, int? pageNumber)
         {
-            var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
+            var drinks = _favouriteService.GetUserFavouriteDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {
@@ -142,7 +152,9 @@ namespace DrinkManagerWeb.Controllers
                 if (drinkToUpdate == null)
                 {
                     // something went wrong redirect to drinks index
-                    TempData["Alert"] = $"Drink not found";
+                    TempData["Alert"] = "Drink not found";
+                    TempData["AlertClass"] = "alert-danger";
+
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -195,6 +207,7 @@ namespace DrinkManagerWeb.Controllers
             await _drinkRepository.SaveChanges();
 
             TempData["Alert"] = $"Drink {drink.Name} removed";
+            TempData["AlertClass"] = "alert-success";
 
             return RedirectToAction(nameof(Index));
         }
@@ -208,10 +221,7 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            drink.IsFavourite = true;
-
-            _drinkRepository.Update(drink);
-            await _drinkRepository.SaveChanges();
+            _favouriteService.AddToFavourites(_userManager.GetUserId(User), drink);
 
             return RedirectToAction("DrinkDetails", new { id });
         }
@@ -225,10 +235,7 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            drink.IsFavourite = false;
-
-            _drinkRepository.Update(drink);
-            await _drinkRepository.SaveChanges();
+            _favouriteService.RemoveFromFavourites(_userManager.GetUserId(User), drink?.DrinkId);
 
             return RedirectToAction("DrinkDetails", new { id });
         }
@@ -259,6 +266,7 @@ namespace DrinkManagerWeb.Controllers
             if (drinkToUpdate == null)
             {
                 TempData["Alert"] = "Drink not found.";
+                TempData["AlertClass"] = "alert-danger";
                 return RedirectToAction(nameof(Index));
             }
 

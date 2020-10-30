@@ -21,6 +21,5 @@ namespace BLL
         public List<Ingredient> Ingredients { get; set; }
         public DrinkReview DrinkReview { get; set; }
         public bool IsReviewed { get; set; }
-        public bool IsFavourite { get; set; }
     }
 }
