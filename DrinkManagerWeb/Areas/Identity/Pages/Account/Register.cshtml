@@ -54,7 +54,10 @@
                                     switch (provider.Name)
                                     {
                                         case "Facebook":
-                                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-facebook-f mr-3"></i>Register with Facebook</button>
+                                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Register using your @provider.DisplayName account"><i class="fab fa-facebook-f mr-3"></i>Register with Facebook</button>
+                                            break;
+                                        case "Google":
+                                            <button type="submit" class="ml-2 btn btn-light shadow-sm align-items-center d-inline-flex" name="provider" value="@provider.Name" title="Register using your @provider.DisplayName account"><img src="/assets/google-logo.svg" alt="Google logo" width="16px" height="16px" class="mr-2">Register with Google</button>
                                             break;
                                         default:
                                             <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
