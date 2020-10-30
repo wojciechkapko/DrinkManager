@@ -33,6 +33,13 @@ namespace DrinkManagerWeb
                     options.Password.RequireNonAlphanumeric = false;
                 })
                 .AddEntityFrameworkStores<DrinkAppContext>();
+
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+
             services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
