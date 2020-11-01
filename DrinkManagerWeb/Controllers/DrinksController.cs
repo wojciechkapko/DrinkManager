@@ -20,6 +20,7 @@ namespace DrinkManagerWeb.Controllers
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
         private readonly IFavouriteRepository _favouriteRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly UserManager<AppUser> _userManager;
         private readonly int _pageSize = 12;
 
@@ -27,11 +28,13 @@ namespace DrinkManagerWeb.Controllers
             IDrinkRepository drinkRepository,
             IDrinkSearchService drinkSearchService,
             IFavouriteRepository favouriteRepository,
+            IReviewRepository reviewRepository,
             UserManager<AppUser> userManager)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;
             _favouriteRepository = favouriteRepository;
+            _reviewRepository = reviewRepository;
             _userManager = userManager;
         }
 
@@ -66,7 +69,8 @@ namespace DrinkManagerWeb.Controllers
             var model = new DrinkDetailsViewModel
             {
                 Drink = drink,
-                IsFavourite = _favouriteRepository.IsFavourite(_userManager.GetUserId(User), drink?.DrinkId)
+                IsFavourite = _favouriteRepository.IsFavourite(_userManager.GetUserId(User), drink?.DrinkId),
+                CanUserReview = _reviewRepository.CanUserReviewDrink(_userManager.GetUserId(User), drink?.DrinkId)
             };
 
             return View(model);
@@ -182,7 +186,7 @@ namespace DrinkManagerWeb.Controllers
                     Ingredients = ingredients,
                     GlassType = data["GlassType"],
                     ImageUrl = imageUrl,
-                    DrinkReview = null,
+                    DrinkReviews = new List<DrinkReview>(),
                     Category = data["Category"],
                     AlcoholicInfo = data["AlcoholicInfo"],
                     Instructions = data["Instructions"],
@@ -253,7 +257,6 @@ namespace DrinkManagerWeb.Controllers
 
             var model = new DrinkCreateViewModel
             {
-                DrinkReview = drink?.DrinkReview,
                 Name = drink?.Name,
                 Id = drink?.DrinkId
             };
@@ -275,14 +278,15 @@ namespace DrinkManagerWeb.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            drinkToUpdate.DrinkReview = new DrinkReview
+            drinkToUpdate.DrinkReviews.Add(new DrinkReview
             {
                 ReviewText = data["DrinkReview.ReviewText"],
-                ReviewScore = int.Parse(data["DrinkReview.ReviewScore"])
-            };
-
-            drinkToUpdate.IsReviewed = true;
-            drinkToUpdate.DrinkReview.ReviewDate = DateTime.Now;
+                ReviewScore = int.Parse(data["DrinkReview.ReviewScore"]),
+                DrinkId = drinkToUpdate.DrinkId,
+                AppUserId = _userManager.GetUserId(User),
+                AuthorName = User.Identity.Name,
+                ReviewDate = DateTime.Now
+            });
 
             _drinkRepository.Update(drinkToUpdate);
             await _drinkRepository.SaveChanges();
@@ -292,9 +296,9 @@ namespace DrinkManagerWeb.Controllers
 
         [Authorize]
         [HttpGet("Drinks/reviews")]
-        public IActionResult ReviewedDrinks(string sortOrder, int? pageNumber)
+        public IActionResult ReviewedDrinks(int? pageNumber)
         {
-            var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsReviewed);
+            var drinks = _reviewRepository.GetUserReviewedDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {

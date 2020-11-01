@@ -70,24 +70,37 @@
             </div>
         </div>
         <div class="card">
-            <div class="mb-3 card-header">
+            <div class="mb-3 card-header d-flex">
                 <h4>Review</h4>
+                <div class="buttons ml-auto">
+                    @if (Model.CanUserReview)
+                    {
+                        <a asp-controller="Drinks" asp-action="AddReview" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary">Add Review</a>
+                    }
+                </div>
             </div>
-            <div class="card-body">
-                @if (Model.Drink.DrinkReview == null)
+            <div class="card-body reviews">
+                @if (Model.Drink.DrinkReviews.Any())
                 {
-                    <a asp-controller="Drinks" asp-action="AddReview" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary mr-3">Add Review</a>
+                    foreach (var review in Model.Drink.DrinkReviews)
+                    {
+
+                        <div class="review mb-2 pb-2 border-bottom">
+                            <p>@review.AuthorName</p>
+                            <p>
+                                @for (var i = review.ReviewScore; i > 0; i--)
+                                {
+                                    <span class="fa fa-star checked"></span>
+                                }
+                            </p>
+                            <p>@review.ReviewText</p>
+                            <p>Date of Review: @review.ReviewDate</p>
+                        </div>
+                    }
                 }
                 else
                 {
-                    <p>
-                        @for (var i = @Model.Drink.DrinkReview.ReviewScore; i > 0; i--)
-                        {
-                            <span class="fa fa-star checked"></span>
-                        }
-                    </p>
-                    <p>@Model.Drink.DrinkReview.ReviewText</p>
-                    <p>Date of Review: @Model.Drink.DrinkReview.ReviewDate</p>
+                    <p>No reviews yet</p>
                 }
             </div>
         </div>

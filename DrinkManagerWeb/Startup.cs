@@ -53,6 +53,8 @@ namespace DrinkManagerWeb
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
             services.AddScoped<IFavouriteRepository, FavouriteRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+
 
             services.AddRazorPages();
 

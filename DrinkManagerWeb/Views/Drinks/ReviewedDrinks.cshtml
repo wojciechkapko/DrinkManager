@@ -12,7 +12,14 @@
             <div class="buttons ml-auto">
             </div>
         </header>
-        <partial name="Partials/DrinkList" model="@Model" />
-        <partial name="Partials/Pagination" model="@Model" />
+        @if (Model.Drinks.Any())
+        {
+            <partial name="Partials/DrinkList" model="@Model" />
+            <partial name="Partials/Pagination" model="@Model" />
+        }
+        else
+        {
+            <p>No reviewed drinks yet.</p>
+        }
     </div>
 </div>
