@@ -21,6 +21,11 @@ namespace BLL.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<UserDrink>()
                 .HasKey(cs => new { cs.AppUserId, cs.DrinkId });
+
+            modelBuilder.Entity<Drink>().HasMany(d => d.DrinkReviews).WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<AppUser>().HasMany(d => d.Reviews).WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
