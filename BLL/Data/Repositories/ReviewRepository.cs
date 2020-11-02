@@ -11,11 +11,12 @@ namespace BLL.Data.Repositories
         {
             _context = context;
         }
+
         public IEnumerable<Drink> GetUserReviewedDrinks(string userId) =>
-            _context.Drinks.Where(x => x.DrinkReviews
-                .Where(dr => dr.Author.Id.Equals(userId))
-                .Select(dr => dr.Drink.DrinkId)
-                .Contains(x.DrinkId)).AsEnumerable();
+            _context.Reviews
+                .Where(r => r.Author.Id.Equals(userId))
+                .Select(r => r.Drink)
+                .AsEnumerable();
 
         public bool CanUserReviewDrink(string userId, string drinkId)
         {
