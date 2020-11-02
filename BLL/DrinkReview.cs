@@ -17,9 +17,7 @@ namespace BLL
 
         public DateTime ReviewDate { get; set; }
 
-        public string DrinkId { get; set; }
-        public string AppUserId { get; set; }
-        public string AuthorName { get; set; }
-
+        public Drink Drink { get; set; }
+        public AppUser Author { get; set; }
     }
 }

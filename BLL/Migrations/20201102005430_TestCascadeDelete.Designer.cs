@@ -4,14 +4,16 @@ using BLL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DrinkManagerWeb.Migrations
 {
     [DbContext(typeof(DrinkAppContext))]
-    partial class DrinkAppContextModelSnapshot : ModelSnapshot
+    [Migration("20201102005430_TestCascadeDelete")]
+    partial class TestCascadeDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,9 +58,11 @@ namespace DrinkManagerWeb.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AuthorId")
-                        .IsRequired()
+                    b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AuthorName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DrinkId")
                         .IsRequired()
@@ -75,7 +79,7 @@ namespace DrinkManagerWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("DrinkId");
 
@@ -334,11 +338,9 @@ namespace DrinkManagerWeb.Migrations
 
             modelBuilder.Entity("BLL.DrinkReview", b =>
                 {
-                    b.HasOne("BLL.AppUser", "Author")
+                    b.HasOne("BLL.AppUser", null)
                         .WithMany("Reviews")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId");
 
                     b.HasOne("BLL.Drink", "Drink")
                         .WithMany("DrinkReviews")

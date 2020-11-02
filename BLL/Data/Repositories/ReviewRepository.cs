@@ -13,13 +13,13 @@ namespace BLL.Data.Repositories
         }
         public IEnumerable<Drink> GetUserReviewedDrinks(string userId) =>
             _context.Drinks.Where(x => x.DrinkReviews
-                .Where(dr => dr.AppUserId.Equals(userId))
-                .Select(dr => dr.DrinkId)
+                .Where(dr => dr.Author.Id.Equals(userId))
+                .Select(dr => dr.Drink.DrinkId)
                 .Contains(x.DrinkId)).AsEnumerable();
 
         public bool CanUserReviewDrink(string userId, string drinkId)
         {
-            return _context.Reviews.FirstOrDefault(x => x.AppUserId.Equals(userId) && x.DrinkId.Equals(drinkId)) == null;
+            return _context.Reviews.FirstOrDefault(x => x.Author.Id.Equals(userId) && x.Drink.DrinkId.Equals(drinkId)) == null;
         }
     }
 }

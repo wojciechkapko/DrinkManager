@@ -282,9 +282,8 @@ namespace DrinkManagerWeb.Controllers
             {
                 ReviewText = data["DrinkReview.ReviewText"],
                 ReviewScore = int.Parse(data["DrinkReview.ReviewScore"]),
-                DrinkId = drinkToUpdate.DrinkId,
-                AppUserId = _userManager.GetUserId(User),
-                AuthorName = User.Identity.Name,
+                Drink = drinkToUpdate,
+                Author = await _userManager.GetUserAsync(User),
                 ReviewDate = DateTime.Now
             });
 
