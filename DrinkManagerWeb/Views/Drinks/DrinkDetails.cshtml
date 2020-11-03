@@ -28,9 +28,6 @@
                 }
             </div>
         </div>
-        <div class="p-2">
-            <partial name="Partials/BackButton"/>
-        </div>
     </div>
     <div class="col-12 col-md-8">
         <div class="card mb-3">
@@ -81,17 +78,22 @@
                 }
                 else
                 {
-            <p>
-                @for (var i = @Model.DrinkReview.ReviewScore; i > 0; i--)
-                {
-                    <span class="fa fa-star checked"></span>
-                }
-            </p>
+                    <p>
+                        @for (var i = @Model.DrinkReview.ReviewScore; i > 0; i--)
+                        {
+                            <span class="fa fa-star checked"></span>
+                        }
+                    </p>
                     <p>@Model.DrinkReview.ReviewText</p>
                     <p>Date of Review: @Model.DrinkReview.ReviewDate</p>
                 }
             </div>
         </div>
+    </div>
+    <div class="col-12 col-md-4 mb-3 mb-md-0">
+    <div class="pt-2">
+        <partial name="Partials/BackButton"/>
+    </div>
     </div>
 </div>
 
