@@ -86,11 +86,6 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
 }
 
-favourite-icon {
-    position: absolute;
-    color: # red;
-}
-
 
 @media all and (max-width: 1915px) {
     .sidenav a span {
@@ -184,4 +179,8 @@ a {
 .rating input:checked + label,
 .rating input:checked + label ~ label {
     color: #ffdd67;
+}
+
+.heart {
+    color: #ff0000;
 }
