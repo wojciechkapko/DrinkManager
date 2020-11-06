@@ -1,12 +1,10 @@
-﻿using System;
+﻿using BLL.Enums;
 
 namespace BLL
 {
-    public class UserActivity
+    public class UserActivityDto
     {
-        public int Id { get; set; }
         public string Username { get; set; }
-        public string Action { get; set; }
-        public DateTime Created { get; set; }
+        public PerformedAction Action { get; set; }
     }
 }

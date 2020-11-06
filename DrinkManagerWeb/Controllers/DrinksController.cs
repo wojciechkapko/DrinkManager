@@ -6,9 +6,13 @@ using BLL.Services;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
@@ -17,18 +21,37 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
+        private readonly IReportingApiService _reportingApiService;
         private readonly int _pageSize = 12;
 
-        public DrinksController(IDrinkRepository drinkRepository, IDrinkSearchService drinkSearchService)
+        public DrinksController(IDrinkRepository drinkRepository, IDrinkSearchService drinkSearchService, IReportingApiService reportingApiService)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;
+            _reportingApiService = reportingApiService;
         }
 
-        public IActionResult Index(int? pageNumber)
+        public async Task<IActionResult> Index(int? pageNumber)
         {
+            using var httpClient = new HttpClient();
+            var apiAddress = "https://localhost:5115/api/Activity";
+            var newUserActivity = new UserActivityDto
+            {
+                //Username = this.User.Identity.Name,
+                Username = "Czosnek",
+                Action = PerformedAction.SuccessfulLogin
+            };
+            var content = new StringContent(JsonConvert.SerializeObject(newUserActivity), Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync(apiAddress, content);
+            if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                // Zaloguj mi to moim loggerem
+            }
+            var getResponse = await httpClient.GetAsync(apiAddress);
+            var getContent = await getResponse.Content.ReadAsStringAsync();
+            var parsedResponse = JsonConvert.DeserializeObject<List<UserActivity>>(getContent);
+            //await _reportingApiService.UserDidSomething(PerformedAction.SuccessfulLogin);
             var drinks = _drinkRepository.GetAllDrinks().OrderBy(x => x.Name);
-
             var model = new DrinksViewModel
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)

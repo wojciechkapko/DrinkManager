@@ -25,6 +25,7 @@ namespace DrinkManagerWeb
             services.AddDbContext<DrinkAppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
+            services.AddScoped<IReportingApiService, ReportingApiService>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 

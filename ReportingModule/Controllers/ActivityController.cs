@@ -1,7 +1,9 @@
 ﻿using BLL;
+using BLL.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ReportingModuleApi.Controllers
 {
@@ -9,9 +11,14 @@ namespace ReportingModuleApi.Controllers
     [ApiController]
     public class ActivityController : ControllerBase
     {
-        //POST: https://localhost:5001/api/Activity
+        private readonly IActivitiesRepository _activitiesRepository;
+        public ActivityController(IActivitiesRepository activitiesRepository)
+        {
+            _activitiesRepository = activitiesRepository;
+        }
+        //POST: https://localhost:5115/api/Activity
         [HttpPost]
-        public IActionResult CreateActivity(UserActivityDto model)
+        public async Task<IActionResult> CreateActivity(UserActivityDto model)
         {
             var activity = new UserActivity
             {
@@ -19,20 +26,20 @@ namespace ReportingModuleApi.Controllers
                 Action = model.Action,
                 Created = DateTime.Now
             };
-            // Jakieś reposytorium co dodaje activity do bazy danych
-            // this._activityRep.Insert(activity);
+            await _activitiesRepository.AddActivity(activity);
+            await _activitiesRepository.SaveChanges();
             if (string.IsNullOrEmpty(model.Username))
             {
                 return BadRequest("Username was empty");
             }
             return Ok();
         }
-        [HttpGet]
-        public IActionResult GetActivities()
-        {
-            var activities = new List<UserActivity> { new UserActivity { Username = "Tester" } };
-            return Ok(activities);
-        }
+        //[HttpGet]
+        //public IActionResult GetActivities()
+        //{
+        //    var activities = new List<UserActivity> { new UserActivity { Username = "Tester" } };
+        //    return Ok(activities);
+        //}
     }
 
     public class UserActivityDto

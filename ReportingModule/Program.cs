@@ -14,8 +14,7 @@ namespace ReportingModule
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("https://*:5115");
+                    webBuilder.UseStartup<Startup>().UseUrls("https://*:5115");
                 });
     }
 }
