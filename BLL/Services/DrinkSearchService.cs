@@ -1,36 +1,35 @@
-﻿using BLL;
-using BLL.Data;
+﻿using BLL.Data.Repositories;
 using BLL.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DrinkManagerWeb.Services
+namespace BLL.Services
 {
     public class DrinkSearchService : IDrinkSearchService
     {
         public const string DrinkIsAlcoholic = "Alcoholic";
         public const string DrinkIsNonAlcoholic = "Non alcoholic";
         public const string DrinkIsOptionalAlcohol = "Optional alcohol";
-        private readonly DrinkAppContext _context;
+        private readonly IDrinkRepository _repository;
 
-        public DrinkSearchService(DrinkAppContext context)
+        public DrinkSearchService(IDrinkRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         public IEnumerable<Drink> SearchByName(string textToSearch)
         {
-            return _context.Drinks.AsEnumerable()
-                .Where(drink => drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase));
+            return _repository.GetAllDrinks().Where(drink =>
+                drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public IEnumerable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, SearchDrinkOption searchOption)
         {
             var drinksFound = new List<Drink>();
             var ingredientsFound = new SortedSet<string>();
-            var drinks = _context.Drinks.Include(drink => drink.Ingredients);
+            var drinks = _repository.GetAllDrinksAsQueryable().Include(drink => drink.Ingredients);
 
             switch (searchOption)
             {
@@ -98,39 +97,25 @@ namespace DrinkManagerWeb.Services
             return drinksFound;
         }
 
-        public IQueryable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics, List<Drink> drinks)
+        public IEnumerable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics)
         {
+            var drinks = _repository.GetAllDrinksAsQueryable();
             var contemporaryList = new List<Drink>();
             if (alcoholics)
             {
-                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsAlcoholic).ToList());
+                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsAlcoholic));
             }
 
             if (nonAlcoholics)
             {
-                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsNonAlcoholic).ToList());
+                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsNonAlcoholic));
             }
 
             if (optionalAlcoholics)
             {
-                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsOptionalAlcohol).ToList());
+                contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsOptionalAlcohol));
             }
-            return contemporaryList.AsQueryable();
-        }
-
-
-        public IEnumerable<Drink> SortDrinks(string sortOrder, IEnumerable<Drink> drinks)
-        {
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    drinks = drinks.OrderByDescending(s => s.Name);
-                    break;
-                default:
-                    drinks = drinks.OrderBy(s => s.Name);
-                    break;
-            }
-            return drinks;
+            return contemporaryList.OrderBy(x => x.Name);
         }
     }
 }

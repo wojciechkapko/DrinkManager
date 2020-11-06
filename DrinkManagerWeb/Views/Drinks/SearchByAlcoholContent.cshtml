@@ -11,10 +11,11 @@
             <h1>Search by Alcohol Content</h1>
         </header>
         @*Checkboxes returns user choice of alcohol content to controller.
+            @*Checkboxes returns user choice of alcohol content to controller.
             They are automatically checked when user comes to this view from another view*@
+        <div class="h5 font-weight-bold">Choose alcoholic option</div>
         <div class="p-2">
             <form asp-route-pageNumber="1" method="post" class="mb-3">
-                <div class="h5 font-weight-bold">Choose alcoholic option</div>
 
                 <div class="form-group form-check">
                     @Html.CheckBoxFor(item => item.Alcoholics, new { @class = "form-check-input", @id = "alcoholicsCheck" })

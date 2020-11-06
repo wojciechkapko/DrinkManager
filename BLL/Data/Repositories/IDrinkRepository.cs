@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -8,6 +9,8 @@ namespace BLL.Data.Repositories
     public interface IDrinkRepository
     {
         IEnumerable<Drink> GetAllDrinks();
+
+        IQueryable<Drink> GetAllDrinksAsQueryable();
 
         Task<Drink> GetDrinkById(string id);
 
