@@ -1,4 +1,6 @@
-﻿using DrinkManagerWeb.Models.ViewModels;
+﻿using BLL;
+using BLL.Services;
+using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -8,14 +10,22 @@ namespace DrinkManagerWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IEmailService emailService)
         {
             _logger = logger;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
         {
+            _emailService.SendAdminEmail(new Email
+            {
+                Subject = "Test email",
+                Body = "Test body"
+            });
+
             return View();
         }
 

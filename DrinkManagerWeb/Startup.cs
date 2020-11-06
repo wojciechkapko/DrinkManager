@@ -1,5 +1,6 @@
 using BLL.Data;
 using BLL.Data.Repositories;
+using BLL.Services;
 using DrinkManagerWeb.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,8 @@ namespace DrinkManagerWeb
             services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
+            services.AddScoped<IEmailService, EmailService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
