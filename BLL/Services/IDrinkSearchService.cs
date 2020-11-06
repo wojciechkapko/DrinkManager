@@ -1,9 +1,8 @@
-﻿using BLL;
-using BLL.Enums;
+﻿using BLL.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DrinkManagerWeb.Services
+namespace BLL.Services
 {
     public interface IDrinkSearchService
     {
@@ -11,8 +10,6 @@ namespace DrinkManagerWeb.Services
 
         IEnumerable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, SearchDrinkOption searchOption);
 
-        IQueryable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics, List<Drink> drinks);
-
-        IEnumerable<Drink> SortDrinks(string sortOrder, IEnumerable<Drink> drinks);
+        IEnumerable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics);
     }
 }

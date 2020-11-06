@@ -1,7 +1,7 @@
 ﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
 
 <div class="row">
-    @foreach (var drink in Model.Drinks)
+    @foreach (var drink in Model.Drinks.OrderBy(x => x.Name))
     {
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
             <div class="card">
