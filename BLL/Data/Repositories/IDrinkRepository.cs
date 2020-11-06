@@ -10,6 +10,8 @@ namespace BLL.Data.Repositories
     {
         IEnumerable<Drink> GetAllDrinks();
 
+        IQueryable<Drink> GetAllDrinksAsQueryable();
+
         Task<Drink> GetDrinkById(string id);
 
         Task<Drink> FindDrink(Expression<Func<Drink, bool>> predicate);

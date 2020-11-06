@@ -18,7 +18,12 @@ namespace BLL.Data.Repositories
 
         public IEnumerable<Drink> GetAllDrinks()
         {
-            return _context.Drinks.AsEnumerable();
+            return _context.Drinks.AsEnumerable().OrderBy(x => x.Name);
+        }
+
+        public IQueryable<Drink> GetAllDrinksAsQueryable()
+        {
+            return _context.Drinks.AsQueryable();
         }
 
         public Task<Drink> GetDrinkById(string id)

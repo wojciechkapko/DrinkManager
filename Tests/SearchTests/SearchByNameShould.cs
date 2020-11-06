@@ -1,4 +1,5 @@
-﻿using DrinkManagerWeb.Services;
+﻿
+using BLL.Services;
 using FluentAssertions;
 using System.Linq;
 using Xunit;
@@ -11,7 +12,7 @@ namespace Tests.SearchTests
 
         public SearchByNameShould(TestWithSqlite fixture)
         {
-            _sut = new DrinkSearchService(fixture.Context);
+            _sut = new DrinkSearchService(fixture.Repository);
         }
 
         [Fact]
