@@ -10,7 +10,7 @@ namespace BLL.Services
 {
     public class ReportingApiService : IReportingApiService
     {
-        public async Task UserDidSomething(PerformedAction action)
+        public async Task UserDidSomething(string action)
         {
             using var httpClient = new HttpClient();
             var apiAddress = "https://localhost:5115/api/Activity";

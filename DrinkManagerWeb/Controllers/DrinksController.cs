@@ -39,10 +39,11 @@ namespace DrinkManagerWeb.Controllers
             {
                 //Username = this.User.Identity.Name,
                 Username = "Czosnek",
-                Action = PerformedAction.SuccessfulLogin
+                Action = PerformedAction.SuccessfulLogin.ToString()
             };
             var content = new StringContent(JsonConvert.SerializeObject(newUserActivity), Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(apiAddress, content);
+            var message = await response.Content.ReadAsStringAsync();
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
                 // Zaloguj mi to moim loggerem
