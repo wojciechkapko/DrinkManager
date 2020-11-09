@@ -6,13 +6,9 @@ using BLL.Services;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
@@ -31,27 +27,9 @@ namespace DrinkManagerWeb.Controllers
             _reportingApiService = reportingApiService;
         }
 
-        public async Task<IActionResult> Index(int? pageNumber)
+        public IActionResult Index(int? pageNumber)
         {
-            using var httpClient = new HttpClient();
-            var apiAddress = "https://localhost:5115/api/Activity";
-            var newUserActivity = new UserActivityDto
-            {
-                //Username = this.User.Identity.Name,
-                Username = "Czosnek",
-                Action = PerformedAction.SuccessfulLogin.ToString()
-            };
-            var content = new StringContent(JsonConvert.SerializeObject(newUserActivity), Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync(apiAddress, content);
-            var message = await response.Content.ReadAsStringAsync();
-            if (response.StatusCode == HttpStatusCode.BadRequest)
-            {
-                // Zaloguj mi to moim loggerem
-            }
-            var getResponse = await httpClient.GetAsync(apiAddress);
-            var getContent = await getResponse.Content.ReadAsStringAsync();
-            var parsedResponse = JsonConvert.DeserializeObject<List<UserActivity>>(getContent);
-            //await _reportingApiService.UserDidSomething(PerformedAction.SuccessfulLogin);
+            Task.Run(() => _reportingApiService.UserDidSomething(PerformedAction.SuccessfulLogin, drinkId: null, searchedPhrase: null, score: null));
             var drinks = _drinkRepository.GetAllDrinks().OrderBy(x => x.Name);
             var model = new DrinksViewModel
             {
@@ -280,7 +258,6 @@ namespace DrinkManagerWeb.Controllers
 
             drinkToUpdate.IsReviewed = true;
             drinkToUpdate.DrinkReview.ReviewDate = DateTime.Now;
-
             _drinkRepository.Update(drinkToUpdate);
             await _drinkRepository.SaveChanges();
 
