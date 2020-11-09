@@ -5,6 +5,6 @@ namespace BLL.Services
 {
     public interface IReportingApiService
     {
-        Task UserDidSomething(PerformedAction action, string? drinkId, string? searchedPhrase, int? score);
+        Task UserDidSomething(PerformedAction action, string? username, string? drinkId, string? searchedPhrase, int? score);
     }
 }

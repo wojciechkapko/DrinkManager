@@ -3,12 +3,12 @@
     public enum PerformedAction
     {
         SuccessfulLogin,
+        NewUserRegistered,
         AllDrinks,
         SearchByAlcohol,
         SearchByName,
         SearchByIngredients,
-        CreateDrink,
-        EditDrink,
+        EditOrCreateDrink,
         RemoveDrink,
         AddedToFavourite,
         RemovedFromFavourite,

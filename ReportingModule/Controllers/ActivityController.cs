@@ -23,6 +23,9 @@ namespace ReportingModuleApi.Controllers
             {
                 Username = model.Username,
                 Action = model.Action,
+                DrinkId = model.DrinkId,
+                SearchedPhrase = model.SearchedPhrase,
+                Score = model.Score,
                 Created = DateTime.Now
             };
 

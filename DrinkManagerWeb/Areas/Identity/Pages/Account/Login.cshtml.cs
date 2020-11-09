@@ -1,4 +1,6 @@
 using BLL;
+using BLL.Enums;
+using BLL.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,14 +20,17 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IReportingApiService _reportingApiService;
 
         public LoginModel(SignInManager<AppUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<AppUser> userManager)
+            UserManager<AppUser> userManager,
+            IReportingApiService reportingApiService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _reportingApiService = reportingApiService;
         }
 
         [BindProperty]
@@ -81,6 +86,8 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    Task.Run(() =>
+                        _reportingApiService.UserDidSomething(PerformedAction.SuccessfulLogin, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

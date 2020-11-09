@@ -11,7 +11,7 @@ namespace BLL.Data
 
         public void CheckIfReportingDatabaseExistsAndCreateIfNot()
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
     }
 }

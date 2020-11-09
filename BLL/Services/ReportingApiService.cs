@@ -10,13 +10,12 @@ namespace BLL.Services
     public class ReportingApiService : IReportingApiService
     {
         private const string CreateActivityAddress = "https://localhost:5115/api/Activity";
-        public async Task UserDidSomething(PerformedAction action, string? drinkId = null, string? searchedPhrase = null, int? score = null)
+        public async Task UserDidSomething(PerformedAction action, string? username, string? drinkId, string? searchedPhrase, int? score)
         {
             using var httpClient = new HttpClient();
             var newUserActivity = new UserActivityDto
             {
-                //Username = this.User.Identity.Name,
-                Username = "Czosnek",
+                Username = username,
                 Action = action,
                 DrinkId = drinkId,
                 SearchedPhrase = searchedPhrase,
