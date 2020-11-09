@@ -5,31 +5,35 @@
     ViewBag.Title = "Drinks";
     Layout = "_Layout";
 }
-<div class="row px-4">
+<div class="row">
     <div class="col-12">
-        <header class="h2 font-weight-bold">Search by Alcohol Content</header>
-        @*Checkboxes returns user choice of alcohol content to controller. 
+        <header class="d-flex align-items-center">
+            <h1>Search by Alcohol Content</h1>
+        </header>
+        @*Checkboxes returns user choice of alcohol content to controller.
+            @*Checkboxes returns user choice of alcohol content to controller.
             They are automatically checked when user comes to this view from another view*@
         <div class="h5 font-weight-bold">Choose alcoholic option</div>
         <div class="p-2">
-            <form asp-route-pageNumber="1" method="get">
-                <div class="form-check p-1">
-                    @Html.CheckBoxFor(item => item.Alcoholics, new {@class = "form-check-input", @id = "alcoholicsCheck"})
+            <form asp-route-pageNumber="1" method="post" class="mb-3">
+
+                <div class="form-group form-check">
+                    @Html.CheckBoxFor(item => item.Alcoholics, new { @class = "form-check-input", @id = "alcoholicsCheck" })
                     <label class="form-check-label">Alcoholic Drinks</label>
                 </div>
-                <div class="form-check p-1 ">
-                    @Html.CheckBoxFor(item => item.NonAlcoholics, new {@class = "form-check-input", @id = "nonAlcoholicsCheck"})
+                <div class="form-group form-check">
+                    @Html.CheckBoxFor(item => item.NonAlcoholics, new { @class = "form-check-input", @id = "nonAlcoholicsCheck" })
                     <label class="form-check-label">Non Alcoholic Drinks</label>
                 </div>
-                <div class="form-check p-1">
-                    @Html.CheckBoxFor(item => item.OptionalAlcoholics, new {@class = "form-check-input", @id = "optionalAlcoholicsCheck"})
+                <div class="form-group form-check">
+                    @Html.CheckBoxFor(item => item.OptionalAlcoholics, new { @class = "form-check-input", @id = "optionalAlcoholicsCheck" })
                     <label class="form-check-label">Optional Alcohol Drinks</label>
                 </div>
-                <button type="submit" class="btn btn-outline-primary mr-0 ml-2 mt-0 mb-0 p-2">Search</button>
+                <button type="submit" class="btn btn-outline-primary p-2">Search</button>
                 <a asp-controller="Drinks" asp-action="SearchByAlcoholContent" asp-route-alcoholics="false" asp-route-nonAlcoholics="false" asp-route-optionalAlcoholics="false" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0 p-2" type="button">Clear</a>
             </form>
         </div>
-        <partial name="Partials/DrinkList" model="Model"/>
+        <partial name="Partials/DrinkList" model="Model" />
         <partial name="Partials/Pagination" model="Model" />
     </div>
 </div>

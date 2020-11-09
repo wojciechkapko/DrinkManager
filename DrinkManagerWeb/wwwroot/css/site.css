@@ -86,6 +86,11 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
 }
 
+.card-body.reviews .review:last-child {
+    border: none !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
 
 
 
@@ -133,7 +138,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .wrapper {
-        min-height: auto;
+        min-height: unset;
     }
 
     .navbar-nav {
@@ -182,4 +187,13 @@ a {
 .rating input:checked + label,
 .rating input:checked + label ~ label {
     color: #ffdd67;
+}
+
+
+.card ul {
+    list-style: none;
+}
+
+.bg-dark {
+    background-color: #212529!important;
 }

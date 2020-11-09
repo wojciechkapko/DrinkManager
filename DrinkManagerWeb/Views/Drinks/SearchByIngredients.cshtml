@@ -4,13 +4,13 @@
     ViewBag.Title = "Search by ingredients";
     Layout = "_Layout";
 }
-<div class="row px-4">
+<div class="row">
     <div class="col-12">
         <header class="h2 font-weight-bold">Search by ingredients</header>
         <div>
             <form asp-controller="Drinks" asp-action="SearchByIngredients" method="get">
                 <p>
-                    <div class="h5 font-weight-bold">Enter ingredients to find</div>  
+                    <div class="h5 font-weight-bold">Enter ingredients to find</div>
                     <div class="h6">(Tip 1: you can provide one or more ingredients separated by a space)</div>
                     <div class="h6">(Tip 2: choose if you want to find drinks containing ANY or ALL provided ingredients)</div>
 
