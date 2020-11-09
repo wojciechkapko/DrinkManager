@@ -4,7 +4,9 @@ using BLL.Data.Repositories;
 using BLL.Enums;
 using BLL.Services;
 using DrinkManagerWeb.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,12 +19,23 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
+        private readonly IFavouriteRepository _favouriteRepository;
+        private readonly IReviewRepository _reviewRepository;
+        private readonly UserManager<AppUser> _userManager;
         private readonly int _pageSize = 12;
 
-        public DrinksController(IDrinkRepository drinkRepository, IDrinkSearchService drinkSearchService)
+        public DrinksController(
+            IDrinkRepository drinkRepository,
+            IDrinkSearchService drinkSearchService,
+            IFavouriteRepository favouriteRepository,
+            IReviewRepository reviewRepository,
+            UserManager<AppUser> userManager)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;
+            _favouriteRepository = favouriteRepository;
+            _reviewRepository = reviewRepository;
+            _userManager = userManager;
         }
 
         public IActionResult Index(int? pageNumber)
@@ -45,13 +58,21 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            return View(drink);
+            var model = new DrinkDetailsViewModel
+            {
+                Drink = drink,
+                IsFavourite = _favouriteRepository.IsFavourite(_userManager.GetUserId(User), drink?.DrinkId),
+                CanUserReview = _reviewRepository.CanUserReviewDrink(_userManager.GetUserId(User), drink?.DrinkId)
+            };
+
+            return View(model);
         }
 
+        [Authorize]
         [HttpGet("Drinks/favourites")]
         public IActionResult FavouriteDrinks(int? pageNumber)
         {
-            var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
+            var drinks = _favouriteRepository.GetUserFavouriteDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {
@@ -132,7 +153,9 @@ namespace DrinkManagerWeb.Controllers
                 if (drinkToUpdate == null)
                 {
                     // something went wrong redirect to drinks index
-                    TempData["Alert"] = $"Drink not found";
+                    TempData["Alert"] = "Drink not found";
+                    TempData["AlertClass"] = "alert-danger";
+
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -155,7 +178,7 @@ namespace DrinkManagerWeb.Controllers
                     Ingredients = ingredients,
                     GlassType = data["GlassType"],
                     ImageUrl = imageUrl,
-                    DrinkReview = null,
+                    DrinkReviews = new List<DrinkReview>(),
                     Category = data["Category"],
                     AlcoholicInfo = data["AlcoholicInfo"],
                     Instructions = data["Instructions"],
@@ -168,8 +191,9 @@ namespace DrinkManagerWeb.Controllers
 
             await _drinkRepository.SaveChanges();
 
-            return RedirectToAction(nameof(DrinkDetails), new {id = redirectId});
+            return RedirectToAction(nameof(DrinkDetails), new { id = redirectId });
         }
+
 
         public async Task<IActionResult> Remove(string id)
         {
@@ -184,10 +208,12 @@ namespace DrinkManagerWeb.Controllers
             await _drinkRepository.SaveChanges();
 
             TempData["Alert"] = $"Drink {drink.Name} removed";
+            TempData["AlertClass"] = "alert-success";
 
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public async Task<IActionResult> AddToFavourite(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
@@ -196,14 +222,12 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            drink.IsFavourite = true;
+            _favouriteRepository.AddToFavourites(_userManager.GetUserId(User), drink);
 
-            _drinkRepository.Update(drink);
-            await _drinkRepository.SaveChanges();
-
-            return RedirectToAction("DrinkDetails", new {id});
+            return RedirectToAction("DrinkDetails", new { id });
         }
 
+        [Authorize]
         public async Task<IActionResult> RemoveFromFavourite(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
@@ -212,14 +236,12 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            drink.IsFavourite = false;
+            _favouriteRepository.RemoveFromFavourites(_userManager.GetUserId(User), drink?.DrinkId);
 
-            _drinkRepository.Update(drink);
-            await _drinkRepository.SaveChanges();
-
-            return RedirectToAction("DrinkDetails", new {id});
+            return RedirectToAction("DrinkDetails", new { id });
         }
 
+        [Authorize]
         [HttpGet("drink/addReview")]
         public async Task<IActionResult> AddReview(string? id)
         {
@@ -227,7 +249,6 @@ namespace DrinkManagerWeb.Controllers
 
             var model = new DrinkCreateViewModel
             {
-                DrinkReview = drink?.DrinkReview,
                 Name = drink?.Name,
                 Id = drink?.DrinkId
             };
@@ -245,28 +266,30 @@ namespace DrinkManagerWeb.Controllers
             if (drinkToUpdate == null)
             {
                 TempData["Alert"] = "Drink not found.";
+                TempData["AlertClass"] = "alert-danger";
                 return RedirectToAction(nameof(Index));
             }
 
-            drinkToUpdate.DrinkReview = new DrinkReview
+            drinkToUpdate.DrinkReviews.Add(new DrinkReview
             {
                 ReviewText = data["DrinkReview.ReviewText"],
-                ReviewScore = int.Parse(data["DrinkReview.ReviewScore"])
-            };
-
-            drinkToUpdate.IsReviewed = true;
-            drinkToUpdate.DrinkReview.ReviewDate = DateTime.Now;
+                ReviewScore = int.Parse(data["DrinkReview.ReviewScore"]),
+                Drink = drinkToUpdate,
+                Author = await _userManager.GetUserAsync(User),
+                ReviewDate = DateTime.Now
+            });
 
             _drinkRepository.Update(drinkToUpdate);
             await _drinkRepository.SaveChanges();
 
-            return RedirectToAction(nameof(DrinkDetails), new {id});
+            return RedirectToAction(nameof(DrinkDetails), new { id });
         }
 
+        [Authorize]
         [HttpGet("Drinks/reviews")]
         public IActionResult ReviewedDrinks(int? pageNumber)
         {
-            var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsReviewed);
+            var drinks = _reviewRepository.GetUserReviewedDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {
