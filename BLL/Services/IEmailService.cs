@@ -1,7 +1,9 @@
-﻿namespace BLL.Services
+﻿using System.Threading.Tasks;
+
+namespace BLL.Services
 {
     public interface IEmailService
     {
-        void SendAdminEmail(Email email);
+        Task SendAdminEmail(Email email);
     }
 }

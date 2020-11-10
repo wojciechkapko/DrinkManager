@@ -28,6 +28,7 @@ namespace DrinkManagerWeb
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddHostedService<BackgroundJobScheduler>();
 
         }
 
