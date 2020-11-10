@@ -2,9 +2,11 @@
 using BLL;
 using BLL.Data.Repositories;
 using BLL.Enums;
+using BLL.Services;
 using DrinkManagerWeb.Models.ViewModels;
-using DrinkManagerWeb.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,26 +19,29 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
+        private readonly IFavouriteRepository _favouriteRepository;
+        private readonly IReviewRepository _reviewRepository;
+        private readonly UserManager<AppUser> _userManager;
         private readonly int _pageSize = 12;
 
-        public DrinksController(IDrinkRepository drinkRepository, IDrinkSearchService drinkSearchService)
+        public DrinksController(
+            IDrinkRepository drinkRepository,
+            IDrinkSearchService drinkSearchService,
+            IFavouriteRepository favouriteRepository,
+            IReviewRepository reviewRepository,
+            UserManager<AppUser> userManager)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;
+            _favouriteRepository = favouriteRepository;
+            _reviewRepository = reviewRepository;
+            _userManager = userManager;
         }
 
-        public IActionResult Index(string sortOrder, int? pageNumber)
+        public IActionResult Index(int? pageNumber)
         {
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            var drinks = _drinkRepository.GetAllDrinks().OrderBy(x => x.Name);
 
-            var drinks = _drinkRepository.GetAllDrinks().AsEnumerable();
-
-            drinks = sortOrder switch
-            {
-                "name_desc" => drinks.OrderByDescending(s => s.Name),
-                _ => drinks.OrderBy(s => s.Name),
-            };
             var model = new DrinksViewModel
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
@@ -53,13 +58,21 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            return View(drink);
+            var model = new DrinkDetailsViewModel
+            {
+                Drink = drink,
+                IsFavourite = _favouriteRepository.IsFavourite(_userManager.GetUserId(User), drink?.DrinkId),
+                CanUserReview = _reviewRepository.CanUserReviewDrink(_userManager.GetUserId(User), drink?.DrinkId)
+            };
+
+            return View(model);
         }
 
+        [Authorize]
         [HttpGet("Drinks/favourites")]
-        public IActionResult FavouriteDrinks(string sortOrder, int? pageNumber)
+        public IActionResult FavouriteDrinks(int? pageNumber)
         {
-            var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsFavourite);
+            var drinks = _favouriteRepository.GetUserFavouriteDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {
@@ -140,7 +153,9 @@ namespace DrinkManagerWeb.Controllers
                 if (drinkToUpdate == null)
                 {
                     // something went wrong redirect to drinks index
-                    TempData["Alert"] = $"Drink not found";
+                    TempData["Alert"] = "Drink not found";
+                    TempData["AlertClass"] = "alert-danger";
+
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -163,7 +178,7 @@ namespace DrinkManagerWeb.Controllers
                     Ingredients = ingredients,
                     GlassType = data["GlassType"],
                     ImageUrl = imageUrl,
-                    DrinkReview = null,
+                    DrinkReviews = new List<DrinkReview>(),
                     Category = data["Category"],
                     AlcoholicInfo = data["AlcoholicInfo"],
                     Instructions = data["Instructions"],
@@ -176,8 +191,9 @@ namespace DrinkManagerWeb.Controllers
 
             await _drinkRepository.SaveChanges();
 
-            return RedirectToAction(nameof(DrinkDetails), new {id = redirectId});
+            return RedirectToAction(nameof(DrinkDetails), new { id = redirectId });
         }
+
 
         public async Task<IActionResult> Remove(string id)
         {
@@ -192,10 +208,12 @@ namespace DrinkManagerWeb.Controllers
             await _drinkRepository.SaveChanges();
 
             TempData["Alert"] = $"Drink {drink.Name} removed";
+            TempData["AlertClass"] = "alert-success";
 
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public async Task<IActionResult> AddToFavourite(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
@@ -204,14 +222,12 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            drink.IsFavourite = true;
+            _favouriteRepository.AddToFavourites(_userManager.GetUserId(User), drink);
 
-            _drinkRepository.Update(drink);
-            await _drinkRepository.SaveChanges();
-
-            return RedirectToAction("DrinkDetails", new {id});
+            return RedirectToAction("DrinkDetails", new { id });
         }
 
+        [Authorize]
         public async Task<IActionResult> RemoveFromFavourite(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
@@ -220,14 +236,12 @@ namespace DrinkManagerWeb.Controllers
                 // add error View
             }
 
-            drink.IsFavourite = false;
+            _favouriteRepository.RemoveFromFavourites(_userManager.GetUserId(User), drink?.DrinkId);
 
-            _drinkRepository.Update(drink);
-            await _drinkRepository.SaveChanges();
-
-            return RedirectToAction("DrinkDetails", new {id});
+            return RedirectToAction("DrinkDetails", new { id });
         }
 
+        [Authorize]
         [HttpGet("drink/addReview")]
         public async Task<IActionResult> AddReview(string? id)
         {
@@ -235,7 +249,6 @@ namespace DrinkManagerWeb.Controllers
 
             var model = new DrinkCreateViewModel
             {
-                DrinkReview = drink?.DrinkReview,
                 Name = drink?.Name,
                 Id = drink?.DrinkId
             };
@@ -253,28 +266,30 @@ namespace DrinkManagerWeb.Controllers
             if (drinkToUpdate == null)
             {
                 TempData["Alert"] = "Drink not found.";
+                TempData["AlertClass"] = "alert-danger";
                 return RedirectToAction(nameof(Index));
             }
 
-            drinkToUpdate.DrinkReview = new DrinkReview
+            drinkToUpdate.DrinkReviews.Add(new DrinkReview
             {
                 ReviewText = data["DrinkReview.ReviewText"],
-                ReviewScore = int.Parse(data["DrinkReview.ReviewScore"])
-            };
-
-            drinkToUpdate.IsReviewed = true;
-            drinkToUpdate.DrinkReview.ReviewDate = DateTime.Now;
+                ReviewScore = int.Parse(data["DrinkReview.ReviewScore"]),
+                Drink = drinkToUpdate,
+                Author = await _userManager.GetUserAsync(User),
+                ReviewDate = DateTime.Now
+            });
 
             _drinkRepository.Update(drinkToUpdate);
             await _drinkRepository.SaveChanges();
 
-            return RedirectToAction(nameof(DrinkDetails), new {id});
+            return RedirectToAction(nameof(DrinkDetails), new { id });
         }
 
+        [Authorize]
         [HttpGet("Drinks/reviews")]
-        public IActionResult ReviewedDrinks(string sortOrder, int? pageNumber)
+        public IActionResult ReviewedDrinks(int? pageNumber)
         {
-            var drinks = _drinkRepository.GetAllDrinks().Where(x => x.IsReviewed);
+            var drinks = _reviewRepository.GetUserReviewedDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {
@@ -288,14 +303,14 @@ namespace DrinkManagerWeb.Controllers
             ViewData["Alcoholics"] = alcoholics;
             ViewData["nonAlcoholics"] = nonAlcoholics;
             ViewData["optionalAlcoholics"] = optionalAlcoholics;
-            int pageSize = 12;
-            var drinks = _drinkSearchService.SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics, _drinkRepository.GetAllDrinks().ToList());
+            var drinks = _drinkSearchService
+                .SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics);
 
             //Model saves alcoholic content info passed by controller to save
             //user choices while going through PaginatedList pages
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, pageSize),
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize),
                 Alcoholics = alcoholics,
                 NonAlcoholics = nonAlcoholics,
                 OptionalAlcoholics = optionalAlcoholics
@@ -303,10 +318,9 @@ namespace DrinkManagerWeb.Controllers
             return View(model);
         }
 
-        public IActionResult SearchByName(string searchString, string sortOrder, int? pageNumber)
+        public IActionResult SearchByName(string searchString, int? pageNumber)
         {
             var drinks = _drinkRepository.GetAllDrinks();
-
             if (!string.IsNullOrEmpty(searchString))
             {
                 drinks = _drinkSearchService.SearchByName(searchString);
@@ -314,18 +328,16 @@ namespace DrinkManagerWeb.Controllers
 
             ViewData["SearchString"] = searchString;
             ViewData["SearchType"] = "SearchByName";
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
 
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(_drinkSearchService.SortDrinks(sortOrder, drinks),
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks.AsEnumerable(),
                     pageNumber ?? 1, _pageSize)
             };
             return View(model);
         }
 
-        public IActionResult SearchByIngredients(string searchString, string sortOrder, int? pageNumber,
+        public IActionResult SearchByIngredients(string searchString, int? pageNumber,
             string searchCondition = "any")
         {
             var drinks = _drinkRepository.GetAllDrinks();
@@ -341,12 +353,11 @@ namespace DrinkManagerWeb.Controllers
             ViewData["SearchString"] = searchString;
             ViewData["SearchCondition"] = searchCondition;
             ViewData["SearchType"] = "SearchByIngredients";
-            ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
 
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(_drinkSearchService.SortDrinks(sortOrder, drinks),
+                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks,
                     pageNumber ?? 1, _pageSize)
             };
             return View(model);

@@ -1,7 +1,7 @@
+using BLL;
 using BLL.Data;
 using BLL.Data.Repositories;
 using BLL.Services;
-using DrinkManagerWeb.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,12 +23,41 @@ namespace DrinkManagerWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             services.AddDbContext<DrinkAppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<AppUser>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
+                .AddEntityFrameworkStores<DrinkAppContext>();
+
+            services.AddAuthentication()
+                .AddFacebook(facebookOptions =>
+                    {
+                        facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                        facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                    })
+                .AddGoogle(options =>
+                    {
+                        IConfigurationSection googleAuthNSection =
+                            Configuration.GetSection("Authentication:Google");
+
+                        options.ClientId = googleAuthNSection["ClientId"];
+                        options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    });
+
             services.AddScoped<IDrinkRepository, DrinkRepository>();
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IFavouriteRepository, FavouriteRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddHostedService<BackgroundJobScheduler>();
+
+            services.AddRazorPages();
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
         }
 
@@ -50,6 +79,7 @@ namespace DrinkManagerWeb
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -57,6 +87,7 @@ namespace DrinkManagerWeb
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
             Seeder.SeedData(app.ApplicationServices);
         }
