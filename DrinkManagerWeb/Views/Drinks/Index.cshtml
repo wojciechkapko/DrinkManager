@@ -5,17 +5,9 @@
     Layout = "_Layout";
 }
 
-<div class="row px-4">
+<div class="row">
     <div class="col-12">
-        @if (TempData["Alert"] != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                @TempData["Alert"]
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        }
+        <partial name="_AlertPartial" />
         <header class="d-flex align-items-center">
             <h1>Drink List</h1>
             <div class="buttons ml-auto">

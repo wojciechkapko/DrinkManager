@@ -1,5 +1,5 @@
 ﻿using BLL.Enums;
-using DrinkManagerWeb.Services;
+using BLL.Services;
 using FluentAssertions;
 using System.Collections.Generic;
 using Xunit;
@@ -12,7 +12,7 @@ namespace Tests.SearchTests
 
         public SearchByIngredientsShould(TestWithSqlite fixture)
         {
-            _sut = new DrinkSearchService(fixture.Context);
+            _sut = new DrinkSearchService(fixture.Repository);
         }
 
         [Fact]

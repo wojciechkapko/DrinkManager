@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BLL
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<div class="navbar-nav login mx-3">
+    @if (SignInManager.IsSignedIn(User))
+    {
+
+
+        <div class="accordion" id="user-menu">
+            <div class="card rounded bg-dark text-light mb-3 shadow-lg">
+                <div class="card-header px-0">
+                    <h2 class="mb-0">
+                        <button class="btn d-flex w-100 align-items-center text-light text-nowrap" type="button" data-toggle="collapse" data-target="#user-options" aria-expanded="true" aria-controls="user-options">
+                            <span class="text-truncate">@User.Identity.Name</span><i class="ml-auto fas fa-chevron-down mr-0"></i>
+                        </button>
+
+                    </h2>
+                </div>
+
+                <div id="user-options" class="collapse" aria-labelledby="user-menu" data-parent="#user-menu">
+                    <div class="card-body">
+                        <a class="nav-link rounded p-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                            <i class="mr-3 fas fa-cog"></i><span>Settings</span>
+                        </a>
+                        <form id="logout" class="form-inline d-block" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new {area = ""})">
+                            <a onclick="$('#logout').submit()" href="javascript:void(0)" class="nav-link rounded p-3">
+                                <i class="mr-3 fas fa-sign-out-alt"></i><span>Logout</span>
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card rounded bg-dark text-light mb-3 shadow-lg">
+            <div class="card-body">
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Register"><i class="mr-3 fas fa-user"></i><span>Register</span></a>
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Login"><i class="mr-3 fas fa-sign-in-alt"></i><span></span>Login</a>
+            </div>
+
+        </div>
+    }
+</div>
