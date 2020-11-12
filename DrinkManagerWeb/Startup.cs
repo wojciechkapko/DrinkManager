@@ -101,7 +101,6 @@ namespace DrinkManagerWeb
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
             string[] roleNames = { "Admin", "User" };
-            //IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
             {

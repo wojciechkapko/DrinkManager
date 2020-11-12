@@ -53,12 +53,6 @@
                     <li class="nav-item d-flex align-items-center @(routeValues["Action"] != null && routeValues["Action"].ToString() == "ReviewedDrinks" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="ReviewedDrinks"><i class="fas fa-star"></i><span>Reviewed drinks</span></a>
                     </li>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li class="nav-item d-flex align-items-center @(routeValues["Action"] != null && routeValues["Action"].ToString() == "AdminPanel" ? "active" : "")">
-                            <a class="nav-link rounded p-3" asp-area="" asp-controller="Admin" asp-action="Index"><i class="fas fa-star"></i><span>Admin panel</span></a>
-                        </li>
-                    }
                 </ul>
             </nav>
 
