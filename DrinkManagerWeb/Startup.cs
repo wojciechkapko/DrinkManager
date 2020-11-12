@@ -113,6 +113,25 @@ namespace DrinkManagerWeb
                 }
             }
 
+            //creating a power user who will maintain the app
+            var poweruser = new AppUser()
+            {
+                UserName = Configuration["AppSettings:UserName"],
+                Email = Configuration["AppSettings:UserEmail"],
+            };
+            
+            string userPWD = Configuration["AppSettings:UserPassword"];
+            var _user = await UserManager.FindByEmailAsync(Configuration["AppSettings:AdminUserEmail"]);
+
+            if (_user == null)
+            {
+                var createPowerUser = await UserManager.CreateAsync(poweruser, userPWD);
+                if (createPowerUser.Succeeded)
+                {
+                    //here we tie the new user to the role
+                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                }
+            }
         }
     }
 }
