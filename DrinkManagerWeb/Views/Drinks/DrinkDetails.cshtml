@@ -1,22 +1,22 @@
-﻿@model BLL.Drink
+﻿@model DrinkManagerWeb.Models.ViewModels.DrinkDetailsViewModel
 
 @{
-    ViewBag.Title = Model.Name;
+    ViewBag.Title = Model.Drink.Name;
     Layout = "_Layout";
 }
 
-<div class="row px-4">
+<div class="row">
     <div class="col-12 col-md-4 mb-3 mb-md-0">
-        <img class="w-100 rounded shadow-lg mb-3" src="@Model.ImageUrl" />
+        <img class="w-100 rounded shadow-lg mb-3" src="@Model.Drink.ImageUrl" />
         <div class="card">
             <div class="card-header">
                 <h4>Ingredients</h4>
             </div>
             <div class="card-body">
-                @if (Model.Ingredients != null && Model.Ingredients.Any())
+                @if (Model.Drink.Ingredients != null && Model.Drink.Ingredients.Any())
                 {
                     <ul>
-                        @foreach (var ingredient in Model.Ingredients)
+                        @foreach (var ingredient in Model.Drink.Ingredients)
                         {
                             <li>@ingredient.Name @ingredient.Amount</li>
                         }
@@ -30,65 +30,84 @@
         </div>
     </div>
     <div class="col-12 col-md-8">
+        <partial name="_AlertPartial" />
         <div class="card mb-3">
             <div class="mb-3 card-header">
-                <div class="d-flex">
-                    <h1>@Model.Name</h1>
-                    <div class="buttons d-flex align-items-center ml-auto">
+                <div class="row">
+                    <h1 class="col-12 text-center text-xl-left col-xl-5">@Model.Drink.Name</h1>
+                    <div class="buttons d-flex align-items-center ml-xl-auto col-12 col-xl-7 justify-content-center justify-content-xl-end flex-wrap">
                         @if (Model.IsFavourite)
                         {
-                            <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.DrinkId" class="btn btn-primary mr-3">
+                            <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary mx-2 mb-2 text-nowrap">
                                 <i class="fas fa-heart-broken mr-2"></i>Remove from Favourites
                             </a>
                         }
                         else
                         {
-                            <a asp-controller="Drinks" asp-action="AddToFavourite" asp-route-id="@Model.DrinkId" class="btn btn-outline-primary mr-3">
+                            <a asp-controller="Drinks" asp-action="AddToFavourite" asp-route-id="@Model.Drink.DrinkId" class="btn btn-outline-primary mx-2 mb-2 text-nowrap">
                                 <i class="fas fa-heart mr-2"></i>Add to Favourites
                             </a>
                         }
-                        <a asp-controller="Drinks" asp-action="Edit" asp-route-id="@Model.DrinkId" class="btn btn-primary mr-3">Edit</a>
-                        <a href="javascript:void(0)" class="btn btn-danger" onclick="OpenRemoveModal()">Remove</a>
+                        <a asp-controller="Drinks" asp-action="Edit" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary mx-2 mb-2">Edit</a>
+                        <a href="javascript:void(0)" class="btn btn-danger mx-2 mb-2" onclick="OpenRemoveModal()">Remove</a>
                     </div>
+                    <strong class="text-center text-xl-left col-12">@Model.Drink.Category</strong>
                 </div>
-                <strong>@Model.Category</strong>
             </div>
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-6 d-flex flex-column">
                         <strong>Alcohol content:</strong>
-                        <div>@Model.AlcoholicInfo</div>
+                        <div>@Model.Drink.AlcoholicInfo</div>
                     </div>
                     <div class="col-6 d-flex flex-column">
                         <strong>Glass:</strong>
-                        <div>@Model.GlassType</div>
+                        <div>@Model.Drink.GlassType</div>
                     </div>
                 </div>
-                <p>@Model.Instructions</p>
+                <p>@Model.Drink.Instructions</p>
             </div>
         </div>
         <div class="card">
-            <div class="mb-3 card-header">
+            <div class="mb-3 card-header d-flex">
                 <h4>Review</h4>
+                <div class="buttons ml-auto">
+                    @if (Model.CanUserReview)
+                    {
+                        <a asp-controller="Drinks" asp-action="AddReview" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary">Add Review</a>
+                    }
+                </div>
             </div>
-            <div class="card-body">
-                @if (Model.DrinkReview == null)
+            <div class="card-body reviews">
+                @if (Model.Drink.DrinkReviews.Any())
                 {
-                    <a asp-controller="Drinks" asp-action="AddReview" asp-route-id="@Model.DrinkId" class="btn btn-primary mr-3">Add Review</a>
+                    foreach (var review in Model.Drink.DrinkReviews)
+                    {
+
+                        <div class="review mb-2 pb-2 border-bottom">
+                            <p>@review.Author.UserName</p>
+                            <p>
+                                @for (var i = review.ReviewScore; i > 0; i--)
+                                {
+                                    <span class="fa fa-star checked"></span>
+                                }
+                            </p>
+                            <p>@review.ReviewText</p>
+                            <p>Date of Review: @review.ReviewDate</p>
+                        </div>
+                    }
                 }
                 else
                 {
-            <p>
-                @for (var i = @Model.DrinkReview.ReviewScore; i > 0; i--)
-                {
-                    <span class="fa fa-star checked"></span>
-                }
-            </p>
-                    <p>@Model.DrinkReview.ReviewText</p>
-                    <p>Date of Review: @Model.DrinkReview.ReviewDate</p>
+                    <p>No reviews yet</p>
                 }
             </div>
         </div>
+    </div>
+    <div class="col-12 col-md-4 mb-3 mb-md-0">
+    <div class="pt-2">
+        <partial name="Partials/BackButton"/>
+    </div>
     </div>
 </div>
 
@@ -97,10 +116,10 @@
 {
     <script>
         function OpenRemoveModal() {
-            $("#modal .modal-title").append(`<h2>Remove @Model.Name</h2>`);
-            $("#modal .modal-body").append(`<p class="text-center m-0">Are you sure that you want to remove @Model.Name ?</p>`);
+            $("#modal .modal-title").append(`<h2>Remove @Model.Drink.Name</h2>`);
+            $("#modal .modal-body").append(`<p class="text-center m-0">Are you sure that you want to remove @Model.Drink.Name ?</p>`);
             $("#modal .modal-footer").append(`<a class="btn btn-primary mr-auto" href="javascript:void(0)" onclick="$('#modal').modal('hide')">No</a>`);
-            $("#modal .modal-footer").append(`<a class="btn btn-danger" href="/Drinks/Remove/@Model.DrinkId">Yes</a>`);
+            $("#modal .modal-footer").append(`<a class="btn btn-danger" href="/Drinks/Remove/@Model.Drink.DrinkId">Yes</a>`);
             $('#modal').modal();
 
             $('#modal').off('hidden.bs.modal').on('hidden.bs.modal',

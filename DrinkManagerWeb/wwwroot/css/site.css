@@ -86,6 +86,11 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
 }
 
+.card-body.reviews .review:last-child {
+    border: none !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
 
 @media all and (max-width: 1915px) {
     .sidenav a span {
@@ -130,7 +135,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     .wrapper {
-        min-height: auto;
+        min-height: unset;
     }
 
     .navbar-nav {
@@ -183,4 +188,12 @@ a {
 
 .heart {
     color: #ff0000;
+}
+
+.card ul {
+    list-style: none;
+}
+
+.bg-dark {
+    background-color: #212529!important;
 }
