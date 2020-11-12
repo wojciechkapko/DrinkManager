@@ -98,38 +98,38 @@ namespace DrinkManagerWeb
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
             //initializing custom roles 
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
             string[] roleNames = { "Admin", "User" };
-            IdentityResult roleResult;
+            //IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
             {
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
                 if (!roleExist)
                 {
                     //create the roles and seed them to the database
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
 
             //creating a power user who will maintain the app
-            var poweruser = new AppUser()
+            var powerUser = new AppUser()
             {
                 UserName = Configuration["AppSettings:UserName"],
                 Email = Configuration["AppSettings:UserEmail"],
             };
             
-            string userPWD = Configuration["AppSettings:UserPassword"];
-            var _user = await UserManager.FindByEmailAsync(Configuration["AppSettings:AdminUserEmail"]);
+            string userPassword = Configuration["AppSettings:UserPassword"];
+            var user = await userManager.FindByEmailAsync(Configuration["AppSettings:AdminUserEmail"]);
 
-            if (_user == null)
+            if (user == null)
             {
-                var createPowerUser = await UserManager.CreateAsync(poweruser, userPWD);
+                var createPowerUser = await userManager.CreateAsync(powerUser, userPassword);
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the role
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                    await userManager.AddToRoleAsync(powerUser, "Admin");
                 }
             }
         }
