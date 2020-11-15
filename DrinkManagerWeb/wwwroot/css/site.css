@@ -188,6 +188,10 @@ a {
 
 .heart {
     color: #ff0000;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 5;
 }
 
 .card ul {
