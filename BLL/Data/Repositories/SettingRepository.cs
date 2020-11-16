@@ -1,4 +1,5 @@
 ﻿using BLL.Admin.Models;
+using BLL.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
@@ -15,9 +16,9 @@ namespace BLL.Data.Repositories
             _context = context;
         }
 
-        public Setting GetSettingById(int id)
+        public Setting GetSetting(Settings settings)
         {
-            return _context.Settings.Find(id);
+            return _context.Settings.Find((int)settings);
         }
 
         public Task<Setting> FindSetting(Expression<Func<Setting, bool>> predicate)
