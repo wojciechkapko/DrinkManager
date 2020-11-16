@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using BLL.Admin.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Data
@@ -14,11 +15,12 @@ namespace BLL.Data
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<DrinkReview> Reviews { get; set; }
         public DbSet<UserDrink> UserDrinks { get; set; }
-
+        public DbSet<Setting> Settings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<UserDrink>()
                 .HasKey(cs => new { cs.AppUserId, cs.DrinkId });
 

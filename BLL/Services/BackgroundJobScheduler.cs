@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using BLL.Data.Repositories;
+using BLL.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -11,13 +12,11 @@ namespace BLL.Services
     public class BackgroundJobScheduler : IHostedService, IDisposable
     {
         private readonly IServiceProvider _services;
-        private readonly IConfiguration _configuration;
         private Timer _timer;
 
-        public BackgroundJobScheduler(IServiceProvider services, IConfiguration configuration)
+        public BackgroundJobScheduler(IServiceProvider services)
         {
             _services = services;
-            _configuration = configuration;
         }
 
         public Task StartAsync(CancellationToken stoppingToken)
@@ -35,8 +34,17 @@ namespace BLL.Services
 
         private TimeSpan TimeToStart()
         {
-            return TimeSpan.Parse(_configuration.GetValue<string>("AdminReportEmailTime"), new CultureInfo("en-US")) -
-                DateTime.Now.TimeOfDay + TimeSpan.FromHours(24);
+            using (var scope = _services.CreateScope())
+            {
+                var settingRepository =
+                    scope.ServiceProvider
+                        .GetRequiredService<ISettingRepository>();
+
+                var timeOfStart = settingRepository.GetSettingById((int)Settings.ReportTime).Value;
+
+                return TimeSpan.Parse(timeOfStart, new CultureInfo("en-US")) -
+                    DateTime.Now.TimeOfDay + TimeSpan.FromHours(24);
+            }
         }
 
         private void DoWork(object state)

@@ -53,6 +53,8 @@ namespace DrinkManagerWeb
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IFavouriteRepository, FavouriteRepository>();
+            services.AddScoped<ISettingRepository, SettingRepository>();
+
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddHostedService<BackgroundJobScheduler>();
 
@@ -89,7 +91,6 @@ namespace DrinkManagerWeb
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            Seeder.SeedData(app.ApplicationServices);
         }
     }
 }
