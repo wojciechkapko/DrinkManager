@@ -19,7 +19,7 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
-        private readonly IApiService _apiService;
+        private readonly IReportingModuleService _apiService;
         private readonly IFavouriteRepository _favouriteRepository;
         private readonly IReviewRepository _reviewRepository;
         private readonly UserManager<AppUser> _userManager;
@@ -31,7 +31,7 @@ namespace DrinkManagerWeb.Controllers
             IFavouriteRepository favouriteRepository,
             IReviewRepository reviewRepository,
             UserManager<AppUser> userManager,
-            IApiService apiService)
+            IReportingModuleService apiService)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;

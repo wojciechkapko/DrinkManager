@@ -25,14 +25,14 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly IApiService _reportingApiService;
+        private readonly IReportingModuleService _reportingApiService;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IApiService reportingApiService)
+            IReportingModuleService reportingApiService)
         {
             _userManager = userManager;
             _signInManager = signInManager;

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public interface IReportingService
+    public interface IGetReportDataService
     { 
         Task<string> GetSuccessfulLoginsData(DateTime start, DateTime end);
         Task<string> GetMostFavorableDrinkData(DateTime start, DateTime end);

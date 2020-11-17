@@ -25,7 +25,7 @@ namespace ReportingModule
             services.AddDbContext<ReportingApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddScoped<IActivitiesRepository, ActivitiesRepository>();
-            services.AddScoped<IReportingService, ReportingService>();
+            services.AddScoped<IGetReportDataService, GetReportDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

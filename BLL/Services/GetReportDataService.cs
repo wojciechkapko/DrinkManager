@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class ReportingService : IReportingService
+    public class GetReportDataService : IGetReportDataService
     {
         private readonly IActivitiesRepository _activitiesRepository;
 
-        public ReportingService(IActivitiesRepository activitiesRepository)
+        public GetReportDataService(IActivitiesRepository activitiesRepository)
         {
             _activitiesRepository = activitiesRepository;
         }

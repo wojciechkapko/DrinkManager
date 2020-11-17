@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class ApiService : IApiService
+    public class ReportingModuleService : IReportingModuleService
     {
         private const string CreateActivityAddress = "https://localhost:5115/api/Activity";
         private const string GetReportAddress = "https://localhost:5115/api/Report/get";

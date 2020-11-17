@@ -10,8 +10,8 @@ namespace ReportingModuleApi.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
-        private readonly IReportingService _reportingService;
-        public ReportController(IReportingService reportingService)
+        private readonly IGetReportDataService _reportingService;
+        public ReportController(IGetReportDataService reportingService)
         {
             _reportingService = reportingService;
         }

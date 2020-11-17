@@ -20,12 +20,12 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IApiService _reportingApiService;
+        private readonly IReportingModuleService _reportingApiService;
 
         public LoginModel(SignInManager<AppUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<AppUser> userManager,
-            IApiService reportingApiService)
+            IReportingModuleService reportingApiService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
