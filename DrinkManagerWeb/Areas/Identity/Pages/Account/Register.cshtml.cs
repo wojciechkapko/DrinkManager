@@ -25,14 +25,14 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly IReportingApiService _reportingApiService;
+        private readonly IApiService _reportingApiService;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IReportingApiService reportingApiService)
+            IApiService reportingApiService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -84,7 +84,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     Task.Run(() =>
-                        _reportingApiService.UserDidSomething(PerformedAction.NewUserRegistered, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
+                        _reportingApiService.CreateUserActivity(PerformedAction.NewUserRegistered, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

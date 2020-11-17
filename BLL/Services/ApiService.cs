@@ -1,5 +1,6 @@
 ﻿using BLL.Enums;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -7,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class ReportingApiService : IReportingApiService
+    public class ApiService : IApiService
     {
         private const string CreateActivityAddress = "https://localhost:5115/api/Activity";
-        public async Task UserDidSomething(PerformedAction action, string? username, string? drinkId, string? searchedPhrase, int? score)
+        private const string GetReportAddress = "https://localhost:5115/api/Report/get";
+        public async Task CreateUserActivity(PerformedAction action, string? username, string? drinkId, string? searchedPhrase, int? score)
         {
             using var httpClient = new HttpClient();
             var newUserActivity = new UserActivityDto
@@ -29,11 +31,12 @@ namespace BLL.Services
             }
         }
 
-        //public async Task GetReportData()
-        //{
-        //    var getResponse = await httpClient.GetAsync(apiAddress);
-        //    var getContent = await getResponse.Content.ReadAsStringAsync();
-        //    var parsedResponse = JsonConvert.DeserializeObject<List<UserActivity>>(getContent);
-        //}
+        public async Task GetReportData()
+        {
+            using var httpClient = new HttpClient();
+            var getResponse = await httpClient.GetAsync(GetReportAddress);
+            var getContent = await getResponse.Content.ReadAsStringAsync();
+            var parsedResponse = JsonConvert.DeserializeObject<List<UserActivity>>(getContent);
+        }
     }
 }

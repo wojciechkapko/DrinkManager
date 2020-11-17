@@ -1,4 +1,6 @@
 using BLL;
+using BLL.Enums;
+using BLL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -21,17 +23,20 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly IApiService _reportingApiService;
 
         public ExternalLoginModel(
             SignInManager<AppUser> signInManager,
             UserManager<AppUser> userManager,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IApiService reportingApiService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _emailSender = emailSender;
+            _reportingApiService = reportingApiService;
         }
 
         [BindProperty]
@@ -84,6 +89,8 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                Task.Run(() =>
+                    _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
                 return LocalRedirect(returnUrl);
             }
             if (result.IsLockedOut)

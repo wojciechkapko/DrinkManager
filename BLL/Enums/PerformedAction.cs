@@ -13,6 +13,7 @@
         AddedToFavourite,
         RemovedFromFavourite,
         AddedReview,
-        CheckedDrinkDetails
+        VisitedDrink,
+        ExternalLogin
     }
 }

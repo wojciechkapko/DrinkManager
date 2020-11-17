@@ -20,12 +20,12 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IReportingApiService _reportingApiService;
+        private readonly IApiService _reportingApiService;
 
         public LoginModel(SignInManager<AppUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<AppUser> userManager,
-            IReportingApiService reportingApiService)
+            IApiService reportingApiService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -87,7 +87,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
                     Task.Run(() =>
-                        _reportingApiService.UserDidSomething(PerformedAction.SuccessfulLogin, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
+                        _reportingApiService.CreateUserActivity(PerformedAction.SuccessfulLogin, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

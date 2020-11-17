@@ -51,7 +51,7 @@ namespace DrinkManagerWeb
 
             services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
-            services.AddScoped<IReportingApiService, ReportingApiService>();
+            services.AddScoped<IApiService, ApiService>();
             services.AddScoped<IFavouriteRepository, FavouriteRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
 

@@ -28,17 +28,6 @@ namespace ReportingModuleApi.Controllers
                 Score = model.Score,
                 Created = DateTime.Now
             };
-
-            //var drinksAddedToFavourite = await _activitiesRepository.Get(x =>
-            //    x.Action == PerformedAction.AddedToFavourite && !string.IsNullOrEmpty(x.DrinkId))
-            //    .GroupBy(y);
-            // Id == drinkId
-            //var mostFavorableDrink = list.GroupBy(x => x.Id).Select(x => new
-            //{
-            //    Id = x.Key,
-            //    Count = x.Count()
-            //}).OrderByDescending(x => x.Count).First();
-
             await _activitiesRepository.AddActivity(activity);
             await _activitiesRepository.SaveChanges();
             if (string.IsNullOrEmpty(model.Username))
@@ -47,11 +36,5 @@ namespace ReportingModuleApi.Controllers
             }
             return Ok();
         }
-        //[HttpGet]
-        //public IActionResult GetActivities()
-        //{
-        //    var activities = new List<UserActivity> { new UserActivity { Username = "Tester" } };
-        //    return Ok(activities);
-        //}
     }
 }

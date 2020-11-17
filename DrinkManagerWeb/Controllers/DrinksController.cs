@@ -19,7 +19,7 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
-        private readonly IReportingApiService _reportingApiService;
+        private readonly IApiService _apiService;
         private readonly IFavouriteRepository _favouriteRepository;
         private readonly IReviewRepository _reviewRepository;
         private readonly UserManager<AppUser> _userManager;
@@ -31,19 +31,19 @@ namespace DrinkManagerWeb.Controllers
             IFavouriteRepository favouriteRepository,
             IReviewRepository reviewRepository,
             UserManager<AppUser> userManager,
-            IReportingApiService reportingApiService)
+            IApiService apiService)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;
             _favouriteRepository = favouriteRepository;
             _reviewRepository = reviewRepository;
             _userManager = userManager;
-            _reportingApiService = reportingApiService;
+            _apiService = apiService;
         }
 
         public IActionResult Index(int? pageNumber)
         {
-            Task.Run(() => _reportingApiService.UserDidSomething(PerformedAction.AllDrinks, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
+            Task.Run(() => _apiService.CreateUserActivity(PerformedAction.AllDrinks, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
             var drinks = _drinkRepository.GetAllDrinks().OrderBy(x => x.Name);
             var model = new DrinksViewModel
             {
@@ -56,7 +56,7 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> DrinkDetails(string id)
         {
             Task.Run(() => 
-                _reportingApiService.UserDidSomething(PerformedAction.CheckedDrinkDetails, this.User.Identity.Name, id, searchedPhrase: null, score: null));
+                _apiService.CreateUserActivity(PerformedAction.VisitedDrink, this.User.Identity.Name, id, searchedPhrase: null, score: null));
             var drink = await _drinkRepository.GetDrinkById(id);
             if (drink == null)
             {
@@ -116,7 +116,7 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> Create(IFormCollection data, string? id)
         {
             Task.Run(() => 
-                _reportingApiService.UserDidSomething(PerformedAction.EditOrCreateDrink, this.User.Identity.Name, id, searchedPhrase: null, score: null));
+                _apiService.CreateUserActivity(PerformedAction.EditOrCreateDrink, this.User.Identity.Name, id, searchedPhrase: null, score: null));
             if (!ModelState.IsValid)
             {
                 return View();
@@ -203,7 +203,7 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> Remove(string id)
         {
             Task.Run(() => 
-                _reportingApiService.UserDidSomething(PerformedAction.RemoveDrink, this.User.Identity.Name, id, searchedPhrase: null, score: null));
+                _apiService.CreateUserActivity(PerformedAction.RemoveDrink, this.User.Identity.Name, id, searchedPhrase: null, score: null));
             var drink = await _drinkRepository.GetDrinkById(id);
 
             if (drink == null)
@@ -224,7 +224,7 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> AddToFavourite(string id)
         {
             Task.Run(() =>
-                _reportingApiService.UserDidSomething(PerformedAction.AddedToFavourite, this.User.Identity.Name, id, searchedPhrase: null, score: null));
+                _apiService.CreateUserActivity(PerformedAction.AddedToFavourite, this.User.Identity.Name, id, searchedPhrase: null, score: null));
             var drink = await _drinkRepository.GetDrinkById(id);
             if (drink == null)
             {
@@ -240,7 +240,7 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> RemoveFromFavourite(string id)
         {
             Task.Run(() =>
-                _reportingApiService.UserDidSomething(PerformedAction.RemovedFromFavourite, this.User.Identity.Name, id, searchedPhrase: null, score: null));
+                _apiService.CreateUserActivity(PerformedAction.RemovedFromFavourite, this.User.Identity.Name, id, searchedPhrase: null, score: null));
             var drink = await _drinkRepository.GetDrinkById(id);
             if (drink == null)
             {
@@ -272,7 +272,7 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> AddReview(IFormCollection data, string? id)
         {
             Task.Run(() =>
-                _reportingApiService.UserDidSomething(PerformedAction.AddedReview, this.User.Identity.Name, id, searchedPhrase: null, int.Parse(data["DrinkReview.ReviewScore"])));
+                _apiService.CreateUserActivity(PerformedAction.AddedReview, this.User.Identity.Name, id, searchedPhrase: null, int.Parse(data["DrinkReview.ReviewScore"])));
             var drinkToUpdate = await _drinkRepository.GetDrinkById(id);
 
             if (drinkToUpdate == null)
@@ -335,7 +335,7 @@ namespace DrinkManagerWeb.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 Task.Run(() =>
-                    _reportingApiService.UserDidSomething(PerformedAction.SearchByName, this.User.Identity.Name, drinkId: null, searchString, score: null));
+                    _apiService.CreateUserActivity(PerformedAction.SearchByName, this.User.Identity.Name, drinkId: null, searchString, score: null));
                 drinks = _drinkSearchService.SearchByName(searchString);
             }
 
@@ -358,7 +358,7 @@ namespace DrinkManagerWeb.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 Task.Run(() =>
-                    _reportingApiService.UserDidSomething(PerformedAction.SearchByIngredients, this.User.Identity.Name, drinkId: null, searchString, score: null));
+                    _apiService.CreateUserActivity(PerformedAction.SearchByIngredients, this.User.Identity.Name, drinkId: null, searchString, score: null));
                 var searchDrinkIngredientsCondition =
                     searchCondition.Equals("all") ? SearchDrinkOption.All : SearchDrinkOption.Any;
                 drinks = _drinkSearchService.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')),

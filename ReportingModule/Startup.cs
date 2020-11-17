@@ -1,5 +1,6 @@
 using BLL.Data;
 using BLL.Data.Repositories;
+using BLL.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ namespace ReportingModule
             services.AddDbContext<ReportingApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddScoped<IActivitiesRepository, ActivitiesRepository>();
+            services.AddScoped<IReportingService, ReportingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
