@@ -12,7 +12,20 @@
                 {
                     <i class="fa fa-heart heart"></i>
                 }
-                <a class="page-link" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId"><img class="w-100 rounded shadow-lg" src="@drink.ImageUrl"/>
+                @if (drink.DrinkReviews != null && drink.DrinkReviews.Any())
+                {
+
+                    var averageReview = drink.DrinkReviews.Select(x => x.ReviewScore).Average();
+                    var i = Convert.ToInt32(averageReview);
+                    <div class="d-flex star-container">
+                        @for (; i > 0; i--)
+                        {
+                            <i class="fa fa-star checked"></i>
+                        }
+                    </div>
+                }
+                <a class="page-link" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId">
+                    <img class="w-100 rounded shadow-lg" src="@drink.ImageUrl" />
                 </a>
                 <div class="card-body text-center">
                     <a class="card-title text-dark" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId"><h4>@drink.Name</h4></a>

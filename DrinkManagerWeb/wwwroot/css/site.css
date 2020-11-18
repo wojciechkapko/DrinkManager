@@ -194,6 +194,13 @@ a {
     z-index: 5;
 }
 
+.star-container {
+    position: absolute;
+    left: 20px;
+    top: 320px;
+    z-index: 5;
+}
+
 .card ul {
     list-style: none;
 }
