@@ -2,6 +2,9 @@
 {
     public enum Settings
     {
-        ReportTime = 1
+        ReportTime = 1,
+        ReportInterval,
+        LastReportDate,
+        NextReportDate
     }
 }

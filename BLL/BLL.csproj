@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20201001171844_ChangeIngredientIdKeyGeneration.cs" />
     <Compile Remove="Migrations\20201001171844_ChangeIngredientIdKeyGeneration.Designer.cs" />
+    <Compile Remove="Migrations\20201117164415_addDescriptionPropertyToSettingEntity.cs" />
+    <Compile Remove="Migrations\20201117164415_addDescriptionPropertyToSettingEntity.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

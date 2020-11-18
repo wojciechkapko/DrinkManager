@@ -1,0 +1,69 @@
+﻿@model DrinkManagerWeb.Models.ViewModels.SettingsViewModel
+@{
+    ViewData["Title"] = "Settings";
+
+    var rand = new Random();
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-12">
+        <partial name="_AlertPartial" />
+        <div class="card">
+            <div class="mb-3 card-header">
+                Admin Report options
+            </div>
+            <div class="card-body">
+                <form asp-action="Settings" asp-controller="Home" method="post">
+                    @foreach (var setting in Model.Settings)
+                    {
+
+                        <div class="form-group d-flex align-items-center row">
+                            <div class="col-2">
+                                <label for="@setting.Name" class="mb-0 mr-3">@setting.Name</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="@setting.Name"
+                                       value="@(setting.Value ?? " ")" id="@setting.Name"
+                                       name="@setting.Name"
+                                       @(setting.DisallowManualChange ? "readonly" : "")>
+                            </div>
+                            <div class="col-2">
+
+                            </div>
+                            <div class="col-9 mt-2">
+                                <span>@setting.Description</span>
+                            </div>
+                        </div>
+                    }
+                    <div class="mt-3 border-top">
+                        <input class="btn btn-primary mt-3" type="submit" value="Save" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        $(function () {
+            let element = document.getElementById("report.time");
+            flatpickr(element,
+                {
+                    enableTime: true,
+                    noCalendar: true,
+                    dateFormat: "H:i",
+                    time_24hr: true
+                });
+        });
+    </script>
+
+}

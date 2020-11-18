@@ -56,7 +56,8 @@ namespace DrinkManagerWeb
             services.AddScoped<ISettingRepository, SettingRepository>();
 
             services.AddScoped<IReviewRepository, ReviewRepository>();
-            services.AddHostedService<BackgroundJobScheduler>();
+            services.AddSingleton<BackgroundJobScheduler>();
+            services.AddHostedService(provider => provider.GetService<BackgroundJobScheduler>());
 
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
