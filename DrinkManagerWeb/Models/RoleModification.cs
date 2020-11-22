@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DrinkManagerWeb.Models.ViewModels
+namespace DrinkManagerWeb.Models
 {
     public class RoleModification
     {

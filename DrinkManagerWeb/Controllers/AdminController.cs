@@ -1,6 +1,5 @@
 ﻿using BLL;
 using DrinkManagerWeb.Models;
-using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +14,7 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
-        private IPasswordHasher<AppUser> _passwordHasher;
+        private readonly IPasswordHasher<AppUser> _passwordHasher;
 
         public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IPasswordHasher<AppUser> passwordHasher)
         {
@@ -43,7 +42,7 @@ namespace DrinkManagerWeb.Controllers
             {
                 AppUser appUser = new AppUser
                 {
-                    UserName = user.Name,
+                    UserName = user.UserName,
                     Email = user.Email
                 };
  
@@ -96,7 +95,7 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
             AppUser user = await _userManager.FindByIdAsync(id);
             if (user != null)
