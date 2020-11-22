@@ -1,0 +1,20 @@
+﻿@using BLL
+@model IEnumerable<BLL.AppUser>
+@{
+    ViewBag.Title = "Administration - Users";
+    Layout = "_LayoutAdmin";
+}
+<h2>List of users</h2>
+<hr />
+<a asp-action="CreateUser" class="btn btn-secondary">Create a User</a>
+<table class="table table-sm table-bordered">
+    <tr><th>ID</th><th>Name</th><th>Email</th></tr>
+    @foreach (AppUser user in Model)
+    {
+        <tr>
+            <td>@user.Id</td>
+            <td>@user.UserName</td>
+            <td>@user.Email</td>
+        </tr>
+    }
+</table>

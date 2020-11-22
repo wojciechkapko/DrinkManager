@@ -33,7 +33,7 @@ namespace Identity.TagHelpers
                         names.Add(user.UserName);
                 }
             }
-            output.Content.SetContent(names.Count == 0 ? "No Users" : string.Join(", ", names));
+            output.Content.SetContent(names.Count == 0 ? "No UsersList" : string.Join(", ", names));
         }
     }
 }
