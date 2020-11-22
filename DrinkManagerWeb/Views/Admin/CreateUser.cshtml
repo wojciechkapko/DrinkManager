@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model DrinkManagerWeb.Models.ViewModels.UserViewModel
 @{
     ViewBag.Title = "Administration - Users";
     Layout = "_LayoutAdmin";
@@ -20,6 +20,16 @@
         <label asp-for="Password"></label>
         <input asp-for="Password" class="form-control" />
     </div>
+    
+    <div class="form-group">  
+        <label asp-for="ApplicationRoleId"></label>  
+        <div>  
+            <select asp-for="ApplicationRoleId" asp-items="@Model.ApplicationRoles">  
+                <option>Please select</option>  
+            </select>  
+        </div>  
+    </div>  
+
     <button type="submit" class="btn btn-primary">Create</button>
     <a asp-action="UsersList" class="btn btn-secondary">Back</a>
 </form>

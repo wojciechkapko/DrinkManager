@@ -1,9 +1,11 @@
-﻿using BLL;
+﻿using System;
+using BLL;
 using DrinkManagerWeb.Models;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,69 +33,111 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult UsersList()
         {
-            return View(_userManager.Users);
+            var model = _userManager.Users.Select(u => new UserListViewModel
+            {  
+                Id = u.Id,  
+                Name = u.UserName,  
+                Email = u.Email,
+            }).ToList();
+            return View(model);
         }
 
-        public ViewResult CreateUser() => View();
+        public ViewResult CreateUser()
+        {
+            var model = new UserViewModel
+            {
+                ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem {Text = r.Name, Value = r.Id})
+                    .ToList()
+            };
+            return View("CreateUser", model);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(User user)
+        public async Task<IActionResult> CreateUser(UserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                AppUser appUser = new AppUser
+                AppUser user = new AppUser
                 {
-                    UserName = user.UserName,
-                    Email = user.Email
+                    UserName = model.UserName,
+                    Email = model.Email
                 };
 
-                IdentityResult result = await _userManager.CreateAsync(appUser, user.Password);
+                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
-                    return RedirectToAction("UsersList");
-                else
                 {
-                    foreach (IdentityError error in result.Errors)
-                        ModelState.AddModelError("", error.Description);
+                    IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
+                    if (applicationRole != null)
+                    {
+                        IdentityResult roleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
+                        if (roleResult.Succeeded)
+                        {
+                            return RedirectToAction("UsersList");
+                        }
+                    }
                 }
             }
-            return View(user);
+            return View(model);
         }
 
         public async Task<IActionResult> UpdateUser(string id)
         {
-            AppUser user = await _userManager.FindByIdAsync(id);
-            return View(user);
+            UserViewModel model = new UserViewModel();  
+            model.ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem  
+            {  
+                Text = r.Name,  
+                Value = r.Id  
+            }).ToList();  
+  
+            if (!String.IsNullOrEmpty(id))  
+            {  
+                AppUser user = await _userManager.FindByIdAsync(id);  
+                if (user != null)  
+                {  
+                    model.UserName = user.UserName;  
+                    model.Email = user.Email;  
+                    model.ApplicationRoleId = _roleManager.Roles.Single(r => r.Name == _userManager.GetRolesAsync(user).Result.Single()).Id;  
+                }  
+            }  
+            return View("UpdateUser", model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUser(string id, string email, string password)
-        {
-            AppUser user = await _userManager.FindByIdAsync(id);
-            if (user != null)
-            {
-                if (!string.IsNullOrEmpty(email))
-                    user.Email = email;
-                else
-                    ModelState.AddModelError("", "Email cannot be empty");
-
-                if (!string.IsNullOrEmpty(password))
-                    user.PasswordHash = _passwordHasher.HashPassword(user, password);
-                else
-                    ModelState.AddModelError("", "Password cannot be empty");
-
-                if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
-                {
-                    IdentityResult result = await _userManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                        return RedirectToAction("UsersList");
-                    else
-                        Errors(result);
-                }
-            }
-            else
-                ModelState.AddModelError("", "User Not Found");
-            return View(user);
-        }
+        public async Task<IActionResult> UpdateUser(string id, UserViewModel model)  
+        {  
+            if (ModelState.IsValid)  
+            {  
+                AppUser user = await _userManager.FindByIdAsync(id);  
+                if (user != null)  
+                {  
+                    user.UserName = model.UserName;  
+                    user.Email = model.Email;  
+                    string existingRole = _userManager.GetRolesAsync(user).Result.Single();  
+                    string existingRoleId = _roleManager.Roles.Single(r => r.Name == existingRole).Id;  
+                    IdentityResult result = await _userManager.UpdateAsync(user);  
+                    if (result.Succeeded)  
+                    {  
+                        if (existingRoleId != model.ApplicationRoleId)  
+                        {  
+                            IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);  
+                            if (roleResult.Succeeded)  
+                            {  
+                                IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);  
+                                if (applicationRole != null)  
+                                {  
+                                    IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);  
+                                    if (newRoleResult.Succeeded)  
+                                    {  
+                                        return RedirectToAction("Index");  
+                                    }  
+                                }  
+                            }  
+                        }  
+                    }  
+                }  
+            }  
+            return PartialView("UpdateUser", model);  
+        }   
 
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
@@ -109,22 +153,18 @@ namespace DrinkManagerWeb.Controllers
             }
             else
                 ModelState.AddModelError("", "User Not Found");
-            return View("UsersList", _userManager.Users);
+            return View("UsersList");
         }
 
         public async Task<IActionResult> RolesList()
         {
             var roles = _roleManager.Roles.ToList();
-
-
             var roleUsers = new Dictionary<string, List<string>>();
 
             foreach (var identityRole in roles)
             {
                 var users = await _userManager.GetUsersInRoleAsync(identityRole.Name);
-
                 var usersToReturn = users.Select(u => u.UserName).ToList();
-
                 roleUsers.Add(identityRole.Name, usersToReturn);
             }
 
@@ -133,8 +173,7 @@ namespace DrinkManagerWeb.Controllers
                 Roles = roles,
                 UsersPerRole = roleUsers
             };
-
-
+            
             return View(model);
         }
 
@@ -161,7 +200,7 @@ namespace DrinkManagerWeb.Controllers
             }
             else
                 ModelState.AddModelError("", "No role found");
-            return View("RolesList", _roleManager.Roles);
+            return View("RolesList");
         }
 
         public async Task<IActionResult> UpdateRole(string id)
