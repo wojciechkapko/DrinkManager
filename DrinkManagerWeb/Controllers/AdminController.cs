@@ -1,5 +1,6 @@
 ﻿using BLL;
 using DrinkManagerWeb.Models;
+using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,7 @@ namespace DrinkManagerWeb.Controllers
         }
 
         public ViewResult CreateUser() => View();
- 
+
         [HttpPost]
         public async Task<IActionResult> CreateUser(User user)
         {
@@ -45,7 +46,7 @@ namespace DrinkManagerWeb.Controllers
                     UserName = user.UserName,
                     Email = user.Email
                 };
- 
+
                 IdentityResult result = await _userManager.CreateAsync(appUser, user.Password);
                 if (result.Succeeded)
                     return RedirectToAction("UsersList");
@@ -63,7 +64,7 @@ namespace DrinkManagerWeb.Controllers
             AppUser user = await _userManager.FindByIdAsync(id);
             return View(user);
         }
- 
+
         [HttpPost]
         public async Task<IActionResult> UpdateUser(string id, string email, string password)
         {
@@ -74,12 +75,12 @@ namespace DrinkManagerWeb.Controllers
                     user.Email = email;
                 else
                     ModelState.AddModelError("", "Email cannot be empty");
- 
+
                 if (!string.IsNullOrEmpty(password))
                     user.PasswordHash = _passwordHasher.HashPassword(user, password);
                 else
                     ModelState.AddModelError("", "Password cannot be empty");
- 
+
                 if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
                 {
                     IdentityResult result = await _userManager.UpdateAsync(user);
@@ -111,22 +112,42 @@ namespace DrinkManagerWeb.Controllers
             return View("UsersList", _userManager.Users);
         }
 
-        public IActionResult RolesList()
+        public async Task<IActionResult> RolesList()
         {
-            var roles = _roleManager.Roles.ToList();  
-            return View(roles);
+            var roles = _roleManager.Roles.ToList();
+
+
+            var roleUsers = new Dictionary<string, List<string>>();
+
+            foreach (var identityRole in roles)
+            {
+                var users = await _userManager.GetUsersInRoleAsync(identityRole.Name);
+
+                var usersToReturn = users.Select(u => u.UserName).ToList();
+
+                roleUsers.Add(identityRole.Name, usersToReturn);
+            }
+
+            var model = new RoleViewModel
+            {
+                Roles = roles,
+                UsersPerRole = roleUsers
+            };
+
+
+            return View(model);
         }
 
-        public IActionResult CreateRole()  
-        {  
-            return View(new IdentityRole());  
-        }  
-  
-        [HttpPost]  
-        public async Task<IActionResult> CreateRole(IdentityRole role)  
-        {  
-            await _roleManager.CreateAsync(role);  
-            return RedirectToAction("RolesList");  
+        public IActionResult CreateRole()
+        {
+            return View(new IdentityRole());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRole(IdentityRole role)
+        {
+            await _roleManager.CreateAsync(role);
+            return RedirectToAction("RolesList");
         }
 
         [HttpPost]
@@ -198,7 +219,7 @@ namespace DrinkManagerWeb.Controllers
 
         private void Errors()
         {
-            
+
         }
     }
 }
