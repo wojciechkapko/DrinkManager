@@ -15,6 +15,7 @@ namespace BLL
         
         //Used to generate information which drinks are visited, added to favourites or reviewed the most
         public string? DrinkId { get; set; }
+        public string? DrinkName { get; set; }
         
         //Used to gather information which Ingredient or phrase contained by drink name is searched the most
         public string? SearchedPhrase { get; set; }

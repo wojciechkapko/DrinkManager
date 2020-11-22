@@ -1,6 +1,6 @@
 ﻿using BLL.Enums;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -11,8 +11,9 @@ namespace BLL.Services
     public class ReportingModuleService : IReportingModuleService
     {
         private const string CreateActivityAddress = "https://localhost:5115/api/Activity";
-        private const string GetReportAddress = "https://localhost:5115/api/Report/get";
-        public async Task CreateUserActivity(PerformedAction action, string? username, string? drinkId, string? searchedPhrase, int? score)
+        private const string GetReportAddress = "https://localhost:5115/api/Report/generateReport";
+        public async Task CreateUserActivity(PerformedAction action, string? username = null, string drinkId = null, string drinkName = null,
+            string searchedPhrase = null, int? score = null)
         {
             using var httpClient = new HttpClient();
             var newUserActivity = new UserActivityDto
@@ -20,6 +21,7 @@ namespace BLL.Services
                 Username = username,
                 Action = action,
                 DrinkId = drinkId,
+                DrinkName = drinkName,
                 SearchedPhrase = searchedPhrase,
                 Score = score
             };
@@ -31,12 +33,28 @@ namespace BLL.Services
             }
         }
 
-        public async Task GetReportData()
+        public async Task<Report> GetReportData(DateTime start, DateTime end)
         {
             using var httpClient = new HttpClient();
-            var getResponse = await httpClient.GetAsync(GetReportAddress);
-            var getContent = await getResponse.Content.ReadAsStringAsync();
-            var parsedResponse = JsonConvert.DeserializeObject<List<UserActivity>>(getContent);
+            var response = await httpClient.GetAsync(GetReportAddress);
+            var content = await response.Content.ReadAsStringAsync();
+            var parsedResponse = JsonConvert.DeserializeObject<Report>(content);
+            return parsedResponse;
+        }
+
+        public string ComposeReport(Report report)
+        {
+            var composedReport = 
+                $"Report based on data from {report.StartDate.Date} to {report.EndDate.Date}.\n\n\n" + 
+                $" - {report.SuccessfulLoginsAmount}\n" +
+                $" - {report.MostVisitedDrink}\n" +
+                $" - {report.MostFavouriteDrink}\n" +
+                $" - {report.MostReviewedDrink}\n" +
+                $" - {report.HighestScoreDrink}\n" +
+                $" - {report.LowestScoreDrink}\n" +
+                $" - {report.MostActiveUser}\n\n" +
+                $"Report was composed on {report.Created}";
+            return composedReport;
         }
     }
 }
