@@ -197,7 +197,7 @@ a {
 .star-container {
     position: absolute;
     left: 20px;
-    top: 325px;
+    bottom: 95px;
     z-index: 5;
 }
 
