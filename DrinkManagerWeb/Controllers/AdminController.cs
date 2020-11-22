@@ -94,7 +94,23 @@ namespace DrinkManagerWeb.Controllers
                 ModelState.AddModelError("", "User Not Found");
             return View(user);
         }
- 
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            AppUser user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                IdentityResult result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                    return RedirectToAction("UsersList");
+                else
+                    Errors(result);
+            }
+            else
+                ModelState.AddModelError("", "User Not Found");
+            return View("UsersList", _userManager.Users);
+        }
 
         public IActionResult RolesList()
         {
