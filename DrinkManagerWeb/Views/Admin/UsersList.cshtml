@@ -7,7 +7,8 @@
 <h2>List of users</h2>
 <hr />
 <a asp-action="CreateUser" class="btn btn-secondary">Create User</a>
-<br/><br/>
+<br />
+<br />
 <table class="table table-sm table-bordered">
     <tr><th>UserName</th><th>Email</th><th>Role</th><th></th><th></th></tr>
     @foreach (var user in Model)
@@ -22,7 +23,7 @@
                 </a>
             </td>
             <td>
-                <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
+                <form asp-action="DeleteUser" asp-route-id="@user.Id" method="get">
                     <button type="submit" class="btn btn-sm btn-danger">
                         Delete
                     </button>

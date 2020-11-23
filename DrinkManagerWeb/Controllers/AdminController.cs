@@ -1,15 +1,14 @@
-﻿using System;
-using BLL;
+﻿using BLL;
 using DrinkManagerWeb.Models;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -138,15 +137,21 @@ namespace DrinkManagerWeb.Controllers
                 }  
             }  
             return PartialView("UpdateUser", model);  
-        }   
+        }
 
-        [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {
-            AppUser user = await _userManager.FindByIdAsync(id);
-            if (user != null)
+            AppUser userToDelete = await _userManager.FindByIdAsync(id);
+            return View(userToDelete);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(string id, AppUser user)
+        {
+            AppUser userToDelete = await _userManager.FindByIdAsync(id);
+            if (userToDelete != null)
             {
-                IdentityResult result = await _userManager.DeleteAsync(user);
+                IdentityResult result = await _userManager.DeleteAsync(userToDelete);
                 if (result.Succeeded)
                     return RedirectToAction("UsersList");
                 else
