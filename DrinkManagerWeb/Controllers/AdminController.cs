@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -96,7 +97,7 @@ namespace DrinkManagerWeb.Controllers
                 {  
                     model.UserName = user.UserName;  
                     model.Email = user.Email;  
-                    model.ApplicationRoleId = _roleManager.Roles.Single(r => r.Name == _userManager.GetRolesAsync(user).Result.Single()).Id;  
+                    model.ApplicationRoleId = _roleManager.Roles.SingleOrDefault(r => r.Name == _userManager.GetRolesAsync(user).Result.SingleOrDefault())?.Id;  
                 }  
             }  
             return View("UpdateUser", model);
