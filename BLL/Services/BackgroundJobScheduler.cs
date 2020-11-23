@@ -13,8 +13,6 @@ namespace BLL.Services
     {
         private readonly IServiceProvider _services;
         private Timer _timer;
-        private Timer _timer2;
-
 
         public BackgroundJobScheduler(IServiceProvider services)
         {
@@ -32,17 +30,7 @@ namespace BLL.Services
                 _timer = new Timer(DoWork, null, TimeSpan.Zero, reportInterval);
             }, stoppingToken);
 
-            //_timer = new Timer(DoWork, null, TimeSpan.Zero, reportInterval);
-
-            _timer2 = new Timer(LogInfo, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(5));
-
             return Task.CompletedTask;
-        }
-
-        private void LogInfo(object state)
-        {
-            Console.WriteLine($"Running...");
         }
 
         private TimeSpan TimeToStart()
@@ -56,20 +44,14 @@ namespace BLL.Services
                 var timeOfStart = TimeSpan.Parse(settingRepository.GetSetting(Settings.ReportTime).Value,
                     new CultureInfo("en-US"));
 
-
-
-                var lastReportDate = settingRepository.GetSetting(Settings.LastReportDate)?.Value;
-                var lastReportDateConverted = (lastReportDate == null ? DateTime.Now : DateTime.Parse(lastReportDate));
-
-
                 var interval = int.Parse(settingRepository.GetSetting(Settings.ReportInterval).Value);
 
-                if (lastReportDate == null && timeOfStart > DateTime.Now.TimeOfDay && interval == 1)
+                if (timeOfStart > DateTime.Now.TimeOfDay && interval == 1)
                 {
                     interval--;
                 }
 
-                var nextReportDate = lastReportDateConverted.AddDays(interval);
+                var nextReportDate = DateTime.Now.AddDays(interval);
                 var reportDateTime = new DateTime(
                     nextReportDate.Year,
                     nextReportDate.Month,
@@ -125,10 +107,7 @@ namespace BLL.Services
 
         public Task StopAsync(CancellationToken stoppingToken)
         {
-            Console.WriteLine("Stopping...");
             _timer?.Change(Timeout.Infinite, 0);
-            _timer2?.Change(Timeout.Infinite, 0);
-
 
             return Task.CompletedTask;
         }
