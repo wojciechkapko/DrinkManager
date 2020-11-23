@@ -117,55 +117,126 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add to Favourites" xml:space="preserve">
-    <value>Add to Favourites</value>
+  <data name="AlcoholicDrinks" xml:space="preserve">
+    <value>Alcoholic drinks</value>
   </data>
-  <data name="Alcohol content:" xml:space="preserve">
-    <value>Alcohol content:</value>
+  <data name="AllDrinks" xml:space="preserve">
+    <value>All Drinks</value>
   </data>
-  <data name="All drinks" xml:space="preserve">
-    <value>All drinks</value>
+  <data name="AllIngredients" xml:space="preserve">
+    <value>All ingredients</value>
   </data>
-  <data name="Create New Drink" xml:space="preserve">
-    <value>Create New Drink</value>
+  <data name="AnyIngredient" xml:space="preserve">
+    <value>Any ingredient</value>
   </data>
-  <data name="Drink list" xml:space="preserve">
-    <value>Drink list</value>
+  <data name="ChooseAlcoholicOption" xml:space="preserve">
+    <value>Choose alcoholic option</value>
   </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
   </data>
-  <data name="Favourite drinks" xml:space="preserve">
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="CreateANewAccount" xml:space="preserve">
+    <value>Create a new account.</value>
+  </data>
+  <data name="CreateNewDrink" xml:space="preserve">
+    <value>Create new drink</value>
+  </data>
+  <data name="DrinkList" xml:space="preserve">
+    <value>Drink List</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="EnterADrinkNameToFind" xml:space="preserve">
+    <value>Enter a drink name to find</value>
+  </data>
+  <data name="EnterIngredientsToFind" xml:space="preserve">
+    <value>Enter ingredients to find</value>
+  </data>
+  <data name="FavouriteDrinks" xml:space="preserve">
     <value>Favourite drinks</value>
   </data>
-  <data name="Glass:" xml:space="preserve">
-    <value>Glass:</value>
-  </data>
-  <data name="Go back" xml:space="preserve">
-    <value>Go back</value>
+  <data name="FavouriteDrinksList" xml:space="preserve">
+    <value>Favourite drinks list</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="Ingredients" xml:space="preserve">
-    <value>Ingredients</value>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
   </data>
-  <data name="Remove" xml:space="preserve">
-    <value>Remove</value>
+  <data name="NoFavouriteDrinksYet" xml:space="preserve">
+    <value>No favourite drinks yet.</value>
   </data>
-  <data name="Review" xml:space="preserve">
-    <value>Review</value>
+  <data name="NonAlcoholicDrinks" xml:space="preserve">
+    <value>Non alcoholic drinks</value>
   </data>
-  <data name="Reviewed drinks" xml:space="preserve">
+  <data name="NoReviewedDrinksYet" xml:space="preserve">
+    <value>No reviewed drinks yet.</value>
+  </data>
+  <data name="OptionalAlcoholDrinks" xml:space="preserve">
+    <value>Optional alcohol drinks</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RegisterWithFacebook" xml:space="preserve">
+    <value>Register with Facebook</value>
+  </data>
+  <data name="RegisterWithGoogle" xml:space="preserve">
+    <value>Register with Google</value>
+  </data>
+  <data name="ReviewedDrinks" xml:space="preserve">
     <value>Reviewed drinks</value>
   </data>
-  <data name="Search by alcohol content" xml:space="preserve">
+  <data name="ReviewedDrinksList" xml:space="preserve">
+    <value>Reviewed drinks list</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchByAlcoholContent" xml:space="preserve">
     <value>Search by alcohol content</value>
   </data>
-  <data name="Search by ingredient" xml:space="preserve">
-    <value>Search by ingredient</value>
+  <data name="SearchByIngredients" xml:space="preserve">
+    <value>Search by ingredients</value>
   </data>
-  <data name="Search by name" xml:space="preserve">
+  <data name="SearchByName" xml:space="preserve">
     <value>Search by name</value>
+  </data>
+  <data name="Tip1ToSearchByIngredients" xml:space="preserve">
+    <value>Tip 1: you can provide one or more ingredients separated by a space</value>
+  </data>
+  <data name="Tip2ToSearchByIngredients" xml:space="preserve">
+    <value>Tip 2: choose if you want to find drinks containing ANY or ALL provided ingredients</value>
+  </data>
+  <data name="TipToSearchByName" xml:space="preserve">
+    <value>Tip: you can provide a part of the name you are looking for</value>
+  </data>
+  <data name="UseAnotherServiceToRegister" xml:space="preserve">
+    <value>Use another service to register.</value>
+  </data>
+  <data name="WelcomeInDrinkManagerApp" xml:space="preserve">
+    <value>Welcome in Drink Manager App!</value>
+  </data>
+  <data name="WelcomingText" xml:space="preserve">
+    <value>With this app you can search drinks by their:
+
+name,
+ingredients,
+alcohol content.
+You can also add:
+review to drinks,
+ratings,
+your drink.
+When you find your beloved drink you can add it to your list of favourite drinks!
+
+Enjoy!</value>
   </data>
 </root>

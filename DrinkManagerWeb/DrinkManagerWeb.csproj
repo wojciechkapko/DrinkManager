@@ -26,10 +26,4 @@
   <ItemGroup>
     <Folder Include="wwwroot\assets\" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\HomeTexts.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>HomeTexts.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
 </Project>
