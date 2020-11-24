@@ -4,10 +4,13 @@ using BLL.Data.Repositories;
 using BLL.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using System.Globalization;
 
 namespace DrinkManagerWeb
 {
@@ -23,8 +26,6 @@ namespace DrinkManagerWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             services.AddDbContext<DrinkAppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<AppUser>(options =>
                 {
@@ -55,6 +56,17 @@ namespace DrinkManagerWeb
             services.AddScoped<IReviewRepository, ReviewRepository>();
 
             services.AddRazorPages();
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var culturesSupported = new[]
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("pl"),
+                };
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.SupportedCultures = culturesSupported;
+                options.SupportedUICultures = culturesSupported;
+            });
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
@@ -75,6 +87,8 @@ namespace DrinkManagerWeb
             app.UseStaticFiles();
 
             app.UseRouting();
+            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseAuthentication();
             app.UseAuthorization();
