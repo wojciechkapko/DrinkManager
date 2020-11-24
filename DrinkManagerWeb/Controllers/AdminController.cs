@@ -34,9 +34,9 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult UsersList()
         {
             var model = _userManager.Users.Select(u => new UserListViewModel
-            {  
-                Id = u.Id,  
-                Name = u.UserName,  
+            {
+                Id = u.Id,
+                Name = u.UserName,
                 Email = u.Email,
             }).ToList();
             return View(model);
@@ -46,7 +46,7 @@ namespace DrinkManagerWeb.Controllers
         {
             var model = new UserViewModel
             {
-                ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem {Text = r.Name, Value = r.Id})
+                ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                     .ToList()
             };
             return View("CreateUser", model);
@@ -82,61 +82,61 @@ namespace DrinkManagerWeb.Controllers
 
         public async Task<IActionResult> UpdateUser(string id)
         {
-            UserViewModel model = new UserViewModel();  
-            model.ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem  
-            {  
-                Text = r.Name,  
-                Value = r.Id  
-            }).ToList();  
-  
-            if (!String.IsNullOrEmpty(id))  
-            {  
-                AppUser user = await _userManager.FindByIdAsync(id);  
-                if (user != null)  
-                {  
-                    model.UserName = user.UserName;  
-                    model.Email = user.Email;  
-                    model.ApplicationRoleId = _roleManager.Roles.SingleOrDefault(r => r.Name == _userManager.GetRolesAsync(user).Result.SingleOrDefault())?.Id;  
-                }  
-            }  
+            UserViewModel model = new UserViewModel();
+            model.ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.Id
+            }).ToList();
+
+            if (!String.IsNullOrEmpty(id))
+            {
+                AppUser user = await _userManager.FindByIdAsync(id);
+                if (user != null)
+                {
+                    model.UserName = user.UserName;
+                    model.Email = user.Email;
+                    model.ApplicationRoleId = _roleManager.Roles.SingleOrDefault(r => r.Name == _userManager.GetRolesAsync(user).Result.SingleOrDefault())?.Id;
+                }
+            }
             return View("UpdateUser", model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUser(string id, UserViewModel model)  
-        {  
-            if (ModelState.IsValid)  
-            {  
-                AppUser user = await _userManager.FindByIdAsync(id);  
-                if (user != null)  
-                {  
-                    user.UserName = model.UserName;  
-                    user.Email = model.Email;  
-                    string existingRole = _userManager.GetRolesAsync(user).Result.Single();  
-                    string existingRoleId = _roleManager.Roles.Single(r => r.Name == existingRole).Id;  
-                    IdentityResult result = await _userManager.UpdateAsync(user);  
-                    if (result.Succeeded)  
-                    {  
-                        if (existingRoleId != model.ApplicationRoleId)  
-                        {  
-                            IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);  
-                            if (roleResult.Succeeded)  
-                            {  
-                                IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);  
-                                if (applicationRole != null)  
-                                {  
-                                    IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);  
-                                    if (newRoleResult.Succeeded)  
-                                    {  
-                                        return RedirectToAction("Index");  
-                                    }  
-                                }  
-                            }  
-                        }  
-                    }  
-                }  
-            }  
-            return PartialView("UpdateUser", model);  
+        public async Task<IActionResult> UpdateUser(string id, UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser user = await _userManager.FindByIdAsync(id);
+                if (user != null)
+                {
+                    user.UserName = model.UserName;
+                    user.Email = model.Email;
+                    string existingRole = _userManager.GetRolesAsync(user).Result.SingleOrDefault();
+                    string existingRoleId = _roleManager.Roles.SingleOrDefault(r => r.Name == existingRole)?.Id;
+                    IdentityResult result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        if (existingRoleId != model.ApplicationRoleId)
+                        {
+                            IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);
+                            if (roleResult.Succeeded)
+                            {
+                                IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
+                                if (applicationRole != null)
+                                {
+                                    IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
+                                    if (newRoleResult.Succeeded)
+                                    {
+                                        return RedirectToAction("UsersList");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return PartialView("UpdateUser", model);
         }
 
         public async Task<IActionResult> DeleteUser(string id)
@@ -179,7 +179,7 @@ namespace DrinkManagerWeb.Controllers
                 Roles = roles,
                 UsersPerRole = roleUsers
             };
-            
+
             return View(model);
         }
 
@@ -195,18 +195,18 @@ namespace DrinkManagerWeb.Controllers
             return RedirectToAction("RolesList");
         }
 
-        [HttpPost]
         public async Task<IActionResult> DeleteRole(string id)
         {
-            IdentityRole role = await _roleManager.FindByIdAsync(id);
-            if (role != null)
-            {
-                IdentityResult result = await _roleManager.DeleteAsync(role);
-                return RedirectToAction("RolesList");
-            }
-            else
-                ModelState.AddModelError("", "No role found");
-            return View("RolesList");
+            IdentityRole roleToDelete = await _roleManager.FindByIdAsync(id);
+            return View(roleToDelete);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRole(string id, IdentityRole role)
+        {
+            IdentityRole roleToDelete = await _roleManager.FindByIdAsync(id);
+            await _roleManager.DeleteAsync(roleToDelete);
+            return RedirectToAction("RolesList");
         }
 
         public async Task<IActionResult> UpdateRole(string id)

@@ -1,0 +1,18 @@
+﻿@model IdentityRole
+@{
+    ViewBag.Title = "Administration - Delete Role";
+    Layout = "_LayoutAdmin";
+}
+<h2>Delete role: @Model.Name</h2>
+<hr />
+<form asp-action="DeleteRole" method="post">
+    <div class="panel">
+        <div class="panel-heading">
+            Do you want to delete role: @Model.Name ?
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-info" asp-controller="Admin" asp-action="RolesList">No</a>
+            <button type="submit" class="btn btn-danger">Yes</button>
+        </div>
+    </div>
+</form>
