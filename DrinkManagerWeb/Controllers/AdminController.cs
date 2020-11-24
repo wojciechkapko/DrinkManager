@@ -31,7 +31,7 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult Users()
         {
-            var users = _userManager.Users.ToList();
+            var users = _userManager.Users.OrderBy(user => user.UserName).ToList();
             var usersAndRoles = new Dictionary<string, List<string>>();
 
             foreach (var user in users)
@@ -181,7 +181,7 @@ namespace DrinkManagerWeb.Controllers
 
         public async Task<IActionResult> Roles()
         {
-            var roles = _roleManager.Roles.ToList();
+            var roles = _roleManager.Roles.OrderBy(role => role.Name).ToList();
             var roleUsers = new Dictionary<string, List<string>>();
 
             foreach (var identityRole in roles)
