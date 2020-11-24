@@ -31,7 +31,7 @@ namespace DrinkManagerWeb.Controllers
             return View();
         }
 
-        public async Task<IActionResult> UsersList()
+        public IActionResult UsersList()
         {
             var users = _userManager.Users.ToList();
             var usersAndRoles = new Dictionary<string, List<string>>();
@@ -122,18 +122,33 @@ namespace DrinkManagerWeb.Controllers
                     IdentityResult result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
-                        if (existingRoleId != model.ApplicationRoleId)
+                        if (existingRoleId == null)
                         {
-                            IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);
-                            if (roleResult.Succeeded)
+                            IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
+                            if (applicationRole != null)
                             {
-                                IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
-                                if (applicationRole != null)
+                                IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
+                                if (newRoleResult.Succeeded)
                                 {
-                                    IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
-                                    if (newRoleResult.Succeeded)
+                                    return RedirectToAction("UsersList");
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (existingRoleId != model.ApplicationRoleId)
+                            {
+                                IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);
+                                if (roleResult.Succeeded)
+                                {
+                                    IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
+                                    if (applicationRole != null)
                                     {
-                                        return RedirectToAction("UsersList");
+                                        IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
+                                        if (newRoleResult.Succeeded)
+                                        {
+                                            return RedirectToAction("UsersList");
+                                        }
                                     }
                                 }
                             }
@@ -141,7 +156,7 @@ namespace DrinkManagerWeb.Controllers
                     }
                 }
             }
-            return PartialView("UpdateUser", model);
+            return RedirectToAction("UsersList");
         }
 
         public async Task<IActionResult> DeleteUser(string id)
