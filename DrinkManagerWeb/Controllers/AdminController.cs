@@ -31,14 +31,19 @@ namespace DrinkManagerWeb.Controllers
             return View();
         }
 
-        public IActionResult UsersList()
+        public async Task<IActionResult> UsersList()
         {
-            var model = _userManager.Users.Select(u => new UserListViewModel
+            var users = _userManager.Users.ToList();
+            var usersAndRoles = new Dictionary<string, List<string>>();
+
+            foreach (var user in users)
             {
-                Id = u.Id,
-                Name = u.UserName,
-                Email = u.Email,
-            }).ToList();
+                var roles = _userManager.GetRolesAsync(user).Result.ToList();
+                usersAndRoles.Add(user.UserName, roles);
+            }
+
+            var model = new UserListViewModel {RolesPerUser = usersAndRoles, Users = users};
+
             return View(model);
         }
 
@@ -262,9 +267,9 @@ namespace DrinkManagerWeb.Controllers
                 ModelState.AddModelError("", error.Description);
         }
 
-        private void Errors()
+        public IActionResult Errors()
         {
-
+            return View();
         }
     }
 }
