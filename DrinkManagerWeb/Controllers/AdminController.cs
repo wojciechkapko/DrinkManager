@@ -17,13 +17,11 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
-        private readonly IPasswordHasher<AppUser> _passwordHasher;
 
-        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IPasswordHasher<AppUser> passwordHasher)
+        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
-            _passwordHasher = passwordHasher;
         }
 
         public IActionResult Index()
@@ -31,7 +29,7 @@ namespace DrinkManagerWeb.Controllers
             return View();
         }
 
-        public IActionResult UsersList()
+        public IActionResult Users()
         {
             var users = _userManager.Users.ToList();
             var usersAndRoles = new Dictionary<string, List<string>>();
@@ -77,7 +75,7 @@ namespace DrinkManagerWeb.Controllers
                         IdentityResult roleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
                         if (roleResult.Succeeded)
                         {
-                            return RedirectToAction("UsersList");
+                            return RedirectToAction("Users");
                         }
                     }
                 }
@@ -87,12 +85,11 @@ namespace DrinkManagerWeb.Controllers
 
         public async Task<IActionResult> UpdateUser(string id)
         {
-            UserViewModel model = new UserViewModel();
-            model.ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem
+            UserViewModel model = new UserViewModel
             {
-                Text = r.Name,
-                Value = r.Id
-            }).ToList();
+                ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem {Text = r.Name, Value = r.Id})
+                    .ToList()
+            };
 
             if (!String.IsNullOrEmpty(id))
             {
@@ -130,7 +127,7 @@ namespace DrinkManagerWeb.Controllers
                                 IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
                                 if (newRoleResult.Succeeded)
                                 {
-                                    return RedirectToAction("UsersList");
+                                    return RedirectToAction("Users");
                                 }
                             }
                         }
@@ -147,7 +144,7 @@ namespace DrinkManagerWeb.Controllers
                                         IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
                                         if (newRoleResult.Succeeded)
                                         {
-                                            return RedirectToAction("UsersList");
+                                            return RedirectToAction("Users");
                                         }
                                     }
                                 }
@@ -156,7 +153,7 @@ namespace DrinkManagerWeb.Controllers
                     }
                 }
             }
-            return RedirectToAction("UsersList");
+            return RedirectToAction("Users");
         }
 
         public async Task<IActionResult> DeleteUser(string id)
@@ -173,16 +170,16 @@ namespace DrinkManagerWeb.Controllers
             {
                 IdentityResult result = await _userManager.DeleteAsync(userToDelete);
                 if (result.Succeeded)
-                    return RedirectToAction("UsersList");
+                    return RedirectToAction("Users");
                 else
                     Errors(result);
             }
             else
                 ModelState.AddModelError("", "User Not Found");
-            return View("UsersList");
+            return View("Users");
         }
 
-        public async Task<IActionResult> RolesList()
+        public async Task<IActionResult> Roles()
         {
             var roles = _roleManager.Roles.ToList();
             var roleUsers = new Dictionary<string, List<string>>();
@@ -212,7 +209,7 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> CreateRole(IdentityRole role)
         {
             await _roleManager.CreateAsync(role);
-            return RedirectToAction("RolesList");
+            return RedirectToAction("Roles");
         }
 
         public async Task<IActionResult> DeleteRole(string id)
@@ -226,7 +223,7 @@ namespace DrinkManagerWeb.Controllers
         {
             IdentityRole roleToDelete = await _roleManager.FindByIdAsync(id);
             await _roleManager.DeleteAsync(roleToDelete);
-            return RedirectToAction("RolesList");
+            return RedirectToAction("Roles");
         }
 
         public async Task<IActionResult> UpdateRole(string id)
@@ -271,7 +268,7 @@ namespace DrinkManagerWeb.Controllers
                 }
             }
             if (ModelState.IsValid)
-                return RedirectToAction(nameof(RolesList));
+                return RedirectToAction(nameof(Roles));
             else
                 return await UpdateRole(model.RoleId);
         }

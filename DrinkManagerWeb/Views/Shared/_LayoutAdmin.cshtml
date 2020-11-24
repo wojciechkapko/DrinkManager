@@ -35,11 +35,11 @@
                     <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "Index" && routeValues["controller"].ToString() == "Admin" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Admin" asp-action="Index"><i class="fas fa-desktop"></i><span>Admin home</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "UsersList" && routeValues["controller"].ToString() == "Admin" ? "active" : "")">
-                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Admin" asp-action="UsersList"><i class="fas fa-users"></i><span>Users</span></a>
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "Users" && routeValues["controller"].ToString() == "Admin" ? "active" : "")">
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Admin" asp-action="Users"><i class="fas fa-users"></i><span>Users</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "RolesList" ? "active" : "")">
-                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Admin" asp-action="RolesList"><i class="fas fa-user-tag"></i><span>Roles</span></a>
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "Roles" ? "active" : "")">
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Admin" asp-action="Roles"><i class="fas fa-user-tag"></i><span>Roles</span></a>
                     </li>
                 </ul>
             </nav>
