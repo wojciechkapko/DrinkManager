@@ -1,11 +1,29 @@
-﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+﻿@using BLL.Data.Repositories
+@using System.Security.Claims
+@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+@inject IFavouriteRepository _favourite
 
 <div class="row">
     @foreach (var drink in Model.Drinks.OrderBy(x => x.Name))
     {
         <div class="col-lg-3 col-md-6 col-sm-12 mb-3">
             <div class="card">
-                <a class="page-link" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId"><img class="w-100 rounded shadow-lg" src="@drink.ImageUrl" /></a>
+                @if (_favourite.IsFavourite(User.FindFirstValue(ClaimTypes.NameIdentifier), drink.DrinkId))
+                {
+                    <i class="fa fa-heart heart"></i>
+                }
+                @if (drink.DrinkReviews.Any())
+                {
+                    <div class="d-flex star-container">
+                        @for (var i = drink.AverageReview; i > 0; i--)
+                        {
+                            <i class="fa fa-star checked"></i>
+                        }
+                    </div>
+                }
+                <a class="page-link" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId">
+                    <img class="w-100 rounded shadow-lg" src="@drink.ImageUrl" />
+                </a>
                 <div class="card-body text-center">
                     <a class="card-title text-dark" asp-action="DrinkDetails" asp-route-id="@drink.DrinkId"><h4>@drink.Name</h4></a>
                 </div>
