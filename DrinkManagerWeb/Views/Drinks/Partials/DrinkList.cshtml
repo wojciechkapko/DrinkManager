@@ -12,13 +12,10 @@
                 {
                     <i class="fa fa-heart heart"></i>
                 }
-                @if (drink.DrinkReviews != null && drink.DrinkReviews.Any())
+                @if (drink.DrinkReviews.Any())
                 {
-
-                    var averageReview = drink.DrinkReviews.Select(x => x.ReviewScore).Average();
-                    var i = Convert.ToInt32(averageReview);
                     <div class="d-flex star-container">
-                        @for (; i > 0; i--)
+                        @for (var i = drink.AverageReview; i > 0; i--)
                         {
                             <i class="fa fa-star checked"></i>
                         }
