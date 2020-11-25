@@ -1,5 +1,4 @@
 ﻿using BLL;
-using System.Collections.Generic;
 
 namespace DrinkManagerWeb.Models.ViewModels
 {
