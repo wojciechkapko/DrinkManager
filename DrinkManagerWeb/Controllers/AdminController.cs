@@ -19,13 +19,15 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IPasswordHasher<AppUser> _passwordHasher;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor)
+        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, IPasswordHasher<AppUser> passwordHasher)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<IActionResult> Index()
@@ -103,7 +105,7 @@ namespace DrinkManagerWeb.Controllers
                     .ToList()
             };
 
-            if (!String.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(id))
             {
                 AppUser user = await _userManager.FindByIdAsync(id);
                 if (user != null)
@@ -117,50 +119,61 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUser(string id, UserViewModel model)
+        public async Task<IActionResult> UpdateUser(UserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                AppUser user = await _userManager.FindByIdAsync(id);
+                AppUser user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
-                    user.UserName = model.UserName;
-                    user.Email = model.Email;
-                    string existingRole = _userManager.GetRolesAsync(user).Result.SingleOrDefault();
-                    string existingRoleId = _roleManager.Roles.SingleOrDefault(r => r.Name == existingRole)?.Id;
-                    IdentityResult result = await _userManager.UpdateAsync(user);
-                    if (result.Succeeded)
+                    if (!string.IsNullOrEmpty(model.Email))
                     {
-                        if (existingRoleId == null)
+                        user.Email = model.Email;
+                        user.UserName = model.Email;
+                    }
+                    if (!string.IsNullOrEmpty(model.Password))
+                    {
+                        user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
+                    }
+                    if (!string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.Password))
+                    {
+                        IdentityResult result = await _userManager.UpdateAsync(user);
+                        if (result.Succeeded)
                         {
-                            IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
-                            if (applicationRole != null)
+                            string existingRole = _userManager.GetRolesAsync(user).Result.SingleOrDefault();
+                            string existingRoleId = _roleManager.Roles.SingleOrDefault(r => r.Name == existingRole)?.Id;
+                            if (existingRoleId == null)
                             {
-                                IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
-                                if (newRoleResult.Succeeded)
+                                IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
+                                if (applicationRole != null)
                                 {
-                                    return RedirectToAction("Users");
+                                    IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
+                                    if (newRoleResult.Succeeded)
+                                    {
+                                        return RedirectToAction("Users");
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            if (existingRoleId != model.ApplicationRoleId)
+                            else
                             {
-                                IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);
-                                if (roleResult.Succeeded)
+                                if (existingRoleId != model.ApplicationRoleId)
                                 {
-                                    IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
-                                    if (applicationRole != null)
+                                    IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);
+                                    if (roleResult.Succeeded)
                                     {
-                                        IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
-                                        if (newRoleResult.Succeeded)
+                                        IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
+                                        if (applicationRole != null)
                                         {
-                                            return RedirectToAction("Users");
+                                            IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
+                                            if (newRoleResult.Succeeded)
+                                            {
+                                                return RedirectToAction("Users");
+                                            }
                                         }
                                     }
                                 }
                             }
+                            return RedirectToAction("Users");
                         }
                     }
                 }
