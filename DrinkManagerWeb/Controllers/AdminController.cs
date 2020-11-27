@@ -2,12 +2,14 @@
 using DrinkManagerWeb.Models;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
@@ -17,16 +19,26 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
+        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _userManager.FindByIdAsync(userId);
+
+            return View(new AdminIndexViewModel
+            {
+                DateToday = DateTime.Today.ToShortDateString(),
+                DayOfWeekToday = DateTime.Today.DayOfWeek.ToString(),
+                UserName = user.Email
+            });
         }
 
         public IActionResult Users()
@@ -40,7 +52,7 @@ namespace DrinkManagerWeb.Controllers
                 usersAndRoles.Add(user.UserName, roles);
             }
 
-            var model = new UserListViewModel {RolesPerUser = usersAndRoles, Users = users};
+            var model = new UserListViewModel { RolesPerUser = usersAndRoles, Users = users };
 
             return View(model);
         }
@@ -87,7 +99,7 @@ namespace DrinkManagerWeb.Controllers
         {
             UserViewModel model = new UserViewModel
             {
-                ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem {Text = r.Name, Value = r.Id})
+                ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                     .ToList()
             };
 
