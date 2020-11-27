@@ -8,8 +8,8 @@
 <a asp-action="CreateRole" class="btn btn-secondary">Create Role</a>
 <br />
 <br />
-<table class="table table-sm table-bordered table-bordered">
-    <tr><th>Role name</th><th>Users in role</th><th></th></tr>
+<table class="table table-sm table-bordered table-hover table-striped">
+    <tr class="thead-light"><th>Role name</th><th>Users in role</th><th></th></tr>
     @foreach (var role in Model.Roles)
     {
         <tr>
