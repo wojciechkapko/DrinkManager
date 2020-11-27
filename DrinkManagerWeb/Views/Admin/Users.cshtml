@@ -9,11 +9,10 @@
 <br />
 <br />
 <table class="table table-sm table-bordered table-hover table-striped">
-    <tr class="thead-light"><th>UserName</th><th>Email</th><th>Role</th><th></th><th></th></tr>
+    <tr class="thead-light"><th>Email</th><th>Role</th><th></th><th></th></tr>
     @foreach (var user in Model.Users)
     {
         <tr>
-            <td>@user.UserName</td>
             <td>@user.Email</td>
             <td>
                 @foreach (var role in Model.RolesPerUser[@user.UserName])

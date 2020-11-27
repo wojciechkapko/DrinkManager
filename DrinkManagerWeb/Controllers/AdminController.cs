@@ -76,8 +76,8 @@ namespace DrinkManagerWeb.Controllers
             {
                 AppUser user = new AppUser
                 {
-                    UserName = model.UserName,
-                    Email = model.Email
+                    Email = model.Email,
+                    UserName = model.Email
                 };
 
                 IdentityResult result = await _userManager.CreateAsync(user, model.Password);
@@ -110,7 +110,6 @@ namespace DrinkManagerWeb.Controllers
                 AppUser user = await _userManager.FindByIdAsync(id);
                 if (user != null)
                 {
-                    model.UserName = user.UserName;
                     model.Email = user.Email;
                     model.ApplicationRoleId = _roleManager.Roles.SingleOrDefault(r => r.Name == _userManager.GetRolesAsync(user).Result.SingleOrDefault())?.Id;
                 }
