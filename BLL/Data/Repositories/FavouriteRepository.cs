@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BLL.Data.Repositories
@@ -31,7 +32,7 @@ namespace BLL.Data.Repositories
 
         public IEnumerable<Drink> GetUserFavouriteDrinks(string userId)
         {
-            return _context.UserDrinks.Where(x => x.AppUserId == userId).Select(x => x.Drink).AsEnumerable();
+            return _context.UserDrinks.Include(x => x.Drink).ThenInclude(x => x.DrinkReviews).Where(x => x.AppUserId == userId).Select(x => x.Drink).AsEnumerable();
         }
 
         public bool IsFavourite(string userId, string drinkId)
