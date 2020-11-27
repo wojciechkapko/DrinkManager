@@ -8,32 +8,42 @@
 <hr />
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="UpdateUser" method="post">
-    <div class="form-group">
-        <label asp-for="Id"></label>
-        <input asp-for="Id" class="form-control" disabled />
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" asp-for="Id"></label>
+        <div class="col-md-9">
+            <input asp-for="Id" class="form-control" disabled />
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="UserName"></label>
-        <input asp-for="UserName" class="form-control" />
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" asp-for="UserName"></label>
+        <div class="col-md-9">
+            <input asp-for="UserName" class="form-control" />
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" asp-for="Email"></label>
+        <div class="col-md-9">
+            <input asp-for="Email" class="form-control" />
+        </div>
     </div>
-    <div class="form-group">
-        <label for="Password">Password</label>
-        <input name="Password" class="form-control" />
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" for="Password">Password</label>
+        <div class="col-md-9">
+            <input name="Password" class="form-control" />
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="ApplicationRoleId"></label>
-        <div>
-            <select asp-for="ApplicationRoleId" asp-items="@Model.ApplicationRoles">
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" asp-for="ApplicationRoleId"></label>
+        <div class="col-md-9">
+            <select class="form-control" asp-for="ApplicationRoleId" asp-items="@Model.ApplicationRoles">
                 <option>Please select</option>
             </select>
         </div>
     </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Users" class="btn btn-secondary">Back</a>
+    <div class="form-group row">
+        <div class="offset-md-2 col-auto">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Users" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
 </form>
