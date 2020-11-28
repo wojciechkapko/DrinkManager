@@ -125,7 +125,7 @@ namespace DrinkManagerWeb
                 //creating a power user who will maintain the app
                 var powerUser = new AppUser()
                 {
-                    UserName = "Admin",
+                    UserName = Configuration["AppSettings:AdminUserEmail"],
                     Email = Configuration["AppSettings:AdminUserEmail"],
                 };
 
