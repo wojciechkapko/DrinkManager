@@ -20,7 +20,7 @@ namespace BLL.Services
         public async Task SendAdminEmail(Email email)
         {
             Console.WriteLine("Sending email");
-            var adminEmail = MailboxAddress.Parse(_configuration.GetValue<string>("AdministratorEmail"));
+            var adminEmail = MailboxAddress.Parse(_configuration.GetValue<string>("AppSettings:AdminUserEmail"));
 
             using var smtp = new SmtpClient();
             await smtp.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);

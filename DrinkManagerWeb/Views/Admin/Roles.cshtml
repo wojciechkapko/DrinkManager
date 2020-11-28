@@ -1,0 +1,32 @@
+﻿@model DrinkManagerWeb.Models.ViewModels.RoleViewModel
+@{
+    ViewBag.Title = "Administration - Roles";
+    Layout = "_LayoutAdmin";
+}
+<h2>Roles</h2>
+<hr />
+<a asp-action="CreateRole" class="btn btn-secondary">Create Role</a>
+<br />
+<br />
+<table class="table table-sm table-bordered table-hover table-striped">
+    <tr class="thead-light"><th>Role name</th><th>Users in role</th><th></th></tr>
+    @foreach (var role in Model.Roles)
+    {
+        <tr>
+            <td>@role.Name</td>
+            <td>
+                @foreach (var user in Model.UsersPerRole[@role.Name])
+                {
+                    <span>@user</span>
+                }
+            </td>
+            <td>
+                <form asp-action="DeleteRole" asp-route-id="@role.Id" method="get">
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

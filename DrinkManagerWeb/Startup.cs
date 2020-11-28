@@ -4,10 +4,13 @@ using BLL.Data.Repositories;
 using BLL.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Threading.Tasks;
 
 namespace DrinkManagerWeb
 {
@@ -32,6 +35,7 @@ namespace DrinkManagerWeb
                     options.Password.RequireUppercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DrinkAppContext>();
 
             services.AddAuthentication()
@@ -61,11 +65,11 @@ namespace DrinkManagerWeb
 
             services.AddRazorPages();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -92,6 +96,48 @@ namespace DrinkManagerWeb
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            CreateRoles(serviceProvider).Wait();
+        }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+            var user = await userManager.FindByEmailAsync(Configuration["AppSettings:AdminUserEmail"]);
+            if (user == null)
+            {
+
+                //initializing custom roles 
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                string[] roleNames = { "Admin", "User" };
+
+                foreach (var roleName in roleNames)
+                {
+                    var roleExist = await roleManager.RoleExistsAsync(roleName);
+                    if (!roleExist)
+                    {
+                        //create the roles and seed them to the database
+                        await roleManager.CreateAsync(new IdentityRole(roleName));
+                    }
+                }
+
+                //creating a power user who will maintain the app
+                var powerUser = new AppUser()
+                {
+                    UserName = "Admin",
+                    Email = Configuration["AppSettings:AdminUserEmail"],
+                };
+
+                string userPassword = Configuration["AppSettings:UserPassword"];
+
+                var createPowerUser = await userManager.CreateAsync(powerUser, userPassword);
+                if (createPowerUser.Succeeded)
+                {
+                    //here we tie the new user to the role
+                    await userManager.AddToRoleAsync(powerUser, "Admin");
+                }
+            }
         }
     }
 }

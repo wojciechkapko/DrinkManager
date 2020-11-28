@@ -21,7 +21,6 @@ namespace BLL.Services
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
-            Console.WriteLine("Starting...");
             var timeToStart = TimeToStart();
             var reportInterval = ReportInterval();
 
