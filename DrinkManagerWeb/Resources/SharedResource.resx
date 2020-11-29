@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="alcohol content" xml:space="preserve">
+    <value>alcohol content</value>
+  </data>
   <data name="AlcoholicDrinks" xml:space="preserve">
     <value>Alcoholic drinks</value>
   </data>
@@ -139,7 +142,7 @@
     <value>Confirm password</value>
   </data>
   <data name="CreateANewAccount" xml:space="preserve">
-    <value>Create a new account.</value>
+    <value>Create a new account</value>
   </data>
   <data name="CreateNewDrink" xml:space="preserve">
     <value>Create new drink</value>
@@ -165,23 +168,32 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="ingredients" xml:space="preserve">
+    <value>ingredients</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="name" xml:space="preserve">
+    <value>name</value>
+  </data>
   <data name="NoFavouriteDrinksYet" xml:space="preserve">
-    <value>No favourite drinks yet.</value>
+    <value>No favourite drinks yet</value>
   </data>
   <data name="NonAlcoholicDrinks" xml:space="preserve">
     <value>Non alcoholic drinks</value>
   </data>
   <data name="NoReviewedDrinksYet" xml:space="preserve">
-    <value>No reviewed drinks yet.</value>
+    <value>No reviewed drinks yet</value>
   </data>
   <data name="OptionalAlcoholDrinks" xml:space="preserve">
     <value>Optional alcohol drinks</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="ratings" xml:space="preserve">
+    <value>ratings</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
@@ -197,6 +209,9 @@
   </data>
   <data name="ReviewedDrinksList" xml:space="preserve">
     <value>Reviewed drinks list</value>
+  </data>
+  <data name="reviewToDrinks" xml:space="preserve">
+    <value>review to drinks</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
@@ -220,23 +235,21 @@
     <value>Tip: you can provide a part of the name you are looking for</value>
   </data>
   <data name="UseAnotherServiceToRegister" xml:space="preserve">
-    <value>Use another service to register.</value>
+    <value>Use another service to register</value>
   </data>
   <data name="WelcomeInDrinkManagerApp" xml:space="preserve">
-    <value>Welcome in Drink Manager App!</value>
+    <value>Welcome in Drink Manager App</value>
   </data>
-  <data name="WelcomingText" xml:space="preserve">
-    <value>With this app you can search drinks by their:
-
-name,
-ingredients,
-alcohol content.
-You can also add:
-review to drinks,
-ratings,
-your drink.
-When you find your beloved drink you can add it to your list of favourite drinks!
-
-Enjoy!</value>
+  <data name="WhenYouFindYourBelovedDrink" xml:space="preserve">
+    <value>When you find your beloved drink you can add it to your list of favourite drinks</value>
+  </data>
+  <data name="WithThisAppYouCanSearchDrinksByTheir" xml:space="preserve">
+    <value>With this app you can search drinks by their</value>
+  </data>
+  <data name="YouCanAlsoAdd" xml:space="preserve">
+    <value>You can also add</value>
+  </data>
+  <data name="yourDrink" xml:space="preserve">
+    <value>your drink</value>
   </data>
 </root>

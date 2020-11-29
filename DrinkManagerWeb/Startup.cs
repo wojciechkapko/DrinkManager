@@ -67,6 +67,7 @@ namespace DrinkManagerWeb
                 options.SupportedCultures = culturesSupported;
                 options.SupportedUICultures = culturesSupported;
             });
+            services.AddLocalization(options => options.ResourcesPath = "");
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
