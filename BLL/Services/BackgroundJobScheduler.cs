@@ -45,12 +45,26 @@ namespace BLL.Services
 
                 var interval = int.Parse(settingRepository.GetSetting(Settings.ReportInterval).Value);
 
-                if (timeOfStart > DateTime.Now.TimeOfDay && interval == 1)
+                DateTime nextReportDate = DateTime.Now;
+                if (settingRepository.GetSetting(Settings.IntervalType).Value.Equals("Days"))
                 {
-                    interval--;
+                    if (timeOfStart > DateTime.Now.TimeOfDay && interval == 1)
+                    {
+                        interval--;
+                    }
+                    nextReportDate = nextReportDate.AddDays(interval);
+                }
+                else
+                {
+                    if (timeOfStart < DateTime.Now.TimeOfDay)
+                    {
+                        nextReportDate = nextReportDate.AddDays(1);
+                    }
+                    nextReportDate = nextReportDate.AddHours(interval);
                 }
 
-                var nextReportDate = DateTime.Now.AddDays(interval);
+
+
                 var reportDateTime = new DateTime(
                     nextReportDate.Year,
                     nextReportDate.Month,
@@ -76,8 +90,14 @@ namespace BLL.Services
                     scope.ServiceProvider
                         .GetRequiredService<ISettingRepository>();
 
-
-                return TimeSpan.FromDays(double.Parse(settingRepository.GetSetting(Settings.ReportInterval).Value));
+                if (settingRepository.GetSetting(Settings.IntervalType).Value.Equals("Days"))
+                {
+                    return TimeSpan.FromDays(double.Parse(settingRepository.GetSetting(Settings.ReportInterval).Value));
+                }
+                else
+                {
+                    return TimeSpan.FromHours(double.Parse(settingRepository.GetSetting(Settings.ReportInterval).Value));
+                }
             }
         }
 

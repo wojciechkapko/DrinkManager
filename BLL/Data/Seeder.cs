@@ -1,4 +1,5 @@
 ﻿using BLL.Admin.Models;
+using BLL.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -48,9 +49,17 @@ namespace BLL.Data
                     },
                     new Setting
                     {
+                        Name = "report.interval.type",
+                        Value = IntervalTypes.Days.ToString(),
+                        Description = "Interval type: days or hours.",
+                        FrontEndElementType = "select",
+                        AvailableOptions = "Days,Hours"
+                    },
+                    new Setting
+                    {
                         Name = "report.interval",
                         Value = "1",
-                        Description = "How often to send the report (in days)."
+                        Description = "How often to send the report."
                     },
                     new Setting
                     {
