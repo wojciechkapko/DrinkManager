@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace DrinkManagerWeb
 {
@@ -90,10 +89,9 @@ namespace DrinkManagerWeb
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseRequestLocalization();
+            app.UseRequestLocalizationCookies();
             app.UseRouting();
-            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
-            app.UseRequestLocalization(localizationOptions);
 
             app.UseAuthentication();
             app.UseAuthorization();

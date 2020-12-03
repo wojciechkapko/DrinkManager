@@ -2,6 +2,9 @@
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using DrinkManagerWeb.Areas.Identity.Pages.Account.Manage
+@using DrinkManagerWeb.Resources
+@inject IStringLocalizer<SharedResource> L
+
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -16,7 +19,7 @@
         <div class="col-12 col-md-6">
             <div class="text-left p-4 m-5" style="line-height: 1.75">
                 <p>
-                    With this app you can search drinks by their:
+                    @L["WithThisAppYouCanSearchDrinksByTheir"]
                     <ul>
                         <li>name,</li>
                         <li>ingredients,</li>
