@@ -2,6 +2,8 @@ using BLL;
 using BLL.Data;
 using BLL.Data.Repositories;
 using BLL.Services;
+using DrinkManagerWeb.Extensions;
+using DrinkManagerWeb.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -10,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using System.Globalization;
 
 namespace DrinkManagerWeb
 {
@@ -35,6 +36,19 @@ namespace DrinkManagerWeb
                 })
                 .AddEntityFrameworkStores<DrinkAppContext>();
 
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SetDefaultCulture("en");
+                options.AddSupportedCultures("en","pl");
+                options.FallBackToParentUICultures = true;
+
+                options
+                    .RequestCultureProviders
+                    .Remove(typeof(AcceptLanguageHeaderRequestCultureProvider));
+            });
+
             services.AddAuthentication()
                 .AddFacebook(facebookOptions =>
                     {
@@ -54,21 +68,11 @@ namespace DrinkManagerWeb
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
             services.AddScoped<IFavouriteRepository, FavouriteRepository>();
             services.AddScoped<IReviewRepository, ReviewRepository>();
-
-            services.AddRazorPages();
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                var culturesSupported = new[]
-                {
-                    new CultureInfo("en"),
-                    new CultureInfo("pl"),
-                };
-                options.DefaultRequestCulture = new RequestCulture("en");
-                options.SupportedCultures = culturesSupported;
-                options.SupportedUICultures = culturesSupported;
-            });
-            services.AddLocalization(options => options.ResourcesPath = "");
+            services
+                .AddRazorPages()
+                .AddViewLocalization();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddScoped<RequestLocalizationCookiesMiddleware>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

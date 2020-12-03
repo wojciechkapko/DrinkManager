@@ -2,15 +2,17 @@
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
-namespace DrinkManagerWeb.Models.ViewModels
+namespace DrinkManagerWeb.ViewComponents
 {
-    public class SwitchCultureComponents : ViewComponent
+    public class CulturePicker : ViewComponent
     {
         private readonly IOptions<RequestLocalizationOptions> _localizationOptions;
 
-        public SwitchCultureComponents(IOptions<RequestLocalizationOptions> localizationOptions)
+        public CulturePicker(IOptions<RequestLocalizationOptions> localizationOptions)
         {
             _localizationOptions = localizationOptions;
         }
@@ -18,7 +20,7 @@ namespace DrinkManagerWeb.Models.ViewModels
         public IViewComponentResult Invoke()
         {
             var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
-            var model = new SwitchCulture
+            var model = new CulturePickerModel
             {
                 SupportedCultures = _localizationOptions.Value.SupportedCultures.ToList(),
                 CurrentUiCulture = cultureFeature.RequestCulture.UICulture
@@ -26,5 +28,11 @@ namespace DrinkManagerWeb.Models.ViewModels
 
             return View(model);
         }
+    }
+
+    public class CulturePickerModel
+    {
+        public CultureInfo CurrentUiCulture { get; set; }
+        public List<CultureInfo> SupportedCultures { get; set; }
     }
 }
