@@ -35,12 +35,12 @@ namespace DrinkManagerWeb
                 })
                 .AddEntityFrameworkStores<DrinkAppContext>();
 
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
-
+            //services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddLocalization();
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.SetDefaultCulture("en");
-                options.AddSupportedCultures("en","pl");
+                options.SetDefaultCulture("en-GB");
+                options.AddSupportedCultures("en-GB","pl-PL");
                 options.FallBackToParentUICultures = true;
 
                 options
