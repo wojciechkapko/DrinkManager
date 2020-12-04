@@ -1,4 +1,7 @@
-﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+﻿@using DrinkManagerWeb.Resources
+@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+@inject IStringLocalizer<SharedResource> L
+
 @{
     var prevDisabled = !Model.Drinks.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.Drinks.HasNextPage ? "disabled" : "";
@@ -22,7 +25,7 @@
                 <a asp-route-sortOrder="@ViewData["CurrentSort"]"
                    asp-route-alcoholics="@ViewData["Alcoholics"]"
                    asp-route-nonAlcoholics="@ViewData["nonAlcoholics"]"
-                   asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]" 
+                   asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]"
                    asp-route-pageNumber="@(i+1)"
                    asp-route-searchString="@ViewData["SearchString"]"
                    asp-route-searchCondition="@ViewData["SearchCondition"]"
@@ -35,7 +38,7 @@
             <a asp-route-sortOrder="@ViewData["CurrentSort"]"
                asp-route-alcoholics="@ViewData["Alcoholics"]"
                asp-route-nonAlcoholics="@ViewData["nonAlcoholics"]"
-               asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]" 
+               asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]"
                asp-route-pageNumber="@(Model.Drinks.PageIndex + 1)"
                asp-route-searchString="@ViewData["SearchString"]"
                asp-route-searchCondition="@ViewData["SearchCondition"]"

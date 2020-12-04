@@ -1,4 +1,6 @@
-﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+﻿@using DrinkManagerWeb.Resources
+@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+@inject IStringLocalizer<SharedResource> L
 
 @{
     ViewBag.Title = "Drinks";
@@ -14,7 +16,7 @@
 
                 <a asp-action="Create" class="btn btn-primary">
                     <i class="fas fa-plus mr-2"></i>
-                    Create New Drink
+                    @L["CreateNewDrink_02"]
                 </a>
             </div>
         </header>

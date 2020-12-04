@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddIngredient" xml:space="preserve">
+    <value>Add ingredient</value>
+  </data>
+  <data name="AddReview" xml:space="preserve">
+    <value>Add review</value>
+  </data>
+  <data name="AddToFavourites" xml:space="preserve">
+    <value>Add to favourites</value>
+  </data>
   <data name="alcohol content" xml:space="preserve">
     <value>alcohol content</value>
+  </data>
+  <data name="AlcoholContent" xml:space="preserve">
+    <value>Alcohol content</value>
+  </data>
+  <data name="alcoholic" xml:space="preserve">
+    <value>alcoholic</value>
   </data>
   <data name="AlcoholicDrinks" xml:space="preserve">
     <value>Alcoholic drinks</value>
@@ -129,8 +144,14 @@
   <data name="AllIngredients" xml:space="preserve">
     <value>All ingredients</value>
   </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
   <data name="AnyIngredient" xml:space="preserve">
     <value>Any ingredient</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
   </data>
   <data name="ChooseAlcoholicOption" xml:space="preserve">
     <value>Choose alcoholic option</value>
@@ -144,11 +165,23 @@
   <data name="CreateANewAccount" xml:space="preserve">
     <value>Create a new account</value>
   </data>
-  <data name="CreateNewDrink" xml:space="preserve">
+  <data name="CreateNewDrink_01" xml:space="preserve">
     <value>Create new drink</value>
+  </data>
+  <data name="CreateNewDrink_02" xml:space="preserve">
+    <value>Create new drink</value>
+  </data>
+  <data name="DateOfReview" xml:space="preserve">
+    <value>Date of review</value>
   </data>
   <data name="DrinkList" xml:space="preserve">
     <value>Drink List</value>
+  </data>
+  <data name="DrinkScore" xml:space="preserve">
+    <value>Drink score</value>
+  </data>
+  <data name="Editing" xml:space="preserve">
+    <value>Editing</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>E-mail</value>
@@ -165,26 +198,56 @@
   <data name="FavouriteDrinksList" xml:space="preserve">
     <value>Favourite drinks list</value>
   </data>
+  <data name="Glass" xml:space="preserve">
+    <value>Glass</value>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Go back</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="ingredients" xml:space="preserve">
+  <data name="ImageURL" xml:space="preserve">
+    <value>Image URL</value>
+  </data>
+  <data name="Ingredients_01" xml:space="preserve">
+    <value>Ingredients</value>
+  </data>
+  <data name="Ingredients_02" xml:space="preserve">
     <value>ingredients</value>
+  </data>
+  <data name="Instructions" xml:space="preserve">
+    <value>Instructions</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
-  <data name="name" xml:space="preserve">
+  <data name="name_01" xml:space="preserve">
     <value>name</value>
+  </data>
+  <data name="Name_02" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="NoFavouriteDrinksYet" xml:space="preserve">
     <value>No favourite drinks yet</value>
+  </data>
+  <data name="NoIngredients" xml:space="preserve">
+    <value>No ingredients</value>
+  </data>
+  <data name="nonAlcoholic" xml:space="preserve">
+    <value>non alcoholic</value>
   </data>
   <data name="NonAlcoholicDrinks" xml:space="preserve">
     <value>Non alcoholic drinks</value>
   </data>
   <data name="NoReviewedDrinksYet" xml:space="preserve">
     <value>No reviewed drinks yet</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>No reviews yet</value>
+  </data>
+  <data name="optionalAlcohol" xml:space="preserve">
+    <value>optional alcohol</value>
   </data>
   <data name="OptionalAlcoholDrinks" xml:space="preserve">
     <value>Optional alcohol drinks</value>
@@ -204,14 +267,29 @@
   <data name="RegisterWithGoogle" xml:space="preserve">
     <value>Register with Google</value>
   </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="RemoveFromFavourites" xml:space="preserve">
+    <value>Remove from favourites</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Review</value>
+  </data>
   <data name="ReviewedDrinks" xml:space="preserve">
     <value>Reviewed drinks</value>
   </data>
   <data name="ReviewedDrinksList" xml:space="preserve">
     <value>Reviewed drinks list</value>
   </data>
+  <data name="ReviewOf" xml:space="preserve">
+    <value>Review of</value>
+  </data>
   <data name="reviewToDrinks" xml:space="preserve">
     <value>review to drinks</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>

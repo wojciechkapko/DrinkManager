@@ -1,4 +1,7 @@
-﻿@model DrinkManagerWeb.Models.ViewModels.DrinkDetailsViewModel
+﻿@using DrinkManagerWeb.Resources
+@model DrinkManagerWeb.Models.ViewModels.DrinkDetailsViewModel
+@inject IStringLocalizer<SharedResource> L
+
 
 @{
     ViewBag.Title = Model.Drink.Name;
@@ -10,7 +13,7 @@
         <img class="w-100 rounded shadow-lg mb-3" src="@Model.Drink.ImageUrl" />
         <div class="card">
             <div class="card-header">
-                <h4>Ingredients</h4>
+                <h4>@L["Ingredients_01"]</h4>
             </div>
             <div class="card-body">
                 @if (Model.Drink.Ingredients != null && Model.Drink.Ingredients.Any())
@@ -24,7 +27,7 @@
                 }
                 else
                 {
-                    <p>No ingredients</p>
+                    <p>@L["NoIngredients"]</p>
                 }
             </div>
         </div>
@@ -39,17 +42,17 @@
                         @if (Model.IsFavourite)
                         {
                             <a asp-controller="Drinks" asp-action="RemoveFromFavourite" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary mx-2 mb-2 text-nowrap">
-                                <i class="fas fa-heart-broken mr-2"></i>Remove from Favourites
+                                <i class="fas fa-heart-broken mr-2"></i>@L["RemoveFromFavourites"]
                             </a>
                         }
                         else
                         {
                             <a asp-controller="Drinks" asp-action="AddToFavourite" asp-route-id="@Model.Drink.DrinkId" class="btn btn-outline-primary mx-2 mb-2 text-nowrap">
-                                <i class="fas fa-heart mr-2"></i>Add to Favourites
+                                <i class="fas fa-heart mr-2"></i>@L["AddToFavourites"]
                             </a>
                         }
                         <a asp-controller="Drinks" asp-action="Edit" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary mx-2 mb-2">Edit</a>
-                        <a href="javascript:void(0)" class="btn btn-danger mx-2 mb-2" onclick="OpenRemoveModal()">Remove</a>
+                        <a href="javascript:void(0)" class="btn btn-danger mx-2 mb-2" onclick="OpenRemoveModal()">@L["Remove"]</a>
                     </div>
                     <strong class="text-center text-xl-left col-12">@Model.Drink.Category</strong>
                 </div>
@@ -57,11 +60,11 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-6 d-flex flex-column">
-                        <strong>Alcohol content:</strong>
+                        <strong>@L["AlcoholContent"]:</strong>
                         <div>@Model.Drink.AlcoholicInfo</div>
                     </div>
                     <div class="col-6 d-flex flex-column">
-                        <strong>Glass:</strong>
+                        <strong>@L["Glass"]:</strong>
                         <div>@Model.Drink.GlassType</div>
                     </div>
                 </div>
@@ -70,11 +73,11 @@
         </div>
         <div class="card">
             <div class="mb-3 card-header d-flex">
-                <h4>Review</h4>
+                <h4>@L["Review"]</h4>
                 <div class="buttons ml-auto">
                     @if (Model.CanUserReview)
                     {
-                        <a asp-controller="Drinks" asp-action="AddReview" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary">Add Review</a>
+                    <a asp-controller="Drinks" asp-action="AddReview" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary">@L["AddReview"]</a>
                     }
                 </div>
             </div>
@@ -93,21 +96,21 @@
                                 }
                             </p>
                             <p>@review.ReviewText</p>
-                            <p>Date of Review: @review.ReviewDate</p>
+                            <p>@L["DateOfReview"]: @review.ReviewDate</p>
                         </div>
                     }
                 }
                 else
                 {
-                    <p>No reviews yet</p>
+                    <p>@L["NoReviewsYet"].</p>
                 }
             </div>
         </div>
     </div>
     <div class="col-12 col-md-4 mb-3 mb-md-0">
-    <div class="pt-2">
-        <partial name="Partials/BackButton"/>
-    </div>
+        <div class="pt-2">
+            <partial name="Partials/BackButton" />
+        </div>
     </div>
 </div>
 

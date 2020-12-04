@@ -35,7 +35,6 @@ namespace DrinkManagerWeb
                 })
                 .AddEntityFrameworkStores<DrinkAppContext>();
 
-            //services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddLocalization();
             services.Configure<RequestLocalizationOptions>(options =>
             {

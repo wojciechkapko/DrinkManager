@@ -1,4 +1,6 @@
-﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+﻿@using DrinkManagerWeb.Resources
+@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+@inject IStringLocalizer<SharedResource> L
 
 @{
     ViewBag.Title = "Search by ingredients";
@@ -6,29 +8,29 @@
 }
 <div class="row">
     <div class="col-12">
-        <header class="h2 font-weight-bold">Search by ingredients</header>
+        <header class="h2 font-weight-bold">@L["SearchByIngredients"]</header>
         <div>
             <form asp-controller="Drinks" asp-action="SearchByIngredients" method="get">
                 <p>
-                    <div class="h5 font-weight-bold">Enter ingredients to find</div>
-                    <div class="h6">(Tip 1: you can provide one or more ingredients separated by a space)</div>
-                    <div class="h6">(Tip 2: choose if you want to find drinks containing ANY or ALL provided ingredients)</div>
+                    <div class="h5 font-weight-bold">@L["EnterADrinkNameToFind"]</div>
+                    <div class="h6">(@L["Tip1ToSearchByIngredients"])</div>
+                    <div class="h6">(@L["Tip2ToSearchByIngredients"])</div>
 
                     <input type="text" name="SearchString" value="@ViewData["SearchString"]">
 
                     @if (ViewData["SearchCondition"].Equals("any"))
                     {
                         <input type="radio" id="any" name="searchCondition" value="any" checked="checked" />
-                        <label for="any">Any ingredient</label>
+                        <label for="any">@L["AnyIngredient"]</label>
                         <input type="radio" id="all" name="searchCondition" value="all" />
-                        <label for="all">All ingredients</label>
+                        <label for="all">@L["AllIngredients"]</label>
                     }
                     else
                     {
                         <input type="radio" id="any" name="searchCondition" value="any" />
-                        <label for="any">Any ingredient</label>
+                        <label for="any">@L["AnyIngredient"]</label>
                         <input type="radio" id="all" name="searchCondition" value="all" checked="checked" />
-                        <label for="all">All ingredients</label>
+                        <label for="all">@L["AllIngredients"]</label>
                     }
                     <button type="submit" class="btn btn-outline-primary mr-0 ml-2 mt-0 mb-0">Search</button>
                     <a asp-controller="Drinks" asp-action="SearchByIngredients" asp-route-searchString="" asp-route-searchCondition="any" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0" type="button">Clear</a>
