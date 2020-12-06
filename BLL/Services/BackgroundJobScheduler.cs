@@ -60,7 +60,6 @@ namespace BLL.Services
                     {
                         nextReportDate = nextReportDate.AddDays(1);
                     }
-                    nextReportDate = nextReportDate.AddHours(interval);
                 }
 
 
