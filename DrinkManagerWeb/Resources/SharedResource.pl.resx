@@ -219,6 +219,9 @@
   <data name="Instructions" xml:space="preserve">
     <value>Instrukcja</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Język</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Zaloguj</value>
   </data>

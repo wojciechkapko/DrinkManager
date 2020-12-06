@@ -1,7 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using BLL
+@using DrinkManagerWeb.Resources
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
+@inject IStringLocalizer<SharedResource> L
 
 <div class="navbar-nav login mx-3">
     @if (SignInManager.IsSignedIn(User))
@@ -38,8 +40,8 @@
     {
         <div class="card rounded bg-dark text-light mb-3 shadow-lg">
             <div class="card-body">
-                <a class="nav-link" asp-area="Identity" asp-page="/Account/Register"><i class="mr-3 fas fa-user"></i><span>Register</span></a>
-                <a class="nav-link" asp-area="Identity" asp-page="/Account/Login"><i class="mr-3 fas fa-sign-in-alt"></i><span></span>Login</a>
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Register"><i class="mr-3 fas fa-user"></i><span>@L["Register"]</span></a>
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Login"><i class="mr-3 fas fa-sign-in-alt"></i><span></span>@L["Login"]</a>
             </div>
 
         </div>

@@ -61,12 +61,15 @@
                         @(routeValues["Action"] != null && routeValues["Action"].ToString() == "FavouriteDrinks" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="FavouriteDrinks"><i class="fas fa-heart"></i><span>@L["FavouriteDrinks"]</span></a>
                     </li>
-                    <li class="nav-item d-flex align-items-center
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3
                         @(routeValues["Action"] != null && routeValues["Action"].ToString() == "ReviewedDrinks" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Drinks" asp-action="ReviewedDrinks"><i class="fas fa-star"></i><span>@L["ReviewedDrinks"]</span></a>
                     </li>
+                    <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3">
+                        <a class="rounded p-3"> <i class="fas fa-globe-europe"></i><span>@L["Language"]:</span></a>
+                        <vc:culture-picker />
+                    </li>
                 </ul>
-                <vc:culture-picker />
             </nav>
 
             <main class="col pt-5 px-4">
