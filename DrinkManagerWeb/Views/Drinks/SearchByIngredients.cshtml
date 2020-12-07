@@ -12,7 +12,7 @@
         <div>
             <form asp-controller="Drinks" asp-action="SearchByIngredients" method="get">
                 <p>
-                    <div class="h5 font-weight-bold">@L["EnterADrinkNameToFind"]</div>
+                    <div class="h5 font-weight-bold">@L["EnterADrinkNameToFind"]:</div>
                     <div class="h6">(@L["Tip1ToSearchByIngredients"])</div>
                     <div class="h6">(@L["Tip2ToSearchByIngredients"])</div>
 
@@ -32,8 +32,8 @@
                         <input type="radio" id="all" name="searchCondition" value="all" checked="checked" />
                         <label for="all">@L["AllIngredients"]</label>
                     }
-                    <button type="submit" class="btn btn-outline-primary mr-0 ml-2 mt-0 mb-0">Search</button>
-                    <a asp-controller="Drinks" asp-action="SearchByIngredients" asp-route-searchString="" asp-route-searchCondition="any" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0" type="button">Clear</a>
+                    <button type="submit" class="btn btn-outline-primary mr-0 ml-2 mt-0 mb-0">@L["Search"]</button>
+                    <a asp-controller="Drinks" asp-action="SearchByIngredients" asp-route-searchString="" asp-route-searchCondition="any" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0" type="button">@L["Clear"]</a>
                 </p>
             </form>
         </div>

@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-12">
-        <h1>@L["ReviewOf"] @Model.Name</h1>
+        <h1>@L["ReviewOf"]: @Model.Name</h1>
         <hr />
         <form asp-antiforgery="true" asp-action="AddReview" asp-controller="Drinks" asp-route-id="@(Model.Id)" method="post">
             <div class="row">

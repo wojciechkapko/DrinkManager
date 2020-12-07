@@ -15,7 +15,7 @@
         @*Checkboxes returns user choice of alcohol content to controller.
             @*Checkboxes returns user choice of alcohol content to controller.
             They are automatically checked when user comes to this view from another view*@
-    <div class="h5 font-weight-bold">@L["ChooseAlcoholicOption"]</div>
+    <div class="h5 font-weight-bold">@L["ChooseAlcoholicOption"]:</div>
         <div class="p-2">
             <form asp-route-pageNumber="1" method="post" class="mb-3">
 
@@ -31,8 +31,8 @@
                     @Html.CheckBoxFor(item => item.OptionalAlcoholics, new { @class = "form-check-input", @id = "optionalAlcoholicsCheck" })
                     <label class="form-check-label">@L["OptionalAlcoholDrinks"]</label>
                 </div>
-                <button type="submit" class="btn btn-outline-primary p-2">Search</button>
-                <a asp-controller="Drinks" asp-action="SearchByAlcoholContent" asp-route-alcoholics="false" asp-route-nonAlcoholics="false" asp-route-optionalAlcoholics="false" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0 p-2" type="button">Clear</a>
+                <button type="submit" class="btn btn-outline-primary p-2">@L["Search"]</button>
+                <a asp-controller="Drinks" asp-action="SearchByAlcoholContent" asp-route-alcoholics="false" asp-route-nonAlcoholics="false" asp-route-optionalAlcoholics="false" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0 p-2" type="button">@L["Clear"]</a>
             </form>
         </div>
         <partial name="Partials/DrinkList" model="Model" />

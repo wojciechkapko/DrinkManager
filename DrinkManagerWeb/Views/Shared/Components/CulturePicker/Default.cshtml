@@ -6,7 +6,7 @@
             <label class="sr-only" for="culture-picker">
                 Culture
             </label>
-            <select id="culture-picker"
+            <select id="culture-picker1"
                     class="form-control culture-dropdown"
                     name="culture"
                     onchange="this.parentElement.parentElement.submit();">
@@ -14,10 +14,27 @@
                 {
                     <option value="@culture.Name"
                             selected="@(Model.CurrentUiCulture.Name == culture.Name)">
-                       @culture.TwoLetterISOLanguageName
+                        @culture.TwoLetterISOLanguageName
                     </option>
                 }
             </select>
         </div>
     </form>
+    @*<ul id="culture-picker">
+        @foreach (var culture in Model.SupportedCultures)
+        {   
+            <li>
+                @if (Model.CurrentUiCulture.Name == culture.Name)
+                {
+                    <strong>@culture.DisplayName</strong>
+                }
+                else
+                {
+                    <a href="@Model.QueryString&?culture=@culture.Name"
+
+                       >@culture.DisplayName</a>
+                }
+            </li>
+        }
+    </ul>*@
 </div>

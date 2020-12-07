@@ -126,7 +126,7 @@
   <data name="AddToFavourites" xml:space="preserve">
     <value>Add to favourites</value>
   </data>
-  <data name="alcohol content" xml:space="preserve">
+  <data name="AlcoholContent_diff" xml:space="preserve">
     <value>alcohol content</value>
   </data>
   <data name="AlcoholContent" xml:space="preserve">
@@ -165,10 +165,10 @@
   <data name="CreateANewAccount" xml:space="preserve">
     <value>Create a new account</value>
   </data>
-  <data name="CreateNewDrink_01" xml:space="preserve">
+  <data name="CreateNewDrink" xml:space="preserve">
     <value>Create new drink</value>
   </data>
-  <data name="CreateNewDrink_02" xml:space="preserve">
+  <data name="CreateNewDrink_diff" xml:space="preserve">
     <value>Create new drink</value>
   </data>
   <data name="DateOfReview" xml:space="preserve">
@@ -210,10 +210,10 @@
   <data name="ImageURL" xml:space="preserve">
     <value>Image URL</value>
   </data>
-  <data name="Ingredients_01" xml:space="preserve">
+  <data name="Ingredients" xml:space="preserve">
     <value>Ingredients</value>
   </data>
-  <data name="Ingredients_02" xml:space="preserve">
+  <data name="Ingredients_diff" xml:space="preserve">
     <value>ingredients</value>
   </data>
   <data name="Instructions" xml:space="preserve">
@@ -225,10 +225,10 @@
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
-  <data name="name_01" xml:space="preserve">
+  <data name="Name_diff" xml:space="preserve">
     <value>name</value>
   </data>
-  <data name="Name_02" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="NoFavouriteDrinksYet" xml:space="preserve">
@@ -258,7 +258,7 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="ratings" xml:space="preserve">
+  <data name="ratings_diff" xml:space="preserve">
     <value>ratings</value>
   </data>
   <data name="Register" xml:space="preserve">
@@ -332,5 +332,14 @@
   </data>
   <data name="yourDrink" xml:space="preserve">
     <value>your drink</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Enjoy" xml:space="preserve">
+    <value>Enjoy</value>
+  </data>
+  <data name="ReviewText" xml:space="preserve">
+    <value>Review text</value>
   </data>
 </root>

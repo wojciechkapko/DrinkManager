@@ -51,7 +51,7 @@
                                 <i class="fas fa-heart mr-2"></i>@L["AddToFavourites"]
                             </a>
                         }
-                        <a asp-controller="Drinks" asp-action="Edit" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary mx-2 mb-2">Edit</a>
+                        <a asp-controller="Drinks" asp-action="Edit" asp-route-id="@Model.Drink.DrinkId" class="btn btn-primary mx-2 mb-2">@L["Edit"]</a>
                         <a href="javascript:void(0)" class="btn btn-danger mx-2 mb-2" onclick="OpenRemoveModal()">@L["Remove"]</a>
                     </div>
                     <strong class="text-center text-xl-left col-12">@Model.Drink.Category</strong>

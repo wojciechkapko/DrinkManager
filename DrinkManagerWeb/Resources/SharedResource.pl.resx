@@ -126,7 +126,7 @@
   <data name="AddToFavourites" xml:space="preserve">
     <value>Dodaj do ulubionych</value>
   </data>
-  <data name="alcohol content" xml:space="preserve">
+  <data name="AlcoholContent_diff" xml:space="preserve">
     <value>zawartości alkoholu</value>
   </data>
   <data name="AlcoholContent" xml:space="preserve">
@@ -165,10 +165,10 @@
   <data name="CreateANewAccount" xml:space="preserve">
     <value>Stwórz nowe konto</value>
   </data>
-  <data name="CreateNewDrink_01" xml:space="preserve">
+  <data name="CreateNewDrink" xml:space="preserve">
     <value>Dodaj nowy drink</value>
   </data>
-  <data name="CreateNewDrink_02" xml:space="preserve">
+  <data name="CreateNewDrink_diff" xml:space="preserve">
     <value>Dodawanie nowego drinka</value>
   </data>
   <data name="DateOfReview" xml:space="preserve">
@@ -210,10 +210,10 @@
   <data name="ImageURL" xml:space="preserve">
     <value>URL obrazka</value>
   </data>
-  <data name="Ingredients_01" xml:space="preserve">
+  <data name="Ingredients" xml:space="preserve">
     <value>Składniki</value>
   </data>
-  <data name="Ingredients_02" xml:space="preserve">
+  <data name="Ingredients_diff" xml:space="preserve">
     <value>składników</value>
   </data>
   <data name="Instructions" xml:space="preserve">
@@ -225,10 +225,10 @@
   <data name="Login" xml:space="preserve">
     <value>Zaloguj</value>
   </data>
-  <data name="name_01" xml:space="preserve">
+  <data name="Name_diff" xml:space="preserve">
     <value>nazwy</value>
   </data>
-  <data name="Name_02" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Nazwa</value>
   </data>
   <data name="NoFavouriteDrinksYet" xml:space="preserve">
@@ -253,12 +253,12 @@
     <value>alkohol opcjonalny</value>
   </data>
   <data name="OptionalAlcoholDrinks" xml:space="preserve">
-    <value>Opcjonaly alkohol</value>
+    <value>Opcjonalny alkohol</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Hasło</value>
   </data>
-  <data name="ratings" xml:space="preserve">
+  <data name="ratings_diff" xml:space="preserve">
     <value>ich ocenę</value>
   </data>
   <data name="Register" xml:space="preserve">
@@ -321,20 +321,6 @@
   <data name="WelcomeInDrinkManagerApp" xml:space="preserve">
     <value>Witamy w Drink Manager App</value>
   </data>
-  <data name="WelcomingText" xml:space="preserve">
-    <value>Za pomocą tej aplikacji możesz wyszukiwać drinków za pomocą ich:
-
-nazwy,
-składników,
-zawartości alkoholu.
-Możesz także dodać:
-recenzję do drinków,
-ich ocenę
-swojego drinka.
-Kiedy jakiś drink Ci zasmakuje, możesz dodać go do listy swoich ulubionych drinków!
-
-Enjoy!</value>
-  </data>
   <data name="WhenYouFindYourBelovedDrink" xml:space="preserve">
     <value>Kiedy jakiś drink Ci zasmakuje, możesz dodać go do listy swoich ulubionych drinków</value>
   </data>
@@ -346,5 +332,14 @@ Enjoy!</value>
   </data>
   <data name="yourDrink" xml:space="preserve">
     <value>swojego drinka</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edytuj</value>
+  </data>
+  <data name="Enjoy" xml:space="preserve">
+    <value>Zdrówko</value>
+  </data>
+  <data name="ReviewText" xml:space="preserve">
+    <value>Treść recenzji</value>
   </data>
 </root>
