@@ -23,16 +23,9 @@ namespace DrinkManagerWeb.ViewComponents
             var model = new CulturePickerModel
             {
                 SupportedCultures = _localizationOptions.Value.SupportedCultures.ToList(),
-                CurrentUiCulture = cultureFeature.RequestCulture.UICulture,
-                QueryString = $"{this.HttpContext.Request.QueryString}"
+                CurrentUiCulture = cultureFeature.RequestCulture.UICulture
             };
-
-
-            //TODO: Remove additional ? signs from the string.
-            // TODO 2: Remove culture part from this string every time since its added manually in Default.cshtml
-
-           // model.QueryString = model.QueryString.Replace("");
-
+            
             return View(model);
         }
     }
@@ -41,6 +34,5 @@ namespace DrinkManagerWeb.ViewComponents
     {
         public CultureInfo CurrentUiCulture { get; set; }
         public List<CultureInfo> SupportedCultures { get; set; }
-        public string QueryString { get; set; }
     }
 }

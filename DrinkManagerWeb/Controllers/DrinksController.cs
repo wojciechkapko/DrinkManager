@@ -242,7 +242,7 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [Authorize]
-        [HttpGet("drink/addReview")]
+        [HttpGet("drink/addReview/{id}")]
         public async Task<IActionResult> AddReview(string? id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
@@ -256,7 +256,7 @@ namespace DrinkManagerWeb.Controllers
             return View("AddReview", model);
         }
 
-        [HttpPost("drink/addReview")]
+        [HttpPost("drink/addReview/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddReview(IFormCollection data, string? id)
         {
