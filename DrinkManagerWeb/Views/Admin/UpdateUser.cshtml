@@ -1,0 +1,43 @@
+﻿@model DrinkManagerWeb.Models.ViewModels.UserViewModel
+@{
+    ViewBag.Title = "Administration - Update User";
+    Layout = "_LayoutAdmin";
+}
+
+<h2>Update User</h2>
+<hr />
+<div asp-validation-summary="All" class="text-danger"></div>
+<form asp-action="UpdateUser" method="post">
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" asp-for="Id"></label>
+        <div class="col-md-9">
+            <input asp-for="Id" class="form-control" disabled />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" asp-for="Email"></label>
+        <div class="col-md-9">
+            <input asp-for="Email" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" for="Password">Password</label>
+        <div class="col-md-9">
+            <input name="Password" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" asp-for="ApplicationRoleId"></label>
+        <div class="col-md-9">
+            <select class="form-control" asp-for="ApplicationRoleId" asp-items="@Model.ApplicationRoles">
+                <option>Please select</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-md-2 col-auto">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Users" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+</form>
