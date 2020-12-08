@@ -41,20 +41,5 @@ namespace BLL.Services
             var parsedResponse = JsonConvert.DeserializeObject<Report>(content);
             return parsedResponse;
         }
-
-        public string ComposeReport(Report report)
-        {
-            var composedReport = 
-                $"Report based on data from {report.StartDate.Date} to {report.EndDate.Date}.\n\n\n" + 
-                $" - {report.SuccessfulLoginsAmount}\n" +
-                $" - {report.MostVisitedDrink}\n" +
-                $" - {report.MostFavouriteDrink}\n" +
-                $" - {report.MostReviewedDrink}\n" +
-                $" - {report.HighestScoreDrink}\n" +
-                $" - {report.LowestScoreDrink}\n" +
-                $" - {report.MostActiveUser}\n\n" +
-                $"Report was composed on {report.Created}";
-            return composedReport;
-        }
     }
 }
