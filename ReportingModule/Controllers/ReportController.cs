@@ -18,6 +18,8 @@ namespace ReportingModuleApi.Controllers
         {
             _reportDataService = reportDataService;
         }
+
+        //TODO: Remove constants, add to Wojtek's view with Report Settings manual generation of Report 
         [HttpGet("generateReport")]
         public async Task<IActionResult> GenerateNewReport(/*DateTime start, DateTime end*/)
         {
