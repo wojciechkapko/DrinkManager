@@ -92,9 +92,6 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 0 !important;
 }
 
-
-
-
 @media all and (max-width: 1915px) {
     .sidenav a span {
         display: none;
@@ -189,6 +186,20 @@ a {
     color: #ffdd67;
 }
 
+.heart {
+    color: #ff0000;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 5;
+}
+
+.star-container {
+    position: absolute;
+    left: 20px;
+    bottom: 95px;
+    z-index: 5;
+}
 
 .card ul {
     list-style: none;
