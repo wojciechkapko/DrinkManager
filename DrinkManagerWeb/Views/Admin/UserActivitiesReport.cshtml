@@ -1,0 +1,32 @@
+﻿@model BLL.UserReport
+@{
+    ViewBag.Title = $"Administration - User Report";
+    Layout = "_LayoutAdmin";
+}
+<h2>@Model.Username</h2>
+<hr />
+<div>
+    <p>This user has registered at: @Model.RegisteredAt.Date and logged in @Model.LoginsCount times in total</p>
+    <p>He was last seen @(Model.LastSeen.Days > 0 ? $" {Model.LastSeen.Days} days "
+                      : Model.LastSeen.Hours > 0 ? $" {Model.LastSeen.Hours} hours "
+                          : Model.LastSeen.Minutes > 0 ? $" {Model.LastSeen.Minutes} minutes "
+                              : $" {Model.LastSeen.Seconds} seconds ") ago
+        </p>
+    <p>He visited <a asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.MostVisitedDrink.DrinkId">@Model.MostVisitedDrink.Name</a> a lot - @Model.MostVisitedDrink.Count times in total</p>
+    @if(Model.RecentlyFavouriteDrink != null)
+    {
+        <p>@Model.Username has recently added <a asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyFavouriteDrink.DrinkId">@Model.RecentlyFavouriteDrink.DrinkName</a> to favourites!</p>
+    }
+    else
+    {
+        <p>He has yet to add his first drink to favourites!</p>
+    }
+    @if(Model.RecentlyReviewedDrink != null)
+    {
+        <p>@Model.Username has recently added review for <a asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyReviewedDrink.DrinkId">@Model.RecentlyReviewedDrink.DrinkName</a></p>
+    }
+    else
+    {
+        <p>He has yet to add his first review!</p>
+    }
+</div>

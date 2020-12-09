@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using BLL.Services;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -21,13 +22,15 @@ namespace DrinkManagerWeb.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IPasswordHasher<AppUser> _passwordHasher;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IReportingModuleService _reportingModuleService;
 
-        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, IPasswordHasher<AppUser> passwordHasher)
+        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, IPasswordHasher<AppUser> passwordHasher, IReportingModuleService reportingModuleService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
             _passwordHasher = passwordHasher;
+            _reportingModuleService = reportingModuleService;
         }
 
         public async Task<IActionResult> Index()
@@ -297,6 +300,12 @@ namespace DrinkManagerWeb.Controllers
                 return await UpdateRole(model.RoleId);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> UserActivitiesReport(string username)
+        {
+            var model = await _reportingModuleService.GetUserReportData(username);
+            return View(model);
+        }
         private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)

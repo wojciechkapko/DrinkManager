@@ -13,14 +13,16 @@ namespace ReportingModuleApi.Controllers
         private readonly DateTime start = new DateTime(2020,10,10);
         private readonly DateTime end = DateTime.Now;
         private readonly IReportDataService _reportDataService;
+        private readonly IUserOrientedDataService _userOrientedDataService;
         
-        public ReportController(IReportDataService reportDataService)
+        public ReportController(IReportDataService reportDataService, IUserOrientedDataService userOrientedDataService)
         {
             _reportDataService = reportDataService;
+            _userOrientedDataService = userOrientedDataService;
         }
 
         //TODO: Remove constants, add to Wojtek's view with Report Settings manual generation of Report 
-        [HttpGet("generateReport")]
+        [HttpGet("generateGeneralReport")]
         public async Task<IActionResult> GenerateNewReport(/*DateTime start, DateTime end*/)
         {
             var report = new Report()
@@ -37,6 +39,23 @@ namespace ReportingModuleApi.Controllers
             };
 
             return Ok(report);
+        }
+
+        [HttpGet("checkUser")]
+        public async Task<IActionResult> GenerateUserReport(string username)
+        {
+            var userReport = new UserReport()
+            {
+                Username = username,
+                RegisteredAt = await _userOrientedDataService.GetUserCreationDate(username),
+                LoginsCount = await _userOrientedDataService.GetUserLoginsCount(username),
+                LastSeen = await _userOrientedDataService.GetTimeSinceLastUserActivity(username),
+                MostVisitedDrink = await _userOrientedDataService.GetMostVisitedDrinkData(username),
+                RecentlyFavouriteDrink = await _userOrientedDataService.GetLastAddedFavouriteDrink(username),
+                RecentlyReviewedDrink = await _userOrientedDataService.GetLastReviewedDrink(username)
+            };
+
+            return Ok(userReport);
         }
     }
 }

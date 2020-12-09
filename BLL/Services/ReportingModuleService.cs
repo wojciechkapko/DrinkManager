@@ -12,6 +12,7 @@ namespace BLL.Services
     {
         private const string CreateActivityAddress = "https://localhost:5115/api/Activity";
         private const string GetReportAddress = "https://localhost:5115/api/Report/generateReport";
+        private const string GetUserReportAddress = "https://localhost:5115/api/Report/checkUser";
         public async Task CreateUserActivity(PerformedAction action, string? username = null, string drinkId = null, string drinkName = null,
             string searchedPhrase = null, int? score = null)
         {
@@ -39,6 +40,15 @@ namespace BLL.Services
             var response = await httpClient.GetAsync(GetReportAddress);
             var content = await response.Content.ReadAsStringAsync();
             var parsedResponse = JsonConvert.DeserializeObject<Report>(content);
+            return parsedResponse;
+        }
+
+        public async Task<UserReport> GetUserReportData(string username)
+        {
+            using var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(GetUserReportAddress);
+            var content = await response.Content.ReadAsStringAsync();
+            var parsedResponse = JsonConvert.DeserializeObject<UserReport>(content);
             return parsedResponse;
         }
     }
