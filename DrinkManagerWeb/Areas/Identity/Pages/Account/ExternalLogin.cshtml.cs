@@ -90,8 +90,8 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
-                Task.Run(() =>
-                    _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
+                await Task.Run(() =>
+                    _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, this.User.Identity.Name));
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
@@ -136,7 +136,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         Task.Run(() =>
-                            _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
+                            _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, this.User.Identity.Name));
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         
                         // Adding default role ("User") to every new external user (Google, Facebook)

@@ -88,7 +88,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     Task.Run(() =>
-                        _reportingApiService.CreateUserActivity(PerformedAction.NewUserRegistered, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
+                        _reportingApiService.CreateUserActivity(PerformedAction.NewUserRegistered, Input.Email));
                     _logger.LogInformation("User created a new account with password.");
 
                     // Adding default role ("User") to every new user
