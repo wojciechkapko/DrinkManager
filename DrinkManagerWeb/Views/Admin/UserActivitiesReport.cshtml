@@ -3,15 +3,15 @@
     ViewBag.Title = $"Administration - User Report";
     Layout = "_LayoutAdmin";
 }
-<h2>@Model.Username</h2>
+<h2>@Model.Username activity information</h2>
 <hr />
 <div>
     <p>This user has registered at: @Model.RegisteredAt.Date and logged in @Model.LoginsCount times in total</p>
     <p>He was last seen @(Model.LastSeen.Days > 0 ? $" {Model.LastSeen.Days} days "
-                      : Model.LastSeen.Hours > 0 ? $" {Model.LastSeen.Hours} hours "
-                          : Model.LastSeen.Minutes > 0 ? $" {Model.LastSeen.Minutes} minutes "
-                              : $" {Model.LastSeen.Seconds} seconds ") ago
-        </p>
+                            : Model.LastSeen.Hours > 0 ? $" {Model.LastSeen.Hours} hours "
+                                : Model.LastSeen.Minutes > 0 ? $" {Model.LastSeen.Minutes} minutes "
+                                    : $" {Model.LastSeen.Seconds} seconds ") ago
+    </p>
     <p>He visited <a asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.MostVisitedDrink.DrinkId">@Model.MostVisitedDrink.Name</a> a lot - @Model.MostVisitedDrink.Count times in total</p>
     @if(Model.RecentlyFavouriteDrink != null)
     {
@@ -29,4 +29,64 @@
     {
         <p>He has yet to add his first review!</p>
     }
+</div>
+
+<div class="container">
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3></h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-sm table-bordered table-hover table-striped">
+                    <tr class="thead-light"><th>Activities summary</th></tr>
+                    <tr>
+                        <td>Registered at: </td>
+                        <td>
+                            @Model.RegisteredAt.Date
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Logins count: </td>
+                        <td>
+                            @Model.LoginsCount
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Last seen: </td>
+                        <td>
+                            @(Model.LastSeen.Days > 0 ? $" {Model.LastSeen.Days} days "
+                                : Model.LastSeen.Hours > 0 ? $" {Model.LastSeen.Hours} hours "
+                                    : Model.LastSeen.Minutes > 0 ? $" {Model.LastSeen.Minutes} minutes "
+                                        : $" {Model.LastSeen.Seconds} seconds ") ago
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Recently added to favourite drink</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="performance2" style="height: 270px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Recently reviewed drink</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="performance2" style="height: 270px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
