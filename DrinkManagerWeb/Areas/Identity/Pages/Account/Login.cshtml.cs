@@ -57,7 +57,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string? returnUrl = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -74,7 +74,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
@@ -87,7 +87,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
                     Task.Run(() =>
-                        _reportingApiService.CreateUserActivity(PerformedAction.SuccessfulLogin, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
+                        _reportingApiService.CreateUserActivity(PerformedAction.SuccessfulLogin, this.User.Identity.Name));
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

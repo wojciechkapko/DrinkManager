@@ -10,6 +10,7 @@ namespace BLL.Data
         public DbSet<UserActivity> UserActivities { get; set; }
         public void CheckIfReportingDatabaseExistsAndCreateIfNot()
         {
+            Database.EnsureCreated();
             Database.Migrate();
         }
     }

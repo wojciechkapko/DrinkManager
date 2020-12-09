@@ -30,9 +30,8 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
             SignInManager<AppUser> signInManager,
             UserManager<AppUser> userManager,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender, RoleManager<IdentityRole> roleManager)
-            IEmailSender emailSender,
-            IReportingModuleService reportingApiService)
+            IEmailSender emailSender, RoleManager<IdentityRole> roleManager,
+                IReportingModuleService reportingApiService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -91,9 +90,9 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
-                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 Task.Run(() =>
                     _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
+                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
             if (result.IsLockedOut)
@@ -136,6 +135,8 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        Task.Run(() =>
+                            _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, this.User.Identity.Name, drinkId: null, searchedPhrase: null, score: null));
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         
                         // Adding default role ("User") to every new external user (Google, Facebook)
