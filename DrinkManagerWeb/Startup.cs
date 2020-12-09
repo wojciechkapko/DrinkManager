@@ -4,6 +4,7 @@ using BLL.Data.Repositories;
 using BLL.Services;
 using DrinkManagerWeb.Extensions;
 using DrinkManagerWeb.Middlewares;
+using DrinkManagerWeb.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -69,6 +70,12 @@ namespace DrinkManagerWeb
             services
                 .AddRazorPages()
                 .AddViewLocalization();
+            services.AddMvc()
+                .AddDataAnnotationsLocalization(options => {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                        factory.Create(typeof(SharedResource));
+                });
+
             services.AddScoped<RequestLocalizationCookiesMiddleware>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }

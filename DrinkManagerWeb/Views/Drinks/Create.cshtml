@@ -3,7 +3,7 @@
 @inject IStringLocalizer<SharedResource> L
 
 @{
-    ViewBag.Title = Model == null ? L["CreateNewDrink_02"] : L["Editing"] + $" {Model.Name}";
+    ViewBag.Title = Model == null ? "Create new drink" : $"Editing {Model.Name}";
     Layout = "_Layout";
 }
 

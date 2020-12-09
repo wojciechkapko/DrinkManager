@@ -342,4 +342,19 @@
   <data name="ReviewText" xml:space="preserve">
     <value>Treść recenzji</value>
   </data>
+  <data name="AmountIsRequired" xml:space="preserve">
+    <value>Ilość jest wymagana.</value>
+  </data>
+  <data name="IngredientIsRequired" xml:space="preserve">
+    <value>Składnik jest wymagany.</value>
+  </data>
+  <data name="TheCategoryFieldIsRequired" xml:space="preserve">
+    <value>Pole kategorii jest wymagane.</value>
+  </data>
+  <data name="TheGlassFieldIsRequired" xml:space="preserve">
+    <value>Pole szkło jest wymagane.</value>
+  </data>
+  <data name="TheNameFieldIsRequired" xml:space="preserve">
+    <value>Nazwa jest wymagana.</value>
+  </data>
 </root>
