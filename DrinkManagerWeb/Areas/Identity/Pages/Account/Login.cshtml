@@ -1,8 +1,11 @@
 @page
 @model LoginModel
+@using Microsoft.Extensions.Localization
+@using DrinkManagerWeb.Resources
+@inject IStringLocalizer<SharedResource> L
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = @L["Log in"];
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -10,7 +13,7 @@
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
-                <h4>Use a local account to log in.</h4>
+                <h4>@L["UseALocalAccountToLogIn"].</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
@@ -32,14 +35,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
+                    <button type="submit" class="btn btn-primary">@L["Log in"]</button>
                 </div>
                 <div class="form-group">
                     <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                        <a id="forgot-password" asp-page="./ForgotPassword">@L["ForgotYourPassword"]?</a>
                     </p>
                     <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@L["RegisterAsANewUser"]</a>
                     </p>
                 </div>
             </form>
@@ -47,15 +50,15 @@
     </div>
     <div class="col-md-6 col-md-offset-2">
         <section>
-            <h4>Use another service to log in.</h4>
+            <h4>@L["UseAnotherServiceToLogIn"].</h4>
             <hr />
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
                 {
                     <div>
                         <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
+                            @L["ThereAreNoExternalAuthentication"]. @L["See_website"] <a href="https://go.microsoft.com/fwlink/?LinkID=532715">@L["thisArticle"]</a>
+                            @L["forDetailsOnSettingUp"].
                         </p>
                     </div>
                 }
@@ -69,10 +72,10 @@
                                     switch (provider.Name)
                                     {
                                         case "Facebook":
-                                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-facebook-f mr-2"></i>Sign in with Facebook</button>
+                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="fab fa-facebook-f mr-2"></i>@L["SignInWithFacebook"]</button>
                                             break;
                                         case "Google":
-                                            <button type="submit" class="ml-2 btn btn-light shadow-sm align-items-center d-inline-flex" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><img src="/assets/google-logo.svg" alt="Google logo" width="16" height="16" class="mr-2">Sign in with Google</button>
+                            <button type="submit" class="ml-2 btn btn-light shadow-sm align-items-center d-inline-flex" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><img src="/assets/google-logo.svg" alt="Google logo" width="16" height="16" class="mr-2">@L["SignInWithGoogle"]</button>
                                             break;
                                         default:
                                             <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>

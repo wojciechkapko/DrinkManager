@@ -15,8 +15,8 @@
         <form asp-antiforgery="true" asp-action="AddReview" asp-controller="Drinks" asp-route-id="@(Model.Id)" method="post">
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label asp-for="DrinkReview.ReviewText">@L["Review"]</label>
-                    <input type="text" class="form-control" asp-for="DrinkReview.ReviewText" placeholder="ReviewText">
+                    <label asp-for="DrinkReview.ReviewText">@L["ReviewText"]</label>
+                    <input type="text" class="form-control" asp-for="DrinkReview.ReviewText" placeholder="@L["ReviewText"]">
                     <span asp-validation-for="DrinkReview.ReviewText" class="text-danger"></span>
                 </div>
             </div>

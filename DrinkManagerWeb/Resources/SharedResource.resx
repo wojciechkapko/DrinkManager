@@ -357,4 +357,139 @@
   <data name="TheNameFieldIsRequired" xml:space="preserve">
     <value>The name field is required.</value>
   </data>
+  <data name="DrinkNotFound" xml:space="preserve">
+    <value>Drink not found</value>
+  </data>
+  <data name="removed" xml:space="preserve">
+    <value>removed</value>
+  </data>
+  <data name="Remove_diff" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="AreYouSureYouWantToRemove" xml:space="preserve">
+    <value>Are you sure that you want to remove</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Log in" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="ForgotYourPassword" xml:space="preserve">
+    <value>Forgot your password</value>
+  </data>
+  <data name="RegisterAsANewUser" xml:space="preserve">
+    <value>Register as a new user</value>
+  </data>
+  <data name="UseAnotherServiceToLogIn" xml:space="preserve">
+    <value>Use another service to log in</value>
+  </data>
+  <data name="SignInWithFacebook" xml:space="preserve">
+    <value>Sign in with Facebook</value>
+  </data>
+  <data name="SignInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="UseALocalAccountToLogIn" xml:space="preserve">
+    <value>Use a local account to log in</value>
+  </data>
+  <data name="ThereAreNoExternalAuthentication" xml:space="preserve">
+    <value>There are no external authentication services configured</value>
+  </data>
+  <data name="See_website" xml:space="preserve">
+    <value>See</value>
+  </data>
+  <data name="thisArticle" xml:space="preserve">
+    <value>this article</value>
+  </data>
+  <data name="forDetailsOnSettingUp" xml:space="preserve">
+    <value>for details on setting up this ASP.NET application to support logging in via external services</value>
+  </data>
+  <data name="YouDoNotHaveAccessToThisResource" xml:space="preserve">
+    <value>You do not have access to this resource</value>
+  </data>
+  <data name="ConfirmEmail" xml:space="preserve">
+    <value>Confirm email</value>
+  </data>
+  <data name="ConfirmEmailChange" xml:space="preserve">
+    <value>Confirm email change</value>
+  </data>
+  <data name="AssociateYour" xml:space="preserve">
+    <value>Associate your</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>account</value>
+  </data>
+  <data name="You'veSuccessfullyAuthenticatedWith" xml:space="preserve">
+    <value>You've successfully authenticated with</value>
+  </data>
+  <data name="PleaseEnterAnEmailAddress" xml:space="preserve">
+    <value>Please enter an email address for this site below and click the Register button to finish logging in</value>
+  </data>
+  <data name="EnterYourEmail" xml:space="preserve">
+    <value>Enter your email</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="ForgotPasswordConfirmation" xml:space="preserve">
+    <value>Forgot password confirmation</value>
+  </data>
+  <data name="PleaseCheckYourEmailToResetYourPassword" xml:space="preserve">
+    <value>Please check your email to reset your password</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>Locked out</value>
+  </data>
+  <data name="ThisAccountHasBeenLockedOut" xml:space="preserve">
+    <value>This account has been locked out, please try again later</value>
+  </data>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Access denied</value>
+  </data>
+  <data name="Two-factorAuthentication" xml:space="preserve">
+    <value>Two-factor authentication</value>
+  </data>
+  <data name="YourLoginIsProtectedWithAnAuthenticatorApp" xml:space="preserve">
+    <value>Your login is protected with an authenticator app</value>
+  </data>
+  <data name="EnterYourAuthenticatorCodeBelow" xml:space="preserve">
+    <value>Enter your authenticator code below</value>
+  </data>
+  <data name="Don'tHaveAccessToYourAuthenticatorDevice" xml:space="preserve">
+    <value>Don't have access to your authenticator device</value>
+  </data>
+  <data name="YouCan" xml:space="preserve">
+    <value>You can</value>
+  </data>
+  <data name="logInWithARecoveryCode" xml:space="preserve">
+    <value>log in with a recovery code</value>
+  </data>
+  <data name="RecoveryCodeVerification" xml:space="preserve">
+    <value>Recovery code verification</value>
+  </data>
+  <data name="YouHaveRequestedToLogInWithARecoveryCode" xml:space="preserve">
+    <value>You have requested to log in with a recovery code</value>
+  </data>
+  <data name="ThisLoginWillNotBeRememberedUntilYouProvide" xml:space="preserve">
+    <value>This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again</value>
+  </data>
+  <data name="Log out" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="YouHaveSuccessfullyLoggedOutOfTheApplication" xml:space="preserve">
+    <value>You have successfully logged out of the application</value>
+  </data>
 </root>

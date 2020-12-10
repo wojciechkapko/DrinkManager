@@ -16,7 +16,7 @@
                asp-route-nonAlcoholics="@ViewData["nonAlcoholics"]"
                asp-route-optionalAlcoholics="@ViewData["optionalAlcoholics"]"
                class="page-link">
-                Previous
+                @L["Previous"]
             </a>
         </li>
         @for (int i = 0; i < Model.Drinks.TotalPages; i++)
@@ -43,7 +43,7 @@
                asp-route-searchString="@ViewData["SearchString"]"
                asp-route-searchCondition="@ViewData["SearchCondition"]"
                class="page-link">
-                Next
+                @L["Next"]
             </a>
         </li>
     </ul>

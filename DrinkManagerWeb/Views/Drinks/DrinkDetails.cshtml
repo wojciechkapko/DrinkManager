@@ -13,7 +13,7 @@
         <img class="w-100 rounded shadow-lg mb-3" src="@Model.Drink.ImageUrl" />
         <div class="card">
             <div class="card-header">
-                <h4>@L["Ingredients"]:</h4>
+                <h4><strong>@L["Ingredients"]:</strong></h4>
             </div>
             <div class="card-body">
                 @if (Model.Drink.Ingredients != null && Model.Drink.Ingredients.Any())
@@ -73,7 +73,7 @@
         </div>
         <div class="card">
             <div class="mb-3 card-header d-flex">
-                <h4>@L["Review"]</h4>
+                <h4><strong>@L["Review"]:</strong></h4>
                 <div class="buttons ml-auto">
                     @if (Model.CanUserReview)
                     {
@@ -119,10 +119,10 @@
 {
     <script>
         function OpenRemoveModal() {
-            $("#modal .modal-title").append(`<h2>Remove @Model.Drink.Name</h2>`);
-            $("#modal .modal-body").append(`<p class="text-center m-0">Are you sure that you want to remove @Model.Drink.Name ?</p>`);
-            $("#modal .modal-footer").append(`<a class="btn btn-primary mr-auto" href="javascript:void(0)" onclick="$('#modal').modal('hide')">No</a>`);
-            $("#modal .modal-footer").append(`<a class="btn btn-danger" href="/Drinks/Remove/@Model.Drink.DrinkId">Yes</a>`);
+            $("#modal .modal-title").append(`<h2>@L["Remove_diff"] @Model.Drink.Name</h2>`);
+            $("#modal .modal-body").append(`<p class="text-center m-0">@L["AreYouSureYouWantToRemove"] @Model.Drink.Name ?</p>`);
+            $("#modal .modal-footer").append(`<a class="btn btn-primary mr-auto" href="javascript:void(0)" onclick="$('#modal').modal('hide')">@L["No"]</a>`);
+            $("#modal .modal-footer").append(`<a class="btn btn-danger" href="/Drinks/Remove/@Model.Drink.DrinkId">@L["Yes"]</a>`);
             $('#modal').modal();
 
             $('#modal').off('hidden.bs.modal').on('hidden.bs.modal',

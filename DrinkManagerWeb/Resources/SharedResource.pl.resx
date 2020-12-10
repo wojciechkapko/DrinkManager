@@ -357,4 +357,139 @@
   <data name="TheNameFieldIsRequired" xml:space="preserve">
     <value>Nazwa jest wymagana.</value>
   </data>
+  <data name="DrinkNotFound" xml:space="preserve">
+    <value>Nie znaleziono drinka</value>
+  </data>
+  <data name="removed" xml:space="preserve">
+    <value>usunięty</value>
+  </data>
+  <data name="Remove_diff" xml:space="preserve">
+    <value>Usuwanie</value>
+  </data>
+  <data name="AreYouSureYouWantToRemove" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Tak</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nie</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Poprzednia</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Następna</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Ustawienia</value>
+  </data>
+  <data name="Log in" xml:space="preserve">
+    <value>Logowanie</value>
+  </data>
+  <data name="ForgotYourPassword" xml:space="preserve">
+    <value>Zapomniałaś/eś hasła</value>
+  </data>
+  <data name="RegisterAsANewUser" xml:space="preserve">
+    <value>Zarejestruj się jako nowy użytkownik</value>
+  </data>
+  <data name="UseAnotherServiceToLogIn" xml:space="preserve">
+    <value>Użyj innego sposobu logowania</value>
+  </data>
+  <data name="SignInWithFacebook" xml:space="preserve">
+    <value>Zaloguj się przy użyciu Facebooka</value>
+  </data>
+  <data name="SignInWithGoogle" xml:space="preserve">
+    <value>Zaloguj się przy użyciu Google</value>
+  </data>
+  <data name="UseALocalAccountToLogIn" xml:space="preserve">
+    <value>Użyj konta lokalnego, żeby się zalogować</value>
+  </data>
+  <data name="ThereAreNoExternalAuthentication" xml:space="preserve">
+    <value>Nie skonfigurowano żadnych zewnętrznych usług uwierzytelniania</value>
+  </data>
+  <data name="See_website" xml:space="preserve">
+    <value>Odwiedź</value>
+  </data>
+  <data name="thisArticle" xml:space="preserve">
+    <value>tę stronę</value>
+  </data>
+  <data name="forDetailsOnSettingUp" xml:space="preserve">
+    <value>aby uzyskać szczegółowe informacje na temat konfigurowania tej aplikacji ASP.NET do obsługi logowania za pośrednictwem usług zewnętrznych</value>
+  </data>
+  <data name="YouDoNotHaveAccessToThisResource" xml:space="preserve">
+    <value>Nie posiadasz dostępu do tego zasobu</value>
+  </data>
+  <data name="ConfirmEmail" xml:space="preserve">
+    <value>Potwierdź email</value>
+  </data>
+  <data name="ConfirmEmailChange" xml:space="preserve">
+    <value>Potwierdź zmianę emaila</value>
+  </data>
+  <data name="AssociateYour" xml:space="preserve">
+    <value>Połącz swoje</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>konto</value>
+  </data>
+  <data name="You'veSuccessfullyAuthenticatedWith" xml:space="preserve">
+    <value>Zostałeś zalogowany za pomocą</value>
+  </data>
+  <data name="PleaseEnterAnEmailAddress" xml:space="preserve">
+    <value>Podaj swój adres email przypisany do tej strony i kliknij przycisk Zarejestruj, aby zakończyć logowanie</value>
+  </data>
+  <data name="EnterYourEmail" xml:space="preserve">
+    <value>Wpisz swój email</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Zatwierdź</value>
+  </data>
+  <data name="ForgotPasswordConfirmation" xml:space="preserve">
+    <value>Potwierdzenie zapomnienia hasła</value>
+  </data>
+  <data name="PleaseCheckYourEmailToResetYourPassword" xml:space="preserve">
+    <value>Sprawdź swoją skrzynkę mailową, aby zresetować hasło</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>Zablokowane konto</value>
+  </data>
+  <data name="ThisAccountHasBeenLockedOut" xml:space="preserve">
+    <value>To konto zostało zablokowane, spróbuj ponownie później</value>
+  </data>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Brak dostępu</value>
+  </data>
+  <data name="Two-factorAuthentication" xml:space="preserve">
+    <value>Uwierzytelnianie dwuskładnikowe</value>
+  </data>
+  <data name="YourLoginIsProtectedWithAnAuthenticatorApp" xml:space="preserve">
+    <value>Twój login jest chroniony przez aplikację uwierzytelniającą</value>
+  </data>
+  <data name="EnterYourAuthenticatorCodeBelow" xml:space="preserve">
+    <value>Wpisz poniżej swój kod uwierzytelniający</value>
+  </data>
+  <data name="Don'tHaveAccessToYourAuthenticatorDevice" xml:space="preserve">
+    <value>Nie masz dostępu do urządzenia uwierzytelniającego</value>
+  </data>
+  <data name="YouCan" xml:space="preserve">
+    <value>Możesz</value>
+  </data>
+  <data name="logInWithARecoveryCode" xml:space="preserve">
+    <value>zalogować się za pomocą kodu odzyskiwania</value>
+  </data>
+  <data name="RecoveryCodeVerification" xml:space="preserve">
+    <value>Weryfikacja kodu odzyskiwania</value>
+  </data>
+  <data name="YouHaveRequestedToLogInWithARecoveryCode" xml:space="preserve">
+    <value>Poprosiłaś/eś o zalogowanie się przy użyciu kodu odzyskiwania</value>
+  </data>
+  <data name="ThisLoginWillNotBeRememberedUntilYouProvide" xml:space="preserve">
+    <value>Ten login nie zostanie zapamiętany, dopóki nie podasz kodu z aplikacji uwierzytelniającej podczas logowania lub wyłączysz 2FA i nie zalogujesz się ponownie</value>
+  </data>
+  <data name="Log out" xml:space="preserve">
+    <value>Wylogowywanie</value>
+  </data>
+  <data name="YouHaveSuccessfullyLoggedOutOfTheApplication" xml:space="preserve">
+    <value>Wylogowałaś/eś się z aplikacji</value>
+  </data>
 </root>

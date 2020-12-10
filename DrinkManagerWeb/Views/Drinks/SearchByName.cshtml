@@ -13,7 +13,7 @@
         <div>
             <form asp-controller="Drinks" asp-action="SearchByName" method="get">
                 <p>
-                    <div class="h5 font-weight-bold">@L["EnterADrinkNameToFind"]</div>
+                    <div class="h5 font-weight-bold">@L["EnterADrinkNameToFind"]:</div>
                     <div class="h6">@L["TipToSearchByName"].</div>
                     <input type="text" name="SearchString" value="@ViewData["SearchString"]">
                     <button type="submit" class="btn btn-outline-primary mr-0 ml-2 mt-0 mb-0">@L["Search"]</button>
