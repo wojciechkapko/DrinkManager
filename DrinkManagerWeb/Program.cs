@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
+using DrinkManagerWeb.Helpers;
 
 namespace DrinkManagerWeb
 {
@@ -16,6 +17,8 @@ namespace DrinkManagerWeb
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
+                .Enrich.FromLogContext()
+                .Enrich.WithUserName()
                 .CreateLogger();
 
             try

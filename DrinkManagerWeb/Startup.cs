@@ -2,6 +2,7 @@ using BLL;
 using BLL.Data;
 using BLL.Data.Repositories;
 using BLL.Services;
+using DrinkManagerWeb.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -81,7 +82,7 @@ namespace DrinkManagerWeb
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
