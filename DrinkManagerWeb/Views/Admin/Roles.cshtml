@@ -1,4 +1,6 @@
-﻿@model DrinkManagerWeb.Models.ViewModels.RoleViewModel
+﻿@using Microsoft.Extensions.Configuration
+@model DrinkManagerWeb.Models.ViewModels.RoleViewModel
+@inject IConfiguration Configuration
 @{
     ViewBag.Title = "Administration - Roles";
     Layout = "_LayoutAdmin";
@@ -17,15 +19,18 @@
             <td>
                 @foreach (var user in Model.UsersPerRole[@role.Name])
                 {
-                    <span>@user</span><br/>
+                    <span>@user</span><br />
                 }
             </td>
             <td>
-                <form asp-action="DeleteRole" asp-route-id="@role.Id" method="get">
-                    <button type="submit" class="btn btn-sm btn-danger">
-                        Delete
-                    </button>
-                </form>
+                @if (role.Name != Configuration["AppSettings:RestrictedUserName"])
+                {
+                    <form asp-action="DeleteRole" asp-route-id="@role.Id" method="get">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
+                }
             </td>
         </tr>
     }
