@@ -23,7 +23,7 @@
                 }
             </td>
             <td>
-                @if (role.Name != Configuration["AppSettings:RestrictedUserName"])
+                @if (role.Name != Configuration["AppSettings:RestrictedName"])
                 {
                     <form asp-action="DeleteRole" asp-route-id="@role.Id" method="get">
                         <button type="submit" class="btn btn-sm btn-danger">

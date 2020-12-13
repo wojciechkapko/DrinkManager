@@ -7,12 +7,20 @@ namespace DrinkManagerWeb.Models.ViewModels
     public class UserViewModel
     {
         public string Id { get; set; }
+
         [Required]
-        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail is not valid")]
+        [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Password must be at least 6 and max 100 characters long, and must contain letter and digit.")]
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long and must contain at least one letter and one digit.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
+
         public List<SelectListItem> ApplicationRoles { get; set; }  
+
         [Display(Name = "Role")]  
         public string ApplicationRoleId { get; set; } 
     }

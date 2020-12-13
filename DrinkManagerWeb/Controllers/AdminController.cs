@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -179,6 +180,11 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> DeleteUser(string id)
         {
             AppUser userToDelete = await _userManager.FindByIdAsync(id);
+
+            if (userToDelete.Email == Environment.GetEnvironmentVariable("UserEmail"))
+            {
+                return RedirectToAction("Users");
+            }
             return View(userToDelete);
         }
 
@@ -235,6 +241,11 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> DeleteRole(string id)
         {
             IdentityRole roleToDelete = await _roleManager.FindByIdAsync(id);
+
+            if (roleToDelete.Name == Environment.GetEnvironmentVariable("RestrictedName"))
+            {
+                return RedirectToAction("Roles");
+            }
             return View(roleToDelete);
         }
 
