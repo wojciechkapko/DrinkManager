@@ -444,9 +444,6 @@
   <data name="Submit" xml:space="preserve">
     <value>Zatwierdź</value>
   </data>
-  <data name="ForgotPasswordConfirmation" xml:space="preserve">
-    <value>Potwierdzenie zapomnienia hasła</value>
-  </data>
   <data name="PleaseCheckYourEmailToResetYourPassword" xml:space="preserve">
     <value>Sprawdź swoją skrzynkę mailową, aby zresetować hasło</value>
   </data>
@@ -491,5 +488,38 @@
   </data>
   <data name="YouHaveSuccessfullyLoggedOutOfTheApplication" xml:space="preserve">
     <value>Wylogowałaś/eś się z aplikacji</value>
+  </data>
+  <data name="RegisterConfirmation" xml:space="preserve">
+    <value>Potwierdzenie rejestracji</value>
+  </data>
+  <data name="PleaseCheckYourEmailToConfirmYourAccount" xml:space="preserve">
+    <value>Sprawdź swoją skrzynkę mailową, aby potwierdzić konto</value>
+  </data>
+  <data name="ThisAppDoesNotCurrentlyHaveARealEmailSenderRegistered" xml:space="preserve">
+    <value>Ta aplikacja nie ma obecnie zarejestrowanego nadawcy wiadomości e-mail</value>
+  </data>
+  <data name="see" xml:space="preserve">
+    <value>zobacz</value>
+  </data>
+  <data name="theseDocs" xml:space="preserve">
+    <value>ten dokument</value>
+  </data>
+  <data name="forHowToConfigureARealEmailSender" xml:space="preserve">
+    <value>by zobaczyć jak skonfigurować nadawcę wiadomości e-mail</value>
+  </data>
+  <data name="NormallyThisWouldBeEmailed" xml:space="preserve">
+    <value>Zwykle ta informacja zostanie wysłana mailem</value>
+  </data>
+  <data name="ClickHereToConfirmYourAccount" xml:space="preserve">
+    <value>Kliknij tu, aby potwierdzić konto</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Resetowanie hasła</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ForgotPasswordConfirmation" xml:space="preserve">
+    <value>Potwierdzenie hasła</value>
   </data>
 </root>

@@ -492,4 +492,34 @@
   <data name="YouHaveSuccessfullyLoggedOutOfTheApplication" xml:space="preserve">
     <value>You have successfully logged out of the application</value>
   </data>
+  <data name="RegisterConfirmation" xml:space="preserve">
+    <value>Register confirmation</value>
+  </data>
+  <data name="PleaseCheckYourEmailToConfirmYourAccount" xml:space="preserve">
+    <value>Please check your email to confirm your account</value>
+  </data>
+  <data name="ThisAppDoesNotCurrentlyHaveARealEmailSenderRegistered" xml:space="preserve">
+    <value>This app does not currently have a real email sender registered</value>
+  </data>
+  <data name="see" xml:space="preserve">
+    <value>see</value>
+  </data>
+  <data name="theseDocs" xml:space="preserve">
+    <value>these docs</value>
+  </data>
+  <data name="forHowToConfigureARealEmailSender" xml:space="preserve">
+    <value>for how to configure a real email sender</value>
+  </data>
+  <data name="NormallyThisWouldBeEmailed" xml:space="preserve">
+    <value>Normally this would be emailed</value>
+  </data>
+  <data name="ClickHereToConfirmYourAccount" xml:space="preserve">
+    <value>Click here to confirm your account</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset password</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
 </root>
