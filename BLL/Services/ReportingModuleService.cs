@@ -12,7 +12,7 @@ namespace BLL.Services
     {
         private const string CreateActivityAddress = "https://localhost:5115/api/Activity";
         private const string GetReportAddress = "https://localhost:5115/api/Report/generateReport";
-        public async Task CreateUserActivity(PerformedAction action, string? username = null, string drinkId = null, string drinkName = null,
+        public async Task CreateUserActivity(PerformedAction action, string username = null, string drinkId = null, string drinkName = null,
             string searchedPhrase = null, int? score = null)
         {
             using var httpClient = new HttpClient();
