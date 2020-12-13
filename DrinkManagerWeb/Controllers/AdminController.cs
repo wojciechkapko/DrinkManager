@@ -6,10 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
@@ -20,27 +18,17 @@ namespace DrinkManagerWeb.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly IPasswordHasher<AppUser> _passwordHasher;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, IPasswordHasher<AppUser> passwordHasher)
         {
             _roleManager = roleManager;
             _userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await _userManager.FindByIdAsync(userId);
-
-            return View(new AdminIndexViewModel
-            {
-                DateToday = DateTime.Today.ToShortDateString(),
-                DayOfWeekToday = DateTime.Today.DayOfWeek.ToString(),
-                UserName = user.Email
-            });
+            return RedirectToAction("Users");
         }
 
         public IActionResult Users()
