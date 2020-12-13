@@ -6,18 +6,19 @@
 
 <h2>Create User</h2>
 <hr />
-<div asp-validation-summary="All" class="text-danger"></div>
 <form method="post">
     <div class="form-group row">
         <label class="col-form-label text-md-right col-md-2" asp-for="Email"></label>
         <div class="col-md-9">
             <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-form-label text-md-right col-md-2" asp-for="Password"></label>
         <div class="col-md-9">
             <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">

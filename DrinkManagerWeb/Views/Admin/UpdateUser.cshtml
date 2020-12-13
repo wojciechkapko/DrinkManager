@@ -6,24 +6,19 @@
 
 <h2>Update User</h2>
 <hr />
-<div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="UpdateUser" method="post">
-    <div class="form-group row">
-        <label class="col-form-label text-md-right col-md-2" asp-for="Id"></label>
-        <div class="col-md-9">
-            <input asp-for="Id" class="form-control" disabled />
-        </div>
-    </div>
     <div class="form-group row">
         <label class="col-form-label text-md-right col-md-2" asp-for="Email"></label>
         <div class="col-md-9">
             <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-form-label text-md-right col-md-2" for="Password">Password</label>
         <div class="col-md-9">
-            <input name="Password" class="form-control" />
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
