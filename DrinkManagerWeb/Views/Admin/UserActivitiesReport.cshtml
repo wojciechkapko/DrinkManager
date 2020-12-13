@@ -1,90 +1,120 @@
-﻿@model BLL.UserReport
+﻿@using BLL.Data.Repositories
+@using BLL
+@using BLL.ReportDataModels
+@model BLL.UserReport
 @{
     ViewBag.Title = $"Administration - User Report";
     Layout = "_LayoutAdmin";
 }
+@inject IDrinkRepository DrinkRepository
 <h2>@Model.Username activity information</h2>
 <hr />
-<div>
-    <p>This user has registered at: @Model.RegisteredAt.Date and logged in @Model.LoginsCount times in total</p>
-    <p>He was last seen @(Model.LastSeen.Days > 0 ? $" {Model.LastSeen.Days} days "
-                            : Model.LastSeen.Hours > 0 ? $" {Model.LastSeen.Hours} hours "
-                                : Model.LastSeen.Minutes > 0 ? $" {Model.LastSeen.Minutes} minutes "
-                                    : $" {Model.LastSeen.Seconds} seconds ") ago
-    </p>
-    <p>He visited <a asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.MostVisitedDrink.DrinkId">@Model.MostVisitedDrink.Name</a> a lot - @Model.MostVisitedDrink.Count times in total</p>
-    @if(Model.RecentlyFavouriteDrink != null)
-    {
-        <p>@Model.Username has recently added <a asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyFavouriteDrink.DrinkId">@Model.RecentlyFavouriteDrink.DrinkName</a> to favourites!</p>
-    }
-    else
-    {
-        <p>He has yet to add his first drink to favourites!</p>
-    }
-    @if(Model.RecentlyReviewedDrink != null)
-    {
-        <p>@Model.Username has recently added review for <a asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyReviewedDrink.DrinkId">@Model.RecentlyReviewedDrink.DrinkName</a></p>
-    }
-    else
-    {
-        <p>He has yet to add his first review!</p>
-    }
-</div>
-
 <div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3></h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-sm table-bordered table-hover table-striped">
+                        <tr class="thead-light"><th>Activities summary</th></tr>
+                        <tr>
+                            <td>Registered at: </td>
+                            <td>
+                                @Model.RegisteredAt.Date
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Logins count: </td>
+                            <td>
+                                @Model.LoginsCount
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Last seen: </td>
+                            <td>
+                                @(Model.LastSeen.Days > 0 ? $" {Model.LastSeen.Days} days "
+                                    : Model.LastSeen.Hours > 0 ? $" {Model.LastSeen.Hours} hours "
+                                        : Model.LastSeen.Minutes > 0 ? $" {Model.LastSeen.Minutes} minutes "
+                                            : $" {Model.LastSeen.Seconds} seconds ") ago
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3>Most visited drink</h3>
+                </div>
+                <div class="panel-body">
+                    @if (Model.MostVisitedDrink.DrinkId != null)
+                    {
+                        <div class="card">
+                            <a class="page-link" asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.MostVisitedDrink.DrinkId">
+                                <img class="w-100 rounded shadow-lg" src="@(DrinkRepository.FindDrink(x => x.DrinkId == Model.MostVisitedDrink.DrinkId).Result.ImageUrl)"/>
+                            </a>
+                            <div class="card-body text-center">
+                                <a class="card-title text-dark" asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.MostVisitedDrink.DrinkId"><h4>@Model.MostVisitedDrink.Name</h4></a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <p>none</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 <div class="row">
     <div class="col-lg-6 col-md-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3></h3>
+                <h3>Recently added to favourite drink</h3>
             </div>
             <div class="panel-body">
-                <table class="table table-sm table-bordered table-hover table-striped">
-                    <tr class="thead-light"><th>Activities summary</th></tr>
-                    <tr>
-                        <td>Registered at: </td>
-                        <td>
-                            @Model.RegisteredAt.Date
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Logins count: </td>
-                        <td>
-                            @Model.LoginsCount
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Last seen: </td>
-                        <td>
-                            @(Model.LastSeen.Days > 0 ? $" {Model.LastSeen.Days} days "
-                                : Model.LastSeen.Hours > 0 ? $" {Model.LastSeen.Hours} hours "
-                                    : Model.LastSeen.Minutes > 0 ? $" {Model.LastSeen.Minutes} minutes "
-                                        : $" {Model.LastSeen.Seconds} seconds ") ago
-                        </td>
-                    </tr>
-                </table>
+                @if (Model.RecentlyFavouriteDrink != null)
+                {
+                    <div class="card">
+                        <a class="page-link" asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyFavouriteDrink.DrinkId">
+                            <img class="w-100 rounded shadow-lg" src="@(DrinkRepository.FindDrink(x => x.DrinkId == Model.RecentlyFavouriteDrink.DrinkId).Result.ImageUrl)"/>
+                        </a>
+                        <div class="card-body text-center">
+                            <a class="card-title text-dark" asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyFavouriteDrink.DrinkId"><h4>@Model.RecentlyFavouriteDrink.DrinkName</h4></a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p>None</p>
+                }
             </div>
         </div>
     </div>
     <div class="col-lg-6 col-md-6">
-        <div class="row">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3>Recently added to favourite drink</h3>
-                </div>
-                <div class="panel-body">
-                    <div id="performance2" style="height: 270px;"></div>
-                </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Recently added to favourite drink</h3>
             </div>
-        </div>
-        <div class="row">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3>Recently reviewed drink</h3>
-                </div>
-                <div class="panel-body">
-                    <div id="performance2" style="height: 270px;"></div>
-                </div>
+            <div class="panel-body">
+                @if (Model.RecentlyReviewedDrink != null)
+                {
+                    <div class="card">
+                        <a class="page-link" asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyReviewedDrink.DrinkId">
+                            <img class="w-100 rounded shadow-lg" src="@(DrinkRepository.FindDrink(x => x.DrinkId == Model.RecentlyReviewedDrink.DrinkId).Result.ImageUrl)" />
+                        </a>
+                        <div class="card-body text-center">
+                            <a class="card-title text-dark" asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyReviewedDrink.DrinkId"><h4>@Model.RecentlyReviewedDrink.DrinkName</h4></a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p>None</p>
+                }
             </div>
         </div>
     </div>

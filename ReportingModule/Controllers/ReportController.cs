@@ -41,7 +41,7 @@ namespace ReportingModuleApi.Controllers
             return Ok(report);
         }
 
-        [HttpGet("checkUser")]
+        [HttpGet("checkUser/{username}")]
         public async Task<IActionResult> GenerateUserReport(string username)
         {
             var userReport = new UserReport()
