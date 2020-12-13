@@ -19,7 +19,7 @@ namespace DrinkManagerWeb.Models.ViewModels
         [Display(Name = "Password")]
         public string Password { get; set; }
 
-        public List<SelectListItem> ApplicationRoles { get; set; }  
+        public List<SelectListItem> ApplicationRoles { get; set; }
 
         [Display(Name = "Role")]  
         public string ApplicationRoleId { get; set; } 

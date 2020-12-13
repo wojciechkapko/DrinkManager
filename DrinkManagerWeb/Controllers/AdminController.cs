@@ -228,12 +228,13 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult CreateRole()
         {
-            return View(new IdentityRole());
+            return View(new CreateRoleViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRole(IdentityRole role)
+        public async Task<IActionResult> CreateRole(CreateRoleViewModel roleModel)
         {
+            var role = new IdentityRole {Name = roleModel.Name};
             await _roleManager.CreateAsync(role);
             return RedirectToAction("Roles");
         }
