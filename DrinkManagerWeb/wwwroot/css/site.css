@@ -208,3 +208,8 @@ a {
 .bg-dark {
     background-color: #212529!important;
 }
+
+.flatpickr-input[readonly] {
+    background: #202428;
+    color: #ffffff;
+}
