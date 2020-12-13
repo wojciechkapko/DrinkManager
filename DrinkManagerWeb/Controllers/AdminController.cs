@@ -54,7 +54,7 @@ namespace DrinkManagerWeb.Controllers
                 ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                     .ToList()
             };
-            return View("CreateUser", model);
+            return View(model);
         }
 
         [HttpPost]
@@ -82,6 +82,10 @@ namespace DrinkManagerWeb.Controllers
                     }
                 }
             }
+
+            model.ApplicationRoles = _roleManager
+                .Roles.Select(r => new SelectListItem {Text = r.Name, Value = r.Id})
+                .ToList();
             return View(model);
         }
 
@@ -102,7 +106,7 @@ namespace DrinkManagerWeb.Controllers
                     model.ApplicationRoleId = _roleManager.Roles.SingleOrDefault(r => r.Name == _userManager.GetRolesAsync(user).Result.SingleOrDefault())?.Id;
                 }
             }
-            return View("UpdateUser", model);
+            return View(model);
         }
 
         [HttpPost]
@@ -165,7 +169,11 @@ namespace DrinkManagerWeb.Controllers
                     }
                 }
             }
-            return RedirectToAction("Users");
+
+            model.ApplicationRoles = _roleManager
+                .Roles.Select(r => new SelectListItem {Text = r.Name, Value = r.Id})
+                .ToList();
+            return View(model);
         }
 
         public async Task<IActionResult> DeleteUser(string id)
