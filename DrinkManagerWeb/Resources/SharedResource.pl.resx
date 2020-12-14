@@ -184,7 +184,7 @@
     <value>Edytowanie</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>E-mail</value>
+    <value>Email</value>
   </data>
   <data name="EnterADrinkNameToFind" xml:space="preserve">
     <value>Wpisz nazwę drinka</value>
@@ -521,5 +521,14 @@
   </data>
   <data name="ForgotPasswordConfirmation" xml:space="preserve">
     <value>Potwierdzenie hasła</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Zapamiętaj</value>
+  </data>
+  <data name="TheEmailFieldIsRequired" xml:space="preserve">
+    <value>Email jest wymagany.</value>
+  </data>
+  <data name="ThePasswordFieldIsRequired" xml:space="preserve">
+    <value>Hasło jest wymagane.</value>
   </data>
 </root>

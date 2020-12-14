@@ -184,7 +184,7 @@
     <value>Editing</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value>E-mail</value>
+    <value>Email</value>
   </data>
   <data name="EnterADrinkNameToFind" xml:space="preserve">
     <value>Enter a drink name to find</value>
@@ -521,5 +521,14 @@
   </data>
   <data name="Reset" xml:space="preserve">
     <value>Reset</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Remember me</value>
+  </data>
+  <data name="TheEmailFieldIsRequired" xml:space="preserve">
+    <value>The Email field is required.</value>
+  </data>
+  <data name="ThePasswordFieldIsRequired" xml:space="preserve">
+    <value>The Password field is required.</value>
   </data>
 </root>
