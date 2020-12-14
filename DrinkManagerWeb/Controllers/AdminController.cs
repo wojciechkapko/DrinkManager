@@ -84,14 +84,14 @@ namespace DrinkManagerWeb.Controllers
             }
 
             model.ApplicationRoles = _roleManager
-                .Roles.Select(r => new SelectListItem {Text = r.Name, Value = r.Id})
+                .Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                 .ToList();
             return View(model);
         }
 
-        public async Task<IActionResult> UpdateUser(string id)
+        public async Task<IActionResult> UpdateUserRole(string id)
         {
-            UserViewModel model = new UserViewModel
+            UserEditRoleViewModel model = new UserEditRoleViewModel
             {
                 ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                     .ToList()
@@ -110,7 +110,7 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUser(UserViewModel model)
+        public async Task<IActionResult> UpdateUserRole(UserEditRoleViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -121,13 +121,7 @@ namespace DrinkManagerWeb.Controllers
                     {
                         user.Email = model.Email;
                         user.UserName = model.Email;
-                    }
-                    if (!string.IsNullOrEmpty(model.Password))
-                    {
-                        user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
-                    }
-                    if (!string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.Password))
-                    {
+
                         IdentityResult result = await _userManager.UpdateAsync(user);
                         if (result.Succeeded)
                         {
@@ -171,8 +165,56 @@ namespace DrinkManagerWeb.Controllers
             }
 
             model.ApplicationRoles = _roleManager
-                .Roles.Select(r => new SelectListItem {Text = r.Name, Value = r.Id})
+                .Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                 .ToList();
+            return View(model);
+        }
+
+        public async Task<IActionResult> UpdateUserPassword(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                AppUser user = await _userManager.FindByIdAsync(id);
+                if (user != null)
+                {
+                    var model = new UserViewModel
+                    {
+                        Email = user.Email
+                    };
+                    return View(model);
+                }
+            }
+            return RedirectToAction("Users");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserPassword(UserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser user = await _userManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    if (!string.IsNullOrEmpty(model.Email))
+                    {
+                        user.Email = model.Email;
+                        user.UserName = model.Email;
+                    }
+                    if (!string.IsNullOrEmpty(model.Password))
+                    {
+                        user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
+                    }
+                    if (!string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.Password))
+                    {
+                        IdentityResult result = await _userManager.UpdateAsync(user);
+
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("Users");
+                        }
+                    }
+                }
+            }
             return View(model);
         }
 
@@ -233,7 +275,7 @@ namespace DrinkManagerWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRoleViewModel roleModel)
         {
-            var role = new IdentityRole {Name = roleModel.Name};
+            var role = new IdentityRole { Name = roleModel.Name };
             await _roleManager.CreateAsync(role);
             return RedirectToAction("Roles");
         }

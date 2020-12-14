@@ -22,7 +22,7 @@
                     <span>@user</span><br />
                 }
             </td>
-            <td>
+            <td class="text-center">
                 @if (role.Name != Configuration["AppSettings:RestrictedName"])
                 {
                     <form asp-action="DeleteRole" asp-route-id="@role.Id" method="get">

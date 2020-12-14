@@ -1,0 +1,31 @@
+﻿@model DrinkManagerWeb.Models.ViewModels.UserEditRoleViewModel
+@{
+    ViewBag.Title = "Administration - Update User";
+    Layout = "_LayoutAdmin";
+}
+
+<h2>Edit User's Role</h2>
+<hr />
+<form asp-action="UpdateUserRole" method="post">
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" asp-for="Email"></label>
+        <div class="col-md-9">
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-form-label text-md-right col-md-2" asp-for="ApplicationRoleId"></label>
+        <div class="col-md-9">
+            <select class="form-control" asp-for="ApplicationRoleId" asp-items="@Model.ApplicationRoles">
+                <option>Please select</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-md-2 col-auto">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Users" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+</form>

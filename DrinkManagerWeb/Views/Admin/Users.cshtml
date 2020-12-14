@@ -22,15 +22,20 @@
                     <span>@role</span>
                 }
             </td>
-            <td>
+            <td class="text-center">
                 @if (@user.Email != Configuration["AppSettings:UserName"])
                 {
-                    <a class="btn btn-sm btn-primary" asp-action="UpdateUser" asp-route-id="@user.Id">
-                        Edit
-                    </a>
+                    <div>
+                        <a class="btn btn-sm btn-primary" asp-action="UpdateUserRole" asp-route-id="@user.Id">
+                            Edit Role
+                        </a>
+                        <a class="btn btn-sm btn-primary" asp-action="UpdateUserPassword" asp-route-id="@user.Id">
+                            Edit Password
+                        </a>
+                    </div>
                 }
             </td>
-            <td>
+            <td class="text-center">
                 @if (@user.Email != Configuration["AppSettings:UserName"])
                 {
                     <form asp-action="DeleteUser" asp-route-id="@user.Id" method="get">
