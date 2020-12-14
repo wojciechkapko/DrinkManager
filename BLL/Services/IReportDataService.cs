@@ -14,5 +14,6 @@ namespace BLL.Services
         Task<TheMostData> GetMostActiveUser(DateTime start, DateTime end);
         Task<TheMostData> GetMostReviewedDrinkData(DateTime start, DateTime end);
         Task<int> GetExternalLoginData(DateTime start, DateTime end);
+        Task<int> GetNewRegisters(DateTime start, DateTime end);
     }
 }

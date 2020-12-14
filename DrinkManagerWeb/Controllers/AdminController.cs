@@ -26,6 +26,7 @@ namespace DrinkManagerWeb.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ISettingRepository _settingRepository;
         private readonly BackgroundJobScheduler _backgroundJobScheduler;
+        private readonly IReportingModuleService _apiService;
 
         public AdminController(
             RoleManager<IdentityRole> roleManager,
@@ -33,7 +34,8 @@ namespace DrinkManagerWeb.Controllers
             IHttpContextAccessor httpContextAccessor,
             IPasswordHasher<AppUser> passwordHasher,
             BackgroundJobScheduler backgroundJobScheduler,
-            ISettingRepository settingRepository)
+            ISettingRepository settingRepository,
+            IReportingModuleService apiService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -41,6 +43,7 @@ namespace DrinkManagerWeb.Controllers
             _passwordHasher = passwordHasher;
             _backgroundJobScheduler = backgroundJobScheduler;
             _settingRepository = settingRepository;
+            _apiService = apiService;
         }
 
         public async Task<IActionResult> Index()
@@ -355,6 +358,13 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult Errors()
         {
             return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> GeneralReport(IFormCollection data)
+        {
+            var model = await _apiService.GetReportData(DateTime.Parse(data["start.date"]), DateTime.Parse(data["end.date"]));
+            return View(model);
         }
     }
 }

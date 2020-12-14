@@ -33,21 +33,27 @@ namespace BLL.Services
         {
             var favouritesActivities = await _activitiesRepository.Get(x =>
                 x.Created > start && x.Created < end && x.Action == PerformedAction.AddedToFavourite);
-            var data = favouritesActivities
-                .GroupBy(x => x.DrinkId)
-                .Select(x => new
-                {
-                    drinkId = x.Key, 
-                    drinkName = x.Select(x => x.DrinkName).First(), 
-                    favouritesCount = x.Key.Count()
-                })
-                .OrderByDescending(x => x.favouritesCount)
-                .First();
-            var mostFavouriteData = new TheMostData()
+            var mostFavouriteData = new TheMostData();
+            if (favouritesActivities.Count == 0)
             {
-                Name = data.drinkName,
-                Count = data.favouritesCount
-            };
+                mostFavouriteData.Count = 0;
+                mostFavouriteData.Name = "none";
+            }
+            else
+            {
+                var data = favouritesActivities
+                    .GroupBy(x => x.DrinkId)
+                    .Select(x => new
+                    {
+                        drinkId = x.Key,
+                        drinkName = x.Select(x => x.DrinkName).First(),
+                        favouritesCount = x.Key.Count()
+                    })
+                    .OrderByDescending(x => x.favouritesCount)
+                    .First();
+                mostFavouriteData.Name = data.drinkName;
+                mostFavouriteData.Count = data.favouritesCount;
+            }
             return mostFavouriteData;
         }
 
@@ -55,21 +61,27 @@ namespace BLL.Services
         {
             var scoreActivities = await _activitiesRepository.Get(x =>
                 x.Created > start && x.Created < end && x.Action == PerformedAction.AddedReview && x.Score != null);
-            var data = scoreActivities
-                .GroupBy(x => x.Id)
-                .Select(x => new
-                {
-                    drinkId = x.Key, 
-                    averageScore = x.Select(y => y.Score).Average(), 
-                    drinkName = x.Select(x => x.DrinkName).First()
-                })
-                .OrderByDescending(x => x.averageScore)
-                .First();
-            var highestScoreDrinkData = new ScoreData()
+            var highestScoreDrinkData = new ScoreData();
+            if (scoreActivities.Count == 0)
             {
-                AverageScore = data.averageScore,
-                DrinkName = data.drinkName
-            };
+                highestScoreDrinkData.DrinkName = "none";
+                highestScoreDrinkData.AverageScore = 0;
+            }
+            else
+            {
+                var data = scoreActivities
+                    .GroupBy(x => x.DrinkId)
+                    .Select(x => new
+                    {
+                        drinkId = x.Key,
+                        averageScore = x.Select(y => y.Score).Average(),
+                        drinkName = x.Select(x => x.DrinkName).First()
+                    })
+                    .OrderByDescending(x => x.averageScore)
+                    .First();
+                highestScoreDrinkData.DrinkName = data.drinkName;
+                highestScoreDrinkData.AverageScore = data.averageScore;
+            }
             return highestScoreDrinkData;
         }
 
@@ -77,7 +89,15 @@ namespace BLL.Services
         {
             var scoreActivities = await _activitiesRepository.Get(x =>
                 x.Created > start && x.Created < end && x.Action == PerformedAction.AddedReview && x.Score != null);
-            var data = scoreActivities
+            var lowestScoreDrinkData = new ScoreData();
+            if (scoreActivities.Count == 0)
+            {
+                lowestScoreDrinkData.DrinkName = "none";
+                lowestScoreDrinkData.AverageScore = 0;
+            }
+            else
+            {
+                var data = scoreActivities
                 .GroupBy(x => x.DrinkId)
                 .Select(x => new {
                     drinkId = x.Key,
@@ -86,11 +106,10 @@ namespace BLL.Services
                 })
                 .OrderBy(x => x.averageScore)
                 .First();
-            var lowestScoreDrinkData = new ScoreData()
-            {
-                AverageScore = data.averageScore,
-                DrinkName = data.drinkName
-            };
+
+                lowestScoreDrinkData.DrinkName = data.drinkName;
+                lowestScoreDrinkData.AverageScore = data.averageScore;
+            }
             return lowestScoreDrinkData;
         }
 
@@ -98,38 +117,49 @@ namespace BLL.Services
         {
             var visitedActivities = await _activitiesRepository.Get(x =>
                 x.Created > start && x.Created < end && x.Action == PerformedAction.VisitedDrink);
-            var data = visitedActivities
-                .GroupBy(x => x.DrinkId)
-                .Select(x => new
-                {
-                    drinkId = x.Key, 
-                    visitedCount = x.Count(), 
-                    drinkName = x.Select(x => x.DrinkName).First()
-                })
-                .OrderByDescending(x => x.visitedCount)
-                .First();
-            var mostVisitedDrinkData = new TheMostData()
+            var mostVisitedDrinkData = new TheMostData();
+            if (visitedActivities.Count == 0)
             {
-                Name = data.drinkName,
-                Count = data.visitedCount
-            };
+                mostVisitedDrinkData.Name = "none";
+                mostVisitedDrinkData.Count = 0;
+            }
+            else
+            {
+                var data = visitedActivities
+                    .GroupBy(x => x.DrinkId)
+                    .Select(x => new
+                    {
+                        drinkId = x.Key,
+                        visitedCount = x.Count(),
+                        drinkName = x.Select(x => x.DrinkName).First()
+                    })
+                    .OrderByDescending(x => x.visitedCount)
+                    .First();
+                mostVisitedDrinkData.Name = data.drinkName;
+                mostVisitedDrinkData.Count = data.visitedCount;
+            }
             return mostVisitedDrinkData;
         }
 
         public async Task<TheMostData> GetMostActiveUser(DateTime start, DateTime end)
         {
-            var allActivities = await _activitiesRepository.Get();
-            var data = allActivities
-                .GroupBy(x => x.Username, activity => activity.Action)
-                .Select(x => new {username = x.Key, activitiesCount = x.Count()})
-                .OrderByDescending(x => x.activitiesCount)
-                .First();
-            var mostActiveUser = new TheMostData()
+            var allActivities = await _activitiesRepository.Get(x => x.Created > start && x.Created < end);
+            var mostActiveUser = new TheMostData();
+            if (allActivities.Count == 0)
             {
-                Name = data.username,
-                Count = data.activitiesCount
-            };
-
+                mostActiveUser.Name = "none";
+                mostActiveUser.Count = 0;
+            }
+            else
+            {
+                var data = allActivities
+                    .GroupBy(x => x.Username, activity => activity.Action)
+                    .Select(x => new { username = x.Key, activitiesCount = x.Count() })
+                    .OrderByDescending(x => x.activitiesCount)
+                    .First();
+                mostActiveUser.Name = data.username;
+                mostActiveUser.Count = data.activitiesCount;
+            }
             return mostActiveUser;
         }
 
@@ -137,21 +167,27 @@ namespace BLL.Services
         {
             var reviewActivities = await _activitiesRepository.Get(x =>
                 x.Created > start && x.Created < end && x.Action == PerformedAction.AddedReview);
-            var data = reviewActivities
-                .GroupBy(x => x.DrinkId)
-                .Select(x => new
-                {
-                    drinkId = x.Key, 
-                    reviewsCount = x.Count(),
-                    drinkName = x.Select(x => x.DrinkName).First()
-                })
-                .OrderByDescending(x => x.reviewsCount)
-                .First();
-            var mostReviewedDrinkData = new TheMostData()
+            var mostReviewedDrinkData = new TheMostData();
+            if (reviewActivities.Count == 0)
             {
-                Name = data.drinkName,
-                Count = data.reviewsCount
-            };
+                mostReviewedDrinkData.Name = "none";
+                mostReviewedDrinkData.Count = 0;
+            }
+            else
+            {
+                var data = reviewActivities
+                    .GroupBy(x => x.DrinkId)
+                    .Select(x => new
+                    {
+                        drinkId = x.Key,
+                        reviewsCount = x.Count(),
+                        drinkName = x.Select(x => x.DrinkName).First()
+                    })
+                    .OrderByDescending(x => x.reviewsCount)
+                    .First();
+                mostReviewedDrinkData.Name = data.drinkName;
+                mostReviewedDrinkData.Count = data.reviewsCount;
+            }
             return mostReviewedDrinkData;
         }
 
@@ -160,6 +196,13 @@ namespace BLL.Services
             var externalLoginActivities = await _activitiesRepository.Get(x =>
                 x.Created > start && x.Created < end && x.Action == PerformedAction.ExternalLogin);
             return externalLoginActivities.Count();
+        }
+
+        public async Task<int> GetNewRegisters(DateTime start, DateTime end)
+        {
+            var registerActivities = await _activitiesRepository.Get(x =>
+                x.Created > start && x.Created < end && x.Action == PerformedAction.NewUserRegistered);
+            return registerActivities.Count();
         }
     }
 }

@@ -87,7 +87,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User logged in.");
                     Task.Run(() =>
-                        _reportingApiService.CreateUserActivity(PerformedAction.SuccessfulLogin, this.User.Identity.Name));
+                        _reportingApiService.CreateUserActivity(PerformedAction.SuccessfulLogin, Input.Email));
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

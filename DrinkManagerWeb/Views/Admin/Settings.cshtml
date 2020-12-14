@@ -1,9 +1,12 @@
-﻿@model DrinkManagerWeb.Models.ViewModels.SettingsViewModel
+﻿@using System.Globalization
+@model DrinkManagerWeb.Models.ViewModels.SettingsViewModel
 @{
     ViewData["Title"] = "Settings";
     Layout = "_LayoutAdmin";
 
     var rand = new Random();
+    var lastReportDate = Model.Settings.First(x => x.Name.Equals("last.report.date")).Value;
+    var defaultDate = DateTime.Now.ToString("yyyy-MM-dd");
 }
 <h1>@ViewData["Title"]</h1>
 
@@ -85,18 +88,36 @@
                 Manual Report Generator
             </div>
             <div class="card-body">
-                <form>
-                    <div id="start-date" class="md-form md-outline input-with-post-icon flatpickr-input" inline="true">
-                        <input placeholder="Select date" type="text" id="select-start-date" class="form-control">
-                        <label for="select-start-date">Start Date</label>
-                        <i class="fas fa-calendar input-prefix"></i>
+                <form method="post">
+                    <div class="form-group d-flex align-items-center row">
+                        <div class="col-2">
+                            <label for="start-date" class="mb-0 mr-3">Start Date</label>
+                        </div>
+                        <div id="start-date" class="col-9 flatpickr-input" inline="true">
+                            <input type="text" 
+                                   id="select-start-date"
+                                   name="start.date"
+                                   value="@(lastReportDate != null ? lastReportDate : defaultDate)" 
+                                   style="padding-left: 33px">
+                            <i class="fas fa-calendar input-prefix" style="color: white; position: absolute; left: 25px; top: 11px;"></i>
+                        </div>
                     </div>
-                    <div id="end-date" class="md-form md-outline input-with-post-icon flatpickr-input" inline="true">
-                        <input placeholder="Select date" type="text" id="select-end-date" class="form-control">
-                        <label for="select-end-date">End Date</label>
-                        <i class="fas fa-calendar input-prefix"></i>
+                    <div class="form-group d-flex align-items-center row">
+                        <div class="col-2">
+                            <label for="end-date" class="mb-0 mr-3">End Date</label>
+                        </div>
+                        <div id="end-date" class="col-9 flatpickr-input" inline="true">
+                            <input 
+                                type="text" 
+                                id="select-end-date" 
+                                name="end.date"
+                                style="padding-left: 33px">
+                            <i class="fas fa-calendar input-prefix" style="color: white; position: absolute; left: 25px; top: 11px;"></i>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="mt-3 border-top">
+                    <button type="submit" class="btn btn-primary" asp-controller="Admin" asp-action="GeneralReport">Submit</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -121,17 +142,29 @@
                 });
         });
         $(function () {
-            let element = document.getElementById("start-date");
-            flatpickr(element,
+            flatpickr("#select-start-date",
                 {
-                    enableTime: true
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                    time_24hr: true
                 });
         });
         $(function () {
-            let element = document.getElementById("end-date");
-            flatpickr(element,
+            flatpickr("#select-end-date",
                 {
-                    enableTime: true
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                    time_24hr: true,
+                    minDate: $("#select-start-date").val()
+                });
+        });
+        $("#select-start-date").change(function(){
+            flatpickr("#select-end-date",
+                {
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                    time_24hr: true,
+                    minDate: $("#select-start-date").val()
                 });
         });
     </script>

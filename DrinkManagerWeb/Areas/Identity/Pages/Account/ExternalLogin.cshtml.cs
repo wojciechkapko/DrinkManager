@@ -136,7 +136,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         Task.Run(() =>
-                            _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, this.User.Identity.Name));
+                            _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, Input.Email));
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         
                         // Adding default role ("User") to every new external user (Google, Facebook)

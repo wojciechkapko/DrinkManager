@@ -11,7 +11,7 @@ namespace BLL.Services
     public class ReportingModuleService : IReportingModuleService
     {
         private const string CreateActivityAddress = "https://localhost:5115/api/Activity";
-        private const string GetReportAddress = "https://localhost:5115/api/Report/generateReport";
+        private const string ReportGeneratorAddress = "https://localhost:5115/api/Report/generateReport";
         public async Task CreateUserActivity(PerformedAction action, string username = null, string drinkId = null, string drinkName = null,
             string searchedPhrase = null, int? score = null)
         {
@@ -35,8 +35,9 @@ namespace BLL.Services
 
         public async Task<Report> GetReportData(DateTime start, DateTime end)
         {
+            var datesInfo = start.ToString("u") + "," + end.ToString("u");
             using var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(GetReportAddress);
+            var response = await httpClient.GetAsync(ReportGeneratorAddress + $"/{datesInfo}");
             var content = await response.Content.ReadAsStringAsync();
             var parsedResponse = JsonConvert.DeserializeObject<Report>(content);
             return parsedResponse;
