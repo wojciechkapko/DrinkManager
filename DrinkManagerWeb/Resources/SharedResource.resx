@@ -531,4 +531,37 @@
   <data name="ThePasswordFieldIsRequired" xml:space="preserve">
     <value>The Password field is required.</value>
   </data>
+  <data name="YourPasswordHasBeenReset" xml:space="preserve">
+    <value>Your password has been reset</value>
+  </data>
+  <data name="ClickHereToLogIn" xml:space="preserve">
+    <value>Click here to log in</value>
+  </data>
+  <data name="ThePasswordAndConfirmationPasswordDoNotMatch" xml:space="preserve">
+    <value>The password and confirmation password do not match.</value>
+  </data>
+  <data name="TheEmailFieldIsNotAValidE-mailAddress" xml:space="preserve">
+    <value>The Email field is not a valid e-mail address.</value>
+  </data>
+  <data name="ThePasswordMustBeAtLeast6AndAtMax100" xml:space="preserve">
+    <value>The Password must be at least 6 and at max 100 characters long.</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="ManageYourAccount" xml:space="preserve">
+    <value>Manage your account</value>
+  </data>
+  <data name="ChangeYourAccountSettings" xml:space="preserve">
+    <value>Change your account settings</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="External logins" xml:space="preserve">
+    <value>External logins</value>
+  </data>
+  <data name="PersonalData" xml:space="preserve">
+    <value>Personal data</value>
+  </data>
 </root>

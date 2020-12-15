@@ -531,4 +531,37 @@
   <data name="ThePasswordFieldIsRequired" xml:space="preserve">
     <value>Hasło jest wymagane.</value>
   </data>
+  <data name="YourPasswordHasBeenReset" xml:space="preserve">
+    <value>Twoje hasło zostało zresetowane</value>
+  </data>
+  <data name="ClickHereToLogIn" xml:space="preserve">
+    <value>Kliknij tu, by się zalogować</value>
+  </data>
+  <data name="ThePasswordAndConfirmationPasswordDoNotMatch" xml:space="preserve">
+    <value>Hasła nie są takie same.</value>
+  </data>
+  <data name="TheEmailFieldIsNotAValidE-mailAddress" xml:space="preserve">
+    <value>Wpisany email jest nieprawidłowym adresem.</value>
+  </data>
+  <data name="ThePasswordMustBeAtLeast6AndAtMax100" xml:space="preserve">
+    <value>Hasło musi składać się z co najmniej 6 i maksymalnie 100 znaków.</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Wyloguj</value>
+  </data>
+  <data name="ManageYourAccount" xml:space="preserve">
+    <value>Zarządzaj swoim kontem</value>
+  </data>
+  <data name="ChangeYourAccountSettings" xml:space="preserve">
+    <value>Zmień dane swojego konta</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="External logins" xml:space="preserve">
+    <value>Logowanie zewnętrzne</value>
+  </data>
+  <data name="PersonalData" xml:space="preserve">
+    <value>Dane osobiste</value>
+  </data>
 </root>

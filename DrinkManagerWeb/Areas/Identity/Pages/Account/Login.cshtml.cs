@@ -42,7 +42,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required(ErrorMessage = "TheEmailFieldIsRequired")]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "TheEmailFieldIsNotAValidE-mailAddress")]
             [DisplayName("Email")]
             public string Email { get; set; }
 
