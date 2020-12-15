@@ -23,7 +23,7 @@ namespace DrinkManagerWeb.Models.ViewModels
         public List<SelectListItem> ApplicationRoles { get; set; }
 
         [Required]
-        [StringLength(36, ErrorMessage = "The Role field is required.", MinimumLength = 36)]
+        [RegularExpression("^(?!Please select).*", ErrorMessage = "The Role field is required.")]
         [Display(Name = "Role")]  
         public string ApplicationRoleId { get; set; }
     }
