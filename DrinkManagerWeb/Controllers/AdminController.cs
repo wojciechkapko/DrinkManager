@@ -50,7 +50,8 @@ namespace DrinkManagerWeb.Controllers
         {
             var model = new UserViewModel
             {
-                ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
+                ApplicationRoles = _roleManager.Roles
+                    .Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                     .ToList()
             };
             return View(model);
@@ -61,52 +62,55 @@ namespace DrinkManagerWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser user = new AppUser
+                var role = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
+                if (role != null)
                 {
-                    Email = model.Email,
-                    UserName = model.Email
-                };
-
-                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
-                    if (applicationRole != null)
+                    AppUser user = new AppUser
                     {
-                        IdentityResult roleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
-                        if (roleResult.Succeeded)
-                        {
-                            return RedirectToAction("Users");
-                        }
+                        Email = model.Email,
+                        UserName = model.Email
+                    };
+
+                    IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(user, role.Name);
+                        return RedirectToAction("Users");
                     }
                 }
             }
 
             model.ApplicationRoles = _roleManager
-                .Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
+                .Roles
+                .Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                 .ToList();
+
             return View(model);
         }
 
         public async Task<IActionResult> UpdateUserRole(string id)
         {
-            var model = new UserEditRoleViewModel();
-
             if (string.IsNullOrEmpty(id))
             {
-                return View(model);
+                return RedirectToAction("Users");
             }
 
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                return View(model);
+                RedirectToAction("Users");
             }
 
-            model.Id = id;
-            model.Email = user.Email;
-            model.ApplicationRoleId = _roleManager.Roles.SingleOrDefault(r => r.Name == _userManager.GetRolesAsync(user).Result.SingleOrDefault())?.Id;
-            model.ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem {Text = r.Name, Value = r.Id}).ToList();
+            var model = new UserEditRoleViewModel
+            {
+                Id = id,
+                Email = user?.Email,
+                ApplicationRoleId = _roleManager.Roles
+                    .SingleOrDefault(r => r.Name == _userManager.GetRolesAsync(user).Result.SingleOrDefault())?.Id,
+                ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem {Text = r.Name, Value = r.Id})
+                    .ToList()
+            };
 
             return View(model);
         }
@@ -165,6 +169,10 @@ namespace DrinkManagerWeb.Controllers
                     }
                 }
             }
+            model.ApplicationRoles = _roleManager
+                .Roles
+                .Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
+                .ToList();
 
             return View(model);
         }
