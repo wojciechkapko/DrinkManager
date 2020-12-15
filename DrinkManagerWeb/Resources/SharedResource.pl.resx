@@ -564,4 +564,34 @@
   <data name="PersonalData" xml:space="preserve">
     <value>Dane osobiste</value>
   </data>
+  <data name="DeletePersonalData" xml:space="preserve">
+    <value>Usuwanie danych osobowych</value>
+  </data>
+  <data name="DeletingThisDataWillPermanentlyRemoveYourAccount" xml:space="preserve">
+    <value>Usunięcie tych danych spowoduje trwałe usunięcie Twojego konta, którego nie będzie można odzyskać</value>
+  </data>
+  <data name="DeleteDataAndCloseMyAccount" xml:space="preserve">
+    <value>Usuń dane i zamknij moje konto</value>
+  </data>
+  <data name="YourProfileHasBeenUpdated" xml:space="preserve">
+    <value>Twój profil został zaktualizowany.</value>
+  </data>
+  <data name="UnableToLoadUserWithID" xml:space="preserve">
+    <value>Nie można załadować użytkownika o ID</value>
+  </data>
+  <data name="ManageEmail" xml:space="preserve">
+    <value>Zarządzaj Emailem</value>
+  </data>
+  <data name="ChangeEmail" xml:space="preserve">
+    <value>Zmień email</value>
+  </data>
+  <data name="NewEmail" xml:space="preserve">
+    <value>Nowy email</value>
+  </data>
+  <data name="IncorrectPassword" xml:space="preserve">
+    <value>Hasło jest niepoprawne.</value>
+  </data>
+  <data name="UnexpectedErrorOccurredDeletingUserWithID" xml:space="preserve">
+    <value>Wystąpił nieoczekiwany błąd podczas usuwania użytkownika o ID</value>
+  </data>
 </root>
