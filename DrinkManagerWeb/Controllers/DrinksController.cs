@@ -225,7 +225,7 @@ namespace DrinkManagerWeb.Controllers
         {
             var drink = await _drinkRepository.GetDrinkById(id);
             Task.Run(() =>
-                _apiService.CreateUserActivity(PerformedAction.AddedToFavourite, this.User.Identity.Name, id, drink.Name));
+                _apiService.CreateUserActivity(PerformedAction.AddedToFavourite, this.User.Identity.Name, drinkId: id, drinkName: drink.Name));
             if (drink == null)
             {
                 // add error View

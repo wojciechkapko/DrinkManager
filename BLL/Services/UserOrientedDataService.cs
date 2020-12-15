@@ -14,71 +14,115 @@ namespace BLL.Services
         {
             _activitiesRepository = activitiesRepository;
         }
-        public async Task<DateTime> GetUserCreationDate(string username)
+        public async Task<string> GetUserCreationDate(string username)
         {
-            var activity = await _activitiesRepository.Get(x =>
-                x.Username == username && x.Action == PerformedAction.NewUserRegistered);
-            return activity.First().Created;
+            var activities = await _activitiesRepository.Get(x =>
+                x.Username == username);
+            if (activities.Count.Equals(0))
+            {
+                return "-";
+            }
+            return activities.OrderByDescending(x => x.Created).First().Created.ToString("u");
         }
 
         public async Task<int> GetUserLoginsCount(string username)
         {
             var activities = await _activitiesRepository.Get(x =>
-                x.Username == username && x.Action == PerformedAction.ExternalLogin ||
-                x.Action == PerformedAction.SuccessfulLogin);
+                x.Username == username && (x.Action == PerformedAction.ExternalLogin ||
+                x.Action == PerformedAction.SuccessfulLogin));
+            if (activities.Count.Equals(0))
+            {
+                return 0;
+            }
             return activities.Count;
         }
-        public async Task<TimeSpan> GetTimeSinceLastUserActivity(string username)
+        public async Task<LastSeenData> GetTimeSinceLastUserActivity(string username)
         {
             var activities = await _activitiesRepository.Get(x => x.Username == username);
-            return DateTime.Now - activities.OrderByDescending(x => x.Created).First().Created;
+            var lastSeen = new LastSeenData();
+            if (activities.Count.Equals(0))
+            {
+                lastSeen.Days = 0;
+                lastSeen.Hours = 0;
+                lastSeen.Minutes = 0;
+                lastSeen.Seconds = 0;
+            }
+            else
+            {
+                var timeOfLastActivity = DateTime.Now - activities.First().Created;
+                lastSeen.Days = timeOfLastActivity.Days;
+                lastSeen.Hours = timeOfLastActivity.Hours;
+                lastSeen.Minutes = timeOfLastActivity.Minutes;
+                lastSeen.Seconds = timeOfLastActivity.Seconds;
+            }
+
+            return lastSeen;
         }
         public async Task<TheMostData> GetMostVisitedDrinkData(string username)
         {
             var activities =
                 await _activitiesRepository.Get(x => x.Username == username && x.Action == PerformedAction.VisitedDrink);
-            var data = activities
-                .GroupBy(x => x.DrinkId)
-                .Select(x => new
-                {
-                    drinkId = x.Key,
-                    visitedCount = x.Count(),
-                    drinkName = x.Select(x => x.DrinkName).First()
-                })
-                .OrderByDescending(x => x.visitedCount)
-                .First();
-            var mostVisitedDrink = new TheMostData()
+            var mostVisitedDrink = new TheMostData();
+            if (activities.Count.Equals(0))
             {
-                Count = data.visitedCount,
-                Name = data.drinkName,
-                DrinkId = data.drinkId
-            };
+                mostVisitedDrink.Count = 0;
+                mostVisitedDrink.Name = "none";
+                mostVisitedDrink.DrinkId = null;
+            }
+            else
+            {
+                var data = activities
+                    .GroupBy(x => x.DrinkId)
+                    .Select(x => new
+                    {
+                        drinkId = x.Key,
+                        visitedCount = x.Count(),
+                        drinkName = x.Select(x => x.DrinkName).First()
+                    })
+                    .OrderByDescending(x => x.visitedCount)
+                    .First();
+                mostVisitedDrink.Count = data.visitedCount;
+                mostVisitedDrink.Name = data.drinkName;
+                mostVisitedDrink.DrinkId = data.drinkId;
+            }
             return mostVisitedDrink;
         }
 
-        public async Task<DrinkData?> GetLastReviewedDrink(string username)
+        public async Task<DrinkData> GetLastReviewedDrink(string username)
         {
             var activities =
                 await _activitiesRepository.Get(x => x.Username == username && x.Action == PerformedAction.AddedReview);
-            var activity = activities.OrderByDescending(x => x.Created).First();
-            var drinkData = new DrinkData()
+            var drinkData = new DrinkData();
+            if (activities.Count.Equals(0))
             {
-                DrinkId = activity.DrinkId,
-                DrinkName = activity.DrinkName
-            };
+                drinkData.DrinkId = null;
+                drinkData.DrinkName = "none";
+            }
+            else
+            {
+                var lastlyReviewedDrink = activities.OrderByDescending(x => x.Created).First();
+                drinkData.DrinkId = lastlyReviewedDrink.DrinkId;
+                drinkData.DrinkName = lastlyReviewedDrink.DrinkName;
+            }
             return drinkData;
         }
 
-        public async Task<DrinkData?> GetLastAddedFavouriteDrink(string username)
+        public async Task<DrinkData> GetLastAddedFavouriteDrink(string username)
         {
             var activities =
                 await _activitiesRepository.Get(x => x.Username == username && x.Action == PerformedAction.AddedToFavourite);
-            var activity = activities.OrderByDescending(x => x.Created).First();
-            var drinkData = new DrinkData()
+            var drinkData = new DrinkData();
+            if (activities.Count.Equals(0))
             {
-                DrinkId = activity.DrinkId,
-                DrinkName = activity.DrinkName
-            };
+                drinkData.DrinkId = null;
+                drinkData.DrinkName = "none";
+            }
+            else
+            {
+                var activity = activities.OrderByDescending(x => x.Created).First();
+                drinkData.DrinkId = activity.DrinkId;
+                drinkData.DrinkName = activity.DrinkName;
+            }
             return drinkData;
         }
     }
