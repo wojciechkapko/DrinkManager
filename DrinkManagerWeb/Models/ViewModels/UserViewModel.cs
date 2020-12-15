@@ -22,6 +22,7 @@ namespace DrinkManagerWeb.Models.ViewModels
 
         public List<SelectListItem> ApplicationRoles { get; set; }
 
+        [Required]
         [Display(Name = "Role")]  
         public string ApplicationRoleId { get; set; } 
     }
