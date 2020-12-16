@@ -657,4 +657,7 @@
   <data name="Download" xml:space="preserve">
     <value>Download</value>
   </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
 </root>
