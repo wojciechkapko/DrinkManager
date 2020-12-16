@@ -1,11 +1,12 @@
 ﻿@using System.Globalization
+@using Newtonsoft.Json
 @model DrinkManagerWeb.Models.ViewModels.SettingsViewModel
 @{
     ViewData["Title"] = "Settings";
     Layout = "_LayoutAdmin";
 
     var rand = new Random();
-    var lastReportDate = Model.Settings.First(x => x.Name.Equals("last.report.date")).Value;
+    var lastReportDate = JsonConvert.SerializeObject(DateTime.Parse(Model.Settings.First(x => x.Name.Equals("last.report.date")).Value));
     var defaultDate = DateTime.Now.ToString("yyyy-MM-dd");
 }
 <h1>@ViewData["Title"]</h1>
