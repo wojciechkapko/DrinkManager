@@ -660,4 +660,13 @@
   <data name="ChangePassword" xml:space="preserve">
     <value>Zmiana hasła</value>
   </data>
+  <data name="SetPassword" xml:space="preserve">
+    <value>Ustaw hasło</value>
+  </data>
+  <data name="YouDoNotHaveALocalUsername/passwordForThisSite" xml:space="preserve">
+    <value>Nie masz ustawionej nazwy użytkownika lub hasła do tej strony</value>
+  </data>
+  <data name="AddALocalAccountSoYouCanLogInWithoutAnExternalLogin" xml:space="preserve">
+    <value>Dodaj konto lokalne, aby móc się zalogować bez zewnętrznego logowania</value>
+  </data>
 </root>
