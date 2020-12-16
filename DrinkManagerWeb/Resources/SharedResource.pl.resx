@@ -594,4 +594,67 @@
   <data name="UnexpectedErrorOccurredDeletingUserWithID" xml:space="preserve">
     <value>Wystąpił nieoczekiwany błąd podczas usuwania użytkownika o ID</value>
   </data>
+  <data name="YourEmailIsUnchanged" xml:space="preserve">
+    <value>Twój mail pozostał niezmieniony.</value>
+  </data>
+  <data name="UpdatePassword" xml:space="preserve">
+    <value>Zaktualizuj hasło</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Obecne hasło</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nowe hasło</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Potwierdź nowe hasło</value>
+  </data>
+  <data name="TheNewPasswordAndConfirmationPasswordDoNotMatch" xml:space="preserve">
+    <value>Hasła nie są takie same.</value>
+  </data>
+  <data name="YourPasswordHasBeenChanged" xml:space="preserve">
+    <value>Twoje hasło zostało zmienione.</value>
+  </data>
+  <data name="YourPasswordHasBeenSet" xml:space="preserve">
+    <value>Twoje hasło zostało ustawione.</value>
+  </data>
+  <data name="DownloadYourData" xml:space="preserve">
+    <value>Pobierz swoje dane</value>
+  </data>
+  <data name="ManageYourExternalLogins" xml:space="preserve">
+    <value>Zarządzaj zewnętrznymi loginami</value>
+  </data>
+  <data name="RegisteredLogins" xml:space="preserve">
+    <value>Zarejestrowane dane logowania</value>
+  </data>
+  <data name="AddAnotherServiceToLogIn" xml:space="preserve">
+    <value>Dodaj inną usługę, żeby się zalogować</value>
+  </data>
+  <data name="TheExternalLoginWasNotRemoved" xml:space="preserve">
+    <value>Zewnętrzny login nie został usunięty.</value>
+  </data>
+  <data name="TheExternalLoginWasAdded" xml:space="preserve">
+    <value>Zewnętrzny login został dodany.</value>
+  </data>
+  <data name="UnexpectedErrorOccurredLoadingExternalLoginInfoForUserWithID" xml:space="preserve">
+    <value>Wystąpił nieoczekiwany błąd podczas ładowania zewnętrznych danych logowania dla użytkownika o ID</value>
+  </data>
+  <data name="TheExternalLoginWasNotAdded" xml:space="preserve">
+    <value>Zewnętrzny login nie został dodany. Logowanie zewnętrzne można powiązać tylko z jednym kontem.</value>
+  </data>
+  <data name="TheExternalLoginWasRemoved" xml:space="preserve">
+    <value>Zewnętrzny login został usunięty.</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Usuń</value>
+  </data>
+  <data name="YourAccountContainsPersonalDataThatYouHaveGivenUs" xml:space="preserve">
+    <value>Twoje konto zawiera dane osobowe, które nam przekazałaś/eś</value>
+  </data>
+  <data name="ThisPageAllowsYouToDownloadOrDeleteThatData" xml:space="preserve">
+    <value>Ta strona umożliwia ci pobranie lub usunięcie danych</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Pobierz</value>
+  </data>
 </root>
