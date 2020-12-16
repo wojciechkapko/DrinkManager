@@ -669,4 +669,16 @@
   <data name="AddALocalAccountSoYouCanLogInWithoutAnExternalLogin" xml:space="preserve">
     <value>Add a local account so you can log in without an external login</value>
   </data>
+  <data name="ThankYouForConfirmingYourEmail" xml:space="preserve">
+    <value>Thank you for confirming your email.</value>
+  </data>
+  <data name="ErrorConfirmingYourEmail" xml:space="preserve">
+    <value>Error confirming your email.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="SetYourPassword" xml:space="preserve">
+    <value>Set your password</value>
+  </data>
 </root>

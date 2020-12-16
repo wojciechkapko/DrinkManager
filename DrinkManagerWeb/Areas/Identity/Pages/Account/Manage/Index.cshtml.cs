@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using BLL;
 using DrinkManagerWeb.Resources;
 using Microsoft.AspNetCore.Identity;
@@ -24,6 +25,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account.Manage
             _localizer = localizer;
         }
 
+        [Display(Name = "Username")]
         public string Username { get; set; }
 
         [TempData]
