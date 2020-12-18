@@ -1,0 +1,10 @@
+﻿@using DrinkManagerWeb
+@using DrinkManagerWeb.Models
+<<<<<<< HEAD
+@using System.Globalization
+@using Microsoft.Extensions.Localization
+=======
+@using Microsoft.AspNetCore.Identity
+>>>>>>> master
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, DrinkManagerWeb

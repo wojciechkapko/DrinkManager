@@ -7,15 +7,15 @@ using DrinkManagerWeb.Middlewares;
 using DrinkManagerWeb.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
 using System.Threading.Tasks;
-using Serilog;
 
 namespace DrinkManagerWeb
 {
@@ -46,6 +46,7 @@ namespace DrinkManagerWeb
             {
                 options.SetDefaultCulture("en-GB");
                 options.AddSupportedCultures("en-GB","pl-PL");
+                options.AddSupportedUICultures("en-GB", "pl-PL");
                 options.FallBackToParentUICultures = true;
 
                 options
@@ -75,14 +76,15 @@ namespace DrinkManagerWeb
             services
                 .AddRazorPages()
                 .AddViewLocalization();
-            services.AddMvc()
-                .AddDataAnnotationsLocalization(options => {
-                    options.DataAnnotationLocalizerProvider = (type, factory) =>
-                        factory.Create(typeof(SharedResource));
-                });
+
 
             services.AddScoped<RequestLocalizationCookiesMiddleware>();
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddControllersWithViews().
+                AddRazorRuntimeCompilation().
+                AddDataAnnotationsLocalization(options => {
+                options.DataAnnotationLocalizerProvider = (type, factory) =>
+                    factory.Create(typeof(SharedResource));
+            });
 
             services.AddHttpContextAccessor();
         }
