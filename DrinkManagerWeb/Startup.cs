@@ -2,16 +2,20 @@ using BLL;
 using BLL.Data;
 using BLL.Data.Repositories;
 using BLL.Services;
+using DrinkManagerWeb.Extensions;
+using DrinkManagerWeb.Middlewares;
+using DrinkManagerWeb.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
 using System.Threading.Tasks;
-using Serilog;
 
 namespace DrinkManagerWeb
 {
@@ -27,8 +31,6 @@ namespace DrinkManagerWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             services.AddDbContext<DrinkAppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<AppUser>(options =>
                 {
@@ -38,6 +40,19 @@ namespace DrinkManagerWeb
                 })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DrinkAppContext>();
+
+            services.AddLocalization();
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SetDefaultCulture("en-GB");
+                options.AddSupportedCultures("en-GB", "pl-PL");
+                options.AddSupportedUICultures("en-GB", "pl-PL");
+                options.FallBackToParentUICultures = true;
+
+                options
+                    .RequestCultureProviders
+                    .Remove(typeof(AcceptLanguageHeaderRequestCultureProvider));
+            });
 
             services.AddAuthentication()
                 .AddFacebook(facebookOptions =>
@@ -64,8 +79,20 @@ namespace DrinkManagerWeb
             services.AddSingleton<BackgroundJobScheduler>();
             services.AddHostedService(provider => provider.GetService<BackgroundJobScheduler>());
 
-            services.AddRazorPages();
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services
+                .AddRazorPages()
+                .AddViewLocalization();
+
+
+            services.AddScoped<RequestLocalizationCookiesMiddleware>();
+            services.AddControllersWithViews().
+                AddRazorRuntimeCompilation().
+                AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                        factory.Create(typeof(SharedResource));
+                });
+
             services.AddHttpContextAccessor();
         }
 
@@ -84,14 +111,15 @@ namespace DrinkManagerWeb
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseRequestLocalization();
+            app.UseRequestLocalizationCookies();
             app.UseSerilogRequestLogging();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

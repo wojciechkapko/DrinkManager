@@ -1,9 +1,17 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using DrinkManagerWeb.Areas.Identity.Pages.Account.Manage
+@using DrinkManagerWeb.Resources
+@inject IStringLocalizer<SharedResource> L
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+
 <div class="text-center">
-    <h1 class="display-4 px-4 pb-5">Welcome in Drink Manager App!</h1>
+    <h1 class="display-4 px-4 pb-5">@L["WelcomeInDrinkManagerApp"]!</h1>
 </div>
 
 <div class="container-fluid">
@@ -11,20 +19,20 @@
         <div class="col-12 col-md-6">
             <div class="text-left p-4 m-5" style="line-height: 1.75">
                 <p>
-                    With this app you can search drinks by their:
+                    @L["WithThisAppYouCanSearchDrinksByTheir"]:
                     <ul>
-                        <li>name,</li>
-                        <li>ingredients,</li>
-                        <li>alcohol content.</li>
+                        <li>@L["Name_diff"],</li>
+                        <li>@L["Ingredients_diff"],</li>
+                        <li>@L["AlcoholContent_diff"].</li>
                     </ul>
-                    You can also add:
+                    @L["YouCanAlsoAdd"]:
                     <ul>
-                        <li>review to drinks,</li>
-                        <li>ratings,</li>
-                        <li>your drink.</li>
+                        <li>@L["reviewToDrinks"],</li>
+                        <li>@L["ratings_diff"],</li>
+                        <li>@L["yourDrink"].</li>
                     </ul>
-                    When you find your beloved drink you can add it to your list of favourite drinks!
-                    <br><br>Enjoy!
+                    @L["WhenYouFindYourBelovedDrink"]!
+                    <br><br>@L["Enjoy"]!
                 </p>
             </div>
         </div>

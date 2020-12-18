@@ -9,27 +9,27 @@ namespace DrinkManagerWeb.Models.ViewModels
     {
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "TheNameFieldIsRequired")]
         [StringLength(25)]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "TheCategoryFieldIsRequired")]
         [StringLength(25)]
         public string Category { get; set; }
         public string AlcoholicInfo { get; set; }
-        [Required]
+        [Required(ErrorMessage = "TheGlassFieldIsRequired")]
         [StringLength(25)]
         public string GlassType { get; set; }
-        [Required]
+        [Required(ErrorMessage = "TheGlassFieldIsRequired")]
         public string Instructions { get; set; }
         [DisplayName("Image URL")]
         [Url]
         public string ImageUrl { get; set; }
         [DisplayName("Ingredient")]
-        [Required(ErrorMessage = "Ingredient is required.")]
+        [Required(ErrorMessage = "IngredientIsRequired")]
         [StringLength(25)]
         public string Ingredient1 { get; set; }
         [DisplayName("Amount")]
-        [Required(ErrorMessage = "Amount is required.")]
+        [Required(ErrorMessage = "AmountIsRequired")]
         [StringLength(25)]
         public string Amount1 { get; set; }
         public string Ingredient2 { get; set; }

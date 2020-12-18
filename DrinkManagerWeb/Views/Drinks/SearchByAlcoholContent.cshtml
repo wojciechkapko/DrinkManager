@@ -1,5 +1,7 @@
-﻿@using BLL
+﻿@using DrinkManagerWeb.Resources
+@using BLL
 @model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+@inject IStringLocalizer<SharedResource> L
 
 @{
     ViewBag.Title = "Drinks";
@@ -8,29 +10,29 @@
 <div class="row">
     <div class="col-12">
         <header class="d-flex align-items-center">
-            <h1>Search by Alcohol Content</h1>
+            <h1>@L["SearchByAlcoholContent"]</h1>
         </header>
         @*Checkboxes returns user choice of alcohol content to controller.
             @*Checkboxes returns user choice of alcohol content to controller.
             They are automatically checked when user comes to this view from another view*@
-        <div class="h5 font-weight-bold">Choose alcoholic option</div>
+    <div class="h5 font-weight-bold">@L["ChooseAlcoholicOption"]:</div>
         <div class="p-2">
             <form asp-route-pageNumber="1" method="post" class="mb-3">
 
                 <div class="form-group form-check">
                     @Html.CheckBoxFor(item => item.Alcoholics, new { @class = "form-check-input", @id = "alcoholicsCheck" })
-                    <label class="form-check-label">Alcoholic Drinks</label>
+                    <label class="form-check-label">@L["AlcoholicDrinks"]</label>
                 </div>
                 <div class="form-group form-check">
                     @Html.CheckBoxFor(item => item.NonAlcoholics, new { @class = "form-check-input", @id = "nonAlcoholicsCheck" })
-                    <label class="form-check-label">Non Alcoholic Drinks</label>
+                    <label class="form-check-label">@L["NonAlcoholicDrinks"]</label>
                 </div>
                 <div class="form-group form-check">
                     @Html.CheckBoxFor(item => item.OptionalAlcoholics, new { @class = "form-check-input", @id = "optionalAlcoholicsCheck" })
-                    <label class="form-check-label">Optional Alcohol Drinks</label>
+                    <label class="form-check-label">@L["OptionalAlcoholDrinks"]</label>
                 </div>
-                <button type="submit" class="btn btn-outline-primary p-2">Search</button>
-                <a asp-controller="Drinks" asp-action="SearchByAlcoholContent" asp-route-alcoholics="false" asp-route-nonAlcoholics="false" asp-route-optionalAlcoholics="false" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0 p-2" type="button">Clear</a>
+                <button type="submit" class="btn btn-outline-primary p-2">@L["Search"]</button>
+                <a asp-controller="Drinks" asp-action="SearchByAlcoholContent" asp-route-alcoholics="false" asp-route-nonAlcoholics="false" asp-route-optionalAlcoholics="false" class="btn btn-outline-secondary mr-0 ml-2 mt-0 mb-0 p-2" type="button">@L["Clear"]</a>
             </form>
         </div>
         <partial name="Partials/DrinkList" model="Model" />
