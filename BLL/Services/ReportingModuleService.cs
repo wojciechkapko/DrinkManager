@@ -1,7 +1,6 @@
 ﻿using BLL.Enums;
 using Newtonsoft.Json;
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,10 +26,6 @@ namespace BLL.Services
             };
             var content = new StringContent(JsonConvert.SerializeObject(newUserActivity), Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(CreateActivityAddress, content);
-            if (response.StatusCode == HttpStatusCode.BadRequest)
-            {
-                // Zaloguj mi to moim loggerem
-            }
         }
 
         public async Task<Report> GetReportData(DateTime start, DateTime end)
