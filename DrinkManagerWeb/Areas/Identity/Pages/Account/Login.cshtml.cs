@@ -1,9 +1,13 @@
 using BLL;
+using BLL.Enums;
+using BLL.Services;
+using DrinkManagerWeb.Resources;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,14 +23,20 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IReportingModuleService _reportingApiService;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
         public LoginModel(SignInManager<AppUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<AppUser> userManager)
+            UserManager<AppUser> userManager,
+            IReportingModuleService reportingApiService, 
+            IStringLocalizer<SharedResource> localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _reportingApiService = reportingApiService;
+            _localizer = localizer;
         }
 
         [BindProperty]
@@ -75,7 +85,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -84,6 +94,8 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    Task.Run(() =>
+                        _reportingApiService.CreateUserActivity(PerformedAction.SuccessfulLogin, Input.Email));
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -97,7 +109,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, _localizer["EmailOrPasswordIsIncorrect"]);
                     return Page();
                 }
             }

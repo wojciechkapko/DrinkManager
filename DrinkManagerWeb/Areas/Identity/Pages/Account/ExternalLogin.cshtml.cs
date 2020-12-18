@@ -1,4 +1,6 @@
 using BLL;
+using BLL.Enums;
+using BLL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -22,17 +24,20 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IReportingModuleService _reportingApiService;
 
         public ExternalLoginModel(
             SignInManager<AppUser> signInManager,
             UserManager<AppUser> userManager,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender, RoleManager<IdentityRole> roleManager)
+            IEmailSender emailSender, RoleManager<IdentityRole> roleManager,
+                IReportingModuleService reportingApiService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _emailSender = emailSender;
+            _reportingApiService = reportingApiService;
             _roleManager = roleManager;
         }
 
@@ -85,6 +90,8 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
+                await Task.Run(() =>
+                    _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, this.User.Identity.Name));
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
@@ -128,6 +135,8 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        Task.Run(() =>
+                            _reportingApiService.CreateUserActivity(PerformedAction.ExternalLogin, Input.Email));
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         
                         // Adding default role ("User") to every new external user (Google, Facebook)

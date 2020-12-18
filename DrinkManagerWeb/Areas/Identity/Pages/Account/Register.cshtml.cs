@@ -1,4 +1,6 @@
 using BLL;
+using BLL.Enums;
+using BLL.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -24,18 +26,21 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IReportingModuleService _reportingApiService;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender, 
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+                IReportingModuleService reportingApiService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _reportingApiService = reportingApiService;
             _roleManager = roleManager;
         }
 
@@ -82,6 +87,8 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    Task.Run(() =>
+                        _reportingApiService.CreateUserActivity(PerformedAction.NewUserRegistered, Input.Email));
                     _logger.LogInformation("User created a new account with password.");
 
                     // Adding default role ("User") to every new user

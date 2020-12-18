@@ -681,4 +681,7 @@
   <data name="SetYourPassword" xml:space="preserve">
     <value>Ustaw swoje hasło</value>
   </data>
+  <data name="EmailOrPasswordIsIncorrect" xml:space="preserve">
+    <value>Email lub hasło jest niepoprawne.</value>
+  </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿using BLL;
 using BLL.Data.Repositories;
 using BLL.Services;
+using DrinkManagerWeb.Models;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,8 +11,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -23,19 +27,22 @@ namespace DrinkManagerWeb.Controllers
         private readonly IPasswordHasher<AppUser> _passwordHasher;
         private readonly ISettingRepository _settingRepository;
         private readonly BackgroundJobScheduler _backgroundJobScheduler;
+        private readonly IReportingModuleService _apiService;
 
         public AdminController(
             RoleManager<IdentityRole> roleManager,
             UserManager<AppUser> userManager,
             IPasswordHasher<AppUser> passwordHasher,
             BackgroundJobScheduler backgroundJobScheduler,
-            ISettingRepository settingRepository)
+            ISettingRepository settingRepository,
+            IReportingModuleService apiService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _passwordHasher = passwordHasher;
             _backgroundJobScheduler = backgroundJobScheduler;
             _settingRepository = settingRepository;
+            _apiService = apiService;
         }
 
         public IActionResult Index()
@@ -395,6 +402,13 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult Errors()
         {
             return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> GeneralReport(IFormCollection data)
+        {
+            var model = await _apiService.GetReportData(DateTime.Parse(data["start.date"]), DateTime.Parse(data["end.date"]));
+            return View(model);
         }
     }
 }

@@ -21,6 +21,7 @@ namespace DrinkManagerWeb.Controllers
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
+        private readonly IReportingModuleService _apiService;
         private readonly IFavouriteRepository _favouriteRepository;
         private readonly IReviewRepository _reviewRepository;
         private readonly IStringLocalizer<SharedResource> _localizer;
@@ -33,6 +34,7 @@ namespace DrinkManagerWeb.Controllers
             IFavouriteRepository favouriteRepository,
             IReviewRepository reviewRepository,
             UserManager<AppUser> userManager,
+            IReportingModuleService apiService,
             IStringLocalizer<SharedResource> localizer)
         {
             _drinkRepository = drinkRepository;
@@ -41,12 +43,13 @@ namespace DrinkManagerWeb.Controllers
             _reviewRepository = reviewRepository;
             _userManager = userManager;
             _localizer = localizer;
+            _apiService = apiService;
         }
 
         public IActionResult Index(int? pageNumber)
         {
+            Task.Run(() => _apiService.CreateUserActivity(PerformedAction.AllDrinks, this.User.Identity.Name));
             var drinks = _drinkRepository.GetAllDrinks().OrderBy(x => x.Name);
-
             var model = new DrinksViewModel
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
@@ -58,6 +61,8 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> DrinkDetails(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
+            Task.Run(() =>
+                _apiService.CreateUserActivity(PerformedAction.VisitedDrink, this.User.Identity.Name, drinkId: id, drinkName: drink.Name));
             if (drink == null)
             {
                 // add error View
@@ -69,7 +74,6 @@ namespace DrinkManagerWeb.Controllers
                 IsFavourite = _favouriteRepository.IsFavourite(_userManager.GetUserId(User), drink?.DrinkId),
                 CanUserReview = _reviewRepository.CanUserReviewDrink(_userManager.GetUserId(User), drink?.DrinkId)
             };
-
             return View(model);
         }
 
@@ -116,12 +120,14 @@ namespace DrinkManagerWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IFormCollection data, string? id)
         {
-
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
+            Task.Run(() =>
+                _apiService.CreateUserActivity(PerformedAction.EditOrCreateDrink, this.User.Identity.Name, id,
+                    data["Name"]));
             var ingredients = new List<Ingredient>();
 
             // create ingredient objects from the from data
@@ -203,7 +209,8 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> Remove(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
-
+            Task.Run(() =>
+                _apiService.CreateUserActivity(PerformedAction.RemoveDrink, this.User.Identity.Name, id, drink.Name));
             if (drink == null)
             {
                 return NotFound();
@@ -222,6 +229,8 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> AddToFavourite(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
+            Task.Run(() =>
+                _apiService.CreateUserActivity(PerformedAction.AddedToFavourite, this.User.Identity.Name, drinkId: id, drinkName: drink.Name));
             if (drink == null)
             {
                 // add error View
@@ -236,6 +245,8 @@ namespace DrinkManagerWeb.Controllers
         public async Task<IActionResult> RemoveFromFavourite(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
+            Task.Run(() =>
+                _apiService.CreateUserActivity(PerformedAction.RemovedFromFavourite, this.User.Identity.Name, id, drink.Name));
             if (drink == null)
             {
                 // add error View
@@ -265,9 +276,10 @@ namespace DrinkManagerWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddReview(IFormCollection data, string? id)
         {
-
+            
             var drinkToUpdate = await _drinkRepository.GetDrinkById(id);
-
+            Task.Run(() =>
+                _apiService.CreateUserActivity(PerformedAction.AddedReview, this.User.Identity.Name, id, drinkToUpdate.Name, score: int.Parse(data["DrinkReview.ReviewScore"])));
             if (drinkToUpdate == null)
             {
                 TempData["Alert"] = _localizer["DrinkNotFound"] + ".";
@@ -283,7 +295,6 @@ namespace DrinkManagerWeb.Controllers
                 Author = await _userManager.GetUserAsync(User),
                 ReviewDate = DateTime.Now
             });
-
             _drinkRepository.Update(drinkToUpdate);
             await _drinkRepository.SaveChanges();
 
@@ -328,6 +339,8 @@ namespace DrinkManagerWeb.Controllers
             var drinks = _drinkRepository.GetAllDrinks();
             if (!string.IsNullOrEmpty(searchString))
             {
+                Task.Run(() =>
+                    _apiService.CreateUserActivity(PerformedAction.SearchByName, this.User.Identity.Name, searchedPhrase: searchString));
                 drinks = _drinkSearchService.SearchByName(searchString);
             }
 
@@ -349,6 +362,8 @@ namespace DrinkManagerWeb.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
+                Task.Run(() =>
+                    _apiService.CreateUserActivity(PerformedAction.SearchByIngredients, this.User.Identity.Name, searchedPhrase: searchString));
                 var searchDrinkIngredientsCondition =
                     searchCondition.Equals("all") ? SearchDrinkOption.All : SearchDrinkOption.Any;
                 drinks = _drinkSearchService.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')),
