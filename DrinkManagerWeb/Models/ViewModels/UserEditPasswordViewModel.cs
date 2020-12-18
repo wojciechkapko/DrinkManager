@@ -6,21 +6,11 @@ namespace DrinkManagerWeb.Models.ViewModels
     {
         public string Id { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [DataType(DataType.Password)]
         [Required]
-        [RegularExpression("^[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ]+\\d+$",
-            ErrorMessage = "Use letters (lowercase and/or uppercase) and at least one digit.")]
-        [StringLength(100,
-            ErrorMessage =
-                "The {0} must be at least {2} and at max {1} characters long and must contain at least one letter and one digit.",
-            MinimumLength = 6)]
+        [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
     }
 }

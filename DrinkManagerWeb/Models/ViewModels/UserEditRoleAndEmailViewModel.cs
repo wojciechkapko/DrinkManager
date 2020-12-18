@@ -4,9 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DrinkManagerWeb.Models.ViewModels
 {
-    public class UserEditRoleViewModel
+    public class UserEditRoleAndEmailViewModel
     {
         public string Id { get; set; }
+
+        public string UserName { get; set; }
 
         [Required]
         [EmailAddress]

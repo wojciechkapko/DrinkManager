@@ -1,16 +1,18 @@
-﻿@model DrinkManagerWeb.Models.ViewModels.UserEditRoleViewModel
+﻿@model DrinkManagerWeb.Models.ViewModels.UserEditRoleAndEmailViewModel
 @{
-    ViewBag.Title = "Administration - Update User";
+    ViewBag.Title = "Administration - Update Role And Email";
     Layout = "_LayoutAdmin";
 }
 
-<h2>Edit User's Role</h2>
+<h2>Edit @Model.UserName role and email</h2>
 <hr />
-<form asp-action="UpdateUserRole" method="post">
+<form asp-action="UpdateUserRoleAndEmail" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="UserName" type="hidden" />
     <div class="form-group row">
         <label class="col-form-label text-md-right col-md-2" asp-for="Email"></label>
         <div class="col-md-9">
-            <input asp-for="Email" class="form-control"/>
+            <input asp-for="Email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
     </div>
