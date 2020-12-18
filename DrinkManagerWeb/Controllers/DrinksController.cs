@@ -225,7 +225,7 @@ namespace DrinkManagerWeb.Controllers
         {
             var drink = await _drinkRepository.GetDrinkById(id);
             Task.Run(() =>
-                _apiService.CreateUserActivity(PerformedAction.AddedToFavourite, this.User.Identity.Name, id, drink.Name));
+                _apiService.CreateUserActivity(PerformedAction.AddedToFavourite, this.User.Identity.Name, drinkId: id, drinkName: drink.Name));
             if (drink == null)
             {
                 // add error View
@@ -377,5 +377,19 @@ namespace DrinkManagerWeb.Controllers
             };
             return View(model);
         }
+
+        //[HttpGet]
+        //public IActionResult GetReport()
+        //{
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> GetReport(DateTime start, DateTime end)
+        //{
+        //    var report = await _apiService.GetReportData(start, end);
+        //    _apiService.ComposeReport(report);
+        //    return 
+        //}
     }
 }
