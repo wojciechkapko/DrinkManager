@@ -1,0 +1,684 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddIngredient" xml:space="preserve">
+    <value>Dodaj składnik</value>
+  </data>
+  <data name="AddReview" xml:space="preserve">
+    <value>Dodaj ocenę</value>
+  </data>
+  <data name="AddToFavourites" xml:space="preserve">
+    <value>Dodaj do ulubionych</value>
+  </data>
+  <data name="AlcoholContent_diff" xml:space="preserve">
+    <value>zawartości alkoholu</value>
+  </data>
+  <data name="AlcoholContent" xml:space="preserve">
+    <value>Zawartość alkoholu</value>
+  </data>
+  <data name="alcoholic" xml:space="preserve">
+    <value>alkoholowy</value>
+  </data>
+  <data name="AlcoholicDrinks" xml:space="preserve">
+    <value>Alkoholowe drinki</value>
+  </data>
+  <data name="AllDrinks" xml:space="preserve">
+    <value>Wszystkie drinki</value>
+  </data>
+  <data name="AllIngredients" xml:space="preserve">
+    <value>Wszystkie składniki</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Ilość</value>
+  </data>
+  <data name="AnyIngredient" xml:space="preserve">
+    <value>Jakikolwiek składnik</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Kategoria</value>
+  </data>
+  <data name="ChooseAlcoholicOption" xml:space="preserve">
+    <value>Wybierz opcję zawartości alkoholu</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Wyczyść</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Potwierdź hasło</value>
+  </data>
+  <data name="CreateANewAccount" xml:space="preserve">
+    <value>Stwórz nowe konto</value>
+  </data>
+  <data name="CreateNewDrink" xml:space="preserve">
+    <value>Dodaj nowy drink</value>
+  </data>
+  <data name="CreateNewDrink_diff" xml:space="preserve">
+    <value>Dodawanie nowego drinka</value>
+  </data>
+  <data name="DateOfReview" xml:space="preserve">
+    <value>Data oceny</value>
+  </data>
+  <data name="DrinkList" xml:space="preserve">
+    <value>Lista drinków</value>
+  </data>
+  <data name="DrinkScore" xml:space="preserve">
+    <value>Ocena drinka</value>
+  </data>
+  <data name="Editing" xml:space="preserve">
+    <value>Edytowanie</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EnterADrinkNameToFind" xml:space="preserve">
+    <value>Wpisz nazwę drinka</value>
+  </data>
+  <data name="EnterIngredientsToFind" xml:space="preserve">
+    <value>Wpisz składniki</value>
+  </data>
+  <data name="FavouriteDrinks" xml:space="preserve">
+    <value>Ulubione drinki</value>
+  </data>
+  <data name="FavouriteDrinksList" xml:space="preserve">
+    <value>Lista ulubionych drinków</value>
+  </data>
+  <data name="Glass" xml:space="preserve">
+    <value>Szkło</value>
+  </data>
+  <data name="GoBack" xml:space="preserve">
+    <value>Wróć</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Strona główna</value>
+  </data>
+  <data name="ImageURL" xml:space="preserve">
+    <value>URL obrazka</value>
+  </data>
+  <data name="Ingredients" xml:space="preserve">
+    <value>Składniki</value>
+  </data>
+  <data name="Ingredients_diff" xml:space="preserve">
+    <value>składników</value>
+  </data>
+  <data name="Instructions" xml:space="preserve">
+    <value>Instrukcja</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Język</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Zaloguj</value>
+  </data>
+  <data name="Name_diff" xml:space="preserve">
+    <value>nazwy</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
+  <data name="NoFavouriteDrinksYet" xml:space="preserve">
+    <value>Brak ulubionych drinków</value>
+  </data>
+  <data name="NoIngredients" xml:space="preserve">
+    <value>Brak składników</value>
+  </data>
+  <data name="nonAlcoholic" xml:space="preserve">
+    <value>bezalkoholowy</value>
+  </data>
+  <data name="NonAlcoholicDrinks" xml:space="preserve">
+    <value>Niealkoholowe drinki</value>
+  </data>
+  <data name="NoReviewedDrinksYet" xml:space="preserve">
+    <value>Brak oceny drinków</value>
+  </data>
+  <data name="NoReviewsYet" xml:space="preserve">
+    <value>Brak ocen</value>
+  </data>
+  <data name="optionalAlcohol" xml:space="preserve">
+    <value>alkohol opcjonalny</value>
+  </data>
+  <data name="OptionalAlcoholDrinks" xml:space="preserve">
+    <value>Opcjonalny alkohol</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Hasło</value>
+  </data>
+  <data name="ratings_diff" xml:space="preserve">
+    <value>ich ocenę</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Zarejestruj</value>
+  </data>
+  <data name="RegisterWithFacebook" xml:space="preserve">
+    <value>Zarejestruj za pomocą Facebooka</value>
+  </data>
+  <data name="RegisterWithGoogle" xml:space="preserve">
+    <value>Zarejestruj za pomocą Google</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Usuń</value>
+  </data>
+  <data name="RemoveFromFavourites" xml:space="preserve">
+    <value>Usuń z ulubionych</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Ocena</value>
+  </data>
+  <data name="ReviewedDrinks" xml:space="preserve">
+    <value>Ocenione drinki</value>
+  </data>
+  <data name="ReviewedDrinksList" xml:space="preserve">
+    <value>Lista ocenionych drinków</value>
+  </data>
+  <data name="ReviewOf" xml:space="preserve">
+    <value>Ocena drinka</value>
+  </data>
+  <data name="reviewToDrinks" xml:space="preserve">
+    <value>recenzję do drinków</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Zapisz</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Wyszukaj</value>
+  </data>
+  <data name="SearchByAlcoholContent" xml:space="preserve">
+    <value>Wyszukaj po zawartości alkoholu</value>
+  </data>
+  <data name="SearchByIngredients" xml:space="preserve">
+    <value>Wyszukaj po składnikach</value>
+  </data>
+  <data name="SearchByName" xml:space="preserve">
+    <value>Wyszukaj po nazwie</value>
+  </data>
+  <data name="Tip1ToSearchByIngredients" xml:space="preserve">
+    <value>Podpowiedź 1: możesz wprowadzić jeden składnik lub więcej, oddzielając je spacją</value>
+  </data>
+  <data name="Tip2ToSearchByIngredients" xml:space="preserve">
+    <value>Podpowiedź 2: wybierz czy chcesz wyszukać drink, który zawiera JAKIKOLWIEK lub KAŻDY podany składnik</value>
+  </data>
+  <data name="TipToSearchByName" xml:space="preserve">
+    <value>Podpowiedź: możesz wprowadzić część nazwy drinka, którego szukasz</value>
+  </data>
+  <data name="UseAnotherServiceToRegister" xml:space="preserve">
+    <value>Użyj innej usługi, aby się zarejestrować</value>
+  </data>
+  <data name="WelcomeInDrinkManagerApp" xml:space="preserve">
+    <value>Witamy w Drink Manager App</value>
+  </data>
+  <data name="WhenYouFindYourBelovedDrink" xml:space="preserve">
+    <value>Kiedy jakiś drink Ci zasmakuje, możesz dodać go do listy swoich ulubionych drinków</value>
+  </data>
+  <data name="WithThisAppYouCanSearchDrinksByTheir" xml:space="preserve">
+    <value>Za pomocą tej aplikacji możesz wyszukiwać drinków za pomocą ich</value>
+  </data>
+  <data name="YouCanAlsoAdd" xml:space="preserve">
+    <value>Możesz także dodać</value>
+  </data>
+  <data name="yourDrink" xml:space="preserve">
+    <value>swojego drinka</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edytuj</value>
+  </data>
+  <data name="Enjoy" xml:space="preserve">
+    <value>Zdrówko</value>
+  </data>
+  <data name="ReviewText" xml:space="preserve">
+    <value>Treść recenzji</value>
+  </data>
+  <data name="AmountIsRequired" xml:space="preserve">
+    <value>Ilość jest wymagana.</value>
+  </data>
+  <data name="IngredientIsRequired" xml:space="preserve">
+    <value>Składnik jest wymagany.</value>
+  </data>
+  <data name="TheCategoryFieldIsRequired" xml:space="preserve">
+    <value>Pole kategorii jest wymagane.</value>
+  </data>
+  <data name="TheGlassFieldIsRequired" xml:space="preserve">
+    <value>Pole szkło jest wymagane.</value>
+  </data>
+  <data name="TheNameFieldIsRequired" xml:space="preserve">
+    <value>Nazwa jest wymagana.</value>
+  </data>
+  <data name="DrinkNotFound" xml:space="preserve">
+    <value>Nie znaleziono drinka</value>
+  </data>
+  <data name="removed" xml:space="preserve">
+    <value>usunięty</value>
+  </data>
+  <data name="Remove_diff" xml:space="preserve">
+    <value>Usuwanie</value>
+  </data>
+  <data name="AreYouSureYouWantToRemove" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Tak</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nie</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Poprzednia</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Następna</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Ustawienia</value>
+  </data>
+  <data name="Log in" xml:space="preserve">
+    <value>Logowanie</value>
+  </data>
+  <data name="ForgotYourPassword" xml:space="preserve">
+    <value>Zapomniałaś/eś hasła</value>
+  </data>
+  <data name="RegisterAsANewUser" xml:space="preserve">
+    <value>Zarejestruj się jako nowy użytkownik</value>
+  </data>
+  <data name="UseAnotherServiceToLogIn" xml:space="preserve">
+    <value>Użyj innego sposobu logowania</value>
+  </data>
+  <data name="SignInWithFacebook" xml:space="preserve">
+    <value>Zaloguj się przy użyciu Facebooka</value>
+  </data>
+  <data name="SignInWithGoogle" xml:space="preserve">
+    <value>Zaloguj się przy użyciu Google</value>
+  </data>
+  <data name="UseALocalAccountToLogIn" xml:space="preserve">
+    <value>Użyj konta lokalnego, żeby się zalogować</value>
+  </data>
+  <data name="ThereAreNoExternalAuthentication" xml:space="preserve">
+    <value>Nie skonfigurowano żadnych zewnętrznych usług uwierzytelniania</value>
+  </data>
+  <data name="See_website" xml:space="preserve">
+    <value>Odwiedź</value>
+  </data>
+  <data name="thisArticle" xml:space="preserve">
+    <value>tę stronę</value>
+  </data>
+  <data name="forDetailsOnSettingUp" xml:space="preserve">
+    <value>aby uzyskać szczegółowe informacje na temat konfigurowania tej aplikacji ASP.NET do obsługi logowania za pośrednictwem usług zewnętrznych</value>
+  </data>
+  <data name="YouDoNotHaveAccessToThisResource" xml:space="preserve">
+    <value>Nie posiadasz dostępu do tego zasobu</value>
+  </data>
+  <data name="ConfirmEmail" xml:space="preserve">
+    <value>Potwierdź email</value>
+  </data>
+  <data name="ConfirmEmailChange" xml:space="preserve">
+    <value>Potwierdź zmianę emaila</value>
+  </data>
+  <data name="AssociateYour" xml:space="preserve">
+    <value>Połącz swoje</value>
+  </data>
+  <data name="account" xml:space="preserve">
+    <value>konto</value>
+  </data>
+  <data name="You'veSuccessfullyAuthenticatedWith" xml:space="preserve">
+    <value>Zostałeś zalogowany za pomocą</value>
+  </data>
+  <data name="PleaseEnterAnEmailAddress" xml:space="preserve">
+    <value>Podaj swój adres email przypisany do tej strony i kliknij przycisk Zarejestruj, aby zakończyć logowanie</value>
+  </data>
+  <data name="EnterYourEmail" xml:space="preserve">
+    <value>Wpisz swój email</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Zatwierdź</value>
+  </data>
+  <data name="PleaseCheckYourEmailToResetYourPassword" xml:space="preserve">
+    <value>Sprawdź swoją skrzynkę mailową, aby zresetować hasło</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>Zablokowane konto</value>
+  </data>
+  <data name="ThisAccountHasBeenLockedOut" xml:space="preserve">
+    <value>To konto zostało zablokowane, spróbuj ponownie później</value>
+  </data>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Brak dostępu</value>
+  </data>
+  <data name="Two-factorAuthentication" xml:space="preserve">
+    <value>Uwierzytelnianie dwuskładnikowe</value>
+  </data>
+  <data name="YourLoginIsProtectedWithAnAuthenticatorApp" xml:space="preserve">
+    <value>Twój login jest chroniony przez aplikację uwierzytelniającą</value>
+  </data>
+  <data name="EnterYourAuthenticatorCodeBelow" xml:space="preserve">
+    <value>Wpisz poniżej swój kod uwierzytelniający</value>
+  </data>
+  <data name="Don'tHaveAccessToYourAuthenticatorDevice" xml:space="preserve">
+    <value>Nie masz dostępu do urządzenia uwierzytelniającego</value>
+  </data>
+  <data name="YouCan" xml:space="preserve">
+    <value>Możesz</value>
+  </data>
+  <data name="logInWithARecoveryCode" xml:space="preserve">
+    <value>zalogować się za pomocą kodu odzyskiwania</value>
+  </data>
+  <data name="RecoveryCodeVerification" xml:space="preserve">
+    <value>Weryfikacja kodu odzyskiwania</value>
+  </data>
+  <data name="YouHaveRequestedToLogInWithARecoveryCode" xml:space="preserve">
+    <value>Poprosiłaś/eś o zalogowanie się przy użyciu kodu odzyskiwania</value>
+  </data>
+  <data name="ThisLoginWillNotBeRememberedUntilYouProvide" xml:space="preserve">
+    <value>Ten login nie zostanie zapamiętany, dopóki nie podasz kodu z aplikacji uwierzytelniającej podczas logowania lub wyłączysz 2FA i nie zalogujesz się ponownie</value>
+  </data>
+  <data name="Log out" xml:space="preserve">
+    <value>Wylogowywanie</value>
+  </data>
+  <data name="YouHaveSuccessfullyLoggedOutOfTheApplication" xml:space="preserve">
+    <value>Wylogowałaś/eś się z aplikacji</value>
+  </data>
+  <data name="RegisterConfirmation" xml:space="preserve">
+    <value>Potwierdzenie rejestracji</value>
+  </data>
+  <data name="PleaseCheckYourEmailToConfirmYourAccount" xml:space="preserve">
+    <value>Sprawdź swoją skrzynkę mailową, aby potwierdzić konto</value>
+  </data>
+  <data name="ThisAppDoesNotCurrentlyHaveARealEmailSenderRegistered" xml:space="preserve">
+    <value>Ta aplikacja nie ma obecnie zarejestrowanego nadawcy wiadomości e-mail</value>
+  </data>
+  <data name="see" xml:space="preserve">
+    <value>zobacz</value>
+  </data>
+  <data name="theseDocs" xml:space="preserve">
+    <value>ten dokument</value>
+  </data>
+  <data name="forHowToConfigureARealEmailSender" xml:space="preserve">
+    <value>by zobaczyć jak skonfigurować nadawcę wiadomości e-mail</value>
+  </data>
+  <data name="NormallyThisWouldBeEmailed" xml:space="preserve">
+    <value>Zwykle ta informacja zostanie wysłana mailem</value>
+  </data>
+  <data name="ClickHereToConfirmYourAccount" xml:space="preserve">
+    <value>Kliknij tu, aby potwierdzić konto</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Resetowanie hasła</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="ForgotPasswordConfirmation" xml:space="preserve">
+    <value>Potwierdzenie hasła</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Zapamiętaj</value>
+  </data>
+  <data name="TheEmailFieldIsRequired" xml:space="preserve">
+    <value>Email jest wymagany.</value>
+  </data>
+  <data name="ThePasswordFieldIsRequired" xml:space="preserve">
+    <value>Hasło jest wymagane.</value>
+  </data>
+  <data name="YourPasswordHasBeenReset" xml:space="preserve">
+    <value>Twoje hasło zostało zresetowane</value>
+  </data>
+  <data name="ClickHereToLogIn" xml:space="preserve">
+    <value>Kliknij tu, by się zalogować</value>
+  </data>
+  <data name="ThePasswordAndConfirmationPasswordDoNotMatch" xml:space="preserve">
+    <value>Hasła nie są takie same.</value>
+  </data>
+  <data name="TheEmailFieldIsNotAValidE-mailAddress" xml:space="preserve">
+    <value>Wpisany email jest nieprawidłowym adresem.</value>
+  </data>
+  <data name="ThePasswordMustBeAtLeast6AndAtMax100" xml:space="preserve">
+    <value>Hasło musi składać się z co najmniej 6 i maksymalnie 100 znaków.</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Wyloguj</value>
+  </data>
+  <data name="ManageYourAccount" xml:space="preserve">
+    <value>Zarządzaj swoim kontem</value>
+  </data>
+  <data name="ChangeYourAccountSettings" xml:space="preserve">
+    <value>Zmień dane swojego konta</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="External logins" xml:space="preserve">
+    <value>Logowanie zewnętrzne</value>
+  </data>
+  <data name="PersonalData" xml:space="preserve">
+    <value>Dane osobiste</value>
+  </data>
+  <data name="DeletePersonalData" xml:space="preserve">
+    <value>Usuwanie danych osobowych</value>
+  </data>
+  <data name="DeletingThisDataWillPermanentlyRemoveYourAccount" xml:space="preserve">
+    <value>Usunięcie tych danych spowoduje trwałe usunięcie Twojego konta, którego nie będzie można odzyskać</value>
+  </data>
+  <data name="DeleteDataAndCloseMyAccount" xml:space="preserve">
+    <value>Usuń dane i zamknij moje konto</value>
+  </data>
+  <data name="YourProfileHasBeenUpdated" xml:space="preserve">
+    <value>Twój profil został zaktualizowany.</value>
+  </data>
+  <data name="UnableToLoadUserWithID" xml:space="preserve">
+    <value>Nie można załadować użytkownika o ID</value>
+  </data>
+  <data name="ManageEmail" xml:space="preserve">
+    <value>Zarządzaj Emailem</value>
+  </data>
+  <data name="ChangeEmail" xml:space="preserve">
+    <value>Zmień email</value>
+  </data>
+  <data name="NewEmail" xml:space="preserve">
+    <value>Nowy email</value>
+  </data>
+  <data name="IncorrectPassword" xml:space="preserve">
+    <value>Hasło jest niepoprawne.</value>
+  </data>
+  <data name="UnexpectedErrorOccurredDeletingUserWithID" xml:space="preserve">
+    <value>Wystąpił nieoczekiwany błąd podczas usuwania użytkownika o ID</value>
+  </data>
+  <data name="YourEmailIsUnchanged" xml:space="preserve">
+    <value>Twój mail pozostał niezmieniony.</value>
+  </data>
+  <data name="UpdatePassword" xml:space="preserve">
+    <value>Zaktualizuj hasło</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Obecne hasło</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nowe hasło</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Potwierdź nowe hasło</value>
+  </data>
+  <data name="TheNewPasswordAndConfirmationPasswordDoNotMatch" xml:space="preserve">
+    <value>Hasła nie są takie same.</value>
+  </data>
+  <data name="YourPasswordHasBeenChanged" xml:space="preserve">
+    <value>Twoje hasło zostało zmienione.</value>
+  </data>
+  <data name="YourPasswordHasBeenSet" xml:space="preserve">
+    <value>Twoje hasło zostało ustawione.</value>
+  </data>
+  <data name="DownloadYourData" xml:space="preserve">
+    <value>Pobierz swoje dane</value>
+  </data>
+  <data name="ManageYourExternalLogins" xml:space="preserve">
+    <value>Zarządzaj zewnętrznymi loginami</value>
+  </data>
+  <data name="RegisteredLogins" xml:space="preserve">
+    <value>Zarejestrowane dane logowania</value>
+  </data>
+  <data name="AddAnotherServiceToLogIn" xml:space="preserve">
+    <value>Dodaj inną usługę, żeby się zalogować</value>
+  </data>
+  <data name="TheExternalLoginWasNotRemoved" xml:space="preserve">
+    <value>Zewnętrzny login nie został usunięty.</value>
+  </data>
+  <data name="TheExternalLoginWasAdded" xml:space="preserve">
+    <value>Zewnętrzny login został dodany.</value>
+  </data>
+  <data name="UnexpectedErrorOccurredLoadingExternalLoginInfoForUserWithID" xml:space="preserve">
+    <value>Wystąpił nieoczekiwany błąd podczas ładowania zewnętrznych danych logowania dla użytkownika o ID</value>
+  </data>
+  <data name="TheExternalLoginWasNotAdded" xml:space="preserve">
+    <value>Zewnętrzny login nie został dodany. Logowanie zewnętrzne można powiązać tylko z jednym kontem.</value>
+  </data>
+  <data name="TheExternalLoginWasRemoved" xml:space="preserve">
+    <value>Zewnętrzny login został usunięty.</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Usuń</value>
+  </data>
+  <data name="YourAccountContainsPersonalDataThatYouHaveGivenUs" xml:space="preserve">
+    <value>Twoje konto zawiera dane osobowe, które nam przekazałaś/eś</value>
+  </data>
+  <data name="ThisPageAllowsYouToDownloadOrDeleteThatData" xml:space="preserve">
+    <value>Ta strona umożliwia ci pobranie lub usunięcie danych</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Pobierz</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Zmiana hasła</value>
+  </data>
+  <data name="SetPassword" xml:space="preserve">
+    <value>Ustaw hasło</value>
+  </data>
+  <data name="YouDoNotHaveALocalUsername/passwordForThisSite" xml:space="preserve">
+    <value>Nie masz ustawionej nazwy użytkownika lub hasła do tej strony</value>
+  </data>
+  <data name="AddALocalAccountSoYouCanLogInWithoutAnExternalLogin" xml:space="preserve">
+    <value>Dodaj konto lokalne, aby móc się zalogować bez zewnętrznego logowania</value>
+  </data>
+  <data name="ThankYouForConfirmingYourEmail" xml:space="preserve">
+    <value>Dziękujemy za potwierdzenie adresu email.</value>
+  </data>
+  <data name="ErrorConfirmingYourEmail" xml:space="preserve">
+    <value>Wystąpił błąd przy potwierdzeniu twojego maila.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Użytkownik</value>
+  </data>
+  <data name="SetYourPassword" xml:space="preserve">
+    <value>Ustaw swoje hasło</value>
+  </data>
+</root>

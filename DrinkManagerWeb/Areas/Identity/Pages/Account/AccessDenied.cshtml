@@ -1,10 +1,13 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
+@using DrinkManagerWeb.Resources
 @model AccessDeniedModel
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = @L["AccessDenied"];
 }
 
 <header>
     <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
+    <p class="text-danger">@L["YouDoNotHaveAccessToThisResource"].</p>
 </header>

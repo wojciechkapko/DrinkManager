@@ -1,4 +1,8 @@
-﻿@{
+﻿@using DrinkManagerWeb.Resources
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResource> L
+
+@{
     if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
     {
         Layout = (string)parentLayout;
@@ -9,10 +13,10 @@
     }
 }
 
-<h2>Manage your account</h2>
+<h2>@L["ManageYourAccount"]</h2>
 
 <div>
-    <h4>Change your account settings</h4>
+    <h4>@L["ChangeYourAccountSettings"]</h4>
     <hr />
     <div class="row">
         <div class="col-md-3">

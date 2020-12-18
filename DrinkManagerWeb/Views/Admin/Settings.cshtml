@@ -28,7 +28,7 @@
                                 <label for="@setting.Name" class="mb-0 mr-3">@setting.Name</label>
                             </div>
                             <div class="col-9">
-                                @if (setting.Name.Equals("report.time"))
+                                @if (setting.Name.ToLower().Equals("report time"))
                                 {
                                     <i class="fas fa-clock" style="color: white; position: absolute; left: 25px; top: 11px;"></i>
                                 }
@@ -36,16 +36,16 @@
                                 @switch (setting.FrontEndElementType)
                                 {
                                     case "input":
-                                    {
-                                        <input type="text"
-                                               class="form-control"
-                                               placeholder="@setting.Name"
-                                               value="@(setting.Value ?? " ")" id="@setting.Name"
-                                               name="@setting.Name"
-                                               @(setting.DisallowManualChange ? "readonly" : "")
-                                               style="@(setting.Name.Equals("report.time") ? "padding-left: 33px" : "")">
-                                        break;
-                                    }
+                                        {
+                                            <input type="text"
+                                                   class="form-control"
+                                                   placeholder="@setting.Name"
+                                                   value="@(setting.Value ?? " ")" id="@setting.Name.ToLower().Replace(" ","")"
+                                                   name="@setting.Name"
+                                                   @(setting.DisallowManualChange ? "readonly" : "")
+                                                   style="@(setting.Name.ToLower().Equals("report time") ? "padding-left: 33px" : "")">
+                                            break;
+                                        }
                                     case "select":
                                     {
                                         <select class="custom-select" name="@setting.Name" id="@setting.Name">
@@ -133,7 +133,7 @@
 
     <script>
         $(function () {
-            let element = document.getElementById("report.time");
+            let element = document.getElementById("reporttime");
             flatpickr(element,
                 {
                     enableTime: true,

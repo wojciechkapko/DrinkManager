@@ -1,7 +1,6 @@
 ﻿using BLL.Admin.Models;
 using BLL.Enums;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +14,6 @@ namespace BLL.Data
             if (!context.Database.CanConnect())
             {
                 // Create the database
-                Console.WriteLine("Database does not exist...Creating");
                 context.Database.Migrate();
             }
             // Check if we have data in the database
@@ -26,7 +24,6 @@ namespace BLL.Data
                 // Add drinks to the database
                 context.AddRange(data);
                 context.SaveChanges();
-                Console.WriteLine("Database is empty...Seeding data");
             }
             if (!context.Settings.Any())
             {
@@ -35,21 +32,21 @@ namespace BLL.Data
                 {
                     new Setting
                     {
-                        Name = "next.report.date",
+                        Name = "Next report date",
                         Value = null,
                         DisallowManualChange = true,
                         Description = "Date and time when the next report will be sent."
                     },
                     new Setting
                     {
-                        Name = "last.report.date",
+                        Name = "Last report date",
                         Value = null,
                         DisallowManualChange = true,
                         Description = "Date and time when the last report was sent."
                     },
                     new Setting
                     {
-                        Name = "report.interval.type",
+                        Name = "Report interval type",
                         Value = IntervalTypes.Days.ToString(),
                         Description = "Interval type: days or hours.",
                         FrontEndElementType = "select",
@@ -57,13 +54,13 @@ namespace BLL.Data
                     },
                     new Setting
                     {
-                        Name = "report.interval",
+                        Name = "Report interval",
                         Value = "1",
                         Description = "How often to send the report."
                     },
                     new Setting
                     {
-                        Name = "report.time",
+                        Name = "Report time",
                         Value = "00:00:00",
                         Description = "Time at which the report should be sent."
                     }

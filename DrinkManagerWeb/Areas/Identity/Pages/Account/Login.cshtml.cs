@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,15 +46,17 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "TheEmailFieldIsRequired")]
+            [EmailAddress(ErrorMessage = "TheEmailFieldIsNotAValidE-mailAddress")]
+            [DisplayName("Email")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "ThePasswordFieldIsRequired")]
             [DataType(DataType.Password)]
+            [DisplayName("Password")]
+
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
 

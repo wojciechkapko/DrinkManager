@@ -1,4 +1,7 @@
-﻿<button class="btn mr-3 btn-dark btn-block" onclick="goBack()">Go Back</button>
+﻿@using DrinkManagerWeb.Resources
+@inject IStringLocalizer<SharedResource> L
+
+<button class="btn mr-3 btn-dark btn-block" onclick="goBack()">@L["GoBack"]</button>
 
 <script>
     function goBack() {

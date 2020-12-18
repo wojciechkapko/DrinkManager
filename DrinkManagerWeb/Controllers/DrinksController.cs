@@ -4,10 +4,12 @@ using BLL.Data.Repositories;
 using BLL.Enums;
 using BLL.Services;
 using DrinkManagerWeb.Models.ViewModels;
+using DrinkManagerWeb.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,7 @@ namespace DrinkManagerWeb.Controllers
         private readonly IReportingModuleService _apiService;
         private readonly IFavouriteRepository _favouriteRepository;
         private readonly IReviewRepository _reviewRepository;
+        private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly UserManager<AppUser> _userManager;
         private readonly int _pageSize = 12;
 
@@ -32,12 +35,15 @@ namespace DrinkManagerWeb.Controllers
             IReviewRepository reviewRepository,
             UserManager<AppUser> userManager,
             IReportingModuleService apiService)
+            UserManager<AppUser> userManager,
+            IStringLocalizer<SharedResource> localizer)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;
             _favouriteRepository = favouriteRepository;
             _reviewRepository = reviewRepository;
             _userManager = userManager;
+            _localizer = localizer;
             _apiService = apiService;
         }
 
@@ -159,7 +165,7 @@ namespace DrinkManagerWeb.Controllers
                 if (drinkToUpdate == null)
                 {
                     // something went wrong redirect to drinks index
-                    TempData["Alert"] = "Drink not found";
+                    TempData["Alert"] = _localizer["DrinkNotFound"] + ".";
                     TempData["AlertClass"] = "alert-danger";
 
                     return RedirectToAction(nameof(Index));
@@ -214,7 +220,7 @@ namespace DrinkManagerWeb.Controllers
             _drinkRepository.DeleteDrink(drink);
             await _drinkRepository.SaveChanges();
 
-            TempData["Alert"] = $"Drink {drink.Name} removed";
+            TempData["Alert"] = $"Drink {drink.Name} " + _localizer["removed"] + ".";
             TempData["AlertClass"] = "alert-success";
 
             return RedirectToAction(nameof(Index));
@@ -253,7 +259,7 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [Authorize]
-        [HttpGet("drink/addReview")]
+        [HttpGet("drink/addReview/{id}")]
         public async Task<IActionResult> AddReview(string? id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
@@ -267,7 +273,7 @@ namespace DrinkManagerWeb.Controllers
             return View("AddReview", model);
         }
 
-        [HttpPost("drink/addReview")]
+        [HttpPost("drink/addReview/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddReview(IFormCollection data, string? id)
         {
@@ -277,7 +283,7 @@ namespace DrinkManagerWeb.Controllers
                 _apiService.CreateUserActivity(PerformedAction.AddedReview, this.User.Identity.Name, id, drinkToUpdate.Name, score: int.Parse(data["DrinkReview.ReviewScore"])));
             if (drinkToUpdate == null)
             {
-                TempData["Alert"] = "Drink not found.";
+                TempData["Alert"] = _localizer["DrinkNotFound"] + ".";
                 TempData["AlertClass"] = "alert-danger";
                 return RedirectToAction(nameof(Index));
             }

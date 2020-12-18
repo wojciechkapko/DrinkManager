@@ -1,14 +1,17 @@
 ﻿@page
+@using DrinkManagerWeb.Resources
+@using Microsoft.Extensions.Localization
 @model LoginWithRecoveryCodeModel
+@inject IStringLocalizer<SharedResource> L
+
 @{
-    ViewData["Title"] = "Recovery code verification";
+    ViewData["Title"] = @L["RecoveryCodeVerification"];
 }
 
 <h1>@ViewData["Title"]</h1>
 <hr />
 <p>
-    You have requested to log in with a recovery code. This login will not be remembered until you provide
-    an authenticator app code at log in or disable 2FA and log in again.
+    @L["YouHaveRequestedToLogInWithARecoveryCode"]. @L["ThisLoginWillNotBeRememberedUntilYouProvide"].
 </p>
 <div class="row">
     <div class="col-md-4">
@@ -19,7 +22,7 @@
                 <input asp-for="Input.RecoveryCode" class="form-control" autocomplete="off" />
                 <span asp-validation-for="Input.RecoveryCode" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Log in</button>
+            <button type="submit" class="btn btn-primary">@L["Login"]</button>
         </form>
     </div>
 </div>

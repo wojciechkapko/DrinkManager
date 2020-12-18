@@ -1,10 +1,14 @@
 ﻿@page
+@using DrinkManagerWeb.Resources
+@using Microsoft.Extensions.Localization
 @model LogoutModel
+@inject IStringLocalizer<SharedResource> L
+
 @{
-    ViewData["Title"] = "Log out";
+    ViewData["Title"] = @L["Log out"];
 }
 
 <header>
     <h1>@ViewData["Title"]</h1>
-    <p>You have successfully logged out of the application.</p>
+    <p>@L["YouHaveSuccessfullyLoggedOutOfTheApplication"].</p>
 </header>

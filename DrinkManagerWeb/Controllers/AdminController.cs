@@ -4,6 +4,7 @@ using BLL.Services;
 using DrinkManagerWeb.Models;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,7 +25,6 @@ namespace DrinkManagerWeb.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly IPasswordHasher<AppUser> _passwordHasher;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ISettingRepository _settingRepository;
         private readonly BackgroundJobScheduler _backgroundJobScheduler;
         private readonly IReportingModuleService _apiService;
@@ -32,7 +32,6 @@ namespace DrinkManagerWeb.Controllers
         public AdminController(
             RoleManager<IdentityRole> roleManager,
             UserManager<AppUser> userManager,
-            IHttpContextAccessor httpContextAccessor,
             IPasswordHasher<AppUser> passwordHasher,
             BackgroundJobScheduler backgroundJobScheduler,
             ISettingRepository settingRepository,
@@ -358,7 +357,42 @@ namespace DrinkManagerWeb.Controllers
             return RedirectToAction("Roles");
         }
 
-        [HttpPost]
+        [HttpGet("settings")]
+        public IActionResult Settings()
+        {
+            var model = new SettingsViewModel
+            {
+                Settings = _settingRepository.GetAllSettings().ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost("settings")]
+        public IActionResult UpdateSettings(IFormCollection data)
+        {
+            var originalSettings = _settingRepository.GetAllSettings().Where(s => s.DisallowManualChange == false).ToList();
+            var shouldRestartBackgroundJob = false;
+
+            for (var i = 0; i < originalSettings.Count(); i++)
+            {
+                if (originalSettings[i].Value != data[originalSettings[i].Name])
+                {
+                    originalSettings[i].Value = data[originalSettings[i].Name];
+                    _settingRepository.Update(originalSettings[i]);
+                    shouldRestartBackgroundJob = true;
+                }
+            }
+
+            if (shouldRestartBackgroundJob)
+            {
+                _backgroundJobScheduler.StopAsync(new CancellationToken());
+                _backgroundJobScheduler.StartAsync(new CancellationToken());
+            }
+
+            return RedirectToAction(nameof(Settings));
+        }
+
         private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)
