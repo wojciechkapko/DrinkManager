@@ -36,8 +36,9 @@ namespace BLL.Services
 
         public async Task<Report> GetReportData(DateTime start, DateTime end)
         {
+            var datesInfo = start.ToString("u") + "," + end.ToString("u");
             using var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(GetReportAddress);
+            var response = await httpClient.GetAsync(ReportGeneratorAddress + $"/{datesInfo}");
             var content = await response.Content.ReadAsStringAsync();
             var parsedResponse = JsonConvert.DeserializeObject<Report>(content);
             return parsedResponse;

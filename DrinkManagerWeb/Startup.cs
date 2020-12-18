@@ -2,13 +2,18 @@ using BLL;
 using BLL.Data;
 using BLL.Data.Repositories;
 using BLL.Services;
+using DrinkManagerWeb.Extensions;
+using DrinkManagerWeb.Middlewares;
+using DrinkManagerWeb.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -26,8 +31,6 @@ namespace DrinkManagerWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             services.AddDbContext<DrinkAppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<AppUser>(options =>
                 {
@@ -37,6 +40,19 @@ namespace DrinkManagerWeb
                 })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DrinkAppContext>();
+
+            services.AddLocalization();
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.SetDefaultCulture("en-GB");
+                options.AddSupportedCultures("en-GB", "pl-PL");
+                options.AddSupportedUICultures("en-GB", "pl-PL");
+                options.FallBackToParentUICultures = true;
+
+                options
+                    .RequestCultureProviders
+                    .Remove(typeof(AcceptLanguageHeaderRequestCultureProvider));
+            });
 
             services.AddAuthentication()
                 .AddFacebook(facebookOptions =>
@@ -55,12 +71,28 @@ namespace DrinkManagerWeb
 
             services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IReportingModuleService, ReportingModuleService>();
             services.AddScoped<IFavouriteRepository, FavouriteRepository>();
-            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<ISettingRepository, SettingRepository>();
 
-            services.AddRazorPages();
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddSingleton<BackgroundJobScheduler>();
+            services.AddHostedService(provider => provider.GetService<BackgroundJobScheduler>());
+
+            services
+                .AddRazorPages()
+                .AddViewLocalization();
+
+
+            services.AddScoped<RequestLocalizationCookiesMiddleware>();
+            services.AddControllersWithViews().
+                AddRazorRuntimeCompilation().
+                AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                        factory.Create(typeof(SharedResource));
+                });
 
             services.AddHttpContextAccessor();
         }
@@ -80,6 +112,9 @@ namespace DrinkManagerWeb
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseRequestLocalization();
+            app.UseRequestLocalizationCookies();
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
 
@@ -93,40 +128,41 @@ namespace DrinkManagerWeb
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            Seeder.SeedData(app.ApplicationServices);
 
             CreateRoles(serviceProvider).Wait();
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
-            //initializing custom roles 
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
-            string[] roleNames = { "Admin", "User" };
-
-            foreach (var roleName in roleNames)
-            {
-                var roleExist = await roleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
-                {
-                    //create the roles and seed them to the database
-                    await roleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
-
-            //creating a power user who will maintain the app
-            var powerUser = new AppUser()
-            {
-                UserName = Configuration["AppSettings:UserName"],
-                Email = Configuration["AppSettings:UserEmail"],
-            };
-            
-            string userPassword = Configuration["AppSettings:UserPassword"];
             var user = await userManager.FindByEmailAsync(Configuration["AppSettings:AdminUserEmail"]);
-
             if (user == null)
             {
+
+                //initializing custom roles 
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                string[] roleNames = { "Admin", "User" };
+
+                foreach (var roleName in roleNames)
+                {
+                    var roleExist = await roleManager.RoleExistsAsync(roleName);
+                    if (!roleExist)
+                    {
+                        //create the roles and seed them to the database
+                        await roleManager.CreateAsync(new IdentityRole(roleName));
+                    }
+                }
+
+                //creating a power user who will maintain the app
+                var powerUser = new AppUser()
+                {
+                    UserName = Configuration["AppSettings:AdminUserEmail"],
+                    Email = Configuration["AppSettings:AdminUserEmail"],
+                };
+
+                string userPassword = Configuration["AppSettings:UserPassword"];
+
                 var createPowerUser = await userManager.CreateAsync(powerUser, userPassword);
                 if (createPowerUser.Succeeded)
                 {

@@ -1,4 +1,6 @@
 ﻿using BLL;
+using BLL.Data.Repositories;
+using BLL.Services;
 using DrinkManagerWeb.Models;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +12,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using BLL.Services;
 using Newtonsoft.Json;
 
@@ -22,29 +27,29 @@ namespace DrinkManagerWeb.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly IPasswordHasher<AppUser> _passwordHasher;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IReportingModuleService _reportingModuleService;
+        private readonly ISettingRepository _settingRepository;
+        private readonly BackgroundJobScheduler _backgroundJobScheduler;
+        private readonly IReportingModuleService _apiService;
 
-        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IHttpContextAccessor httpContextAccessor, IPasswordHasher<AppUser> passwordHasher, IReportingModuleService reportingModuleService)
+        public AdminController(
+            RoleManager<IdentityRole> roleManager,
+            UserManager<AppUser> userManager,
+            IPasswordHasher<AppUser> passwordHasher,
+            BackgroundJobScheduler backgroundJobScheduler,
+            ISettingRepository settingRepository,
+            IReportingModuleService apiService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
-            _httpContextAccessor = httpContextAccessor;
             _passwordHasher = passwordHasher;
-            _reportingModuleService = reportingModuleService;
+            _backgroundJobScheduler = backgroundJobScheduler;
+            _settingRepository = settingRepository;
+            _apiService = apiService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await _userManager.FindByIdAsync(userId);
-
-            return View(new AdminIndexViewModel
-            {
-                DateToday = DateTime.Today.ToShortDateString(),
-                DayOfWeekToday = DateTime.Today.DayOfWeek.ToString(),
-                UserName = user.Email
-            });
+            return RedirectToAction("Users");
         }
 
         public IActionResult Users()
@@ -67,10 +72,11 @@ namespace DrinkManagerWeb.Controllers
         {
             var model = new UserViewModel
             {
-                ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
+                ApplicationRoles = _roleManager.Roles
+                    .Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                     .ToList()
             };
-            return View("CreateUser", model);
+            return View(model);
         }
 
         [HttpPost]
@@ -78,51 +84,67 @@ namespace DrinkManagerWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUser user = new AppUser
+                var role = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
+                if (role != null)
                 {
-                    Email = model.Email,
-                    UserName = model.Email
-                };
-
-                IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    IdentityRole applicationRole = await _roleManager.FindByIdAsync(model.ApplicationRoleId);
-                    if (applicationRole != null)
+                    AppUser user = new AppUser
                     {
-                        IdentityResult roleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
-                        if (roleResult.Succeeded)
-                        {
-                            return RedirectToAction("Users");
-                        }
+                        Email = model.Email,
+                        UserName = model.Email
+                    };
+
+                    IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        await _userManager.AddToRoleAsync(user, role.Name);
+                        return RedirectToAction("Users");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
             }
+
+            model.ApplicationRoles = _roleManager
+                .Roles
+                .Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
+                .ToList();
+
             return View(model);
         }
 
-        public async Task<IActionResult> UpdateUser(string id)
+        public async Task<IActionResult> UpdateUserRoleAndEmail(string id)
         {
-            UserViewModel model = new UserViewModel
+            if (string.IsNullOrEmpty(id))
             {
+                return RedirectToAction("Users");
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                RedirectToAction("Users");
+            }
+
+            var model = new UserEditRoleAndEmailViewModel
+            {
+                Id = id,
+                UserName = user.UserName,
+                Email = user?.Email,
+                ApplicationRoleId = _roleManager.Roles
+                    .SingleOrDefault(r => r.Name == _userManager.GetRolesAsync(user).Result.SingleOrDefault())?.Id,
                 ApplicationRoles = _roleManager.Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                     .ToList()
             };
 
-            if (!string.IsNullOrEmpty(id))
-            {
-                AppUser user = await _userManager.FindByIdAsync(id);
-                if (user != null)
-                {
-                    model.Email = user.Email;
-                    model.ApplicationRoleId = _roleManager.Roles.SingleOrDefault(r => r.Name == _userManager.GetRolesAsync(user).Result.SingleOrDefault())?.Id;
-                }
-            }
-            return View("UpdateUser", model);
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUser(UserViewModel model)
+        public async Task<IActionResult> UpdateUserRoleAndEmail(UserEditRoleAndEmailViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -133,14 +155,9 @@ namespace DrinkManagerWeb.Controllers
                     {
                         user.Email = model.Email;
                         user.UserName = model.Email;
-                    }
-                    if (!string.IsNullOrEmpty(model.Password))
-                    {
-                        user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
-                    }
-                    if (!string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.Password))
-                    {
+
                         IdentityResult result = await _userManager.UpdateAsync(user);
+
                         if (result.Succeeded)
                         {
                             string existingRole = _userManager.GetRolesAsync(user).Result.SingleOrDefault();
@@ -178,15 +195,87 @@ namespace DrinkManagerWeb.Controllers
                             }
                             return RedirectToAction("Users");
                         }
+
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
                     }
                 }
             }
-            return RedirectToAction("Users");
+
+            model.ApplicationRoles = _roleManager
+                .Roles
+                .Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
+                .ToList();
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> UpdateUserPassword(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Users");
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return RedirectToAction("Users");
+            }
+
+            var model = new UserEditPasswordViewModel
+            {
+                Email = user.Email
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserPassword(UserEditPasswordViewModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            if (ModelState.IsValid)
+            {
+                var passwordValidator = new PasswordValidator<AppUser>();
+                var validationResult = await passwordValidator.ValidateAsync(_userManager, user, model.Password);
+                if (!validationResult.Succeeded)
+                {
+                    foreach (var error in validationResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+                else
+                {
+                    user.PasswordHash = _passwordHasher.HashPassword(user, model.Password);
+                    var result = await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Users");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+
+            return View(model);
         }
 
         public async Task<IActionResult> DeleteUser(string id)
         {
             AppUser userToDelete = await _userManager.FindByIdAsync(id);
+
+            if (userToDelete.Email == Environment.GetEnvironmentVariable("UserEmail"))
+            {
+                return RedirectToAction("Users");
+            }
             return View(userToDelete);
         }
 
@@ -230,19 +319,35 @@ namespace DrinkManagerWeb.Controllers
 
         public IActionResult CreateRole()
         {
-            return View(new IdentityRole());
+            return View(new CreateRoleViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRole(IdentityRole role)
+        public async Task<IActionResult> CreateRole(CreateRoleViewModel roleModel)
         {
-            await _roleManager.CreateAsync(role);
-            return RedirectToAction("Roles");
+            var role = new IdentityRole { Name = roleModel.Name };
+            var result = await _roleManager.CreateAsync(role);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Roles");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(roleModel);
         }
 
         public async Task<IActionResult> DeleteRole(string id)
         {
             IdentityRole roleToDelete = await _roleManager.FindByIdAsync(id);
+
+            if (roleToDelete.Name == Environment.GetEnvironmentVariable("RestrictedName"))
+            {
+                return RedirectToAction("Roles");
+            }
             return View(roleToDelete);
         }
 
@@ -254,51 +359,40 @@ namespace DrinkManagerWeb.Controllers
             return RedirectToAction("Roles");
         }
 
-        public async Task<IActionResult> UpdateRole(string id)
+        [HttpGet("settings")]
+        public IActionResult Settings()
         {
-            IdentityRole role = await _roleManager.FindByIdAsync(id);
-            List<AppUser> members = new List<AppUser>();
-            List<AppUser> nonMembers = new List<AppUser>();
-            foreach (AppUser user in _userManager.Users)
+            var model = new SettingsViewModel
             {
-                var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
-                list.Add(user);
-            }
-            return View(new RoleEdit
-            {
-                Role = role,
-                Members = members,
-                NonMembers = nonMembers
-            });
+                Settings = _settingRepository.GetAllSettings().ToList()
+            };
+
+            return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateRole(RoleModification model)
+        [HttpPost("settings")]
+        public IActionResult UpdateSettings(IFormCollection data)
         {
-            if (ModelState.IsValid)
+            var originalSettings = _settingRepository.GetAllSettings().Where(s => s.DisallowManualChange == false).ToList();
+            var shouldRestartBackgroundJob = false;
+
+            for (var i = 0; i < originalSettings.Count(); i++)
             {
-                IdentityResult result;
-                foreach (string userId in model.AddIds ?? new string[] { })
+                if (originalSettings[i].Value != data[originalSettings[i].Name])
                 {
-                    AppUser user = await _userManager.FindByIdAsync(userId);
-                    if (user == null) continue;
-                    result = await _userManager.AddToRoleAsync(user, model.RoleName);
-                    if (!result.Succeeded)
-                        Errors();
-                }
-                foreach (string userId in model.DeleteIds ?? new string[] { })
-                {
-                    AppUser user = await _userManager.FindByIdAsync(userId);
-                    if (user == null) continue;
-                    result = await _userManager.RemoveFromRoleAsync(user, model.RoleName);
-                    if (!result.Succeeded)
-                        Errors();
+                    originalSettings[i].Value = data[originalSettings[i].Name];
+                    _settingRepository.Update(originalSettings[i]);
+                    shouldRestartBackgroundJob = true;
                 }
             }
-            if (ModelState.IsValid)
-                return RedirectToAction(nameof(Roles));
-            else
-                return await UpdateRole(model.RoleId);
+
+            if (shouldRestartBackgroundJob)
+            {
+                _backgroundJobScheduler.StopAsync(new CancellationToken());
+                _backgroundJobScheduler.StartAsync(new CancellationToken());
+            }
+
+            return RedirectToAction(nameof(Settings));
         }
 
         [HttpGet]
@@ -316,6 +410,13 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult Errors()
         {
             return View();
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> GeneralReport(IFormCollection data)
+        {
+            var model = await _apiService.GetReportData(DateTime.Parse(data["start.date"]), DateTime.Parse(data["end.date"]));
+            return View(model);
         }
     }
 }

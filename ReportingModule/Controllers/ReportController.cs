@@ -10,8 +10,6 @@ namespace ReportingModuleApi.Controllers
     [ApiController]
     public class ReportController : ControllerBase
     {
-        private readonly DateTime start = new DateTime(2020,10,10);
-        private readonly DateTime end = DateTime.Now;
         private readonly IReportDataService _reportDataService;
         private readonly IUserOrientedDataService _userOrientedDataService;
         
@@ -21,14 +19,17 @@ namespace ReportingModuleApi.Controllers
             _userOrientedDataService = userOrientedDataService;
         }
 
-        //TODO: Remove constants, add to Wojtek's view with Report Settings manual generation of Report 
-        [HttpGet("generateGeneralReport")]
-        public async Task<IActionResult> GenerateNewReport(/*DateTime start, DateTime end*/)
+        [HttpGet("generateReport/{datesInfo}")]
+        public async Task<IActionResult> GenerateNewReport(string datesInfo)
         {
+            var bothDates = datesInfo.Split(",");
+            var start = DateTime.Parse(bothDates[0]).AddHours(-1);
+            var end = DateTime.Parse(bothDates[1]).AddHours(-1);
             var report = new Report()
             {
                 StartDate = start,
                 EndDate = end,
+                NewRegisters = await _reportDataService.GetNewRegisters(start, end),
                 SuccessfulLoginsAmount = await _reportDataService.GetSuccessfulLoginsData(start, end),
                 MostFavouriteDrink = await _reportDataService.GetMostFavouriteDrinkData(start, end),
                 HighestScoreDrink = await _reportDataService.GetHighestScoreDrinkData(start, end),

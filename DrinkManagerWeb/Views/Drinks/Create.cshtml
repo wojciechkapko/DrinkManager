@@ -1,4 +1,6 @@
-﻿@model DrinkManagerWeb.Models.ViewModels.DrinkCreateViewModel
+﻿@using DrinkManagerWeb.Resources
+@model DrinkManagerWeb.Models.ViewModels.DrinkCreateViewModel
+@inject IStringLocalizer<SharedResource> L
 
 @{
     ViewBag.Title = Model == null ? "Create new drink" : $"Editing {Model.Name}";
@@ -7,74 +9,72 @@
 
 <div class="row">
     <div class="col-12">
-        <h1>@(Model == null ? "Create new drink" : $"Editing {Model.Name}")</h1>
+        <h1>@(Model == null ? L["CreateNewDrink_diff"] : L["Editing"] + $" {Model.Name}")</h1>
         <hr />
         <form asp-antiforgery="true" asp-action="Create" asp-controller="Drinks" asp-route-id="@(Model != null ? Model.Id : null)" method="post">
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label asp-for="Name">Name</label>
-                    <input type="text" class="form-control" asp-for="Name" placeholder="Name">
+                    <label asp-for="Name">@L["Name"]</label>
+                    <input type="text" class="form-control" asp-for="Name" placeholder="@L["Name"]">
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
-                    <label asp-for="Category">Category</label>
-                    <input type="text" class="form-control" asp-for="Category" placeholder="Category">
+                    <label asp-for="Category">@L["Category"]</label>
+                    <input type="text" class="form-control" asp-for="Category" placeholder="@L["Category"]">
                     <span asp-validation-for="Category" class="text-danger"></span>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label asp-for="AlcoholicInfo">Alcohol content</label>
+                    <label asp-for="AlcoholicInfo">@L["AlcoholContent"]</label>
                     <select class="form-control" asp-for="AlcoholicInfo">
-                        <option>Alcoholic</option>
-                        <option>Non alcoholic</option>
-                        <option>Optional alcohol</option>
+                        <option>@L["alcoholic"]</option>
+                        <option>@L["nonAlcoholic"]</option>
+                        <option>@L["optionalAlcohol"]</option>
                     </select>
                 </div>
                 <div class="form-group col-md-6">
-                    <label asp-for="GlassType">Glass type</label>
-                    <input type="text" class="form-control" asp-for="GlassType" placeholder="Glass type">
+                    <label asp-for="GlassType">@L["Glass"]</label>
+                    <input type="text" class="form-control" asp-for="GlassType" placeholder="@L["Glass"]">
                     <span asp-validation-for="GlassType" class="text-danger"></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label asp-for="Instructions">Instructions</label>
+                        <label asp-for="Instructions">@L["Instructions"]</label>
                         <textarea class="form-control mb-3" rows="3" asp-for="Instructions"></textarea>
                         <span asp-validation-for="Instructions" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ImageUrl">Image Url</label>
-                        <input type="text" class="form-control" asp-for="ImageUrl" placeholder="Image Url">
+                        <label asp-for="ImageUrl">@L["ImageURL"]</label>
+                        <input type="text" class="form-control" asp-for="ImageUrl" placeholder="@L["ImageURL"]">
                         <span asp-validation-for="ImageUrl" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group col-md-6">
                     <div id="ingredients-group">
-                        <label>Ingredients</label>
+                        <label>@L["Ingredients"]</label>
                         <div class="form-row">
                             <div class="form-group col-5">
-                                <input type="text" class="form-control" asp-for="Ingredient1" placeholder="Name">
+                                <input type="text" class="form-control" asp-for="Ingredient1" placeholder="@L["Name"]">
                                 <span asp-validation-for="Ingredient1" class="text-danger"></span>
                             </div>
                             <div class="form-group col-4">
-                                <input type="text" class="form-control" asp-for="Amount1" placeholder="Amount">
+                                <input type="text" class="form-control" asp-for="Amount1" placeholder="@L["Amount"]">
                                 <span asp-validation-for="Amount1" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    <button type="button" onclick="AddInputAndRestartValidation()" class="btn btn-primary"><i class="fas fa-plus"></i> Add Ingredient</button>
+                    <button type="button" onclick="AddInputAndRestartValidation()" class="btn btn-primary"><i class="fas fa-plus"></i> @L["AddIngredient"]</button>
                 </div>
             </div>
             <div class="mt-3 border-top">
-                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+                <input class="btn btn-primary mt-3" type="submit" value="@L["Save"]" />
             </div>
         </form>
     </div>
 </div>
-
-
 
 
 @section Scripts {
@@ -87,28 +87,27 @@
                 if ($(".alert").length === 0) {
                     $("#ingredients-group").parent().append(
                         `<div class="mt-3 alert alert-danger alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                You can add maximum of 15 ingredients.
-                            </div>`);
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    </div>`);
                 }
                 return;
             }
             $("#ingredients-group").append(
                 `<div class='mb-3' id='Ingredient_${ingredientNumber}'>
-                        <div class="form-row">
-                            <div class="form-group col-5 mb-0">
-                                <input type="text" class="form-control" placeholder="Name" data-val="true" data-val-length="The field Ingredient must be a string with a maximum length of 25." data-val-length-max="25" data-val-required="Ingredient is required." id="Ingredient${ingredientNumber}" maxlength="25" name="Ingredient${ingredientNumber}" value="${name}">
-                                <span class="text-danger field-validation-valid" data-valmsg-for="Ingredient${ingredientNumber}" data-valmsg-replace="true"></span>
-                            </div>
-                            <div class="form-group col-4 mb-0"">
-                                <input type="text" class="form-control" placeholder="Amount" data-val="true" data-val-length="The field Amount must be a string with a maximum length of 25." data-val-length-max="25" data-val-required="Amount is required." id="Amount${ingredientNumber}" maxlength="25" name="Amount${ingredientNumber}" value="${amount}">
-                                <span class="text-danger field-validation-valid" data-valmsg-for="Amount${ingredientNumber}" data-valmsg-replace="true"></span>
-                            </div>
-                            <div class="buttons">
-                            <button type="button" class="ml-3 btn btn-danger" onclick="$('#Ingredient_${ingredientNumber}').remove();$(this).remove()">&times;</button>
-                            </div>
-                        </div>
-                    </div>`);
+                                <div class="form-row">
+                                    <div class="form-group col-5 mb-0">
+                                        <input type="text" class="form-control" placeholder="@L["Name"]" data-val="true" data-val-length="The field Ingredient must be a string with a maximum length of 25." data-val-length-max="25" data-val-required="Ingredient is required." id="Ingredient${ingredientNumber}" maxlength="25" name="Ingredient${ingredientNumber}" value="${name}">
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="Ingredient${ingredientNumber}" data-valmsg-replace="true"></span>
+                                    </div>
+                                    <div class="form-group col-4 mb-0"">
+                                        <input type="text" class="form-control" placeholder="@L["Amount"]" data-val="true" data-val-length="The field Amount must be a string with a maximum length of 25." data-val-length-max="25" data-val-required="Amount is required." id="Amount${ingredientNumber}" maxlength="25" name="Amount${ingredientNumber}" value="${amount}">
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="Amount${ingredientNumber}" data-valmsg-replace="true"></span>
+                                    </div>
+                                    <div class="buttons">
+                                    <button type="button" class="ml-3 btn btn-danger" onclick="$('#Ingredient_${ingredientNumber}').remove();$(this).remove()">&times;</button>
+                                    </div>
+                                </div>
+                            </div>`);
 
 
         }
