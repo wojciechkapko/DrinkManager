@@ -21,6 +21,14 @@
 
                 <div id="user-options" class="collapse" aria-labelledby="user-menu" data-parent="#user-menu">
                     <div class="card-body">
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="nav-link rounded p-3" asp-area="" asp-controller="Admin" asp-action="Index" title="Admin panel">
+                                <i class="mr-3 fas fa-desktop"></i><span>Admin panel</span>
+                            </a>
+                        }
+
                         <a class="nav-link rounded p-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
                             <i class="mr-3 fas fa-cog"></i><span>Settings</span>
                         </a>
