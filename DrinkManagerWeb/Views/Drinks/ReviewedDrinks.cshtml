@@ -1,4 +1,7 @@
-﻿@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+﻿@using DrinkManagerWeb.Resources
+@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+@inject IStringLocalizer<SharedResource> L
+
 
 @{
     ViewBag.Title = "Drinks";
@@ -8,7 +11,7 @@
 <div class="row">
     <div class="col-12">
         <header class="d-flex align-items-center">
-            <h1>Reviewed Drinks List</h1>
+            <h1>@L["ReviewedDrinksList"]</h1>
             <div class="buttons ml-auto">
             </div>
         </header>
@@ -19,7 +22,7 @@
         }
         else
         {
-            <p>No reviewed drinks yet.</p>
+            <p>@L["NoReviewedDrinksYet"].</p>
         }
     </div>
 </div>

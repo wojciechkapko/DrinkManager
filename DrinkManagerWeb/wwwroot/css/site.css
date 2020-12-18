@@ -208,3 +208,7 @@ a {
 .bg-dark {
     background-color: #212529!important;
 }
+
+.culture-dropdown {
+    width: 70px;
+}

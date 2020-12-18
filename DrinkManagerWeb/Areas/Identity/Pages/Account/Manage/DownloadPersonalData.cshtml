@@ -1,7 +1,10 @@
 ﻿@page
+@using Microsoft.Extensions.Localization
+@using DrinkManagerWeb.Resources
 @model DownloadPersonalDataModel
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Download Your Data";
+    ViewData["Title"] = @L["DownloadYourData"];
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 

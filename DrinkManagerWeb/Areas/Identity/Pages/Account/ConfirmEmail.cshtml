@@ -1,7 +1,10 @@
 @page
+@using DrinkManagerWeb.Resources
+@using Microsoft.Extensions.Localization
 @model ConfirmEmailModel
+@inject IStringLocalizer<SharedResource> L
 @{
-    ViewData["Title"] = "Confirm email";
+    ViewData["Title"] = @L["ConfirmEmail"];
 }
 
 <h1>@ViewData["Title"]</h1>

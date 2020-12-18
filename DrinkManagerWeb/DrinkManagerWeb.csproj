@@ -31,4 +31,9 @@
   <ItemGroup>
     <Folder Include="wwwroot\assets\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\SharedResource.pl.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
