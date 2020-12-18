@@ -1,7 +1,6 @@
 ﻿using BLL.Admin.Models;
 using BLL.Enums;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,7 +14,6 @@ namespace BLL.Data
             if (!context.Database.CanConnect())
             {
                 // Create the database
-                Console.WriteLine("Database does not exist...Creating");
                 context.Database.Migrate();
             }
             // Check if we have data in the database
@@ -26,7 +24,6 @@ namespace BLL.Data
                 // Add drinks to the database
                 context.AddRange(data);
                 context.SaveChanges();
-                Console.WriteLine("Database is empty...Seeding data");
             }
             if (!context.Settings.Any())
             {
