@@ -47,7 +47,7 @@ namespace BLL.Services
                     {
                         drinkId = x.Key,
                         drinkName = x.Select(x => x.DrinkName).First(),
-                        favouritesCount = x.Key.Count()
+                        favouritesCount = x.Count()
                     })
                     .OrderByDescending(x => x.favouritesCount)
                     .First();
