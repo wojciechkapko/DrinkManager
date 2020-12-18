@@ -377,19 +377,5 @@ namespace DrinkManagerWeb.Controllers
             };
             return View(model);
         }
-
-        //[HttpGet]
-        //public IActionResult GetReport()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> GetReport(DateTime start, DateTime end)
-        //{
-        //    var report = await _apiService.GetReportData(start, end);
-        //    _apiService.ComposeReport(report);
-        //    return 
-        //}
     }
 }
