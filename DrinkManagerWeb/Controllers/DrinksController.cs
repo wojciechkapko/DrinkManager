@@ -34,8 +34,7 @@ namespace DrinkManagerWeb.Controllers
             IFavouriteRepository favouriteRepository,
             IReviewRepository reviewRepository,
             UserManager<AppUser> userManager,
-            IReportingModuleService apiService)
-            UserManager<AppUser> userManager,
+            IReportingModuleService apiService,
             IStringLocalizer<SharedResource> localizer)
         {
             _drinkRepository = drinkRepository;
