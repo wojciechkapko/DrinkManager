@@ -11,7 +11,7 @@ namespace BLL.Services
     public class ReportingModuleService : IReportingModuleService
     {
         private const string CreateActivityAddress = "https://localhost:5115/api/Activity";
-        private const string GetReportAddress = "https://localhost:5115/api/Report/generateReport";
+        private const string ReportGeneratorAddress = "https://localhost:5115/api/Report/generateReport";
         private const string GetUserReportAddress = "https://localhost:5115/api/Report/checkUser";
         public async Task CreateUserActivity(PerformedAction action, string username = null, string drinkId = null, string drinkName = null,
             string searchedPhrase = null, int? score = null)
