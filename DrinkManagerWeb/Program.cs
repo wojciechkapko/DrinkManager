@@ -1,9 +1,12 @@
+using BLL.Data;
+using DrinkManagerWeb.Helpers;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
-using DrinkManagerWeb.Helpers;
 
 namespace DrinkManagerWeb
 {
@@ -24,7 +27,17 @@ namespace DrinkManagerWeb
             try
             {
                 Log.Information("DrinkManager Starting Up");
-                CreateHostBuilder(args).Build().Run();
+                var host = CreateHostBuilder(args).Build();
+
+                using (var scope = host.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var context = services.GetRequiredService<DrinkAppContext>();
+
+                    context.Database.Migrate();
+                    Seeder.SeedData(context);
+                }
+                host.Run();
             }
             catch (Exception e)
             {

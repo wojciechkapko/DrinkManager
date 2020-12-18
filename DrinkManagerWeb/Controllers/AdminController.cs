@@ -1,12 +1,16 @@
 ﻿using BLL;
+using BLL.Data.Repositories;
+using BLL.Services;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
@@ -17,12 +21,21 @@ namespace DrinkManagerWeb.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly IPasswordHasher<AppUser> _passwordHasher;
+        private readonly ISettingRepository _settingRepository;
+        private readonly BackgroundJobScheduler _backgroundJobScheduler;
 
-        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IPasswordHasher<AppUser> passwordHasher)
+        public AdminController(
+            RoleManager<IdentityRole> roleManager,
+            UserManager<AppUser> userManager,
+            IPasswordHasher<AppUser> passwordHasher,
+            BackgroundJobScheduler backgroundJobScheduler,
+            ISettingRepository settingRepository)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _passwordHasher = passwordHasher;
+            _backgroundJobScheduler = backgroundJobScheduler;
+            _settingRepository = settingRepository;
         }
 
         public IActionResult Index()
@@ -337,7 +350,42 @@ namespace DrinkManagerWeb.Controllers
             return RedirectToAction("Roles");
         }
 
-        [HttpPost]
+        [HttpGet("settings")]
+        public IActionResult Settings()
+        {
+            var model = new SettingsViewModel
+            {
+                Settings = _settingRepository.GetAllSettings().ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost("settings")]
+        public IActionResult UpdateSettings(IFormCollection data)
+        {
+            var originalSettings = _settingRepository.GetAllSettings().Where(s => s.DisallowManualChange == false).ToList();
+            var shouldRestartBackgroundJob = false;
+
+            for (var i = 0; i < originalSettings.Count(); i++)
+            {
+                if (originalSettings[i].Value != data[originalSettings[i].Name])
+                {
+                    originalSettings[i].Value = data[originalSettings[i].Name];
+                    _settingRepository.Update(originalSettings[i]);
+                    shouldRestartBackgroundJob = true;
+                }
+            }
+
+            if (shouldRestartBackgroundJob)
+            {
+                _backgroundJobScheduler.StopAsync(new CancellationToken());
+                _backgroundJobScheduler.StartAsync(new CancellationToken());
+            }
+
+            return RedirectToAction(nameof(Settings));
+        }
+
         private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)

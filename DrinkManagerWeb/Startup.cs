@@ -45,7 +45,7 @@ namespace DrinkManagerWeb
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 options.SetDefaultCulture("en-GB");
-                options.AddSupportedCultures("en-GB","pl-PL");
+                options.AddSupportedCultures("en-GB", "pl-PL");
                 options.AddSupportedUICultures("en-GB", "pl-PL");
                 options.FallBackToParentUICultures = true;
 
@@ -71,8 +71,14 @@ namespace DrinkManagerWeb
 
             services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IFavouriteRepository, FavouriteRepository>();
+            services.AddScoped<ISettingRepository, SettingRepository>();
+
             services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddSingleton<BackgroundJobScheduler>();
+            services.AddHostedService(provider => provider.GetService<BackgroundJobScheduler>());
+
             services
                 .AddRazorPages()
                 .AddViewLocalization();
@@ -81,10 +87,11 @@ namespace DrinkManagerWeb
             services.AddScoped<RequestLocalizationCookiesMiddleware>();
             services.AddControllersWithViews().
                 AddRazorRuntimeCompilation().
-                AddDataAnnotationsLocalization(options => {
-                options.DataAnnotationLocalizerProvider = (type, factory) =>
-                    factory.Create(typeof(SharedResource));
-            });
+                AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                        factory.Create(typeof(SharedResource));
+                });
 
             services.AddHttpContextAccessor();
         }
@@ -112,7 +119,7 @@ namespace DrinkManagerWeb
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -120,40 +127,41 @@ namespace DrinkManagerWeb
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            Seeder.SeedData(app.ApplicationServices);
 
             CreateRoles(serviceProvider).Wait();
         }
 
         private async Task CreateRoles(IServiceProvider serviceProvider)
         {
-            //initializing custom roles 
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
-            string[] roleNames = { "Admin", "User" };
-
-            foreach (var roleName in roleNames)
-            {
-                var roleExist = await roleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
-                {
-                    //create the roles and seed them to the database
-                    await roleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
-
-            //creating a power user who will maintain the app
-            var powerUser = new AppUser()
-            {
-                UserName = Configuration["AppSettings:UserName"],
-                Email = Configuration["AppSettings:UserEmail"],
-            };
-            
-            string userPassword = Configuration["AppSettings:UserPassword"];
             var user = await userManager.FindByEmailAsync(Configuration["AppSettings:AdminUserEmail"]);
-
             if (user == null)
             {
+
+                //initializing custom roles 
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                string[] roleNames = { "Admin", "User" };
+
+                foreach (var roleName in roleNames)
+                {
+                    var roleExist = await roleManager.RoleExistsAsync(roleName);
+                    if (!roleExist)
+                    {
+                        //create the roles and seed them to the database
+                        await roleManager.CreateAsync(new IdentityRole(roleName));
+                    }
+                }
+
+                //creating a power user who will maintain the app
+                var powerUser = new AppUser()
+                {
+                    UserName = Configuration["AppSettings:AdminUserEmail"],
+                    Email = Configuration["AppSettings:AdminUserEmail"],
+                };
+
+                string userPassword = Configuration["AppSettings:UserPassword"];
+
                 var createPowerUser = await userManager.CreateAsync(powerUser, userPassword);
                 if (createPowerUser.Succeeded)
                 {

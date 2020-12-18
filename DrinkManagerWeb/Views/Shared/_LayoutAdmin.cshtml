@@ -38,6 +38,9 @@
                     <li class="nav-item d-flex align-items-center my-2 mr-3 mt-md-0 mr-md-0 mb-0 mb-md-3 @(routeValues["Action"] != null && routeValues["Action"].ToString() == "Roles" ? "active" : "")">
                         <a class="nav-link rounded p-3" asp-area="" asp-controller="Admin" asp-action="Roles"><i class="fas fa-user-tag"></i><span>Roles</span></a>
                     </li>
+                    <li class="nav-item d-flex align-items-center @(routeValues["Action"] != null && routeValues["Action"].ToString() == "Settings" ? "active" : "")">
+                        <a class="nav-link rounded p-3" asp-area="" asp-controller="Admin" asp-action="Settings"><i class="fas fa-cogs"></i><span>Settings</span></a>
+                    </li>
                 </ul>
             </nav>
 

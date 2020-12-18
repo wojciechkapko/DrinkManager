@@ -1,24 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using BLL.Admin.Models;
+using BLL.Enums;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BLL.Data
 {
     public static class Seeder
     {
-        public static void SeedData(IServiceProvider serviceProvider)
+        public static void SeedData(DrinkAppContext context)
         {
-            using var serviceScope = serviceProvider
-                .GetRequiredService<IServiceScopeFactory>().CreateScope();
-            var context = serviceScope
-                .ServiceProvider.GetService<DrinkAppContext>();
-
             // Check if we can connect to the database
             if (!context.Database.CanConnect())
             {
                 // Create the database
-                Console.WriteLine("Database does not exist...Creating");
                 context.Database.Migrate();
             }
             // Check if we have data in the database
@@ -29,7 +24,50 @@ namespace BLL.Data
                 // Add drinks to the database
                 context.AddRange(data);
                 context.SaveChanges();
-                Console.WriteLine("Database is empty...Seeding data");
+            }
+            if (!context.Settings.Any())
+            {
+
+                var settings = new List<Setting>
+                {
+                    new Setting
+                    {
+                        Name = "Next report date",
+                        Value = null,
+                        DisallowManualChange = true,
+                        Description = "Date and time when the next report will be sent."
+                    },
+                    new Setting
+                    {
+                        Name = "Last report date",
+                        Value = null,
+                        DisallowManualChange = true,
+                        Description = "Date and time when the last report was sent."
+                    },
+                    new Setting
+                    {
+                        Name = "Report interval type",
+                        Value = IntervalTypes.Days.ToString(),
+                        Description = "Interval type: days or hours.",
+                        FrontEndElementType = "select",
+                        AvailableOptions = "Days,Hours"
+                    },
+                    new Setting
+                    {
+                        Name = "Report interval",
+                        Value = "1",
+                        Description = "How often to send the report."
+                    },
+                    new Setting
+                    {
+                        Name = "Report time",
+                        Value = "00:00:00",
+                        Description = "Time at which the report should be sent."
+                    }
+                };
+                // Add settings to the database
+                context.AddRange(settings);
+                context.SaveChanges();
             }
         }
     }
