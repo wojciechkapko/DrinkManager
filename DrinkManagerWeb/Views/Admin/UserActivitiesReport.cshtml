@@ -58,39 +58,37 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Recently reviewed drink</h3>
-                </div>
-                <div class="card-body">
-                    @if (Model.RecentlyReviewedDrink.DrinkId != null)
-                    {
-                        <div class="card">
-                            <a class="page-link" asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyReviewedDrink.DrinkId">
-                                <img class="w-100 rounded shadow-lg" src="@(DrinkRepository.FindDrink(x => x.DrinkId == Model.RecentlyReviewedDrink.DrinkId).Result.ImageUrl)" />
-                            </a>
-                            <div class="card-body text-center">
-                                <a class="card-title text-dark" asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyReviewedDrink.DrinkId"><h4>@Model.RecentlyReviewedDrink.DrinkName</h4></a>
-                            </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Recently reviewed drink</h3>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentlyReviewedDrink.DrinkId != null)
+                {
+                    <div class="card">
+                        <a class="page-link" asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyReviewedDrink.DrinkId">
+                            <img class="w-100 rounded shadow-lg" src="@(DrinkRepository.FindDrink(x => x.DrinkId == Model.RecentlyReviewedDrink.DrinkId).Result.ImageUrl)" />
+                        </a>
+                        <div class="card-body text-center">
+                            <a class="card-title text-dark" asp-controller="Drinks" asp-action="DrinkDetails" asp-route-id="@Model.RecentlyReviewedDrink.DrinkId"><h4>@Model.RecentlyReviewedDrink.DrinkName</h4></a>
                         </div>
-                    }
-                    else
-                    {
-                        <partial name="Partials/PlaceHolder" />
-                    }
-                </div>
+                    </div>
+                }
+                else
+                {
+                    <partial name="Partials/PlaceHolder" />
+                }
             </div>
         </div>
     </div>
-    <div class="col-lg-12 col-md-6">
+    <div class="col-lg-12 col-md-6 mt-4">
         <div class="card">
             <div class="card-header">
-                <h3></h3>
+                <h3>Activities summary</h3>
             </div>
             <div class="card-body">
                 <table class="table table-sm table-bordered table-hover table-striped">
-                    <th colspan="2">Activities summary</th>
                     <tr>
                         <td>Registered at: </td>
                         <td>
@@ -116,3 +114,5 @@
             </div>
         </div>
     </div>
+    </div>
+
