@@ -4,19 +4,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DrinkManagerWeb.Models.ViewModels
 {
-    public class UserViewModel
+    public class UserEditRoleAndEmailViewModel
     {
         public string Id { get; set; }
+
+        public string UserName { get; set; }
 
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
 
         public List<SelectListItem> ApplicationRoles { get; set; }
 
