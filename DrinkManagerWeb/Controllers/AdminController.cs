@@ -389,6 +389,12 @@ namespace DrinkManagerWeb.Controllers
             return RedirectToAction(nameof(Settings));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> UserActivitiesReport(string username)
+        {
+            var model = await _apiService.GetUserReportData(username);
+            return View(model);
+        }
         private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)

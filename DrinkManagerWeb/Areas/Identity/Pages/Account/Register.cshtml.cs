@@ -34,7 +34,7 @@ namespace DrinkManagerWeb.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender, 
             RoleManager<IdentityRole> roleManager,
-                IReportingModuleService reportingApiService)
+            IReportingModuleService reportingApiService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
