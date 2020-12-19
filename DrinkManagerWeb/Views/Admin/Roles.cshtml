@@ -23,7 +23,7 @@
                 }
             </td>
             <td class="text-center">
-                @if (role.Name != Configuration["AppSettings:RestrictedName"])
+                @if (role.Name != Configuration["AppSettings:RestrictedRoleNamePrimary"] && role.Name != Configuration["AppSettings:RestrictedRoleNameSecondary"])
                 {
                     <form asp-action="DeleteRole" asp-route-id="@role.Id" method="get">
                         <button type="submit" class="btn btn-sm btn-danger">

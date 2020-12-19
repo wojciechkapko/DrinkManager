@@ -1,7 +1,6 @@
 ﻿using BLL;
 using BLL.Data.Repositories;
 using BLL.Services;
-using DrinkManagerWeb.Models;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,11 +10,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -270,7 +266,7 @@ namespace DrinkManagerWeb.Controllers
         {
             AppUser userToDelete = await _userManager.FindByIdAsync(id);
 
-            if (userToDelete.Email == Environment.GetEnvironmentVariable("UserEmail"))
+            if (userToDelete.Email == Environment.GetEnvironmentVariable("AdminUserEmail"))
             {
                 return RedirectToAction("Users");
             }
@@ -342,7 +338,7 @@ namespace DrinkManagerWeb.Controllers
         {
             IdentityRole roleToDelete = await _roleManager.FindByIdAsync(id);
 
-            if (roleToDelete.Name == Environment.GetEnvironmentVariable("RestrictedName"))
+            if (roleToDelete.Name == Environment.GetEnvironmentVariable("RestrictedRoleNamePrimary") || roleToDelete.Name == Environment.GetEnvironmentVariable("RestrictedRoleNameSecondary"))
             {
                 return RedirectToAction("Roles");
             }
