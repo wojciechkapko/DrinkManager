@@ -409,6 +409,12 @@ namespace DrinkManagerWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> GeneralReport(IFormCollection data)
         {
+            if (data["start.date"].ToString().Length == 0 || data["end.date"].ToString().Length == 0)
+            {
+                TempData["Alert"] = "Both dates must be chosen";
+                TempData["AlertClass"] = "alert-danger";
+                return RedirectToAction(nameof(Settings));
+            }
             var model = await _apiService.GetReportData(DateTime.Parse(data["start.date"]), DateTime.Parse(data["end.date"]));
             return View(model);
         }
