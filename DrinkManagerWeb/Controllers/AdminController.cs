@@ -1,7 +1,6 @@
 ﻿using BLL;
 using BLL.Data.Repositories;
 using BLL.Services;
-using DrinkManagerWeb.Models;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,11 +10,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 
 namespace DrinkManagerWeb.Controllers
 {
@@ -393,6 +389,12 @@ namespace DrinkManagerWeb.Controllers
             return RedirectToAction(nameof(Settings));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> UserActivitiesReport(string username)
+        {
+            var model = await _apiService.GetUserReportData(username);
+            return View(model);
+        }
         private void Errors(IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)

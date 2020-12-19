@@ -26,6 +26,7 @@ namespace ReportingModuleApi
             services.AddControllers();
             services.AddScoped<IActivitiesRepository, ActivitiesRepository>();
             services.AddScoped<IReportDataService, ReportDataService>();
+            services.AddScoped<IUserOrientedDataService, UserOrientedDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

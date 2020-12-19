@@ -15,7 +15,7 @@
     @foreach (var user in Model.Users)
     {
         <tr>
-            <td>@user.Email</td>
+            <td><a asp-action="UserActivitiesReport" asp-route-username="@user.Email">@user.Email</a></td>
             <td>
                 @foreach (var role in Model.RolesPerUser[@user.UserName])
                 {
