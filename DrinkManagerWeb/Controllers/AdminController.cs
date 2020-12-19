@@ -266,7 +266,7 @@ namespace DrinkManagerWeb.Controllers
         {
             AppUser userToDelete = await _userManager.FindByIdAsync(id);
 
-            if (userToDelete.Email == Environment.GetEnvironmentVariable("UserEmail"))
+            if (userToDelete.Email == Environment.GetEnvironmentVariable("AdminUserEmail"))
             {
                 return RedirectToAction("Users");
             }
@@ -338,7 +338,7 @@ namespace DrinkManagerWeb.Controllers
         {
             IdentityRole roleToDelete = await _roleManager.FindByIdAsync(id);
 
-            if (roleToDelete.Name == Environment.GetEnvironmentVariable("RestrictedName"))
+            if (roleToDelete.Name == Environment.GetEnvironmentVariable("RestrictedRoleNamePrimary") || roleToDelete.Name == Environment.GetEnvironmentVariable("RestrictedRoleNameSecondary"))
             {
                 return RedirectToAction("Roles");
             }
