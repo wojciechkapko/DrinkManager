@@ -1,6 +1,10 @@
 ﻿using BLL.Admin.Models;
+using EntityFrameworkCore.Triggers;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BLL.Data
 {
@@ -17,9 +21,29 @@ namespace BLL.Data
         public DbSet<UserDrink> UserDrinks { get; set; }
         public DbSet<Setting> Settings { get; set; }
 
+
+        public override Int32 SaveChanges()
+        {
+            return this.SaveChangesWithTriggers(base.SaveChanges, acceptAllChangesOnSuccess: true);
+        }
+        public override Int32 SaveChanges(Boolean acceptAllChangesOnSuccess)
+        {
+            return this.SaveChangesWithTriggers(base.SaveChanges, acceptAllChangesOnSuccess);
+        }
+        public override Task<Int32> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.SaveChangesWithTriggersAsync(base.SaveChangesAsync, acceptAllChangesOnSuccess: true, cancellationToken: cancellationToken);
+        }
+        public override Task<Int32> SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return this.SaveChangesWithTriggersAsync(base.SaveChangesAsync, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Drink>().Property(drink => drink.AverageReview).ValueGeneratedOnUpdate();
 
             modelBuilder.Entity<UserDrink>()
                 .HasKey(cs => new { cs.AppUserId, cs.DrinkId });

@@ -17,7 +17,9 @@ using System.Threading.Tasks;
 
 namespace DrinkManagerWeb.Controllers
 {
-    public class DrinksController : Controller
+    [ApiController]
+    [Route("api/drinks")]
+    public class DrinksController : ControllerBase
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;
@@ -46,6 +48,7 @@ namespace DrinkManagerWeb.Controllers
             _apiService = apiService;
         }
 
+        [HttpGet]
         public IActionResult Index(int? pageNumber)
         {
             Task.Run(() => _apiService.CreateUserActivity(PerformedAction.AllDrinks, this.User.Identity.Name));
@@ -54,7 +57,7 @@ namespace DrinkManagerWeb.Controllers
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
             };
-            return View(model);
+            return Ok(model);
         }
 
         [HttpGet("drink/{id}")]
@@ -74,7 +77,7 @@ namespace DrinkManagerWeb.Controllers
                 IsFavourite = _favouriteRepository.IsFavourite(_userManager.GetUserId(User), drink?.DrinkId),
                 CanUserReview = _reviewRepository.CanUserReviewDrink(_userManager.GetUserId(User), drink?.DrinkId)
             };
-            return View(model);
+            return Ok(model);
         }
 
         [Authorize]
@@ -87,33 +90,33 @@ namespace DrinkManagerWeb.Controllers
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
             };
-            return View(model);
+            return Ok(model);
         }
 
-        [HttpGet("drink/edit/{id}")]
-        public async Task<IActionResult> Edit(string? id)
-        {
-            var drink = await _drinkRepository.GetDrinkById(id);
-
-            var model = new DrinkCreateViewModel
-            {
-                Id = drink?.DrinkId,
-                GlassType = drink?.GlassType,
-                Category = drink?.Category,
-                Instructions = drink?.Instructions,
-                AlcoholicInfo = drink?.AlcoholicInfo,
-                Name = drink?.Name,
-                Ingredients = drink?.Ingredients,
-                ImageUrl = drink?.ImageUrl
-            };
-
-            return View("Create", model);
-        }
+        // [HttpGet("drink/edit/{id}")]
+        // public async Task<IActionResult> Edit(string? id)
+        // {
+        //     var drink = await _drinkRepository.GetDrinkById(id);
+        //
+        //     var model = new DrinkCreateViewModel
+        //     {
+        //         Id = drink?.DrinkId,
+        //         GlassType = drink?.GlassType,
+        //         Category = drink?.Category,
+        //         Instructions = drink?.Instructions,
+        //         AlcoholicInfo = drink?.AlcoholicInfo,
+        //         Name = drink?.Name,
+        //         Ingredients = drink?.Ingredients,
+        //         ImageUrl = drink?.ImageUrl
+        //     };
+        //
+        //     return Ok("Create", model);
+        // }
 
         [HttpGet("drink/create")]
         public IActionResult Create()
         {
-            return View();
+            return Ok();
         }
 
         [HttpPost("drink/create")]
@@ -122,7 +125,7 @@ namespace DrinkManagerWeb.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return Ok();
             }
 
             Task.Run(() =>
@@ -164,8 +167,8 @@ namespace DrinkManagerWeb.Controllers
                 if (drinkToUpdate == null)
                 {
                     // something went wrong redirect to drinks index
-                    TempData["Alert"] = _localizer["DrinkNotFound"] + ".";
-                    TempData["AlertClass"] = "alert-danger";
+                    // TempData["Alert"] = _localizer["DrinkNotFound"] + ".";
+                    // TempData["AlertClass"] = "alert-danger";
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -219,8 +222,8 @@ namespace DrinkManagerWeb.Controllers
             _drinkRepository.DeleteDrink(drink);
             await _drinkRepository.SaveChanges();
 
-            TempData["Alert"] = $"Drink {drink.Name} " + _localizer["removed"] + ".";
-            TempData["AlertClass"] = "alert-success";
+            // TempData["Alert"] = $"Drink {drink.Name} " + _localizer["removed"] + ".";
+            // TempData["AlertClass"] = "alert-success";
 
             return RedirectToAction(nameof(Index));
         }
@@ -257,33 +260,33 @@ namespace DrinkManagerWeb.Controllers
             return RedirectToAction("DrinkDetails", new { id });
         }
 
-        [Authorize]
-        [HttpGet("drink/addReview/{id}")]
-        public async Task<IActionResult> AddReview(string? id)
-        {
-            var drink = await _drinkRepository.GetDrinkById(id);
-
-            var model = new DrinkCreateViewModel
-            {
-                Name = drink?.Name,
-                Id = drink?.DrinkId
-            };
-
-            return View("AddReview", model);
-        }
+        // [Authorize]
+        // [HttpGet("drink/addReview/{id}")]
+        // public async Task<IActionResult> AddReview(string? id)
+        // {
+        //     var drink = await _drinkRepository.GetDrinkById(id);
+        //
+        //     var model = new DrinkCreateViewModel
+        //     {
+        //         Name = drink?.Name,
+        //         Id = drink?.DrinkId
+        //     };
+        //
+        //     return Ok("AddReview", model);
+        // }
 
         [HttpPost("drink/addReview/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddReview(IFormCollection data, string? id)
         {
-            
+
             var drinkToUpdate = await _drinkRepository.GetDrinkById(id);
             Task.Run(() =>
                 _apiService.CreateUserActivity(PerformedAction.AddedReview, this.User.Identity.Name, id, drinkToUpdate.Name, score: int.Parse(data["DrinkReview.ReviewScore"])));
             if (drinkToUpdate == null)
             {
-                TempData["Alert"] = _localizer["DrinkNotFound"] + ".";
-                TempData["AlertClass"] = "alert-danger";
+                // TempData["Alert"] = _localizer["DrinkNotFound"] + ".";
+                // TempData["AlertClass"] = "alert-danger";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -311,14 +314,14 @@ namespace DrinkManagerWeb.Controllers
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
             };
-            return View(model);
+            return Ok(model);
         }
 
         public IActionResult SearchByAlcoholContent(int? pageNumber, bool alcoholics = true, bool nonAlcoholics = true, bool optionalAlcoholics = true)
         {
-            ViewData["Alcoholics"] = alcoholics;
-            ViewData["nonAlcoholics"] = nonAlcoholics;
-            ViewData["optionalAlcoholics"] = optionalAlcoholics;
+            // ViewData["Alcoholics"] = alcoholics;
+            // ViewData["nonAlcoholics"] = nonAlcoholics;
+            // ViewData["optionalAlcoholics"] = optionalAlcoholics;
             var drinks = _drinkSearchService
                 .SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics);
 
@@ -331,7 +334,7 @@ namespace DrinkManagerWeb.Controllers
                 NonAlcoholics = nonAlcoholics,
                 OptionalAlcoholics = optionalAlcoholics
             };
-            return View(model);
+            return Ok(model);
         }
 
         public IActionResult SearchByName(string searchString, int? pageNumber)
@@ -344,15 +347,15 @@ namespace DrinkManagerWeb.Controllers
                 drinks = _drinkSearchService.SearchByName(searchString);
             }
 
-            ViewData["SearchString"] = searchString;
-            ViewData["SearchType"] = "SearchByName";
+            // ViewData["SearchString"] = searchString;
+            // ViewData["SearchType"] = "SearchByName";
 
             var model = new DrinksViewModel
             {
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks.AsEnumerable(),
                     pageNumber ?? 1, _pageSize)
             };
-            return View(model);
+            return Ok(model);
         }
 
         public IActionResult SearchByIngredients(string searchString, int? pageNumber,
@@ -370,9 +373,9 @@ namespace DrinkManagerWeb.Controllers
                     searchDrinkIngredientsCondition);
             }
 
-            ViewData["SearchString"] = searchString;
-            ViewData["SearchCondition"] = searchCondition;
-            ViewData["SearchType"] = "SearchByIngredients";
+            // ViewData["SearchString"] = searchString;
+            // ViewData["SearchCondition"] = searchCondition;
+            // ViewData["SearchType"] = "SearchByIngredients";
 
 
             var model = new DrinksViewModel
@@ -380,7 +383,7 @@ namespace DrinkManagerWeb.Controllers
                 Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks,
                     pageNumber ?? 1, _pageSize)
             };
-            return View(model);
+            return Ok(model);
         }
     }
 }

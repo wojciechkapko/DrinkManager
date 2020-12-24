@@ -7,12 +7,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
+using System.Threading.Tasks;
 
 namespace DrinkManagerWeb
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -36,6 +37,7 @@ namespace DrinkManagerWeb
 
                     context.Database.Migrate();
                     Seeder.SeedData(context);
+                    await Seeder.CreateRoles(services, configuration);
                 }
                 host.Run();
             }

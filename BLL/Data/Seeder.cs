@@ -1,8 +1,13 @@
 ﻿using BLL.Admin.Models;
 using BLL.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BLL.Data
 {
@@ -68,6 +73,46 @@ namespace BLL.Data
                 // Add settings to the database
                 context.AddRange(settings);
                 context.SaveChanges();
+            }
+        }
+
+        public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration configuration)
+        {
+            var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
+            var user = await userManager.FindByEmailAsync(configuration["AppSettings:AdminUserEmail"]);
+            if (user == null)
+            {
+
+                //initializing custom roles 
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                string[] roleNames = { "Admin", "User" };
+
+                foreach (var roleName in roleNames)
+                {
+                    var roleExist = await roleManager.RoleExistsAsync(roleName);
+                    if (!roleExist)
+                    {
+                        //create the roles and seed them to the database
+                        await roleManager.CreateAsync(new IdentityRole(roleName));
+                    }
+                }
+
+                //creating a power user who will maintain the app
+                var powerUser = new AppUser()
+                {
+                    UserName = configuration["AppSettings:AdminUserEmail"],
+                    Email = configuration["AppSettings:AdminUserEmail"],
+                };
+
+                string userPassword = configuration["AppSettings:UserPassword"];
+
+                var createPowerUser = await userManager.CreateAsync(powerUser, userPassword);
+                if (createPowerUser.Succeeded)
+                {
+                    //here we tie the new user to the role
+                    await userManager.AddToRoleAsync(powerUser, "Admin");
+                }
             }
         }
     }

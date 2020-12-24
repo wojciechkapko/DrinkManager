@@ -15,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
-using System.Threading.Tasks;
 
 namespace DrinkManagerWeb
 {
@@ -80,10 +79,6 @@ namespace DrinkManagerWeb
             services.AddSingleton<BackgroundJobScheduler>();
             services.AddHostedService(provider => provider.GetService<BackgroundJobScheduler>());
 
-            services
-                .AddRazorPages()
-                .AddViewLocalization();
-
 
             services.AddScoped<RequestLocalizationCookiesMiddleware>();
             services.AddControllersWithViews().
@@ -123,53 +118,8 @@ namespace DrinkManagerWeb
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                endpoints.MapDefaultControllerRoute();
             });
-
-            CreateRoles(serviceProvider).Wait();
-        }
-
-        private async Task CreateRoles(IServiceProvider serviceProvider)
-        {
-            var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
-            var user = await userManager.FindByEmailAsync(Configuration["AppSettings:AdminUserEmail"]);
-            if (user == null)
-            {
-
-                //initializing custom roles 
-                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-                string[] roleNames = { "Admin", "User" };
-
-                foreach (var roleName in roleNames)
-                {
-                    var roleExist = await roleManager.RoleExistsAsync(roleName);
-                    if (!roleExist)
-                    {
-                        //create the roles and seed them to the database
-                        await roleManager.CreateAsync(new IdentityRole(roleName));
-                    }
-                }
-
-                //creating a power user who will maintain the app
-                var powerUser = new AppUser()
-                {
-                    UserName = Configuration["AppSettings:AdminUserEmail"],
-                    Email = Configuration["AppSettings:AdminUserEmail"],
-                };
-
-                string userPassword = Configuration["AppSettings:UserPassword"];
-
-                var createPowerUser = await userManager.CreateAsync(powerUser, userPassword);
-                if (createPowerUser.Succeeded)
-                {
-                    //here we tie the new user to the role
-                    await userManager.AddToRoleAsync(powerUser, "Admin");
-                }
-            }
         }
     }
 }

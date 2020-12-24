@@ -2,10 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj" />
-    <ProjectReference Include="..\DrinkManagerWeb\DrinkManagerWeb.csproj" />
+    <ProjectReference Include="..\DrinkManager.API\DrinkManager.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,10 +9,17 @@
     <Compile Remove="Migrations\20201001171844_ChangeIngredientIdKeyGeneration.Designer.cs" />
     <Compile Remove="Migrations\20201117164415_addDescriptionPropertyToSettingEntity.cs" />
     <Compile Remove="Migrations\20201117164415_addDescriptionPropertyToSettingEntity.Designer.cs" />
+    <Compile Remove="Migrations\20201223222649_addTriggerOptionToAverageReview.cs" />
+    <Compile Remove="Migrations\20201223222649_addTriggerOptionToAverageReview.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFrameworkCore.Triggers" Version="1.2.2" />
     <PackageReference Include="MailKit" Version="2.9.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.7" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.0" />
