@@ -1,7 +1,9 @@
+using AutoMapper;
 using BLL;
 using BLL.Data;
 using BLL.Data.Repositories;
 using BLL.Services;
+using DrinkManager.API.MapperProfiles;
 using DrinkManagerWeb.Extensions;
 using DrinkManagerWeb.Middlewares;
 using DrinkManagerWeb.Resources;
@@ -82,7 +84,6 @@ namespace DrinkManagerWeb
 
             services.AddScoped<RequestLocalizationCookiesMiddleware>();
             services.AddControllersWithViews().
-                AddRazorRuntimeCompilation().
                 AddDataAnnotationsLocalization(options =>
                 {
                     options.DataAnnotationLocalizerProvider = (type, factory) =>
@@ -98,6 +99,12 @@ namespace DrinkManagerWeb
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
                 });
             });
+
+            services.AddSingleton(provider => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new DrinkProfile());
+                cfg.AddProfile(new IngredientProfile());
+            }).CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

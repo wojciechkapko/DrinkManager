@@ -18,7 +18,7 @@ namespace BLL.Data.Repositories
 
         public IEnumerable<Drink> GetAllDrinks()
         {
-            return _context.Drinks.Include(i => i.DrinkReviews).AsEnumerable().OrderBy(x => x.Name);
+            return _context.Drinks.Include(i => i.Ingredients).OrderBy(x => x.Name);
         }
 
         public IQueryable<Drink> GetAllDrinksAsQueryable()

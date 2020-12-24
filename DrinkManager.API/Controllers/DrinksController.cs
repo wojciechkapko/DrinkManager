@@ -1,8 +1,10 @@
 #nullable enable
+using AutoMapper;
 using BLL;
 using BLL.Data.Repositories;
 using BLL.Enums;
 using BLL.Services;
+using DrinkManager.API.Contracts.Responses;
 using DrinkManagerWeb.Models.ViewModels;
 using DrinkManagerWeb.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +29,7 @@ namespace DrinkManagerWeb.Controllers
         private readonly IFavouriteRepository _favouriteRepository;
         private readonly IReviewRepository _reviewRepository;
         private readonly IStringLocalizer<SharedResource> _localizer;
+        private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
         private readonly int _pageSize = 12;
 
@@ -37,7 +40,8 @@ namespace DrinkManagerWeb.Controllers
             IReviewRepository reviewRepository,
             UserManager<AppUser> userManager,
             IReportingModuleService apiService,
-            IStringLocalizer<SharedResource> localizer)
+            IStringLocalizer<SharedResource> localizer,
+            IMapper mapper)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;
@@ -45,6 +49,7 @@ namespace DrinkManagerWeb.Controllers
             _reviewRepository = reviewRepository;
             _userManager = userManager;
             _localizer = localizer;
+            _mapper = mapper;
             _apiService = apiService;
         }
 
@@ -52,12 +57,13 @@ namespace DrinkManagerWeb.Controllers
         public IActionResult Index(int? pageNumber)
         {
             Task.Run(() => _apiService.CreateUserActivity(PerformedAction.AllDrinks, this.User.Identity.Name));
-            var drinks = _drinkRepository.GetAllDrinks().OrderBy(x => x.Name);
-            var model = new DrinksViewModel
-            {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
-            };
-            return Ok(model);
+            // var model = new DrinksViewModel
+            // {
+            //     Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
+            // };
+            var drinks = _drinkRepository.GetAllDrinks().Select(_mapper.Map<GetDrinkListResponse>);
+
+            return Ok(drinks);
         }
 
         [HttpGet("drink/{id}")]
