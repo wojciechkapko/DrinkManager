@@ -12,6 +12,7 @@ namespace DrinkManager.API.Contracts.Responses
         public string ImageUrl { get; set; }
         public List<DrinkListIngredient> Ingredients { get; set; }
         public int AverageReview { get; set; }
+        public decimal Price { get; set; }
 
 
         public class DrinkListIngredient

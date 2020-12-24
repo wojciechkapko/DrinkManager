@@ -6,10 +6,10 @@ namespace BLL.Services
 {
     public interface IDrinkSearchService
     {
-        IEnumerable<Drink> SearchByName(string textToSearch);
+        IQueryable<Drink> SearchByName(string textToSearch);
 
-        IEnumerable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, SearchDrinkOption searchOption);
+        IQueryable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, SearchDrinkOption searchOption);
 
-        IEnumerable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics);
+        IQueryable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics);
     }
 }

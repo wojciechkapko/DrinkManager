@@ -13,6 +13,7 @@ const DrinkList = ({ drinks }) => {
           id={drink.id}
           ingredients={drink.ingredients}
           image={drink.imageUrl}
+          price={drink.price}
         />
       ))}
     </Row>

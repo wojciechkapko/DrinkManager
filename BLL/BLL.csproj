@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20201117164415_addDescriptionPropertyToSettingEntity.Designer.cs" />
     <Compile Remove="Migrations\20201223222649_addTriggerOptionToAverageReview.cs" />
     <Compile Remove="Migrations\20201223222649_addTriggerOptionToAverageReview.Designer.cs" />
+    <Compile Remove="Migrations\20201224201315_UpdatePricePropertyForDrinkEntity.cs" />
+    <Compile Remove="Migrations\20201224201315_UpdatePricePropertyForDrinkEntity.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BLL
 {
@@ -21,20 +23,12 @@ namespace BLL
 
         public bool HasNextPage => (PageIndex < TotalPages);
 
-        public string IsOnCurrentPage(int pageIndex, int currentPageIndex)
+        public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
         {
-            if (pageIndex == currentPageIndex)
-            {
-                return "disabled";
-            }
-
-            return "";
-        }
-
-        public static PaginatedList<T> CreatePaginatedList(IEnumerable<T> source, int pageIndex, int pageSize)
-        {
-            var count = source.Count();
-            var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var count = await source.CountAsync();
+            var items = await source.Skip(
+                    (pageIndex - 1) * pageSize)
+                .Take(pageSize).ToListAsync();
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
         }
     }

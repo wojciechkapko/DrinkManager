@@ -88,13 +88,13 @@ namespace DrinkManagerWeb.Controllers
 
         [Authorize]
         [HttpGet("Drinks/favourites")]
-        public IActionResult FavouriteDrinks(int? pageNumber)
+        public async Task<IActionResult> FavouriteDrinks(int? pageNumber)
         {
             var drinks = _favouriteRepository.GetUserFavouriteDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
+                Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, _pageSize)
             };
             return Ok(model);
         }
@@ -312,18 +312,18 @@ namespace DrinkManagerWeb.Controllers
 
         [Authorize]
         [HttpGet("Drinks/reviews")]
-        public IActionResult ReviewedDrinks(int? pageNumber)
+        public async Task<IActionResult> ReviewedDrinks(int? pageNumber)
         {
             var drinks = _reviewRepository.GetUserReviewedDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
+                Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, _pageSize)
             };
             return Ok(model);
         }
 
-        public IActionResult SearchByAlcoholContent(int? pageNumber, bool alcoholics = true, bool nonAlcoholics = true, bool optionalAlcoholics = true)
+        public async Task<IActionResult> SearchByAlcoholContent(int? pageNumber, bool alcoholics = true, bool nonAlcoholics = true, bool optionalAlcoholics = true)
         {
             // ViewData["Alcoholics"] = alcoholics;
             // ViewData["nonAlcoholics"] = nonAlcoholics;
@@ -335,7 +335,7 @@ namespace DrinkManagerWeb.Controllers
             //user choices while going through PaginatedList pages
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize),
+                Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, _pageSize),
                 Alcoholics = alcoholics,
                 NonAlcoholics = nonAlcoholics,
                 OptionalAlcoholics = optionalAlcoholics
@@ -343,7 +343,7 @@ namespace DrinkManagerWeb.Controllers
             return Ok(model);
         }
 
-        public IActionResult SearchByName(string searchString, int? pageNumber)
+        public async Task<IActionResult> SearchByName(string searchString, int? pageNumber)
         {
             var drinks = _drinkRepository.GetAllDrinks();
             if (!string.IsNullOrEmpty(searchString))
@@ -358,13 +358,13 @@ namespace DrinkManagerWeb.Controllers
 
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks.AsEnumerable(),
+                Drinks = await PaginatedList<Drink>.CreateAsync(drinks,
                     pageNumber ?? 1, _pageSize)
             };
             return Ok(model);
         }
 
-        public IActionResult SearchByIngredients(string searchString, int? pageNumber,
+        public async Task<IActionResult> SearchByIngredients(string searchString, int? pageNumber,
             string searchCondition = "any")
         {
             var drinks = _drinkRepository.GetAllDrinks();
@@ -386,7 +386,7 @@ namespace DrinkManagerWeb.Controllers
 
             var model = new DrinksViewModel
             {
-                Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks,
+                Drinks = await PaginatedList<Drink>.CreateAsync(drinks,
                     pageNumber ?? 1, _pageSize)
             };
             return Ok(model);

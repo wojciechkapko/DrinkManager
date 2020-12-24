@@ -20,5 +20,8 @@ namespace BLL
         public List<Ingredient> Ingredients { get; set; }
         public List<DrinkReview> DrinkReviews { get; set; }
         public int AverageReview { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Price { get; set; }
+
     }
 }

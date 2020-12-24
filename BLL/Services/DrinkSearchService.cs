@@ -19,13 +19,13 @@ namespace BLL.Services
             _repository = repository;
         }
 
-        public IEnumerable<Drink> SearchByName(string textToSearch)
+        public IQueryable<Drink> SearchByName(string textToSearch)
         {
             return _repository.GetAllDrinks().Where(drink =>
                 drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public IEnumerable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, SearchDrinkOption searchOption)
+        public IQueryable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, SearchDrinkOption searchOption)
         {
             var drinksFound = new List<Drink>();
             var ingredientsFound = new SortedSet<string>();
@@ -34,70 +34,70 @@ namespace BLL.Services
             switch (searchOption)
             {
                 case SearchDrinkOption.All:
-                {
-                    foreach (var drink in drinks)
                     {
-                        foreach (var drinkIngredient in drink.Ingredients)
+                        foreach (var drink in drinks)
                         {
-                            if (drinkIngredient.Name == null)
+                            foreach (var drinkIngredient in drink.Ingredients)
                             {
-                                continue;
-                            }
-
-                            foreach (var ingredient in ingredientsToSearch)
-                            {
-                                if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                                if (drinkIngredient.Name == null)
                                 {
-                                    ingredientsFound.Add(ingredient);
+                                    continue;
+                                }
+
+                                foreach (var ingredient in ingredientsToSearch)
+                                {
+                                    if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        ingredientsFound.Add(ingredient);
+                                    }
                                 }
                             }
-                        }
 
-                        if (ingredientsFound.SetEquals(ingredientsToSearch))
-                        {
-                            drinksFound.Add(drink);
-                        }
-
-                        ingredientsFound.Clear();
-                    }
-                    break;
-                }
-                case SearchDrinkOption.Any:
-                {
-                    foreach (var drink in drinks)
-                    {
-                        var nextDrink = false;
-
-                        foreach (var drinkIngredient in drink.Ingredients)
-                        {
-                            if (drinkIngredient.Name == null)
+                            if (ingredientsFound.SetEquals(ingredientsToSearch))
                             {
-                                continue;
+                                drinksFound.Add(drink);
                             }
 
-                            foreach (var ingredient in ingredientsToSearch)
+                            ingredientsFound.Clear();
+                        }
+                        break;
+                    }
+                case SearchDrinkOption.Any:
+                    {
+                        foreach (var drink in drinks)
+                        {
+                            var nextDrink = false;
+
+                            foreach (var drinkIngredient in drink.Ingredients)
                             {
-                                if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                                if (drinkIngredient.Name == null)
                                 {
-                                    drinksFound.Add(drink);
-                                    nextDrink = true;
+                                    continue;
+                                }
+
+                                foreach (var ingredient in ingredientsToSearch)
+                                {
+                                    if (drinkIngredient.Name.Contains(ingredient, StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        drinksFound.Add(drink);
+                                        nextDrink = true;
+                                        break;
+                                    }
+                                }
+
+                                if (nextDrink)
+                                {
                                     break;
                                 }
                             }
-
-                            if (nextDrink)
-                            {
-                                break;
-                            }
                         }
+                        break;
                     }
-                    break;
-                }
             }
-            return drinksFound;
+            return drinksFound.AsQueryable();
         }
 
-        public IEnumerable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics)
+        public IQueryable<Drink> SearchByAlcoholContent(bool alcoholics, bool nonAlcoholics, bool optionalAlcoholics)
         {
             var drinks = _repository.GetAllDrinksAsQueryable();
             var contemporaryList = new List<Drink>();
@@ -115,7 +115,7 @@ namespace BLL.Services
             {
                 contemporaryList.AddRange(drinks.Where(x => x.AlcoholicInfo == DrinkIsOptionalAlcohol));
             }
-            return contemporaryList.OrderBy(x => x.Name);
+            return contemporaryList.AsQueryable();
         }
     }
 }

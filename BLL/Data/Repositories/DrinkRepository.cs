@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ namespace BLL.Data.Repositories
             _context = context;
         }
 
-        public IEnumerable<Drink> GetAllDrinks()
+        public IQueryable<Drink> GetAllDrinks()
         {
             return _context.Drinks.Include(i => i.Ingredients).OrderBy(x => x.Name);
         }

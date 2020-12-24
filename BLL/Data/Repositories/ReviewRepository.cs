@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace BLL.Data.Repositories
@@ -13,13 +12,12 @@ namespace BLL.Data.Repositories
             _context = context;
         }
 
-        public IEnumerable<Drink> GetUserReviewedDrinks(string userId) =>
+        public IQueryable<Drink> GetUserReviewedDrinks(string userId) =>
             _context.Reviews
                 .Include(r => r.Drink)
                 .ThenInclude(r => r.DrinkReviews)
                 .Where(r => r.Author.Id.Equals(userId))
-                .Select(r => r.Drink)
-                .AsEnumerable();
+                .Select(r => r.Drink);
 
         public bool CanUserReviewDrink(string userId, string drinkId)
         {

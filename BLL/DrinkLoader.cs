@@ -21,6 +21,7 @@ namespace BLL
         {
             var newDrinks = new List<Drink>();
             var newIngredients = new List<Ingredient>();
+            var rnd = new Random();
 
             try
             {
@@ -38,7 +39,8 @@ namespace BLL
                         Category = drink.strCategory,
                         GlassType = drink.strGlass,
                         Instructions = drink.strInstructions,
-                        ImageUrl = drink.strDrinkThumb
+                        ImageUrl = drink.strDrinkThumb,
+                        Price = Math.Round(((decimal)rnd.NextDouble() * 10) * 3, 2)
                     };
 
 
