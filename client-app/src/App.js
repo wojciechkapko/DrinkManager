@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import React, { useState, useEffect, Fragment } from "react";
+import axios from "axios";
 
-function App() {
+const App = () => {
+  const [drinks, setDrinks] = useState([]);
+
+  useEffect(() => {
+    axios.get("https://localhost:5001/api/drinks").then((response) => {
+      setDrinks(response.data.drinks);
+    });
+  }, []);
+
   return (
-    <div className="App">
+    <Fragment>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>{drinks.map((drink) => drink.name)}</p>
       </header>
-    </div>
+    </Fragment>
   );
-}
+};
 
 export default App;
