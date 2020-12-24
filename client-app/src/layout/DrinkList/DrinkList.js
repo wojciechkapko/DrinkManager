@@ -1,6 +1,7 @@
 import React from "react";
 import Drink from "../Drink/Drink";
 import Row from "react-bootstrap/Row";
+import "./DrinkList.min.css";
 
 const DrinkList = ({ drinks }) => {
   return (

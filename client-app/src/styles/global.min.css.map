@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,QAAQ,AAAC,CACP,aAAa,CAAE,eAAe,CAC/B",
+    "sources": [
+        "global.scss"
+    ],
+    "names": [],
+    "file": "global.min.css"
+}
