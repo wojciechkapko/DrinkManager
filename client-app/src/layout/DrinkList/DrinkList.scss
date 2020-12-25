@@ -19,3 +19,15 @@
   right: 0.75rem;
   position: absolute;
 }
+
+.page-item.active .page-link {
+  background-color: $accent-light;
+  border-color: $accent-light;
+}
+
+.page-link {
+  color: $accent-light;
+  &:hover {
+    color: $accent-light;
+  }
+}

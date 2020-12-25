@@ -4,7 +4,7 @@ import DrinkList from "../layout/DrinkList/DrinkList";
 const Menu = () => {
   return (
     <Fragment>
-      <h1>Menu</h1>
+      <h1>Menu Items</h1>
       <DrinkList />
     </Fragment>
   );

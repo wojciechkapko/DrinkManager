@@ -4,13 +4,23 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Pagination from "react-bootstrap/Pagination";
 import axios from "axios";
-
+import Card from "react-bootstrap/Card";
+import { useHistory, useLocation } from "react-router-dom";
 import "./DrinkList.min.css";
 
 const DrinkList = () => {
   const [drinks, setDrinks] = useState([]);
   const [pages, setPages] = useState(0);
-  const [page, setPage] = useState(1);
+  const history = useHistory();
+
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
+  let query = useQuery();
+
+  const [page, setPage] = useState(
+    query.get("page") != undefined ? query.get("page") : 1
+  );
 
   useEffect(() => {
     axios
@@ -18,11 +28,12 @@ const DrinkList = () => {
       .then((response) => {
         setDrinks(response.data.drinks);
         setPages(response.data.totalPages);
-        console.log(response.data.drinks);
+        history.push(`/menu?page=${page}`);
       });
   }, [page]);
 
   let items = [];
+
   for (let number = 1; number <= pages; number++) {
     items.push(
       <Pagination.Item
@@ -36,7 +47,7 @@ const DrinkList = () => {
   }
 
   return (
-    <Fragment>
+    <Card className="rounded p-4">
       <Row className="drink-list">
         {drinks.map((drink) => (
           <Drink
@@ -54,7 +65,7 @@ const DrinkList = () => {
           <Pagination>{items}</Pagination>
         </Col>
       </Row>
-    </Fragment>
+    </Card>
   );
 };
 
