@@ -1,14 +1,9 @@
-import React, { useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Drink = ({ name, id, ingredients, image, price }) => {
-  useEffect(() => {
-    console.log(image);
-  }, []);
-
   const cardStyle = {
     width: "15rem",
     margin: "6rem 1rem 1rem 1rem",

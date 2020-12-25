@@ -54,16 +54,13 @@ namespace DrinkManagerWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int? pageNumber)
+        public async Task<IActionResult> Index([FromQuery] int? page)
         {
-            Task.Run(() => _apiService.CreateUserActivity(PerformedAction.AllDrinks, this.User.Identity.Name));
-            // var model = new DrinksViewModel
-            // {
-            //     Drinks = PaginatedList<Drink>.CreatePaginatedList(drinks, pageNumber ?? 1, _pageSize)
-            // };
-            var drinks = _drinkRepository.GetAllDrinks().Select(_mapper.Map<GetDrinkListResponse>);
+            Task.Run(() => _apiService.CreateUserActivity(PerformedAction.AllDrinks, User.Identity.Name));
 
-            return Ok(drinks);
+            var drinks = await PaginatedList<Drink>.CreateAsync(_drinkRepository.GetAllDrinks(), page ?? 1, _pageSize);
+
+            return Ok(new { drinks = drinks.Select(_mapper.Map<GetDrinkListResponse>), totalPages = drinks.TotalPages });
         }
 
         [HttpGet("drink/{id}")]
@@ -71,7 +68,7 @@ namespace DrinkManagerWeb.Controllers
         {
             var drink = await _drinkRepository.GetDrinkById(id);
             Task.Run(() =>
-                _apiService.CreateUserActivity(PerformedAction.VisitedDrink, this.User.Identity.Name, drinkId: id, drinkName: drink.Name));
+                _apiService.CreateUserActivity(PerformedAction.VisitedDrink, User.Identity.Name, drinkId: id, drinkName: drink.Name));
             if (drink == null)
             {
                 // add error View
