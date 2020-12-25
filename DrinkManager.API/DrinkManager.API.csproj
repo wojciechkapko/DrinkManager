@@ -21,6 +21,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj" />
+    <ProjectReference Include="..\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\ReportingModule\ReportingModuleApi.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="drinks_source.json">

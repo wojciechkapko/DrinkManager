@@ -1,5 +1,5 @@
-﻿using BLL.Enums;
-using BLL.Services;
+﻿using BLL.Services;
+using Domain.Enums;
 using FluentAssertions;
 using System.Collections.Generic;
 using Xunit;

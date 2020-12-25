@@ -1,9 +1,8 @@
-using System;
-using BLL;
-using BLL.Data;
-using BLL.Data.Repositories;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
+using Persistence.Repositories;
+using System;
 
 namespace Tests
 {

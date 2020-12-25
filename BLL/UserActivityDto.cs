@@ -1,4 +1,4 @@
-﻿using BLL.Enums;
+﻿using Domain.Enums;
 
 namespace BLL
 {

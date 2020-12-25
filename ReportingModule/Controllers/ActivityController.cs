@@ -1,6 +1,6 @@
 ﻿using BLL;
-using BLL.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using ReportingModuleApi.Data.Repositories;
 using System;
 using System.Threading.Tasks;
 

@@ -1,11 +1,11 @@
-﻿using BLL.Data.Repositories;
-using BLL.Enums;
+﻿using Domain.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Persistence.Repositories;
 
 namespace BLL.Services
 {

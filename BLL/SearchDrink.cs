@@ -1,5 +1,5 @@
-﻿using BLL.Enums;
-using Domain;
+﻿using Domain;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

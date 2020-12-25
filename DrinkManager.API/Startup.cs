@@ -1,6 +1,4 @@
 using AutoMapper;
-using BLL.Data;
-using BLL.Data.Repositories;
 using BLL.Services;
 using Domain;
 using DrinkManager.API.MapperProfiles;
@@ -15,8 +13,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Persistence;
+using Persistence.Repositories;
 using Serilog;
 using System;
+using ReportingModuleApi.Services;
 
 namespace DrinkManagerWeb
 {

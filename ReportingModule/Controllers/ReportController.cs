@@ -1,6 +1,6 @@
-﻿using BLL;
-using BLL.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using ReportingModuleApi.Data;
+using ReportingModuleApi.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -12,7 +12,7 @@ namespace ReportingModuleApi.Controllers
     {
         private readonly IReportDataService _reportDataService;
         private readonly IUserOrientedDataService _userOrientedDataService;
-        
+
         public ReportController(IReportDataService reportDataService, IUserOrientedDataService userOrientedDataService)
         {
             _reportDataService = reportDataService;

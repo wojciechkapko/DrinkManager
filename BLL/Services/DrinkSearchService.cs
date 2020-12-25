@@ -1,7 +1,7 @@
-﻿using BLL.Data.Repositories;
-using BLL.Enums;
-using Domain;
+﻿using Domain;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

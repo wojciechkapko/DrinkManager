@@ -1,10 +1,9 @@
 #nullable enable
 using AutoMapper;
 using BLL;
-using BLL.Data.Repositories;
-using BLL.Enums;
 using BLL.Services;
 using Domain;
+using Domain.Enums;
 using DrinkManager.API.Contracts.Responses;
 using DrinkManagerWeb.Models.ViewModels;
 using DrinkManagerWeb.Resources;
@@ -13,6 +12,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Persistence.Repositories;
+using ReportingModuleApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
