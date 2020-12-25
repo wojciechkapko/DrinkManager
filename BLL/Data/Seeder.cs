@@ -1,5 +1,6 @@
 ﻿using BLL.Admin.Models;
 using BLL.Enums;
+using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

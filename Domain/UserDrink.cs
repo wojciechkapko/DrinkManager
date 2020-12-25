@@ -1,4 +1,4 @@
-namespace BLL
+namespace Domain
 {
     public class UserDrink
     {

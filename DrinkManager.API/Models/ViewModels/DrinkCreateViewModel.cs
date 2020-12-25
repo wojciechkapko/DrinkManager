@@ -1,4 +1,4 @@
-﻿using BLL;
+﻿using Domain;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

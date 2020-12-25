@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace BLL
+namespace Domain
 {
     public class DrinkReview
     {

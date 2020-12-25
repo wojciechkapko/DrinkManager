@@ -1,6 +1,6 @@
-﻿using BLL;
-using BLL.Data.Repositories;
+﻿using BLL.Data.Repositories;
 using BLL.Services;
+using Domain;
 using DrinkManagerWeb.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -405,7 +405,7 @@ namespace DrinkManagerWeb.Controllers
         {
             return View();
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> GeneralReport(IFormCollection data)
         {

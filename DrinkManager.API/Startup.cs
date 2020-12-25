@@ -1,8 +1,8 @@
 using AutoMapper;
-using BLL;
 using BLL.Data;
 using BLL.Data.Repositories;
 using BLL.Services;
+using Domain;
 using DrinkManager.API.MapperProfiles;
 using DrinkManagerWeb.Extensions;
 using DrinkManagerWeb.Middlewares;
@@ -55,20 +55,21 @@ namespace DrinkManagerWeb
                     .Remove(typeof(AcceptLanguageHeaderRequestCultureProvider));
             });
 
-            services.AddAuthentication()
-                .AddFacebook(facebookOptions =>
-                    {
-                        facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                        facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                    })
-                .AddGoogle(options =>
-                    {
-                        IConfigurationSection googleAuthNSection =
-                            Configuration.GetSection("Authentication:Google");
+            services.AddAuthentication();
 
-                        options.ClientId = googleAuthNSection["ClientId"];
-                        options.ClientSecret = googleAuthNSection["ClientSecret"];
-                    });
+            // .AddFacebook(facebookOptions =>
+            //     {
+            //         facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+            //         facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            //     })
+            // .AddGoogle(options =>
+            //     {
+            //         IConfigurationSection googleAuthNSection =
+            //             Configuration.GetSection("Authentication:Google");
+            //
+            //         options.ClientId = googleAuthNSection["ClientId"];
+            //         options.ClientSecret = googleAuthNSection["ClientSecret"];
+            //     });
 
             services.AddScoped<IDrinkRepository, DrinkRepository>();
             services.AddScoped<IDrinkSearchService, DrinkSearchService>();
@@ -90,7 +91,7 @@ namespace DrinkManagerWeb
                         factory.Create(typeof(SharedResource));
                 });
 
-            services.AddHttpContextAccessor();
+            //services.AddHttpContextAccessor();
 
             services.AddCors(options =>
             {

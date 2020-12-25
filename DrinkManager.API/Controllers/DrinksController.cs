@@ -4,6 +4,7 @@ using BLL;
 using BLL.Data.Repositories;
 using BLL.Enums;
 using BLL.Services;
+using Domain;
 using DrinkManager.API.Contracts.Responses;
 using DrinkManagerWeb.Models.ViewModels;
 using DrinkManagerWeb.Resources;
@@ -62,6 +63,7 @@ namespace DrinkManagerWeb.Controllers
 
             return Ok(new { drinks = drinks.Select(_mapper.Map<GetDrinkListResponse>), totalPages = drinks.TotalPages });
         }
+
 
         [HttpGet("drink/{id}")]
         public async Task<IActionResult> DrinkDetails(string id)

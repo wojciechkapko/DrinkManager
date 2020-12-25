@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BLL;
+using Domain;
 using DrinkManager.API.Contracts.Responses;
 
 namespace DrinkManager.API.MapperProfiles

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Domain;
+using System.Linq;
 
 namespace BLL.Data.Repositories
 {

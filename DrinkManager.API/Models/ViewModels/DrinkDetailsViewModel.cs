@@ -1,4 +1,4 @@
-﻿using BLL;
+﻿using Domain;
 
 namespace DrinkManagerWeb.Models.ViewModels
 {

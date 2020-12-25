@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using BLL;
+﻿using Domain;
+using System.Collections.Generic;
 
 namespace DrinkManagerWeb.Models.ViewModels
 {

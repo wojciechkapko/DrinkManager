@@ -1,5 +1,6 @@
 ﻿using BLL.Data.Repositories;
 using BLL.Enums;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
