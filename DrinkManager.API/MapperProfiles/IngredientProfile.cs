@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using BLL.Contracts.Responses;
 using Domain;
-using DrinkManager.API.Contracts.Responses;
 
 namespace DrinkManager.API.MapperProfiles
 {

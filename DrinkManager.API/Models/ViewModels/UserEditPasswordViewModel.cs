@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DrinkManagerWeb.Models.ViewModels
+namespace DrinkManager.API.Models.ViewModels
 {
     public class UserEditPasswordViewModel
     {

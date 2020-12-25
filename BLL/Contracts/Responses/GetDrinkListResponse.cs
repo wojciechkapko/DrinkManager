@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DrinkManager.API.Contracts.Responses
+namespace BLL.Contracts.Responses
 {
     public class GetDrinkListResponse
     {

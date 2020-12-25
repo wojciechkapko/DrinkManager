@@ -2,7 +2,7 @@
 using Serilog.Configuration;
 using System;
 
-namespace DrinkManagerWeb.Helpers
+namespace DrinkManager.API.Helpers
 {
     public static class UserNameLoggerConfigurationExtensions
     {

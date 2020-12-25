@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DrinkManagerWeb.Middlewares
+namespace DrinkManager.API.Middlewares
 {
     public static class RequestLocalizationCookiesMiddlewareExtensions
     {

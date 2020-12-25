@@ -3,8 +3,6 @@ using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +11,11 @@ namespace Persistence
 {
     public static class Seeder
     {
-        public static void SeedData(DrinkAppContext context)
+        public static async Task SeedData(
+            DrinkAppContext context,
+            UserManager<AppUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IConfiguration configuration)
         {
             // Check if we can connect to the database
             if (!context.Database.CanConnect())
@@ -74,44 +76,54 @@ namespace Persistence
                 context.AddRange(settings);
                 context.SaveChanges();
             }
-        }
 
-        public static async Task CreateRoles(IServiceProvider serviceProvider, IConfiguration configuration)
-        {
-            var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
-            var user = await userManager.FindByEmailAsync(configuration["AppSettings:AdminUserEmail"]);
-            if (user == null)
+
+            if (!roleManager.Roles.Any())
             {
-
-                //initializing custom roles 
-                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
                 string[] roleNames = { "Admin", "User" };
 
                 foreach (var roleName in roleNames)
                 {
-                    var roleExist = await roleManager.RoleExistsAsync(roleName);
-                    if (!roleExist)
-                    {
-                        //create the roles and seed them to the database
-                        await roleManager.CreateAsync(new IdentityRole(roleName));
-                    }
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
+            }
 
-                //creating a power user who will maintain the app
-                var powerUser = new AppUser()
+
+            if (!userManager.Users.Any())
+            {
+                var users = new List<AppUser>
                 {
-                    UserName = configuration["AppSettings:AdminUserEmail"],
-                    Email = configuration["AppSettings:AdminUserEmail"],
+                    new AppUser
+                    {
+                        UserName = configuration["AppSettings:AdminUserEmail"],
+                        Email = configuration["AppSettings:AdminUserEmail"]
+                    },
+                    new AppUser
+                    {
+                        UserName = "TestUser",
+                        Email = "Testuser@test.com"
+                    },
+                    new AppUser
+                    {
+                        UserName = "TestUser2",
+                        Email = "Testuser2@test.com"
+                    }
                 };
 
-                string userPassword = configuration["AppSettings:UserPassword"];
-
-                var createPowerUser = await userManager.CreateAsync(powerUser, userPassword);
-                if (createPowerUser.Succeeded)
+                var adminPassword = configuration["AppSettings:UserPassword"];
+                var admin = await userManager.CreateAsync(users[0], adminPassword);
+                if (admin.Succeeded)
                 {
-                    //here we tie the new user to the role
-                    await userManager.AddToRoleAsync(powerUser, "Admin");
+                    await userManager.AddToRoleAsync(users[0], "Admin");
+                }
+
+                foreach (var appUser in users.Skip(1))
+                {
+                    var user = await userManager.CreateAsync(appUser, adminPassword);
+                    if (user.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(appUser, "User");
+                    }
                 }
             }
         }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 
-namespace DrinkManagerWeb.Models
+namespace DrinkManager.API.Models
 {
     public class RoleEdit
     {

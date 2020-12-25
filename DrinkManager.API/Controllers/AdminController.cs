@@ -1,6 +1,6 @@
 ﻿using BLL.Services;
 using Domain;
-using DrinkManagerWeb.Models.ViewModels;
+using DrinkManager.API.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DrinkManagerWeb.Controllers
+namespace DrinkManager.API.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller

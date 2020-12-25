@@ -1,7 +1,7 @@
 ﻿using BLL;
 using Domain;
 
-namespace DrinkManagerWeb.Models.ViewModels
+namespace DrinkManager.API.Models.ViewModels
 {
     public class DrinksViewModel
     {

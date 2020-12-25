@@ -1,10 +1,9 @@
-﻿using DrinkManagerWeb.Models.ViewModels;
-using Microsoft.AspNetCore.Http;
+﻿using DrinkManager.API.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
-namespace DrinkManagerWeb.Controllers
+namespace DrinkManager.API.Controllers
 {
     public class HomeController : Controller
     {

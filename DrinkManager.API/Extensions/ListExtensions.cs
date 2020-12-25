@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DrinkManagerWeb.Extensions
+namespace DrinkManager.API.Extensions
 {
     public static class ListExtensions
     {

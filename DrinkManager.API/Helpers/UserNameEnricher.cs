@@ -2,7 +2,7 @@
 using Serilog.Core;
 using Serilog.Events;
 
-namespace DrinkManagerWeb.Helpers
+namespace DrinkManager.API.Helpers
 {
     public class UserNameEnricher : ILogEventEnricher
     {

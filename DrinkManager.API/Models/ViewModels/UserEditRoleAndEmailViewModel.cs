@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DrinkManagerWeb.Models.ViewModels
+namespace DrinkManager.API.Models.ViewModels
 {
     public class UserEditRoleAndEmailViewModel
     {
@@ -19,7 +19,7 @@ namespace DrinkManagerWeb.Models.ViewModels
 
         [Required]
         [RegularExpression("^(?!Please select).*", ErrorMessage = "The Role field is required.")]
-        [Display(Name = "Role")]  
+        [Display(Name = "Role")]
         public string ApplicationRoleId { get; set; }
     }
 }

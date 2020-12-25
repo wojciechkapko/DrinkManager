@@ -1,10 +1,13 @@
 using AutoMapper;
+using BLL.Contracts.Requests;
+using BLL.Handlers;
 using BLL.Services;
 using Domain;
+using DrinkManager.API.Extensions;
 using DrinkManager.API.MapperProfiles;
-using DrinkManagerWeb.Extensions;
-using DrinkManagerWeb.Middlewares;
-using DrinkManagerWeb.Resources;
+using DrinkManager.API.Middlewares;
+using DrinkManager.API.Resources;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -15,11 +18,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
 using Persistence.Repositories;
+using ReportingModuleApi.Services;
 using Serilog;
 using System;
-using ReportingModuleApi.Services;
 
-namespace DrinkManagerWeb
+namespace DrinkManager.API
 {
     public class Startup
     {
@@ -34,14 +37,21 @@ namespace DrinkManagerWeb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DrinkAppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<AppUser>(options =>
-                {
-                    options.SignIn.RequireConfirmedAccount = false;
-                    options.Password.RequireUppercase = false;
-                    options.Password.RequireNonAlphanumeric = false;
-                })
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<DrinkAppContext>();
+
+            var builder = services.AddIdentityCore<AppUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            });
+            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            identityBuilder.AddRoles<IdentityRole>();
+            identityBuilder.AddEntityFrameworkStores<DrinkAppContext>();
+            identityBuilder.AddSignInManager<SignInManager<AppUser>>();
+
+            services.AddAuthentication();
+
+
 
             services.AddLocalization();
             services.Configure<RequestLocalizationOptions>(options =>
@@ -56,7 +66,6 @@ namespace DrinkManagerWeb
                     .Remove(typeof(AcceptLanguageHeaderRequestCultureProvider));
             });
 
-            services.AddAuthentication();
 
             // .AddFacebook(facebookOptions =>
             //     {
@@ -78,6 +87,8 @@ namespace DrinkManagerWeb
             services.AddScoped<IReportingModuleService, ReportingModuleService>();
             services.AddScoped<IFavouriteRepository, FavouriteRepository>();
             services.AddScoped<ISettingRepository, SettingRepository>();
+            services.AddScoped<ILoginHandler, LoginHandler>();
+
 
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddSingleton<BackgroundJobScheduler>();
@@ -85,8 +96,19 @@ namespace DrinkManagerWeb
 
 
             services.AddScoped<RequestLocalizationCookiesMiddleware>();
-            services.AddControllersWithViews().
-                AddDataAnnotationsLocalization(options =>
+            // services.AddControllersWithViews().
+            //     AddDataAnnotationsLocalization(options =>
+            //     {
+            //         options.DataAnnotationLocalizerProvider = (type, factory) =>
+            //             factory.Create(typeof(SharedResource));
+            //     });
+
+            services.AddControllers()
+                .AddFluentValidation(cfg =>
+                {
+                    cfg.RegisterValidatorsFromAssemblyContaining<LoginRequest>();
+                })
+                .AddDataAnnotationsLocalization(options =>
                 {
                     options.DataAnnotationLocalizerProvider = (type, factory) =>
                         factory.Create(typeof(SharedResource));

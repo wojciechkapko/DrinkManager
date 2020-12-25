@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace DrinkManagerWeb.ViewComponents
+namespace DrinkManager.API.ViewComponents
 {
     public class CulturePicker : ViewComponent
     {
@@ -25,7 +25,7 @@ namespace DrinkManagerWeb.ViewComponents
                 SupportedCultures = _localizationOptions.Value.SupportedCultures.ToList(),
                 CurrentUiCulture = cultureFeature.RequestCulture.UICulture
             };
-            
+
             return View(model);
         }
     }

@@ -1,12 +1,12 @@
 #nullable enable
 using AutoMapper;
 using BLL;
+using BLL.Contracts.Responses;
 using BLL.Services;
 using Domain;
 using Domain.Enums;
-using DrinkManager.API.Contracts.Responses;
-using DrinkManagerWeb.Models.ViewModels;
-using DrinkManagerWeb.Resources;
+using DrinkManager.API.Models.ViewModels;
+using DrinkManager.API.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -19,11 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DrinkManagerWeb.Controllers
+namespace DrinkManager.API.Controllers
 {
-    [ApiController]
-    [Route("api/drinks")]
-    public class DrinksController : ControllerBase
+    public class DrinksController : BaseController
     {
         private readonly IDrinkRepository _drinkRepository;
         private readonly IDrinkSearchService _drinkSearchService;

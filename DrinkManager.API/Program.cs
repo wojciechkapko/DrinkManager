@@ -1,5 +1,7 @@
-using DrinkManagerWeb.Helpers;
+using Domain;
+using DrinkManager.API.Helpers;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,13 +9,12 @@ using Microsoft.Extensions.Hosting;
 using Persistence;
 using Serilog;
 using System;
-using System.Threading.Tasks;
 
-namespace DrinkManagerWeb
+namespace DrinkManager.API
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
@@ -35,9 +36,10 @@ namespace DrinkManagerWeb
                     var services = scope.ServiceProvider;
                     var context = services.GetRequiredService<DrinkAppContext>();
 
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     context.Database.Migrate();
-                    Seeder.SeedData(context);
-                    await Seeder.CreateRoles(services, configuration);
+                    Seeder.SeedData(context, userManager, roleManager, configuration).Wait();
                 }
                 host.Run();
             }

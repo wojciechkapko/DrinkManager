@@ -1,6 +1,6 @@
-﻿@using DrinkManagerWeb.Resources
-@using BLL
-@model DrinkManagerWeb.Models.ViewModels.DrinksViewModel
+﻿@using BLL
+@using DrinkManager.API.Resources
+@model DrinkManager.API.Models.ViewModels.DrinksViewModel
 @inject IStringLocalizer<SharedResource> L
 
 @{
@@ -15,7 +15,7 @@
         @*Checkboxes returns user choice of alcohol content to controller.
             @*Checkboxes returns user choice of alcohol content to controller.
             They are automatically checked when user comes to this view from another view*@
-    <div class="h5 font-weight-bold">@L["ChooseAlcoholicOption"]:</div>
+        <div class="h5 font-weight-bold">@L["ChooseAlcoholicOption"]:</div>
         <div class="p-2">
             <form asp-route-pageNumber="1" method="post" class="mb-3">
 
