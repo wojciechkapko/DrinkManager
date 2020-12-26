@@ -1,7 +1,7 @@
-﻿using ReportingModuleApi.ReportDataModels;
+﻿using ReportingModule.API.ReportDataModels;
 using System;
 
-namespace ReportingModuleApi.Data
+namespace ReportingModule.API.Data
 {
     public class Report
     {

@@ -1,4 +1,4 @@
-﻿namespace ReportingModuleApi.ReportDataModels
+﻿namespace ReportingModule.API.ReportDataModels
 {
     public class ScoreData
     {

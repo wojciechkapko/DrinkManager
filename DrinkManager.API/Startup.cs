@@ -22,7 +22,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using Persistence.Repositories;
-using ReportingModuleApi.Services;
+using ReportingModule.API.Services;
 using Serilog;
 using System;
 using System.Text;
@@ -48,6 +48,8 @@ namespace DrinkManager.API
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+
             });
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddRoles<IdentityRole>();
@@ -67,7 +69,9 @@ namespace DrinkManager.API
             });
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
-
+            services.AddScoped<ILoginHandler, LoginHandler>();
+            services.AddScoped<IRegisterHandler, RegisterHandler>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
 
 
             services.AddLocalization();
@@ -104,7 +108,6 @@ namespace DrinkManager.API
             services.AddScoped<IReportingModuleService, ReportingModuleService>();
             services.AddScoped<IFavouriteRepository, FavouriteRepository>();
             services.AddScoped<ISettingRepository, SettingRepository>();
-            services.AddScoped<ILoginHandler, LoginHandler>();
 
 
             services.AddScoped<IReviewRepository, ReviewRepository>();

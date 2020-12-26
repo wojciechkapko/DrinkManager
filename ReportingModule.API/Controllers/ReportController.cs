@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ReportingModuleApi.Data;
-using ReportingModuleApi.Services;
+using ReportingModule.API.Data;
+using ReportingModule.API.Services;
 using System;
 using System.Threading.Tasks;
 
-namespace ReportingModuleApi.Controllers
+namespace ReportingModule.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

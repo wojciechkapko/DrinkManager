@@ -6,7 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ReportingModuleApi.Data.Repositories
+namespace ReportingModule.API.Data.Repositories
 {
     public class ActivitiesRepository : IActivitiesRepository
     {

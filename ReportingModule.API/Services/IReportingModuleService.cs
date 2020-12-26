@@ -1,10 +1,9 @@
-﻿using BLL;
-using Domain.Enums;
-using ReportingModuleApi.Data;
+﻿using Domain.Enums;
+using ReportingModule.API.Data;
 using System;
 using System.Threading.Tasks;
 
-namespace ReportingModuleApi.Services
+namespace ReportingModule.API.Services
 {
     public interface IReportingModuleService
     {

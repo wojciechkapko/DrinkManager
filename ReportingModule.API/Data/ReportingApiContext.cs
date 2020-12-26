@@ -1,7 +1,7 @@
 ﻿using BLL;
 using Microsoft.EntityFrameworkCore;
 
-namespace ReportingModuleApi.Data
+namespace ReportingModule.API.Data
 {
     public class ReportingApiContext : DbContext
     {

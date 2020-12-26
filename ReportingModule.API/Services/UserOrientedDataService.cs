@@ -1,11 +1,11 @@
 ﻿using Domain.Enums;
-using ReportingModuleApi.Data.Repositories;
-using ReportingModuleApi.ReportDataModels;
+using ReportingModule.API.Data.Repositories;
+using ReportingModule.API.ReportDataModels;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReportingModuleApi.Services
+namespace ReportingModule.API.Services
 {
     public class UserOrientedDataService : IUserOrientedDataService
     {

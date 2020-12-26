@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ReportingModuleApi.Data;
-using ReportingModuleApi.Data.Repositories;
-using ReportingModuleApi.Services;
+using ReportingModule.API.Data;
+using ReportingModule.API.Data.Repositories;
+using ReportingModule.API.Services;
 
-namespace ReportingModuleApi
+namespace ReportingModule.API
 {
     public class Startup
     {

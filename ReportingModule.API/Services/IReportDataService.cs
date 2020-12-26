@@ -1,8 +1,8 @@
-﻿using ReportingModuleApi.ReportDataModels;
+﻿using ReportingModule.API.ReportDataModels;
 using System;
 using System.Threading.Tasks;
 
-namespace ReportingModuleApi.Services
+namespace ReportingModule.API.Services
 {
     public interface IReportDataService
     {

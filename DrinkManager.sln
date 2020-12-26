@@ -9,13 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrinkManager.API", "DrinkMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{74113DD9-0DAC-4BC9-9EAC-8EB1F63DD0D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportingModuleApi", "ReportingModule\ReportingModuleApi.csproj", "{0677804A-2073-4C8F-BD7C-71B66200FF68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReportingModule.API", "ReportingModule.API\ReportingModule.API.csproj", "{0677804A-2073-4C8F-BD7C-71B66200FF68}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{9373956D-219E-4209-A99F-4BA864886D4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{DFC2D388-105A-4752-ACEE-17D05203D63C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{DFC2D388-105A-4752-ACEE-17D05203D63C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{A9630208-54BE-48D0-A263-9FA20B471093}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{A9630208-54BE-48D0-A263-9FA20B471093}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

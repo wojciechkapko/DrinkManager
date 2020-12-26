@@ -8,7 +8,7 @@ namespace DrinkManager.API.MapperProfiles
     {
         public DrinkProfile()
         {
-            CreateMap<Drink, GetDrinkListResponse>()
+            CreateMap<Drink, DrinkListResponse>()
                 .ForMember(drink => drink.Id, options => options.MapFrom(drink => drink.DrinkId));
         }
     }

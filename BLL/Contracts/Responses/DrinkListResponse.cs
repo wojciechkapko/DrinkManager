@@ -2,7 +2,7 @@
 
 namespace BLL.Contracts.Responses
 {
-    public class GetDrinkListResponse
+    public class DrinkListResponse
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -13,7 +13,6 @@ namespace BLL.Contracts.Responses
         public List<DrinkListIngredient> Ingredients { get; set; }
         public int AverageReview { get; set; }
         public decimal Price { get; set; }
-
 
         public class DrinkListIngredient
         {

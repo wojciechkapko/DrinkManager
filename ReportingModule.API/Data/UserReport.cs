@@ -1,6 +1,6 @@
-﻿using ReportingModuleApi.ReportDataModels;
+﻿using ReportingModule.API.ReportDataModels;
 
-namespace ReportingModuleApi.Data
+namespace ReportingModule.API.Data
 {
     public class UserReport
     {

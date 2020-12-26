@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Persistence.Repositories;
-using ReportingModuleApi.Services;
+using ReportingModule.API.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ReportingModuleApi.Data.Repositories
+namespace ReportingModule.API.Data.Repositories
 {
     public interface IActivitiesRepository
     {

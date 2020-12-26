@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using ReportingModuleApi;
 
-namespace ReportingModuleApi
+namespace ReportingModule.API
 {
     public class Program
     {

@@ -1,10 +1,10 @@
 ﻿using BLL;
 using Microsoft.AspNetCore.Mvc;
-using ReportingModuleApi.Data.Repositories;
+using ReportingModule.API.Data.Repositories;
 using System;
 using System.Threading.Tasks;
 
-namespace ReportingModuleApi.Controllers
+namespace ReportingModule.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

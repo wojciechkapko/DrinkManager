@@ -1,13 +1,13 @@
 ﻿using BLL;
 using Domain.Enums;
 using Newtonsoft.Json;
-using ReportingModuleApi.Data;
+using ReportingModule.API.Data;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReportingModuleApi.Services
+namespace ReportingModule.API.Services
 {
     public class ReportingModuleService : IReportingModuleService
     {

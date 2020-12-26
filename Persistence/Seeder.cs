@@ -80,7 +80,7 @@ namespace Persistence
 
             if (!roleManager.Roles.Any())
             {
-                string[] roleNames = { "Admin", "User" };
+                string[] roleNames = { "Manager", "Employee" };
 
                 foreach (var roleName in roleNames)
                 {
@@ -114,7 +114,7 @@ namespace Persistence
                 var admin = await userManager.CreateAsync(users[0], adminPassword);
                 if (admin.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(users[0], "Admin");
+                    await userManager.AddToRoleAsync(users[0], "Manager");
                 }
 
                 foreach (var appUser in users.Skip(1))
@@ -122,7 +122,7 @@ namespace Persistence
                     var user = await userManager.CreateAsync(appUser, adminPassword);
                     if (user.Succeeded)
                     {
-                        await userManager.AddToRoleAsync(appUser, "User");
+                        await userManager.AddToRoleAsync(appUser, "Employee");
                     }
                 }
             }

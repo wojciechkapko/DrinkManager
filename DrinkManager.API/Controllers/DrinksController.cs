@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using Persistence.Repositories;
-using ReportingModuleApi.Services;
+using ReportingModule.API.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +61,7 @@ namespace DrinkManager.API.Controllers
 
             var drinks = await PaginatedList<Drink>.CreateAsync(_drinkRepository.GetAllDrinks(), page ?? 1, _pageSize);
 
-            return Ok(new { drinks = drinks.Select(_mapper.Map<GetDrinkListResponse>), totalPages = drinks.TotalPages });
+            return Ok(new { drinks = drinks.Select(_mapper.Map<DrinkListResponse>), totalPages = drinks.TotalPages });
         }
 
 

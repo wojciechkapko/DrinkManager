@@ -3,12 +3,13 @@ using FluentValidation;
 
 namespace BLL.Validators
 {
-    public class LoginValidator : AbstractValidator<LoginRequest>
+    public class RegisterValidator : AbstractValidator<RegisterRequest>
     {
-        public LoginValidator()
+        public RegisterValidator()
         {
             RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.Password).NotEmpty().MinimumLength(6);
+            RuleFor(x => x.Username).NotEmpty();
         }
     }
 }
