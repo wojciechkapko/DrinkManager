@@ -1,6 +1,7 @@
 using AutoMapper;
 using BLL.Contracts.Requests;
 using BLL.Handlers;
+using BLL.Interfaces;
 using BLL.Services;
 using Domain;
 using DrinkManager.API.Extensions;
@@ -8,6 +9,8 @@ using DrinkManager.API.MapperProfiles;
 using DrinkManager.API.Middlewares;
 using DrinkManager.API.Resources;
 using FluentValidation.AspNetCore;
+using Infrastructure.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -16,11 +19,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using Persistence.Repositories;
 using ReportingModuleApi.Services;
 using Serilog;
 using System;
+using System.Text;
 
 namespace DrinkManager.API
 {
@@ -49,7 +54,19 @@ namespace DrinkManager.API
             identityBuilder.AddEntityFrameworkStores<DrinkAppContext>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
-            services.AddAuthentication();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"])),
+                    ValidateAudience = false,
+                    ValidateIssuer = false
+                };
+            });
+
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
 
 
 
@@ -151,11 +168,10 @@ namespace DrinkManager.API
             app.UseSerilogRequestLogging();
 
             app.UseRouting();
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {

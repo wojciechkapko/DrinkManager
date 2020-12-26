@@ -1,5 +1,6 @@
 ﻿using BLL.Contracts.Requests;
 using BLL.Contracts.Responses;
+using BLL.Interfaces;
 using Domain;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
@@ -10,13 +11,16 @@ namespace BLL.Handlers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IJwtGenerator _jwtGenerator;
 
         public LoginHandler(
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            IJwtGenerator jwtGenerator)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _jwtGenerator = jwtGenerator;
         }
 
         public async Task<LoginResponse> Handle(LoginRequest request)
@@ -33,10 +37,10 @@ namespace BLL.Handlers
 
             if (loginResult.Succeeded)
             {
-                // todo: Generate token
                 return new LoginResponse
                 {
-                    Username = user.UserName
+                    Username = user.UserName,
+                    Token = _jwtGenerator.CreateToken(user)
                 };
             }
 
