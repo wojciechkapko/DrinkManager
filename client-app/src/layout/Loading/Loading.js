@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Spinner from "react-bootstrap/Spinner";
 
 const Loading = ({ content, size }) => {

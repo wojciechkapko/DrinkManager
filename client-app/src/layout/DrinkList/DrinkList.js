@@ -24,14 +24,20 @@ const DrinkList = ({ loading, setLoading }) => {
 
   useEffect(() => {
     setLoading(true);
-    agent.requests
-      .get(`/drinks?page=${page}`)
-      .then((response) => {
-        setDrinks(response.drinks);
-        setPages(response.totalPages);
-        history.push(`/menu?page=${page}`);
-      })
-      .then(() => setLoading(false));
+    try {
+      agent.requests
+        .get(`/drinks?page=${page}`)
+        .then((response) => {
+          if (response != null) {
+            setDrinks(response.drinks);
+            setPages(response.totalPages);
+            history.push(`/menu?page=${page}`);
+          }
+        })
+        .then(() => setLoading(false));
+    } catch (error) {
+      console.log(error);
+    }
   }, [page]);
 
   let items = [];
@@ -51,7 +57,7 @@ const DrinkList = ({ loading, setLoading }) => {
   return (
     <Fragment>
       <Row className="drink-list p-relative justify-content-center">
-        {loading == true && <Loading content="Loading Drinks..." />}
+        {loading === true && <Loading content="Loading Drinks..." />}
 
         {drinks.map((drink) => (
           <Drink

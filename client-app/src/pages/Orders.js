@@ -1,10 +1,20 @@
-import { Fragment } from "react";
+import OrdersList from "../layout/OrdersList/OrdersList";
+import { useState } from "react";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
 
-const Orders = ({ drinks }) => {
+const Orders = () => {
+  const [loading, setLoading] = useState(true);
+
   return (
-    <Fragment>
-      <h1>Orders</h1>
-    </Fragment>
+    <Card className="rounded p-4 w-100">
+      <Col sm={12}>
+        <h1>Orders</h1>
+      </Col>
+      <Col sm={12} className="p-relative">
+        <OrdersList loading={loading} setLoading={setLoading} />
+      </Col>
+    </Card>
   );
 };
 

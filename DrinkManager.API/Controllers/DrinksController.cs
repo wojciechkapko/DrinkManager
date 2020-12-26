@@ -64,6 +64,13 @@ namespace DrinkManager.API.Controllers
             return Ok(new { drinks = drinks.Select(_mapper.Map<DrinkListResponse>), totalPages = drinks.TotalPages });
         }
 
+        [HttpOptions]
+        public IActionResult PreflightRoute([FromQuery] int? page)
+        {
+
+            return NoContent();
+        }
+
 
         [HttpGet("drink/{id}")]
         public async Task<IActionResult> DrinkDetails(string id)
