@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Nav from "react-bootstrap/Nav";
@@ -8,7 +7,7 @@ import { faCocktail } from "@fortawesome/free-solid-svg-icons";
 
 const TopNav = () => {
   return (
-    <Navbar bg="light" expand="lg" className="p-4">
+    <Navbar bg="light" expand="lg" className="p-4 mb-4 rounded">
       <Navbar.Brand as={Link} to="/" className="pr-3 mr-2 border-right">
         <FontAwesomeIcon icon={faCocktail} size="lg" className="mr-2" />{" "}
         Drinkland

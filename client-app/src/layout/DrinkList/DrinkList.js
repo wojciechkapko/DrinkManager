@@ -1,14 +1,14 @@
 import { useState, useEffect, Fragment } from "react";
 import Drink from "../Drink/Drink";
+import Loading from "../Loading/Loading";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Pagination from "react-bootstrap/Pagination";
-import axios from "axios";
-import Card from "react-bootstrap/Card";
+import agent from "../../api/agent";
 import { useHistory, useLocation } from "react-router-dom";
 import "./DrinkList.min.css";
 
-const DrinkList = () => {
+const DrinkList = ({ loading, setLoading }) => {
   const [drinks, setDrinks] = useState([]);
   const [pages, setPages] = useState(0);
   const history = useHistory();
@@ -23,13 +23,15 @@ const DrinkList = () => {
   );
 
   useEffect(() => {
-    axios
-      .get(`https://localhost:5001/api/drinks?page=${page}`)
+    setLoading(true);
+    agent.requests
+      .get(`/drinks?page=${page}`)
       .then((response) => {
-        setDrinks(response.data.drinks);
-        setPages(response.data.totalPages);
+        setDrinks(response.drinks);
+        setPages(response.totalPages);
         history.push(`/menu?page=${page}`);
-      });
+      })
+      .then(() => setLoading(false));
   }, [page]);
 
   let items = [];
@@ -47,8 +49,10 @@ const DrinkList = () => {
   }
 
   return (
-    <Card className="rounded p-4">
-      <Row className="drink-list">
+    <Fragment>
+      <Row className="drink-list p-relative justify-content-center">
+        {loading == true && <Loading content="Loading Drinks..." />}
+
         {drinks.map((drink) => (
           <Drink
             name={drink.name}
@@ -62,10 +66,12 @@ const DrinkList = () => {
       </Row>
       <Row>
         <Col>
-          <Pagination>{items}</Pagination>
+          <Pagination className="mt-3 justify-content-center">
+            {items}
+          </Pagination>
         </Col>
       </Row>
-    </Card>
+    </Fragment>
   );
 };
 

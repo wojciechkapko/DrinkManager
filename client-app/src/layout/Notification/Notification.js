@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Toast from "react-bootstrap/Toast";
 
 const Notification = ({ children, title }) => {

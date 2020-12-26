@@ -1,11 +1,10 @@
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Drink = ({ name, id, ingredients, image, price }) => {
   const cardStyle = {
-    width: "15rem",
+    width: "21%",
     margin: "6rem 1rem 1rem 1rem",
     paddingTop: "7.5rem",
   };
