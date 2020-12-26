@@ -5,6 +5,7 @@ using BLL.Contracts.Responses;
 using BLL.Services;
 using Domain;
 using Domain.Enums;
+using DrinkManager.API.Extensions;
 using DrinkManager.API.Models.ViewModels;
 using DrinkManager.API.Resources;
 using Microsoft.AspNetCore.Authorization;
@@ -56,7 +57,7 @@ namespace DrinkManager.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Index([FromQuery] int? page)
         {
-            Task.Run(() => _apiService.CreateUserActivity(PerformedAction.AllDrinks, User.Identity.Name));
+            Task.Run(() => _apiService.CreateUserActivity(PerformedAction.AllDrinks, User.Identity.Name)).Forget();
 
             var drinks = await PaginatedList<Drink>.CreateAsync(_drinkRepository.GetAllDrinks(), page ?? 1, _pageSize);
 
@@ -68,8 +69,7 @@ namespace DrinkManager.API.Controllers
         public async Task<IActionResult> DrinkDetails(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
-            Task.Run(() =>
-                _apiService.CreateUserActivity(PerformedAction.VisitedDrink, User.Identity.Name, drinkId: id, drinkName: drink.Name));
+            Task.Run(() => _apiService.CreateUserActivity(PerformedAction.VisitedDrink, User.Identity.Name, drinkId: id, drinkName: drink.Name)).Forget();
             if (drink == null)
             {
                 // add error View
@@ -134,7 +134,7 @@ namespace DrinkManager.API.Controllers
 
             Task.Run(() =>
                 _apiService.CreateUserActivity(PerformedAction.EditOrCreateDrink, this.User.Identity.Name, id,
-                    data["Name"]));
+                    data["Name"])).Forget();
             var ingredients = new List<Ingredient>();
 
             // create ingredient objects from the from data
@@ -217,7 +217,7 @@ namespace DrinkManager.API.Controllers
         {
             var drink = await _drinkRepository.GetDrinkById(id);
             Task.Run(() =>
-                _apiService.CreateUserActivity(PerformedAction.RemoveDrink, this.User.Identity.Name, id, drink.Name));
+                _apiService.CreateUserActivity(PerformedAction.RemoveDrink, this.User.Identity.Name, id, drink.Name)).Forget();
             if (drink == null)
             {
                 return NotFound();
@@ -237,7 +237,7 @@ namespace DrinkManager.API.Controllers
         {
             var drink = await _drinkRepository.GetDrinkById(id);
             Task.Run(() =>
-                _apiService.CreateUserActivity(PerformedAction.AddedToFavourite, this.User.Identity.Name, drinkId: id, drinkName: drink.Name));
+                _apiService.CreateUserActivity(PerformedAction.AddedToFavourite, this.User.Identity.Name, drinkId: id, drinkName: drink.Name)).Forget();
             if (drink == null)
             {
                 // add error View
@@ -253,7 +253,7 @@ namespace DrinkManager.API.Controllers
         {
             var drink = await _drinkRepository.GetDrinkById(id);
             Task.Run(() =>
-                _apiService.CreateUserActivity(PerformedAction.RemovedFromFavourite, this.User.Identity.Name, id, drink.Name));
+                _apiService.CreateUserActivity(PerformedAction.RemovedFromFavourite, this.User.Identity.Name, id, drink.Name)).Forget();
             if (drink == null)
             {
                 // add error View
@@ -286,7 +286,7 @@ namespace DrinkManager.API.Controllers
 
             var drinkToUpdate = await _drinkRepository.GetDrinkById(id);
             Task.Run(() =>
-                _apiService.CreateUserActivity(PerformedAction.AddedReview, this.User.Identity.Name, id, drinkToUpdate.Name, score: int.Parse(data["DrinkReview.ReviewScore"])));
+                _apiService.CreateUserActivity(PerformedAction.AddedReview, this.User.Identity.Name, id, drinkToUpdate.Name, score: int.Parse(data["DrinkReview.ReviewScore"]))).Forget();
             if (drinkToUpdate == null)
             {
                 // TempData["Alert"] = _localizer["DrinkNotFound"] + ".";
@@ -347,7 +347,7 @@ namespace DrinkManager.API.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 Task.Run(() =>
-                    _apiService.CreateUserActivity(PerformedAction.SearchByName, this.User.Identity.Name, searchedPhrase: searchString));
+                    _apiService.CreateUserActivity(PerformedAction.SearchByName, this.User.Identity.Name, searchedPhrase: searchString)).Forget();
                 drinks = _drinkSearchService.SearchByName(searchString);
             }
 
@@ -370,7 +370,7 @@ namespace DrinkManager.API.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 Task.Run(() =>
-                    _apiService.CreateUserActivity(PerformedAction.SearchByIngredients, this.User.Identity.Name, searchedPhrase: searchString));
+                    _apiService.CreateUserActivity(PerformedAction.SearchByIngredients, this.User.Identity.Name, searchedPhrase: searchString)).Forget();
                 var searchDrinkIngredientsCondition =
                     searchCondition.Equals("all") ? SearchDrinkOption.All : SearchDrinkOption.Any;
                 drinks = _drinkSearchService.SearchByIngredients(new SortedSet<string>(searchString.Split(' ')),
