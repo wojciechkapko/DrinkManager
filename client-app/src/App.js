@@ -4,7 +4,7 @@ import Menu from "./pages/Menu";
 import Orders from "./pages/Orders";
 import TopNav from "./layout/Nav/TopNav";
 import Login from "./pages/Login";
-import DrinkDetails from "./pages/DrinkDetails";
+import DrinkDetails from "./pages/DrinkDetails/DrinkDetails";
 import AdminHome from "./pages/Admin/AdminHome";
 import Register from "./pages/Register";
 import Notfound from "./layout/Notfound/Notfound";

@@ -72,12 +72,17 @@ const User = {
 };
 
 const Drink = {
-  get: (url) => requests.get(`/drinks${url}`),
+  get: (id) => requests.get(`/drinks/${id}`),
+};
+
+const Reviews = {
+  get: (id) => requests.get(`/drinks/${id}/reviews`),
 };
 
 const agent = {
   requests,
   User,
   Drink,
+  Reviews,
 };
 export default agent;

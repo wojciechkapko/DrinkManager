@@ -2,8 +2,9 @@ import Card from "react-bootstrap/Card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import Stars from "../../layout/Stars/Stars";
 
-const Drink = ({ name, id, ingredients, image, price }) => {
+const Drink = ({ name, id, ingredients, image, price, averageReview }) => {
   const cardStyle = {
     width: "240px",
     margin: "6rem 1rem 1rem 1rem",
@@ -17,6 +18,9 @@ const Drink = ({ name, id, ingredients, image, price }) => {
       </Link>
       <Card.Body className="d-flex flex-column">
         <Link to={`/drinkdetails/${id}`}>
+          <p>
+            <Stars count={averageReview} />
+          </p>
           <Card.Title>{name}</Card.Title>
         </Link>
         <Card.Text className="text-muted pr-4">

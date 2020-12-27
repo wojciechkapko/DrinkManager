@@ -56,6 +56,7 @@ const DrinkList = ({ loading, setLoading }) => {
             ingredients={drink.ingredients}
             image={drink.imageUrl}
             price={drink.price}
+            averageReview={drink.averageReview}
           />
         ))}
       </Row>
