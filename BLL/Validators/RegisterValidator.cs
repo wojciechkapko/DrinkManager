@@ -9,7 +9,7 @@ namespace BLL.Validators
         {
             RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.Password).NotEmpty().MinimumLength(6);
-            RuleFor(x => x.Username).NotEmpty();
+            RuleFor(x => x.Username).NotEmpty().Matches(@"^\S+$").WithMessage("Username cannot contain spaces");
         }
     }
 }

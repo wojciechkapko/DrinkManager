@@ -1,6 +1,7 @@
 import OrdersList from "../layout/OrdersList/OrdersList";
 import { useState } from "react";
 import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 
 const Orders = () => {
@@ -8,12 +9,16 @@ const Orders = () => {
 
   return (
     <Card className="rounded p-4 w-100">
-      <Col sm={12}>
-        <h1>Orders</h1>
-      </Col>
-      <Col sm={12} className="p-relative">
-        <OrdersList loading={loading} setLoading={setLoading} />
-      </Col>
+      <Row>
+        <Col>
+          <h1>Orders</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="p-relative">
+          <OrdersList loading={loading} setLoading={setLoading} />
+        </Col>
+      </Row>
     </Card>
   );
 };

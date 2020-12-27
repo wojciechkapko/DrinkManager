@@ -18,7 +18,7 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(undefined, (error) => {
-  if (error.response.status === 401) {
+  if (error.response.status === 401 && error.response.config.method === "get") {
     history.push("/unauthorized");
   }
   if (error.response.status === 500) {
@@ -35,12 +35,7 @@ axios.interceptors.response.use(undefined, (error) => {
     history.push("/notfound");
   }
 
-  if (
-    error.response.status === 400 &&
-    error.response.config.method === "post"
-  ) {
-    console.log(error.response);
-  }
+  throw error.response;
 });
 
 const responseBody = (response) => {

@@ -2,6 +2,7 @@ import { useState, useEffect, Fragment } from "react";
 import Loading from "../Loading/Loading";
 import Row from "react-bootstrap/Row";
 import agent from "../../api/agent";
+import "../DrinkList/DrinkList.min.css";
 
 const OrdersList = ({ loading, setLoading }) => {
   const [orders, setOrders] = useState([]);
@@ -20,7 +21,7 @@ const OrdersList = ({ loading, setLoading }) => {
 
   return (
     <Fragment>
-      <Row className="drink-list p-relative justify-content-center">
+      <Row className="drink-list p-relative justify-content-center mb-4">
         {loading === true && <Loading content="Loading Orders..." />}
 
         {orders.map((order) => (

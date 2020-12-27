@@ -9,10 +9,10 @@ import Col from "react-bootstrap/Col";
 import { toast } from "react-toastify";
 import { history } from "..";
 
-const Login = ({ setUser, setisLoggedIn }) => {
-  const handleLoginSubmit = async (values) => {
+const Register = ({ setUser, setisLoggedIn }) => {
+  const handleRegisterSubmit = async (values) => {
     try {
-      const user = await agent.User.login(values);
+      const user = await agent.User.register(values);
       setUser(user);
       setisLoggedIn(true);
       localStorage.setItem("user", JSON.stringify(user));
@@ -20,6 +20,7 @@ const Login = ({ setUser, setisLoggedIn }) => {
       localStorage.setItem("isLoggedIn", true);
       history.push("/");
     } catch (error) {
+      console.log(error);
       if (typeof error.data == "string") {
         toast.error(`${error.data}`);
       } else {
@@ -33,12 +34,12 @@ const Login = ({ setUser, setisLoggedIn }) => {
 
   return (
     <FinalForm
-      onSubmit={handleLoginSubmit}
+      onSubmit={handleRegisterSubmit}
       render={({ handleSubmit, submitting }) => (
         <Card className="rounded p-4 w-100">
           <Row className="mb-4">
             <Col>
-              <h1>Login</h1>
+              <h1>Register</h1>
             </Col>
           </Row>
           <Row>
@@ -49,6 +50,15 @@ const Login = ({ setUser, setisLoggedIn }) => {
                   <Field
                     name="email"
                     placeholder="Enter email"
+                    className="form-control"
+                    component="input"
+                  />
+                </Form.Group>
+                <Form.Group controlId="formBasicUsername">
+                  <Form.Label>Username</Form.Label>
+                  <Field
+                    name="username"
+                    placeholder="Username"
                     className="form-control"
                     component="input"
                   />
@@ -85,4 +95,4 @@ const Login = ({ setUser, setisLoggedIn }) => {
   );
 };
 
-export default Login;
+export default Register;

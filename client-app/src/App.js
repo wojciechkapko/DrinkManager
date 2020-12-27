@@ -5,6 +5,7 @@ import Menu from "./pages/Menu";
 import Orders from "./pages/Orders";
 import TopNav from "./layout/Nav/TopNav";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Notfound from "./layout/Notfound/Notfound";
 import Unauthorized from "./layout/Unauthorized/Unauthorized";
 import Home from "./pages/Home";
@@ -38,6 +39,9 @@ const App = () => {
             <Route path="/orders" component={Orders} />
             <Route path="/login">
               <Login setUser={setUser} setisLoggedIn={setisLoggedIn} />
+            </Route>
+            <Route path="/register">
+              <Register setUser={setUser} setisLoggedIn={setisLoggedIn} />
             </Route>
             <Route path="/unauthorized" component={Unauthorized} />
             <Route component={Notfound} />
