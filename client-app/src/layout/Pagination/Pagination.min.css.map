@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAEA,AAAA,UAAU,AAAA,OAAO,CAAC,UAAU,AAAC,CAC3B,gBAAgB,CCFH,OAAO,CDGpB,YAAY,CCHC,OAAO,CDIrB,AAED,AAAA,UAAU,AAAC,CACT,KAAK,CCPQ,OAAO,CDWrB,AALD,AAEE,UAFQ,AAEP,MAAM,AAAC,CACN,KAAK,CCTM,OAAO,CDUnB",
+    "sources": [
+        "Pagination.scss",
+        "../../styles/_variables.scss"
+    ],
+    "names": [],
+    "file": "Pagination.min.css"
+}

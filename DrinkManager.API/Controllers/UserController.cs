@@ -69,7 +69,7 @@ namespace DrinkManager.API.Controllers
             return Ok(new LoginResponse
             {
                 Username = user.UserName,
-                Token = _jwtGenerator.CreateToken(user),
+                Token = await _jwtGenerator.CreateToken(user),
                 Image = null
             });
         }

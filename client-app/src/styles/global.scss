@@ -7,6 +7,9 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+.accent-light {
+  color: $accent-light;
+}
 .rounded {
   border-radius: 2rem !important;
 }
@@ -38,7 +41,8 @@ h6,
 .h6,
 .page-link,
 .nav-link,
-.navbar-brand {
+.navbar-brand,
+select {
   font-family: "Merriweather Sans", sans-serif;
 }
 

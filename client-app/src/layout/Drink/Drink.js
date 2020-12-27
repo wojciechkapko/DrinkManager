@@ -4,13 +4,13 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Drink = ({ name, id, ingredients, image, price }) => {
   const cardStyle = {
-    width: "21%",
+    width: "240px",
     margin: "6rem 1rem 1rem 1rem",
     paddingTop: "7.5rem",
   };
 
   return (
-    <Card style={cardStyle} className="rounded">
+    <Card style={cardStyle} className="rounded" id={id}>
       <Card.Img src={image} className="shadow" />
       <Card.Body className="d-flex flex-column">
         <Card.Title>{name}</Card.Title>

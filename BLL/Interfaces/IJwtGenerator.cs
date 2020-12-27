@@ -1,9 +1,10 @@
 ﻿using Domain;
+using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
     public interface IJwtGenerator
     {
-        string CreateToken(AppUser user);
+        Task<string> CreateToken(AppUser user);
     }
 }

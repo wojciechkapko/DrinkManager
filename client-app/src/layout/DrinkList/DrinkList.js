@@ -3,7 +3,7 @@ import Drink from "../Drink/Drink";
 import Loading from "../Loading/Loading";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Pagination from "react-bootstrap/Pagination";
+import Pagination from "../Pagination/Pagination";
 import agent from "../../api/agent";
 import { useHistory, useLocation } from "react-router-dom";
 import "./DrinkList.min.css";
@@ -21,42 +21,31 @@ const DrinkList = ({ loading, setLoading }) => {
   const [page, setPage] = useState(
     query.get("page") != undefined ? query.get("page") : 1
   );
+  const [pageCount, setPageCount] = useState(
+    query.get("pageCount") != undefined ? query.get("pageCount") : 10
+  );
 
   useEffect(() => {
     setLoading(true);
     try {
       agent.requests
-        .get(`/drinks?page=${page}`)
+        .get(`/drinks?page=${page}&pageCount=${pageCount}`)
         .then((response) => {
           if (response != null) {
             setDrinks(response.drinks);
             setPages(response.totalPages);
-            history.push(`/menu?page=${page}`);
+            history.push(`/menu?page=${page}&pageCount=${pageCount}`);
           }
         })
         .then(() => setLoading(false));
     } catch (error) {
       console.log(error);
     }
-  }, [page, history, setLoading]);
-
-  let items = [];
-
-  for (let number = 1; number <= pages; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === page}
-        onClick={() => setPage(number)}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
+  }, [page, history, setLoading, pageCount, setPageCount]);
 
   return (
     <Fragment>
-      <Row className="drink-list p-relative justify-content-center">
+      <Row className="drink-list p-relative justify-content-center justify-content-xl-start">
         {loading === true && <Loading content="Loading Drinks..." />}
 
         {drinks.map((drink) => (
@@ -70,13 +59,13 @@ const DrinkList = ({ loading, setLoading }) => {
           />
         ))}
       </Row>
-      <Row>
-        <Col>
-          <Pagination className="mt-3 justify-content-center">
-            {items}
-          </Pagination>
-        </Col>
-      </Row>
+      <Pagination
+        page={page}
+        pages={pages}
+        setPage={setPage}
+        pageCount={pageCount}
+        setPageCount={setPageCount}
+      />
     </Fragment>
   );
 };

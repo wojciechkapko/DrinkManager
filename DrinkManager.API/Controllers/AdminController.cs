@@ -1,4 +1,8 @@
-﻿using BLL.Services;
+﻿using AutoMapper;
+using BLL;
+using BLL.Constants;
+using BLL.Contracts.Responses.Manager;
+using BLL.Services;
 using Domain;
 using DrinkManager.API.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -16,8 +20,9 @@ using System.Threading.Tasks;
 
 namespace DrinkManager.API.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class AdminController : Controller
+
+    [Authorize(Roles = Role.Manager)]
+    public class AdminController : BaseController
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<AppUser> _userManager;
@@ -25,6 +30,7 @@ namespace DrinkManager.API.Controllers
         private readonly ISettingRepository _settingRepository;
         private readonly BackgroundJobScheduler _backgroundJobScheduler;
         private readonly IReportingModuleService _apiService;
+        private readonly IMapper _mapper;
 
         public AdminController(
             RoleManager<IdentityRole> roleManager,
@@ -32,7 +38,8 @@ namespace DrinkManager.API.Controllers
             IPasswordHasher<AppUser> passwordHasher,
             BackgroundJobScheduler backgroundJobScheduler,
             ISettingRepository settingRepository,
-            IReportingModuleService apiService)
+            IReportingModuleService apiService,
+            IMapper mapper)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -40,6 +47,7 @@ namespace DrinkManager.API.Controllers
             _backgroundJobScheduler = backgroundJobScheduler;
             _settingRepository = settingRepository;
             _apiService = apiService;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -47,23 +55,26 @@ namespace DrinkManager.API.Controllers
             return RedirectToAction("Users");
         }
 
-        public IActionResult Users()
+        [HttpGet("users")]
+        public async Task<IActionResult> Users([FromQuery] int? page, [FromQuery] int? pageCount)
         {
-            var users = _userManager.Users.OrderBy(user => user.UserName).ToList();
-            var usersAndRoles = new Dictionary<string, List<string>>();
-
+            var users = await PaginatedList<AppUser>.CreateAsync(_userManager.Users, page ?? 1, pageCount ?? 10);
+            var response = new List<UserListResponse>();
             foreach (var user in users)
             {
-                var roles = _userManager.GetRolesAsync(user).Result.ToList();
-                usersAndRoles.Add(user.UserName, roles);
+                response.Add(new UserListResponse
+                {
+                    Username = user.UserName,
+                    Email = user.Email,
+                    Id = user.Id,
+                    Role = (await _userManager.GetRolesAsync(user))[0]
+                });
             }
 
-            var model = new UserListViewModel { RolesPerUser = usersAndRoles, Users = users };
-
-            return View(model);
+            return Ok(new { users = response, totalPages = users.TotalPages });
         }
 
-        public ViewResult CreateUser()
+        public IActionResult CreateUser()
         {
             var model = new UserViewModel
             {
@@ -71,7 +82,7 @@ namespace DrinkManager.API.Controllers
                     .Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                     .ToList()
             };
-            return View(model);
+            return Ok();
         }
 
         [HttpPost]
@@ -108,7 +119,7 @@ namespace DrinkManager.API.Controllers
                 .Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                 .ToList();
 
-            return View(model);
+            return Ok();
         }
 
         public async Task<IActionResult> UpdateUserRoleAndEmail(string id)
@@ -135,7 +146,7 @@ namespace DrinkManager.API.Controllers
                     .ToList()
             };
 
-            return View(model);
+            return Ok();
         }
 
         [HttpPost]
@@ -204,7 +215,7 @@ namespace DrinkManager.API.Controllers
                 .Select(r => new SelectListItem { Text = r.Name, Value = r.Id })
                 .ToList();
 
-            return View(model);
+            return Ok();
         }
 
         public async Task<IActionResult> UpdateUserPassword(string id)
@@ -224,7 +235,7 @@ namespace DrinkManager.API.Controllers
             {
                 Email = user.Email
             };
-            return View(model);
+            return Ok();
         }
 
         [HttpPost]
@@ -260,7 +271,7 @@ namespace DrinkManager.API.Controllers
                 }
             }
 
-            return View(model);
+            return Ok();
         }
 
         public async Task<IActionResult> DeleteUser(string id)
@@ -271,7 +282,7 @@ namespace DrinkManager.API.Controllers
             {
                 return RedirectToAction("Users");
             }
-            return View(userToDelete);
+            return Ok();
         }
 
         [HttpPost]
@@ -288,7 +299,7 @@ namespace DrinkManager.API.Controllers
             }
             else
                 ModelState.AddModelError("", "User Not Found");
-            return View("Users");
+            return Ok();
         }
 
         public async Task<IActionResult> Roles()
@@ -309,12 +320,12 @@ namespace DrinkManager.API.Controllers
                 UsersPerRole = roleUsers
             };
 
-            return View(model);
+            return Ok();
         }
 
         public IActionResult CreateRole()
         {
-            return View(new CreateRoleViewModel());
+            return Ok();
         }
 
         [HttpPost]
@@ -332,7 +343,7 @@ namespace DrinkManager.API.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
 
-            return View(roleModel);
+            return Ok();
         }
 
         public async Task<IActionResult> DeleteRole(string id)
@@ -343,7 +354,7 @@ namespace DrinkManager.API.Controllers
             {
                 return RedirectToAction("Roles");
             }
-            return View(roleToDelete);
+            return Ok();
         }
 
         [HttpPost]
@@ -351,7 +362,7 @@ namespace DrinkManager.API.Controllers
         {
             IdentityRole roleToDelete = await _roleManager.FindByIdAsync(id);
             await _roleManager.DeleteAsync(roleToDelete);
-            return RedirectToAction("Roles");
+            return Ok();
         }
 
         [HttpGet("settings")]
@@ -362,7 +373,7 @@ namespace DrinkManager.API.Controllers
                 Settings = _settingRepository.GetAllSettings().ToList()
             };
 
-            return View(model);
+            return Ok();
         }
 
         [HttpPost("settings")]
@@ -387,14 +398,14 @@ namespace DrinkManager.API.Controllers
                 _backgroundJobScheduler.StartAsync(new CancellationToken());
             }
 
-            return RedirectToAction(nameof(Settings));
+            return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> UserActivitiesReport(string username)
         {
             var model = await _apiService.GetUserReportData(username);
-            return View(model);
+            return Ok();
         }
         private void Errors(IdentityResult result)
         {
@@ -404,7 +415,7 @@ namespace DrinkManager.API.Controllers
 
         public IActionResult Errors()
         {
-            return View();
+            return Ok();
         }
 
         [HttpPost]
@@ -412,12 +423,11 @@ namespace DrinkManager.API.Controllers
         {
             if (data["start.date"].ToString().Length == 0 || data["end.date"].ToString().Length == 0)
             {
-                TempData["Alert"] = "Both dates must be chosen";
-                TempData["AlertClass"] = "alert-danger";
-                return RedirectToAction(nameof(Settings));
+
+                return Ok();
             }
             var model = await _apiService.GetReportData(DateTime.Parse(data["start.date"]), DateTime.Parse(data["end.date"]));
-            return View(model);
+            return Ok();
         }
     }
 }

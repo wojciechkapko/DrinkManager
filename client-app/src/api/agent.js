@@ -18,12 +18,17 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(undefined, (error) => {
+  console.log(error.response);
   if (error.message === "Network Error" && !error.response) {
     toast.error("Network Error");
     return;
   }
-  if (error.response.status === 401 && error.response.config.method === "get") {
+  if (
+    (error.response.status === 401 || error.response.status === 403) &&
+    error.response.config.method === "get"
+  ) {
     history.push("/unauthorized");
+    return;
   }
   if (error.response.status === 500) {
     toast.error("Server error");

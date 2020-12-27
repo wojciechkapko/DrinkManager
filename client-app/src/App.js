@@ -1,15 +1,16 @@
 import "./App.css";
 import "./styles/global.min.css";
-import Container from "react-bootstrap/Container";
 import Menu from "./pages/Menu";
 import Orders from "./pages/Orders";
 import TopNav from "./layout/Nav/TopNav";
 import Login from "./pages/Login";
+import AdminHome from "./pages/Admin/AdminHome";
 import Register from "./pages/Register";
 import Notfound from "./layout/Notfound/Notfound";
 import Unauthorized from "./layout/Unauthorized/Unauthorized";
 import Home from "./pages/Home";
 import { Switch, Route } from "react-router-dom";
+import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useState } from "react";
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="/register">
               <Register setUser={setUser} setisLoggedIn={setisLoggedIn} />
             </Route>
+            <Route path="/manager" component={AdminHome} />
             <Route path="/unauthorized" component={Unauthorized} />
             <Route component={Notfound} />
           </Switch>

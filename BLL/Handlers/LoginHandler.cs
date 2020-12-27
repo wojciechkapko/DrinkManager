@@ -40,7 +40,7 @@ namespace BLL.Handlers
                 return new LoginResponse
                 {
                     Username = user.UserName,
-                    Token = _jwtGenerator.CreateToken(user)
+                    Token = await _jwtGenerator.CreateToken(user)
                 };
             }
 

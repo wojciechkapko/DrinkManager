@@ -32,7 +32,6 @@ namespace DrinkManager.API.Controllers
         private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
-        private readonly int _pageSize = 12;
 
         public DrinksController(
             IDrinkRepository drinkRepository,
@@ -55,11 +54,11 @@ namespace DrinkManager.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index([FromQuery] int? page)
+        public async Task<IActionResult> Index([FromQuery] int? page, [FromQuery] int? pageCount)
         {
             Task.Run(() => _apiService.CreateUserActivity(PerformedAction.AllDrinks, User.Identity.Name)).Forget();
 
-            var drinks = await PaginatedList<Drink>.CreateAsync(_drinkRepository.GetAllDrinks(), page ?? 1, _pageSize);
+            var drinks = await PaginatedList<Drink>.CreateAsync(_drinkRepository.GetAllDrinks(), page ?? 1, pageCount ?? 10);
 
             return Ok(new { drinks = drinks.Select(_mapper.Map<DrinkListResponse>), totalPages = drinks.TotalPages });
         }
@@ -93,13 +92,13 @@ namespace DrinkManager.API.Controllers
 
         [Authorize]
         [HttpGet("Drinks/favourites")]
-        public async Task<IActionResult> FavouriteDrinks(int? pageNumber)
+        public async Task<IActionResult> FavouriteDrinks(int? pageNumber, [FromQuery] int? pageCount)
         {
             var drinks = _favouriteRepository.GetUserFavouriteDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {
-                Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, _pageSize)
+                Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, pageCount ?? 10)
             };
             return Ok(model);
         }
@@ -309,25 +308,25 @@ namespace DrinkManager.API.Controllers
 
         [Authorize]
         [HttpGet("Drinks/reviews")]
-        public async Task<IActionResult> ReviewedDrinks(int? pageNumber)
+        public async Task<IActionResult> ReviewedDrinks(int? pageNumber, [FromQuery] int? pageCount)
         {
             var drinks = _reviewRepository.GetUserReviewedDrinks(_userManager.GetUserId(User));
 
             var model = new DrinksViewModel
             {
-                Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, _pageSize)
+                Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, pageCount ?? 10)
             };
             return Ok(model);
         }
 
-        public async Task<IActionResult> SearchByAlcoholContent(int? pageNumber, bool alcoholics = true, bool nonAlcoholics = true, bool optionalAlcoholics = true)
+        public async Task<IActionResult> SearchByAlcoholContent([FromQuery] int? pageCount, int? pageNumber, bool alcoholics = true, bool nonAlcoholics = true, bool optionalAlcoholics = true)
         {
             var drinks = _drinkSearchService
                 .SearchByAlcoholContent(alcoholics, nonAlcoholics, optionalAlcoholics);
 
             var model = new DrinksViewModel
             {
-                Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, _pageSize),
+                Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, pageCount ?? 10),
                 Alcoholics = alcoholics,
                 NonAlcoholics = nonAlcoholics,
                 OptionalAlcoholics = optionalAlcoholics
@@ -335,7 +334,7 @@ namespace DrinkManager.API.Controllers
             return Ok(model);
         }
 
-        public async Task<IActionResult> SearchByName(string searchString, int? pageNumber)
+        public async Task<IActionResult> SearchByName(string searchString, int? pageNumber, [FromQuery] int? pageCount)
         {
             var drinks = _drinkRepository.GetAllDrinks();
             if (!string.IsNullOrEmpty(searchString))
@@ -348,12 +347,12 @@ namespace DrinkManager.API.Controllers
             var model = new DrinksViewModel
             {
                 Drinks = await PaginatedList<Drink>.CreateAsync(drinks,
-                    pageNumber ?? 1, _pageSize)
+                    pageNumber ?? 1, pageCount ?? 10)
             };
             return Ok(model);
         }
 
-        public async Task<IActionResult> SearchByIngredients(string searchString, int? pageNumber,
+        public async Task<IActionResult> SearchByIngredients(string searchString, int? pageNumber, [FromQuery] int? pageCount,
             string searchCondition = "any")
         {
             var drinks = _drinkRepository.GetAllDrinks();
@@ -372,7 +371,7 @@ namespace DrinkManager.API.Controllers
             var model = new DrinksViewModel
             {
                 Drinks = await PaginatedList<Drink>.CreateAsync(drinks,
-                    pageNumber ?? 1, _pageSize)
+                    pageNumber ?? 1, pageCount ?? 10)
             };
             return Ok(model);
         }
