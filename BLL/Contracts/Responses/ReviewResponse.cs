@@ -1,15 +1,10 @@
 ﻿using System;
 
-namespace Domain
+namespace BLL.Contracts.Responses
 {
-    public class DrinkReview
+    public class ReviewResponse
     {
-        public const int MinScore = 0;
-        public const int MaxScore = 5;
-
         public int Id { get; set; }
-
-        public string DrinkId { get; set; }
 
         public int ReviewScore { get; set; }
 
@@ -18,6 +13,5 @@ namespace Domain
         public DateTime ReviewDate { get; set; }
 
         public string AuthorName { get; set; }
-        public Drink Drink { get; set; }
     }
 }

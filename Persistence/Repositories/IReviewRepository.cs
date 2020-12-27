@@ -1,12 +1,12 @@
 ﻿using Domain;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
     public interface IReviewRepository
     {
-        IQueryable<Drink> GetUserReviewedDrinks(string userId);
-
-        bool CanUserReviewDrink(string userId, string drinkId);
+        IQueryable<DrinkReview> GetDrinkReviews(string drinkId);
+        Task<bool> AddReview(DrinkReview newReview);
     }
 }

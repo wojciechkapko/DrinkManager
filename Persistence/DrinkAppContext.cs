@@ -25,20 +25,9 @@ namespace Persistence
             modelBuilder.Entity<UserDrink>()
                 .HasKey(cs => new { cs.AppUserId, cs.DrinkId });
 
-            // modelBuilder.Entity<Drink>().HasMany(d => d.DrinkReviews).WithOne()
-            //     .OnDelete(DeleteBehavior.Cascade);
-            // modelBuilder.Entity<AppUser>().HasMany(d => d.Reviews).WithOne()
-            //     .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<DrinkReview>()
-                .HasOne(d => d.Drink)
-                .WithMany(d => d.DrinkReviews)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<DrinkReview>()
-                .HasOne(d => d.Author)
-                .WithMany(d => d.Reviews)
+            modelBuilder.Entity<Drink>()
+                .HasMany(d => d.DrinkReviews)
+                .WithOne(d => d.Drink)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }

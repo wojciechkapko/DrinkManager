@@ -1,6 +1,6 @@
 ﻿using Domain;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
@@ -13,16 +13,16 @@ namespace Persistence.Repositories
             _context = context;
         }
 
-        public IQueryable<Drink> GetUserReviewedDrinks(string userId) =>
-            _context.Reviews
-                .Include(r => r.Drink)
-                .ThenInclude(r => r.DrinkReviews)
-                .Where(r => r.Author.Id.Equals(userId))
-                .Select(r => r.Drink);
-
-        public bool CanUserReviewDrink(string userId, string drinkId)
+        public IQueryable<DrinkReview> GetDrinkReviews(string drinkId)
         {
-            return _context.Reviews.FirstOrDefault(x => x.Author.Id.Equals(userId) && x.Drink.DrinkId.Equals(drinkId)) == null;
+            return _context.Reviews.Where(review => review.DrinkId.Equals(drinkId));
+        }
+
+        public async Task<bool> AddReview(DrinkReview newReview)
+        {
+            _context.Reviews.Add(newReview);
+
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

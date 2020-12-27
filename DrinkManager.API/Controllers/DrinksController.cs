@@ -1,6 +1,7 @@
 #nullable enable
 using AutoMapper;
 using BLL;
+using BLL.Contracts.Requests;
 using BLL.Contracts.Responses;
 using BLL.Services;
 using Domain;
@@ -86,6 +87,43 @@ namespace DrinkManager.API.Controllers
 
             return Ok(_mapper.Map<DrinkDetailsResponse>(drink));
         }
+
+
+        [HttpGet("{id}/reviews")]
+        public async Task<IActionResult> GetDrinkReviews(string id, [FromQuery] int? page, [FromQuery] int? pageCount)
+        {
+            var reviews = await PaginatedList<DrinkReview>.CreateAsync(_reviewRepository.GetDrinkReviews(id), page ?? 1, pageCount ?? 10);
+
+            return Ok(new { reviews = reviews.Select(_mapper.Map<ReviewResponse>), totalPages = reviews.TotalPages });
+        }
+
+        [HttpPost("{id}/reviews")]
+        public async Task<IActionResult> AddReview(string id, ReviewCreateRequest request)
+        {
+
+            // todo: fix this task
+
+            // Task.Run(() =>
+            //     _apiService.CreateUserActivity(PerformedAction.AddedReview, this.User.Identity.Name, id, drinkToUpdate.Name, score: request.ReviewScore)).Forget();
+
+            var newReview = new DrinkReview
+            {
+                DrinkId = id,
+                AuthorName = request.AuthorName,
+                ReviewDate = DateTime.Now,
+                ReviewScore = request.ReviewScore,
+                ReviewText = request.ReviewText
+            };
+
+            if (await _reviewRepository.AddReview(newReview) == false)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+
+            return Ok(_mapper.Map<ReviewResponse>(newReview));
+        }
+
 
         [Authorize]
         [HttpGet("Drinks/favourites")]
@@ -262,59 +300,18 @@ namespace DrinkManager.API.Controllers
             return RedirectToAction("DrinkDetails", new { id });
         }
 
-        [HttpGet("drink/addReview/{id}")]
-        public async Task<IActionResult> AddReview(string? id)
-        {
-            var drink = await _drinkRepository.GetDrinkById(id);
-
-            var model = new DrinkCreateViewModel
-            {
-                Name = drink?.Name,
-                Id = drink?.DrinkId
-            };
-
-            return Ok();
-        }
-
-        [HttpPost("drink/addReview/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddReview(IFormCollection data, string? id)
-        {
-
-            var drinkToUpdate = await _drinkRepository.GetDrinkById(id);
-            Task.Run(() =>
-                _apiService.CreateUserActivity(PerformedAction.AddedReview, this.User.Identity.Name, id, drinkToUpdate.Name, score: int.Parse(data["DrinkReview.ReviewScore"]))).Forget();
-            if (drinkToUpdate == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            drinkToUpdate.DrinkReviews.Add(new DrinkReview
-            {
-                ReviewText = data["DrinkReview.ReviewText"],
-                ReviewScore = int.Parse(data["DrinkReview.ReviewScore"]),
-                Drink = drinkToUpdate,
-                Author = await _userManager.GetUserAsync(User),
-                ReviewDate = DateTime.Now
-            });
-            _drinkRepository.Update(drinkToUpdate);
-            await _drinkRepository.SaveChanges();
-
-            return RedirectToAction(nameof(DrinkDetails), new { id });
-        }
-
-        [Authorize]
-        [HttpGet("Drinks/reviews")]
-        public async Task<IActionResult> ReviewedDrinks(int? pageNumber, [FromQuery] int? pageCount)
-        {
-            var drinks = _reviewRepository.GetUserReviewedDrinks(_userManager.GetUserId(User));
-
-            var model = new DrinksViewModel
-            {
-                Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, pageCount ?? 10)
-            };
-            return Ok(model);
-        }
+        // [Authorize]
+        // [HttpGet("Drinks/reviews")]
+        // public async Task<IActionResult> ReviewedDrinks(int? pageNumber, [FromQuery] int? pageCount)
+        // {
+        //     var drinks = _reviewRepository.GetUserReviewedDrinks(_userManager.GetUserId(User));
+        //
+        //     var model = new DrinksViewModel
+        //     {
+        //         Drinks = await PaginatedList<Drink>.CreateAsync(drinks, pageNumber ?? 1, pageCount ?? 10)
+        //     };
+        //     return Ok(model);
+        // }
 
         public async Task<IActionResult> SearchByAlcoholContent([FromQuery] int? pageCount, int? pageNumber, bool alcoholics = true, bool nonAlcoholics = true, bool optionalAlcoholics = true)
         {

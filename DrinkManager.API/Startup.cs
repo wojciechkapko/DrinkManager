@@ -148,6 +148,7 @@ namespace DrinkManager.API
             {
                 cfg.AddProfile(new DrinkProfile());
                 cfg.AddProfile(new IngredientProfile());
+                cfg.AddProfile(new ReviewProfile());
             }).CreateMapper());
         }
 

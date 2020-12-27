@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DrinkAppContext))]
-    partial class DrinkAppContextModelSnapshot : ModelSnapshot
+    [Migration("20201227195122_AuthChanges")]
+    partial class AuthChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,11 +130,9 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AppUserId")
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AuthorName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DrinkId")
                         .IsRequired()
@@ -149,7 +149,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AuthorId");
 
                     b.HasIndex("DrinkId");
 
@@ -356,9 +356,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.DrinkReview", b =>
                 {
-                    b.HasOne("Domain.AppUser", null)
+                    b.HasOne("Domain.AppUser", "Author")
                         .WithMany("Reviews")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Drink", "Drink")
                         .WithMany("DrinkReviews")
