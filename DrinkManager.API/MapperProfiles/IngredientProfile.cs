@@ -9,7 +9,7 @@ namespace DrinkManager.API.MapperProfiles
         public IngredientProfile()
         {
             CreateMap<Ingredient, DrinkListResponse.DrinkListIngredient>();
-
+            CreateMap<Ingredient, DrinkDetailsResponse.DrinkDetailsIngredient>();
         }
     }
 }

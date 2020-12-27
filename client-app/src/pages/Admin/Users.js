@@ -46,7 +46,6 @@ const Users = () => {
       <Table hover>
         <thead>
           <tr border="0">
-            <th></th>
             <th>Username</th>
             <th>Email</th>
             <th>Role</th>
@@ -55,7 +54,6 @@ const Users = () => {
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-              <td>{users.indexOf(user) + 1}</td>
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>

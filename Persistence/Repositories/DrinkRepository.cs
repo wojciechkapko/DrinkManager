@@ -28,8 +28,9 @@ namespace Persistence.Repositories
 
         public Task<Drink> GetDrinkById(string id)
         {
-            return _context.Drinks.Include(i => i.Ingredients).Include(i => i.DrinkReviews).ThenInclude(r => r.Author)
-                .FirstOrDefaultAsync(d => d.DrinkId.Equals(id));
+            // return _context.Drinks.Include(i => i.Ingredients).Include(i => i.DrinkReviews).ThenInclude(r => r.Author)
+            //     .FirstOrDefaultAsync(d => d.DrinkId.Equals(id));
+            return _context.Drinks.Include(drink => drink.Ingredients).FirstOrDefaultAsync(d => d.DrinkId.Equals(id));
         }
 
         public Task<Drink> FindDrink(Expression<Func<Drink, bool>> predicate)

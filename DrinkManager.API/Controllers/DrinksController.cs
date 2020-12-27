@@ -71,23 +71,20 @@ namespace DrinkManager.API.Controllers
         }
 
 
-        [HttpGet("drink/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> DrinkDetails(string id)
         {
             var drink = await _drinkRepository.GetDrinkById(id);
-            Task.Run(() => _apiService.CreateUserActivity(PerformedAction.VisitedDrink, User.Identity.Name, drinkId: id, drinkName: drink.Name)).Forget();
+
+
             if (drink == null)
             {
-                // add error View
+                return NotFound("Drink not found");
             }
 
-            var model = new DrinkDetailsViewModel
-            {
-                Drink = drink,
-                IsFavourite = _favouriteRepository.IsFavourite(_userManager.GetUserId(User), drink?.DrinkId),
-                CanUserReview = _reviewRepository.CanUserReviewDrink(_userManager.GetUserId(User), drink?.DrinkId)
-            };
-            return Ok(model);
+            Task.Run(() => _apiService.CreateUserActivity(PerformedAction.VisitedDrink, User.Identity.Name, drinkId: id, drinkName: drink.Name)).Forget();
+
+            return Ok(_mapper.Map<DrinkDetailsResponse>(drink));
         }
 
         [Authorize]

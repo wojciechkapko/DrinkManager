@@ -10,6 +10,7 @@ namespace DrinkManager.API.MapperProfiles
         {
             CreateMap<Drink, DrinkListResponse>()
                 .ForMember(drink => drink.Id, options => options.MapFrom(drink => drink.DrinkId));
+            CreateMap<Drink, DrinkDetailsResponse>();
         }
     }
 }

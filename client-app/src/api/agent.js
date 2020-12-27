@@ -71,8 +71,13 @@ const User = {
   register: (user) => requests.post("/user/register", user),
 };
 
+const Drink = {
+  get: (url) => requests.get(`/drinks${url}`),
+};
+
 const agent = {
   requests,
   User,
+  Drink,
 };
 export default agent;

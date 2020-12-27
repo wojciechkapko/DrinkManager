@@ -53,3 +53,14 @@ select {
     color: $accent-light !important;
   }
 }
+
+.drink-details {
+  min-height: 200px;
+}
+
+.btn-primary,
+.btn-primary:active,
+.btn-primary:hover {
+  background-color: $accent-light !important;
+  border-color: $accent-light !important;
+}

@@ -1,6 +1,7 @@
 import Card from "react-bootstrap/Card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const Drink = ({ name, id, ingredients, image, price }) => {
   const cardStyle = {
@@ -11,9 +12,13 @@ const Drink = ({ name, id, ingredients, image, price }) => {
 
   return (
     <Card style={cardStyle} className="rounded" id={id}>
-      <Card.Img src={image} className="shadow" />
+      <Link to={`/drinkdetails/${id}`}>
+        <Card.Img src={image} className="shadow" />
+      </Link>
       <Card.Body className="d-flex flex-column">
-        <Card.Title>{name}</Card.Title>
+        <Link to={`/drinkdetails/${id}`}>
+          <Card.Title>{name}</Card.Title>
+        </Link>
         <Card.Text className="text-muted pr-4">
           {ingredients.map((ingredient) => ingredient.name).join(", ")}
         </Card.Text>
