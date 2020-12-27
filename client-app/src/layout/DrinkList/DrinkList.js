@@ -38,7 +38,7 @@ const DrinkList = ({ loading, setLoading }) => {
     } catch (error) {
       console.log(error);
     }
-  }, [page]);
+  }, [page, history, setLoading]);
 
   let items = [];
 

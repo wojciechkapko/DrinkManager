@@ -18,6 +18,10 @@ axios.interceptors.request.use(
 );
 
 axios.interceptors.response.use(undefined, (error) => {
+  if (error.message === "Network Error" && !error.response) {
+    toast.error("Network Error");
+    return;
+  }
   if (error.response.status === 401 && error.response.config.method === "get") {
     history.push("/unauthorized");
   }
@@ -62,7 +66,8 @@ const User = {
   register: (user) => requests.post("/user/register", user),
 };
 
-export default {
+const agent = {
   requests,
   User,
 };
+export default agent;
