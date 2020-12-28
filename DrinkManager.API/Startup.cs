@@ -178,7 +178,6 @@ namespace DrinkManager.API
                 app.UseHsts();
             }
             //app.UseHttpsRedirection();
-            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRequestLocalization();
