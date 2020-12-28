@@ -207,6 +207,9 @@ namespace DrinkManager.API
 
             var userManager = services.GetRequiredService<UserManager<AppUser>>();
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+            context.Database.Migrate();
+
             await Seeder.SeedData(context, userManager, roleManager, Configuration);
         }
     }
