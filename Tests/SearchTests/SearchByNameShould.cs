@@ -18,7 +18,7 @@ namespace Tests.SearchTests
         [Fact]
         public void Get_all_drinks_from_the_database_if_query_text_was_an_empty_string()
         {
-            var drinks = _sut.SearchByName("");
+            var drinks = _sut.SearchByName("").ToList();
             drinks.Should().HaveCount(42);
         }
 
@@ -34,7 +34,7 @@ namespace Tests.SearchTests
         [InlineData("MOjIto")]
         public void Be_CaseInsensitive(string query)
         {
-            var drink = _sut.SearchByName(query);
+            var drink = _sut.SearchByName(query).ToList();
             drink.Should().HaveCount(1);
             drink.First().Name.Should().Be("Mojito #3");
         }

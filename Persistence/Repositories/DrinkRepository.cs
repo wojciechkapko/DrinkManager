@@ -18,7 +18,7 @@ namespace Persistence.Repositories
 
         public IQueryable<Drink> GetAllDrinks()
         {
-            return _context.Drinks.Include(i => i.Ingredients).OrderBy(x => x.Name);
+            return _context.Drinks;
         }
 
         public IQueryable<Drink> GetAllDrinksAsQueryable()

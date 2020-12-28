@@ -22,8 +22,8 @@ namespace BLL.Services
 
         public IQueryable<Drink> SearchByName(string textToSearch)
         {
-            return _repository.GetAllDrinks().Where(drink =>
-                drink.Name.Contains(textToSearch, StringComparison.InvariantCultureIgnoreCase));
+            var drink = _repository.GetAllDrinks().Where(x => x.Name.ToLower().Contains(textToSearch.ToLower()));
+            return drink;
         }
 
         public IQueryable<Drink> SearchByIngredients(SortedSet<string> ingredientsToSearch, SearchDrinkOption searchOption)
