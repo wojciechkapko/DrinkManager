@@ -1,7 +1,12 @@
+using Domain;
 using DrinkManager.API.Helpers;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Persistence;
 using Serilog;
 using System;
 
@@ -24,7 +29,19 @@ namespace DrinkManager.API
             try
             {
                 Log.Information("DrinkManager Starting Up");
-                CreateHostBuilder(args).Build().Run();
+                var host = CreateHostBuilder(args).Build();
+
+                using (var scope = host.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var context = services.GetRequiredService<DrinkAppContext>();
+
+                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    context.Database.Migrate();
+                    Seeder.SeedData(context, userManager, roleManager, configuration).Wait();
+                }
+                host.Run();
             }
             catch (Exception e)
             {
