@@ -1,0 +1,24 @@
+.rating {
+  direction: rtl;
+  unicode-bidi: bidi-override;
+  color: #ddd; /* Personal choice */
+}
+.rating input {
+  display: none;
+}
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input:checked + label,
+.rating input:checked + label ~ label {
+  color: #f3cf44; /* Personal color choice. Lifted from Bootstrap 4 */
+}
+
+.rating {
+  label {
+    z-index: 9999;
+  }
+}
+svg,
+path {
+  pointer-events: none;
+}

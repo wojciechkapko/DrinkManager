@@ -77,6 +77,7 @@ const Drink = {
 
 const Reviews = {
   get: (id) => requests.get(`/drinks/${id}/reviews`),
+  post: (id, review) => requests.post(`/drinks/${id}/reviews`, review),
 };
 
 const agent = {
