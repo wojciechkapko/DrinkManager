@@ -1,7 +1,5 @@
-using Domain;
 using DrinkManager.API.Helpers;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,10 +34,9 @@ namespace DrinkManager.API
                     var services = scope.ServiceProvider;
                     var context = services.GetRequiredService<DrinkAppContext>();
 
-                    var userManager = services.GetRequiredService<UserManager<AppUser>>();
-                    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
                     context.Database.Migrate();
-                    Seeder.SeedData(context, userManager, roleManager, configuration).Wait();
+                    Seeder.SeedSettings(context).Wait();
                 }
                 host.Run();
             }

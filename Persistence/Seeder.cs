@@ -1,7 +1,6 @@
 ﻿using Domain;
 using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +16,6 @@ namespace Persistence
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
         {
-
-            context.Database.Migrate();
-
             // Check if we have data in the database
             if (!context.Drinks.Any())
             {
@@ -29,50 +25,7 @@ namespace Persistence
                 context.AddRange(data);
                 context.SaveChanges();
             }
-            if (!context.Settings.Any())
-            {
 
-                var settings = new List<Setting>
-                {
-                    new Setting
-                    {
-                        Name = "Next report date",
-                        Value = null,
-                        DisallowManualChange = true,
-                        Description = "Date and time when the next report will be sent."
-                    },
-                    new Setting
-                    {
-                        Name = "Last report date",
-                        Value = null,
-                        DisallowManualChange = true,
-                        Description = "Date and time when the last report was sent."
-                    },
-                    new Setting
-                    {
-                        Name = "Report interval type",
-                        Value = IntervalTypes.Days.ToString(),
-                        Description = "Interval type: days or hours.",
-                        FrontEndElementType = "select",
-                        AvailableOptions = "Days,Hours"
-                    },
-                    new Setting
-                    {
-                        Name = "Report interval",
-                        Value = "1",
-                        Description = "How often to send the report."
-                    },
-                    new Setting
-                    {
-                        Name = "Report time",
-                        Value = "00:00:00",
-                        Description = "Time at which the report should be sent."
-                    }
-                };
-                // Add settings to the database
-                context.AddRange(settings);
-                context.SaveChanges();
-            }
 
 
             if (!roleManager.Roles.Any())
@@ -121,6 +74,56 @@ namespace Persistence
                         await userManager.AddToRoleAsync(appUser, "Employee");
                     }
                 }
+            }
+        }
+
+
+
+        public static async Task SeedSettings(DrinkAppContext context)
+        {
+            if (!context.Settings.Any())
+            {
+
+                var settings = new List<Setting>
+                {
+                    new Setting
+                    {
+                        Name = "Next report date",
+                        Value = null,
+                        DisallowManualChange = true,
+                        Description = "Date and time when the next report will be sent."
+                    },
+                    new Setting
+                    {
+                        Name = "Last report date",
+                        Value = null,
+                        DisallowManualChange = true,
+                        Description = "Date and time when the last report was sent."
+                    },
+                    new Setting
+                    {
+                        Name = "Report interval type",
+                        Value = IntervalTypes.Days.ToString(),
+                        Description = "Interval type: days or hours.",
+                        FrontEndElementType = "select",
+                        AvailableOptions = "Days,Hours"
+                    },
+                    new Setting
+                    {
+                        Name = "Report interval",
+                        Value = "1",
+                        Description = "How often to send the report."
+                    },
+                    new Setting
+                    {
+                        Name = "Report time",
+                        Value = "00:00:00",
+                        Description = "Time at which the report should be sent."
+                    }
+                };
+                // Add settings to the database
+                context.AddRange(settings);
+                await context.SaveChangesAsync();
             }
         }
     }
