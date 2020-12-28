@@ -3,6 +3,7 @@ using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -88,6 +89,7 @@ namespace Persistence
                 }
             }
 
+            Console.WriteLine(configuration["AdminEmail"]);
 
             if (!userManager.Users.Any())
             {
@@ -95,8 +97,8 @@ namespace Persistence
                 {
                     new AppUser
                     {
-                        UserName = configuration["AppSettings:AdminUserEmail"],
-                        Email = configuration["AppSettings:AdminUserEmail"]
+                        UserName = configuration["AdminEmail"],
+                        Email = configuration["AdminEmail"]
                     },
                     new AppUser
                     {
@@ -110,7 +112,9 @@ namespace Persistence
                     }
                 };
 
-                var adminPassword = configuration["AppSettings:UserPassword"];
+                Console.WriteLine(configuration["AdminPassword"]);
+
+                var adminPassword = configuration["AdminPassword"];
                 var admin = await userManager.CreateAsync(users[0], adminPassword);
                 if (admin.Succeeded)
                 {
