@@ -2,7 +2,7 @@
 {
     public class ReviewCreateRequest
     {
-        public int ReviewScore { get; set; }
+        public string ReviewScore { get; set; }
 
         public string ReviewText { get; set; }
 

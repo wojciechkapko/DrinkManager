@@ -111,7 +111,7 @@ namespace DrinkManager.API.Controllers
                 DrinkId = id,
                 AuthorName = request.AuthorName,
                 ReviewDate = DateTime.Now,
-                ReviewScore = request.ReviewScore,
+                ReviewScore = int.Parse(request.ReviewScore),
                 ReviewText = request.ReviewText
             };
 
