@@ -1,6 +1,7 @@
 ﻿using Domain;
 using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace Persistence
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
         {
+
+            context.Database.Migrate();
+
             // Check if we have data in the database
             if (!context.Drinks.Any())
             {
