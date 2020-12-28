@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "move build ../DrinkManager.API/frontend",
+    "postbuild": "move build ../DrinkManager.API/wwwroot",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -45,5 +45,5 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "http://drinkland.azurewebsites.net/frontend"
+  "homepage": "http://drinkland.azurewebsites.net/wwwroot/build"
 }
