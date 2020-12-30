@@ -1,12 +1,14 @@
 using DrinkManager.API.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
 using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace DrinkManager.API
 {
@@ -14,12 +16,30 @@ namespace DrinkManager.API
     {
         public static void Main(string[] args)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+            var dbConnectionString = Environment.GetEnvironmentVariable("SERILOG_DB");
+            Console.WriteLine(dbConnectionString);
+            var sinkOpts = new MSSqlServerSinkOptions { TableName = "AppLogs", AutoCreateSqlTable = true, SchemaName = "dbo" };
+            var columnOpts = new ColumnOptions
+            {
+                AdditionalColumns = new List<SqlColumn>
+                {
+                    new SqlColumn
+                    {
+                        ColumnName = "UserName",
+                        AllowNull = true,
+                        DataLength = 50,
+                        DataType = SqlDbType.VarChar,
+                        PropertyName = "UserName"
+                    }
+                }
+            };
+
 
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
+                .WriteTo.MSSqlServer(
+                    connectionString: dbConnectionString,
+                    sinkOptions: sinkOpts,
+                    columnOptions: columnOpts)
                 .Enrich.FromLogContext()
                 .Enrich.WithUserName()
                 .CreateLogger();
