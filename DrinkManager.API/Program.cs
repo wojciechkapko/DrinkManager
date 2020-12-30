@@ -38,6 +38,9 @@ namespace DrinkManager.API
 
 
             Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console(
+                    restrictedToMinimumLevel: LogEventLevel.Debug
+                    )
                 .WriteTo.MSSqlServer(
                     connectionString: dbConnectionString,
                     sinkOptions: sinkOpts,
