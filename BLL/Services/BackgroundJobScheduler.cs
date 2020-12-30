@@ -40,8 +40,7 @@ namespace BLL.Services
                     scope.ServiceProvider
                         .GetRequiredService<ISettingRepository>();
 
-                var timeOfStart = TimeSpan.Parse(settingRepository.GetSetting(Settings.ReportTime).Value,
-                    new CultureInfo("en-US"));
+                var timeOfStart = TimeSpan.Parse(settingRepository.GetSetting(Settings.ReportTime).Value, new CultureInfo("en-US"));
 
                 var interval = int.Parse(settingRepository.GetSetting(Settings.ReportInterval).Value);
 

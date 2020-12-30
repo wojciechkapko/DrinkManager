@@ -2,11 +2,11 @@
 {
     public enum Settings
     {
-        ReportTime = 1,
-        ReportInterval,
-        IntervalType,
-        LastReportDate,
-        NextReportDate
+        ReportTime = 5,
+        ReportInterval = 4,
+        IntervalType = 3,
+        LastReportDate = 2,
+        NextReportDate = 1
     }
 
     public enum IntervalTypes

@@ -1,7 +1,6 @@
 ﻿using Domain;
 using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +16,6 @@ namespace Persistence
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
         {
-            // Check if we can connect to the database
-            if (!context.Database.CanConnect())
-            {
-                // Create the database
-                context.Database.Migrate();
-            }
             // Check if we have data in the database
             if (!context.Drinks.Any())
             {
@@ -32,6 +25,62 @@ namespace Persistence
                 context.AddRange(data);
                 context.SaveChanges();
             }
+
+
+
+            if (!roleManager.Roles.Any())
+            {
+                string[] roleNames = { "Manager", "Employee" };
+
+                foreach (var roleName in roleNames)
+                {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+
+            if (!userManager.Users.Any())
+            {
+                var users = new List<AppUser>
+                {
+                    new AppUser
+                    {
+                        UserName = configuration["AdminEmail"],
+                        Email = configuration["AdminEmail"]
+                    },
+                    new AppUser
+                    {
+                        UserName = "TestUser",
+                        Email = "Testuser@test.com"
+                    },
+                    new AppUser
+                    {
+                        UserName = "TestUser2",
+                        Email = "Testuser2@test.com"
+                    }
+                };
+
+                var adminPassword = configuration["AdminPassword"];
+                var admin = await userManager.CreateAsync(users[0], adminPassword);
+                if (admin.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(users[0], "Manager");
+                }
+
+                foreach (var appUser in users.Skip(1))
+                {
+                    var user = await userManager.CreateAsync(appUser, adminPassword);
+                    if (user.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(appUser, "Employee");
+                    }
+                }
+            }
+        }
+
+
+
+        public static async Task SeedSettings(DrinkAppContext context)
+        {
             if (!context.Settings.Any())
             {
 
@@ -74,57 +123,7 @@ namespace Persistence
                 };
                 // Add settings to the database
                 context.AddRange(settings);
-                context.SaveChanges();
-            }
-
-
-            if (!roleManager.Roles.Any())
-            {
-                string[] roleNames = { "Manager", "Employee" };
-
-                foreach (var roleName in roleNames)
-                {
-                    await roleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
-
-
-            if (!userManager.Users.Any())
-            {
-                var users = new List<AppUser>
-                {
-                    new AppUser
-                    {
-                        UserName = configuration["AppSettings:AdminUserEmail"],
-                        Email = configuration["AppSettings:AdminUserEmail"]
-                    },
-                    new AppUser
-                    {
-                        UserName = "TestUser",
-                        Email = "Testuser@test.com"
-                    },
-                    new AppUser
-                    {
-                        UserName = "TestUser2",
-                        Email = "Testuser2@test.com"
-                    }
-                };
-
-                var adminPassword = configuration["AppSettings:UserPassword"];
-                var admin = await userManager.CreateAsync(users[0], adminPassword);
-                if (admin.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(users[0], "Manager");
-                }
-
-                foreach (var appUser in users.Skip(1))
-                {
-                    var user = await userManager.CreateAsync(appUser, adminPassword);
-                    if (user.Succeeded)
-                    {
-                        await userManager.AddToRoleAsync(appUser, "Employee");
-                    }
-                }
+                await context.SaveChangesAsync();
             }
         }
     }

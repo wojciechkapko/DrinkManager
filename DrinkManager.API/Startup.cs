@@ -26,6 +26,7 @@ using ReportingModule.API.Services;
 using Serilog;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DrinkManager.API
 {
@@ -42,6 +43,7 @@ namespace DrinkManager.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DrinkAppContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
 
             var builder = services.AddIdentityCore<AppUser>(options =>
             {
@@ -116,12 +118,6 @@ namespace DrinkManager.API
 
 
             services.AddScoped<RequestLocalizationCookiesMiddleware>();
-            // services.AddControllersWithViews().
-            //     AddDataAnnotationsLocalization(options =>
-            //     {
-            //         options.DataAnnotationLocalizerProvider = (type, factory) =>
-            //             factory.Create(typeof(SharedResource));
-            //     });
 
             services.AddControllers()
                 .AddFluentValidation(cfg =>
@@ -161,12 +157,12 @@ namespace DrinkManager.API
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseRequestLocalization();
             app.UseRequestLocalizationCookies();
             app.UseSerilogRequestLogging();
@@ -180,7 +176,22 @@ namespace DrinkManager.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
+
+            SeedData(serviceProvider).Wait();
+        }
+
+
+        private async Task SeedData(IServiceProvider services)
+        {
+            var context = services.GetRequiredService<DrinkAppContext>();
+
+            var userManager = services.GetRequiredService<UserManager<AppUser>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+
+            await Seeder.SeedData(context, userManager, roleManager, Configuration);
         }
     }
 }
