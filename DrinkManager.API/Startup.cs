@@ -26,6 +26,7 @@ using ReportingModule.API.Services;
 using Serilog;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DrinkManager.API
 {
@@ -195,6 +196,20 @@ namespace DrinkManager.API
                 endpoints.MapControllers();
                 endpoints.MapFallbackToController("Index", "Fallback");
             });
+
+            SeedData(serviceProvider).Wait();
+        }
+
+
+        private async Task SeedData(IServiceProvider services)
+        {
+            var context = services.GetRequiredService<DrinkAppContext>();
+
+            var userManager = services.GetRequiredService<UserManager<AppUser>>();
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+
+            await Seeder.SeedData(context, userManager, roleManager, Configuration);
         }
     }
 }
