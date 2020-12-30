@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Persistence;
 using Serilog;
+using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,8 @@ namespace DrinkManager.API
                 .WriteTo.MSSqlServer(
                     connectionString: dbConnectionString,
                     sinkOptions: sinkOpts,
-                    columnOptions: columnOpts)
+                    columnOptions: columnOpts,
+                    restrictedToMinimumLevel: LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .Enrich.WithUserName()
                 .CreateLogger();
