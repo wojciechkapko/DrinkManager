@@ -22,7 +22,9 @@ const DrinkList = ({ loading, setLoading }) => {
     query.get("page") != undefined ? query.get("page") : 1
   );
   const [pageCount, setPageCount] = useState(
-    query.get("pageCount") != undefined ? query.get("pageCount") : 10
+    query.get("pageCount") != undefined
+      ? query.get("pageCount")
+      : process.env.REACT_APP_DEFAULT_PAGE_NUMBER
   );
 
   useEffect(() => {

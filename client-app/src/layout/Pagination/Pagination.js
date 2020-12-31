@@ -5,6 +5,9 @@ import "./Pagination.min.css";
 
 const Pagination = ({ page, pages, pageCount, setPage, setPageCount }) => {
   let items = [];
+  let pageCountDefault = process.env.REACT_APP_DEFAULT_PAGE_NUMBER;
+  let pageCountLow = process.env.REACT_APP_DEFAULT_PAGE_NUMBER_LOW;
+  let pageCountHigh = process.env.REACT_APP_DEFAULT_PAGE_NUMBER_HIGH;
 
   for (let number = 1; number <= pages; number++) {
     items.push(
@@ -32,10 +35,9 @@ const Pagination = ({ page, pages, pageCount, setPage, setPageCount }) => {
           value={pageCount}
           className="accent-light"
         >
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={25}>25</option>
-          <option value={50}>50</option>
+          <option value={pageCountLow}>{pageCountLow}</option>
+          <option value={pageCountDefault}>{pageCountDefault}</option>
+          <option value={pageCountHigh}>{pageCountHigh}</option>
         </Form.Control>
       </Col>
     </Row>
