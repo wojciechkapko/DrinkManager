@@ -39,7 +39,7 @@ const Register = ({ setUser, setisLoggedIn }) => {
         <Card className="rounded p-4 w-100">
           <Row className="mb-4">
             <Col>
-              <h1>Register</h1>
+              <h1 className="text-center text-lg-left">Register</h1>
             </Col>
           </Row>
           <Row>

@@ -11,7 +11,7 @@ const Orders = () => {
     <Card className="rounded p-4 w-100">
       <Row>
         <Col>
-          <h1>Orders</h1>
+          <h1 className="text-center text-lg-left">Orders</h1>
         </Col>
       </Row>
       <Row>

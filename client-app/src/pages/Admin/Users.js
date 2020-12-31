@@ -40,10 +40,10 @@ const Users = () => {
 
   return (
     <div>
-      <h1 className="mb-3">Users</h1>
+      <h1 className="text-center text-lg-left mb-3">Users</h1>
       {loading === true && <Loading content="Loading Users..." />}
 
-      <Table hover>
+      <Table responsive hover>
         <thead>
           <tr border="0">
             <th>Username</th>

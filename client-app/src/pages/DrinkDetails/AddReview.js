@@ -34,7 +34,7 @@ const AddReview = ({ id, reviews, setReviews }) => {
         <Card className="rounded p-4 mb-4">
           <Row className="mb-4">
             <Col>
-              <h1>Add your review</h1>
+              <h1 className="text-center text-lg-left">Add your review</h1>
             </Col>
           </Row>
           <Row>

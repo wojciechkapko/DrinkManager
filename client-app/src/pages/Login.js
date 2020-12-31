@@ -38,7 +38,7 @@ const Login = ({ setUser, setisLoggedIn }) => {
         <Card className="rounded p-4 w-100">
           <Row className="mb-4">
             <Col>
-              <h1>Login</h1>
+              <h1 className="text-center text-lg-left">Login</h1>
             </Col>
           </Row>
           <Row>

@@ -43,7 +43,21 @@ const DrinkDetails = () => {
         <Fragment>
           <Card className="rounded p-4 drink-details mb-4">
             <Row className="mx-4 my-5">
-              <Col xs={5} className="ml-5 mt-4 mb-4 mr-3">
+              <Col
+                xs={12}
+                lg={5}
+                className="justify-content-center align-items-center d-flex mb-5"
+              >
+                <div className="p-relative">
+                  <Image
+                    src={drink.imageUrl}
+                    roundedCircle
+                    className="w-100 shadow-lg"
+                  />
+                </div>
+              </Col>
+              <Col xs={0} lg={1}></Col>
+              <Col xs={12} lg={6}>
                 <Row className="border-bottom pb-4 mb-3" noGutters={true}>
                   <Col>
                     <Stars count={drink.averageReview} />
@@ -69,18 +83,6 @@ const DrinkDetails = () => {
                     </ul>
                   </Col>
                 </Row>
-              </Col>
-              <Col
-                xs={5}
-                className="ml-5 mt-5 justify-content-center align-items-center d-flex"
-              >
-                <div className="p-relative">
-                  <Image
-                    src={drink.imageUrl}
-                    roundedCircle
-                    className="w-100 shadow-lg"
-                  />
-                </div>
               </Col>
             </Row>
           </Card>

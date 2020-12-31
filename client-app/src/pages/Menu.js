@@ -11,7 +11,7 @@ const Menu = () => {
     <Card className="rounded p-4 w-100">
       <Row>
         <Col>
-          <h1>Menu Items</h1>
+          <h1 className="text-center text-lg-left">Menu Items</h1>
         </Col>
       </Row>
       <Row>

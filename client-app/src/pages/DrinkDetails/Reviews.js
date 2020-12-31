@@ -32,10 +32,10 @@ const Reviews = ({ id }) => {
 
   return (
     <Row>
-      <Col sm={6}>
+      <Col xs={12} md={6}>
         <AddReview id={id} setReviews={setReviews} reviews={reviews} />
       </Col>
-      <Col sm={6}>
+      <Col xs={12} md={6}>
         <Card className="rounded p-4 drink-details">
           {loading ? (
             <Loading content="Loading Reviews..." />
@@ -43,9 +43,9 @@ const Reviews = ({ id }) => {
             <Fragment>
               <Row className="mx-1">
                 <Col xs={12} className="mb-3">
-                  <Row className="border-bottom pb-2 mb-3">
-                    <h1>Reviews</h1>
-                  </Row>
+                  <h1 className="text-center text-lg-left border-bottom pb-2 mb-3">
+                    Reviews
+                  </h1>
                   <Row>
                     <Col sm={12}>
                       {reviews.length > 0 ? (
@@ -53,7 +53,9 @@ const Reviews = ({ id }) => {
                           <Review key={review.id} review={review} />
                         ))
                       ) : (
-                        <p>No reviews yet</p>
+                        <p className="text-center text-lg-left">
+                          No reviews yet
+                        </p>
                       )}
                     </Col>
                   </Row>

@@ -6,7 +6,7 @@ import { Fragment } from "react";
 
 const SideNav = () => {
   return (
-    <Nav className="p-4 mb-4 rounded flex-column bg-white">
+    <Nav className="p-4 mb-4 rounded bg-white flex-row flex-md-column">
       <NavLink
         to="/manager"
         activeClassName="active"

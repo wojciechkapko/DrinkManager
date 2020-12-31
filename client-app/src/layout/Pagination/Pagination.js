@@ -22,18 +22,28 @@ const Pagination = ({ page, pages, pageCount, setPage, setPageCount }) => {
   }
   return (
     <Row>
-      <Col className="d-flex justify-content-end">
+      <Col
+        xs={12}
+        md={6}
+        lg={9}
+        className="d-flex justify-content-center justify-content-md-end"
+      >
         <PaginationBootstrap className="mt-3 justify-content-center">
           {items}
         </PaginationBootstrap>
       </Col>
-      <Col xs={3} className="align-items-center d-flex">
+      <Col
+        xs={8}
+        md={6}
+        lg={3}
+        className="align-items-center d-flex justify-content-center justify-content-md-end px-5 px-md-3 mt-2 mt-md-0 mx-auto mx-md-0 flex-column flex-md-row"
+      >
         <span className="text-nowrap mr-2">Per page</span>
         <Form.Control
           as="select"
           onChange={(e) => setPageCount(e.target.value)}
           value={pageCount}
-          className="accent-light"
+          className="accent-light mt-2 mt-md-0"
         >
           <option value={pageCountLow}>{pageCountLow}</option>
           <option value={pageCountDefault}>{pageCountDefault}</option>
