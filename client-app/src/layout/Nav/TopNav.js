@@ -4,17 +4,18 @@ import { Link, NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCocktail, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { Fragment } from "react";
+import "./TopNav.min.css";
 
 const TopNav = ({ user, isLoggedIn }) => {
   return (
     <Navbar bg="light" expand="lg" className="p-4 mb-4 rounded">
-      <Navbar.Brand as={Link} to="/" className="pr-3 mr-2 border-right">
+      <Navbar.Brand as={Link} to="/" className="pr-lg-3 mr-lg-2">
         <FontAwesomeIcon icon={faCocktail} size="lg" className="mr-2" />
         Drinkland
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav>
+      <Navbar.Collapse id="basic-navbar-nav" className="py-2 py-lg-0">
+        <Nav className="text-center text-lg-left">
           <NavLink to="/" activeClassName="active" className="nav-link" exact>
             Home
           </NavLink>
@@ -27,7 +28,7 @@ const TopNav = ({ user, isLoggedIn }) => {
             </NavLink>
           )}
         </Nav>
-        <div className="ml-auto d-flex align-items-center">
+        <Nav className="text-center text-lg-right d-flex ml-auto align-items-center user-menu pt-1 pt-lg-0 mt-1 mt-lg-0">
           {isLoggedIn && user ? (
             <Fragment>
               <NavLink
@@ -37,7 +38,7 @@ const TopNav = ({ user, isLoggedIn }) => {
               >
                 Manager Panel
               </NavLink>
-              <span className="ml-2">
+              <span className="ml-2 py-2">
                 <FontAwesomeIcon
                   icon={faUserCircle}
                   size="lg"
@@ -64,7 +65,7 @@ const TopNav = ({ user, isLoggedIn }) => {
               </NavLink>
             </Fragment>
           )}
-        </div>
+        </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
