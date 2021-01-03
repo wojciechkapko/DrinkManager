@@ -1,9 +1,1 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,UAAU,AAAC,CACT,UAAU,CAAE,iBAAiB,CAC9B,AAED,MAAM,EAAE,SAAS,EAAE,KAAK,EACtB,AAAA,aAAa,AAAC,CACZ,YAAY,CAAE,iBAAiB,CAChC,AACD,AAAA,UAAU,AAAC,CACT,UAAU,CAAE,IAAI,CACjB",
-    "sources": [
-        "TopNav.scss"
-    ],
-    "names": [],
-    "file": "TopNav.min.css"
-}
+{"version":3,"sourceRoot":"","sources":["TopNav.scss"],"names":[],"mappings":"AAAA,WACE,6BAGF,yBACE,cACE,+BAEF,WACE","file":"TopNav.min.css"}

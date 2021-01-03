@@ -70,7 +70,8 @@ namespace DrinkManager.API.Controllers
             {
                 Username = user.UserName,
                 Token = await _jwtGenerator.CreateToken(user),
-                Image = null
+                Image = null,
+                Role = (await _userManager.GetRolesAsync(user))[0]
             });
         }
     }

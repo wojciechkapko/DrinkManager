@@ -1,39 +1,18 @@
 import { Form as FinalForm, Field } from "react-final-form";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import agent from "../api/agent";
 import Spinner from "react-bootstrap/Spinner";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { toast } from "react-toastify";
-import { history } from "..";
+import { useDispatch } from "react-redux";
+import { signInAsync } from "../slices/authSlice";
 
-const Login = ({ setUser, setisLoggedIn }) => {
-  const handleLoginSubmit = async (values) => {
-    try {
-      const user = await agent.User.login(values);
-      setUser(user);
-      setisLoggedIn(true);
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("token", user.token);
-      localStorage.setItem("isLoggedIn", true);
-      history.push("/");
-    } catch (error) {
-      if (typeof error.data == "string") {
-        toast.error(`${error.data}`);
-      } else {
-        let errors = error.data.errors;
-        for (const property in errors) {
-          toast.error(`${error.data.errors[property]}`);
-        }
-      }
-    }
-  };
-
+const Login = () => {
+  const dispatch = useDispatch();
   return (
     <FinalForm
-      onSubmit={handleLoginSubmit}
+      onSubmit={(values) => dispatch(signInAsync(values))}
       render={({ handleSubmit, submitting }) => (
         <Card className="rounded p-4 w-100">
           <Row className="mb-4">

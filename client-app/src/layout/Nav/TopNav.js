@@ -5,8 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCocktail, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { Fragment } from "react";
 import "./TopNav.min.css";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, selectIsLogged, logout } from "../../slices/authSlice";
 
-const TopNav = ({ user, isLoggedIn }) => {
+const TopNav = () => {
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
+    const isLoggedIn = useSelector(selectIsLogged);
   return (
     <Navbar bg="light" expand="lg" className="p-4 mb-4 rounded">
       <Navbar.Brand as={Link} to="/" className="pr-lg-3 mr-lg-2">
@@ -46,6 +51,12 @@ const TopNav = ({ user, isLoggedIn }) => {
                 />
                 <strong>{user.username}</strong>
               </span>
+                <Nav.Link
+                    onClick={() => dispatch(logout())}
+                    className="nav-link"
+                >
+                    Logout
+                </Nav.Link>
             </Fragment>
           ) : (
             <Fragment>

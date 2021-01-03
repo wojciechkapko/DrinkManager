@@ -14,23 +14,34 @@ import { Switch, Route } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useState } from "react";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
+import { selectToken, getUserAsync } from "./slices/authSlice"
+import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import { setLoaded, selectAppLoaded } from "./slices/commonSlice"
+import Loading from "./layout/Loading/Loading";
 
 const App = () => {
-  const [user, setUser] = useState(
-    localStorage.getItem("user") != null
-      ? JSON.parse(localStorage.getItem("user"))
-      : {}
-  );
-  const [isLoggedIn, setisLoggedIn] = useState(
-    localStorage.getItem("isLoggedIn")
-  );
+  const appLoaded = useSelector(selectAppLoaded);
+  const token = useSelector(selectToken);
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    if(token){
+      dispatch(getUserAsync()).finally(()=> dispatch(setLoaded()))
+    }else{
+      // todo: create AppLoaded prop
+      dispatch(setLoaded());
+    }
+  },[token])
+
+
+  if(!appLoaded) return <Loading content="Loading..." />
 
   return (
     <Container className="p-3">
       <ToastContainer position="top-right" />
-      <TopNav user={user} isLoggedIn={isLoggedIn} />
+      <TopNav />
       <Row>
         <Col md={12}>
           <Switch>
@@ -40,10 +51,10 @@ const App = () => {
             <Route path="/menu" component={Menu} />
             <Route path="/orders" component={Orders} />
             <Route path="/login">
-              <Login setUser={setUser} setisLoggedIn={setisLoggedIn} />
+              <Login />
             </Route>
             <Route path="/register">
-              <Register setUser={setUser} setisLoggedIn={setisLoggedIn} />
+              <Register />
             </Route>
             <Route path={"/drinkdetails/:id"}>
               <DrinkDetails />
