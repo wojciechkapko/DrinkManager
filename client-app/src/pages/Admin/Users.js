@@ -18,10 +18,10 @@ const Users = () => {
   let query = useQuery();
 
   const [page, setPage] = useState(
-    query.get("page") != undefined ? query.get("page") : 1
+    query.get("page") !== null ? query.get("page") : 1
   );
   const [pageCount, setPageCount] = useState(
-    query.get("pageCount") != undefined ? query.get("pageCount") : 10
+    query.get("pageCount") !== null ? query.get("pageCount") : 10
   );
 
   useEffect(() => {

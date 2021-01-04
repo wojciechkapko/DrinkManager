@@ -43,7 +43,7 @@ const Login = () => {
                   />
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                  {submitting == true ? (
+                  {submitting === true ? (
                     <Spinner
                       as="span"
                       animation="border"

@@ -1,9 +1,6 @@
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-import Image from "react-bootstrap/Image";
-import { useHistory, useLocation } from "react-router-dom";
 import { useState, useEffect, Fragment } from "react";
 import agent from "../../api/agent";
 import Loading from "../../layout/Loading/Loading";
@@ -28,7 +25,7 @@ const Reviews = ({ id }) => {
     } catch (error) {
       console.log(error);
     }
-  }, [setReviews]);
+  }, [setReviews, id]);
 
   return (
     <Row>

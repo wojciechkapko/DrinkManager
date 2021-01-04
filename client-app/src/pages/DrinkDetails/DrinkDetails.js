@@ -3,7 +3,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState, useEffect, Fragment } from "react";
 import agent from "../../api/agent";
 import Loading from "../../layout/Loading/Loading";
@@ -22,8 +22,6 @@ const DrinkDetails = () => {
       agent.Drink.get(`${id}`)
         .then((response) => {
           if (response != null) {
-            // setDrinks(response.drinks);
-            // setPages(response.totalPages);
             setDrink(response);
           }
         })
@@ -31,7 +29,7 @@ const DrinkDetails = () => {
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [id]);
 
   return (
     <Fragment>

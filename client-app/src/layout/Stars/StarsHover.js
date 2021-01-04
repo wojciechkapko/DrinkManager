@@ -7,7 +7,7 @@ import { Field } from "react-final-form";
 const StarsHover = () => {
   return (
     <Fragment>
-      <div class="rating" style={{ width: 200 }}>
+      <div className="rating" style={{ width: 200 }}>
         <Field
           id="rating-5"
           name="reviewscore"
@@ -15,7 +15,7 @@ const StarsHover = () => {
           type="radio"
           value="5"
         />
-        <label for="rating-5">
+        <label htmlFor="rating-5">
           <FontAwesomeIcon icon={faStar} size="lg" className="mr-1" />
         </label>
         <Field
@@ -25,7 +25,7 @@ const StarsHover = () => {
           type="radio"
           value="4"
         />
-        <label for="rating-4">
+        <label htmlFor="rating-4">
           <FontAwesomeIcon icon={faStar} size="lg" className="mr-1" />
         </label>
         <Field
@@ -35,7 +35,7 @@ const StarsHover = () => {
           type="radio"
           value="3"
         />
-        <label for="rating-3">
+        <label htmlFor="rating-3">
           <FontAwesomeIcon icon={faStar} size="lg" className="mr-1" />
         </label>
         <Field
@@ -45,7 +45,7 @@ const StarsHover = () => {
           type="radio"
           value="2"
         />
-        <label for="rating-2">
+        <label htmlFor="rating-2">
           <FontAwesomeIcon icon={faStar} size="lg" className="mr-1" />
         </label>
         <Field
@@ -55,7 +55,7 @@ const StarsHover = () => {
           type="radio"
           value="1"
         />
-        <label for="rating-1">
+        <label htmlFor="rating-1">
           <FontAwesomeIcon icon={faStar} size="lg" className="mr-1" />
         </label>
       </div>

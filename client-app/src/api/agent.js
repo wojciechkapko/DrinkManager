@@ -46,12 +46,7 @@ axios.interceptors.response.use(undefined, (error) => {
   throw error.response;
 });
 
-const responseBody = (response) => {
-  if (response != undefined) {
-    return response.data;
-  }
-  return null;
-};
+const responseBody = (response) => response.data;
 
 const sleep = (ms) => (response) =>
   new Promise((resolve) => setTimeout(() => resolve(response), ms));

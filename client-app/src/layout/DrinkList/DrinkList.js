@@ -2,7 +2,6 @@ import { useState, useEffect, Fragment } from "react";
 import Drink from "../Drink/Drink";
 import Loading from "../Loading/Loading";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import Pagination from "../Pagination/Pagination";
 import agent from "../../api/agent";
 import { useHistory, useLocation } from "react-router-dom";
@@ -19,10 +18,10 @@ const DrinkList = ({ loading, setLoading }) => {
   let query = useQuery();
 
   const [page, setPage] = useState(
-    query.get("page") != undefined ? query.get("page") : 1
+    query.get("page") !== null ? query.get("page") : 1
   );
   const [pageCount, setPageCount] = useState(
-    query.get("pageCount") != undefined
+    query.get("pageCount") !== null
       ? query.get("pageCount")
       : process.env.REACT_APP_DEFAULT_PAGE_NUMBER
   );

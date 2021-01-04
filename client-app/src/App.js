@@ -33,7 +33,7 @@ const App = () => {
       // todo: create AppLoaded prop
       dispatch(setLoaded());
     }
-  },[token])
+  },[token, dispatch])
 
 
   if(!appLoaded) return <Loading content="Loading..." />

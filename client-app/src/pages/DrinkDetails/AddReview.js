@@ -12,7 +12,6 @@ import StarsHover from "../../layout/Stars/StarsHover";
 const AddReview = ({ id, reviews, setReviews }) => {
   const handleLoginSubmit = async (values) => {
     try {
-      console.log(values);
       const review = await agent.Reviews.post(id, values);
       setReviews([...reviews, review]);
       toast.success("Review added");
@@ -70,7 +69,7 @@ const AddReview = ({ id, reviews, setReviews }) => {
                     size="lg"
                     className="d-flex align-items-center justify-content-center"
                   >
-                    {submitting == true ? (
+                    {submitting === true ? (
                       <Spinner
                         as="span"
                         animation="border"

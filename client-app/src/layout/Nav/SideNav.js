@@ -2,7 +2,6 @@ import Nav from "react-bootstrap/Nav";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartBar, faUsers } from "@fortawesome/free-solid-svg-icons";
-import { Fragment } from "react";
 
 const SideNav = () => {
   return (
