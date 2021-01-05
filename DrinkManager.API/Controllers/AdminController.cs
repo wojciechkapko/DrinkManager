@@ -5,6 +5,7 @@ using BLL.Contracts.Responses.Manager;
 using BLL.Services;
 using Domain;
 using DrinkManager.API.Models.ViewModels;
+using LazyCache;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -31,6 +32,7 @@ namespace DrinkManager.API.Controllers
         private readonly BackgroundJobScheduler _backgroundJobScheduler;
         private readonly IReportingModuleService _apiService;
         private readonly IMapper _mapper;
+        private readonly IAppCache _cache;
 
         public AdminController(
             RoleManager<IdentityRole> roleManager,
@@ -39,7 +41,8 @@ namespace DrinkManager.API.Controllers
             BackgroundJobScheduler backgroundJobScheduler,
             ISettingRepository settingRepository,
             IReportingModuleService apiService,
-            IMapper mapper)
+            IMapper mapper,
+            IAppCache cache)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -48,6 +51,7 @@ namespace DrinkManager.API.Controllers
             _settingRepository = settingRepository;
             _apiService = apiService;
             _mapper = mapper;
+            _cache = cache;
         }
 
         public IActionResult Index()
@@ -56,9 +60,15 @@ namespace DrinkManager.API.Controllers
         }
 
         [HttpGet("users")]
-        public async Task<IActionResult> Users([FromQuery] int? page, [FromQuery] int? pageCount)
+        public async Task<IActionResult> Users([FromQuery] int page = 1, [FromQuery] int pageCount = 10)
         {
-            var users = await PaginatedList<AppUser>.CreateAsync(_userManager.Users, page ?? 1, pageCount ?? 10);
+
+            var users = await _cache.GetOrAddAsync(
+                $"users_page_{page}_pagecount_{pageCount}",
+                () => PaginatedList<AppUser>.CreateAsync(_userManager.Users, page, pageCount),
+                TimeSpan.MaxValue);
+
+
             var response = new List<UserListResponse>();
             foreach (var user in users)
             {

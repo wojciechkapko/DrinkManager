@@ -146,6 +146,9 @@ namespace DrinkManager.API
                 cfg.AddProfile(new IngredientProfile());
                 cfg.AddProfile(new ReviewProfile());
             }).CreateMapper());
+
+
+            services.AddLazyCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

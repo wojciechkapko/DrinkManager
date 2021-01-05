@@ -9,6 +9,7 @@ using Domain.Enums;
 using DrinkManager.API.Extensions;
 using DrinkManager.API.Models.ViewModels;
 using DrinkManager.API.Resources;
+using LazyCache;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -32,6 +33,7 @@ namespace DrinkManager.API.Controllers
         private readonly IReviewRepository _reviewRepository;
         private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly IMapper _mapper;
+        private readonly IAppCache _cache;
         private readonly UserManager<AppUser> _userManager;
 
         public DrinksController(
@@ -42,7 +44,8 @@ namespace DrinkManager.API.Controllers
             UserManager<AppUser> userManager,
             IReportingModuleService apiService,
             IStringLocalizer<SharedResource> localizer,
-            IMapper mapper)
+            IMapper mapper,
+            IAppCache cache)
         {
             _drinkRepository = drinkRepository;
             _drinkSearchService = drinkSearchService;
@@ -51,15 +54,20 @@ namespace DrinkManager.API.Controllers
             _userManager = userManager;
             _localizer = localizer;
             _mapper = mapper;
+            _cache = cache;
             _apiService = apiService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index([FromQuery] int? page, [FromQuery] int? pageCount)
+        public async Task<IActionResult> Index([FromQuery] int page = 1, [FromQuery] int pageCount = 12)
         {
             Task.Run(() => _apiService.CreateUserActivity(PerformedAction.AllDrinks, User.Identity.Name)).Forget();
 
-            var drinks = await PaginatedList<Drink>.CreateAsync(_drinkRepository.GetAllDrinks(), page ?? 1, pageCount ?? 10);
+            var drinks = await _cache.GetOrAddAsync(
+                $"drinks_page_{page}_pagecount_{pageCount}",
+        () => PaginatedList<Drink>.CreateAsync(_drinkRepository.GetAllDrinks(), page,
+            pageCount), TimeSpan.MaxValue);
+
 
             return Ok(new { drinks = drinks.Select(_mapper.Map<DrinkListResponse>), totalPages = drinks.TotalPages });
         }
